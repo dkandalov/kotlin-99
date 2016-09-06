@@ -162,16 +162,19 @@ Example:
 The length of the first part is given. Use a Tuple for your result.
 Example:
 ```
-scala> split(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
-res0: (List[Symbol], List[Symbol]) = (List('a, 'b, 'c),List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
+> split(3, "abcdefghijk".toList())
+([a, b, c], [d, e, f, g, h, i, j, k])
 ```
 
-P18 (**) Extract a slice from a list.
-Given two indices, I and K, the slice is the list containing the elements from and including the Ith element up to but not including the Kth element of the original list. Start counting the elements with 0.
+#### P18 (*) Extract a slice from a list.
+Given two indices, I and K, the slice is the list containing the elements from and including the Ith element 
+up to but not including the Kth element of the original list. Start counting the elements with 0.
 Example:
+```
+> slice(3, 7, "abcdefghijk".toList())
+[d, e, f, g]
+```
 
-scala> slice(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
-res0: List[Symbol] = List('d, 'e, 'f, 'g)
 P19 (**) Rotate a list N places to the left.
 Examples:
 scala> rotate(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
