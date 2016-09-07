@@ -175,49 +175,66 @@ Example:
 [d, e, f, g]
 ```
 
-P19 (**) Rotate a list N places to the left.
+#### P19 (*) Rotate a list N places to the left.
 Examples:
-scala> rotate(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
-res0: List[Symbol] = List('d, 'e, 'f, 'g, 'h, 'i, 'j, 'k, 'a, 'b, 'c)
+```
+> rotate(3, "abcdefghijk".toList())
+[d, e, f, g, h, i, j, k, a, b, c]
 
-scala> rotate(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))
-res1: List[Symbol] = List('j, 'k, 'a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i)
-P20 (*) Remove the Kth element from a list.
+> rotate(-2, "abcdefghijk".toList())
+[j, k, a, b, c, d, e, f, g, h, i]
+```
+
+#### P20 (*) Remove the Kth element from a list.
 Return the list and the removed element in a Tuple. Elements are numbered from 0.
 Example:
+```
+> removeAt(1, "abcd".toList())
+([a, c, d], b)
+```
 
-scala> removeAt(1, List('a, 'b, 'c, 'd))
-res0: (List[Symbol], Symbol) = (List('a, 'c, 'd),'b)
-P21 (*) Insert an element at a given position into a list.
+#### P21 (*) Insert an element at a given position into a list.
 Example:
-scala> insertAt('new, 1, List('a, 'b, 'c, 'd))
-res0: List[Symbol] = List('a, 'new, 'b, 'c, 'd)
-P22 (*) Create a list containing all integers within a given range.
-Example:
-scala> range(4, 9)
-res0: List[Int] = List(4, 5, 6, 7, 8, 9)
-P23 (**) Extract a given number of randomly selected elements from a list.
-Example:
-scala> randomSelect(3, List('a, 'b, 'c, 'd, 'f, 'g, 'h))
-res0: List[Symbol] = List('e, 'd, 'a)
-Hint: Use the solution to problem P20
+```
+> insertAt('new, 1, "abcd".toList())
+[a, X, b, d]
+```
 
-P24 (*) Lotto: Draw N different random numbers from the set 1..M.
+#### P22 (*) Create a list containing all integers within a given range.
 Example:
-scala> lotto(6, 49)
+```
+> range(4, 9)
+[4, 5, 6, 7, 8, 9]
+```
+
+#### P23 (*) Extract a given number of randomly selected elements from a list.
+Make sure there is a way to produce deterministic results.
+Example:
+```
+> randomSelect(3, List('a, 'b, 'c, 'd, 'f, 'g, 'h))
+[c, h, f]
+```
+
+### P24 (*) Lotto: Draw N different random numbers from the set 1..M.
+Example:
+```
+> lotto(6, 49)
 res0: List[Int] = List(23, 1, 17, 33, 21, 37)
+```
+
 P25 (*) Generate a random permutation of the elements of a list.
 Hint: Use the solution of problem P23.
 Example:
 
 scala> randomPermute(List('a, 'b, 'c, 'd, 'e, 'f))
 res0: List[Symbol] = List('b, 'a, 'd, 'c, 'e, 'f)
+
 P26 (**) Generate the combinations of K distinct objects chosen from the N elements of a list.
 In how many ways can a committee of 3 be chosen from a group of 12 people? We all know that there are C(12,3) = 220 possibilities (C(N,K) denotes the well-known binomial coefficient). For pure mathematicians, this result may be great. But we want to really generate all the possibilities.
 Example:
-
 scala> combinations(3, List('a, 'b, 'c, 'd, 'e, 'f))
 res0: List[List[Symbol]] = List(List('a, 'b, 'c), List('a, 'b, 'd), List('a, 'b, 'e), ...
+
 P27 (**) Group the elements of a set into disjoint subsets.
 a) In how many ways can a group of 9 people work in 3 disjoint subgroups of 2, 3 and 4 persons? Write a function that generates all the possibilities.
 Example:
