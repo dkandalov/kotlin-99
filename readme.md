@@ -211,42 +211,52 @@ Example:
 Make sure there is a way to produce deterministic results.
 Example:
 ```
-> randomSelect(3, List('a, 'b, 'c, 'd, 'f, 'g, 'h))
+> randomSelect(3, "abcdefgh".toList())
 [c, h, f]
 ```
 
-### P24 (*) Lotto: Draw N different random numbers from the set 1..M.
+#### P24 (*) Lotto: Draw N different random numbers from the set 1..M.
+Make sure there is a way to produce deterministic results.
 Example:
 ```
 > lotto(6, 49)
-res0: List[Int] = List(23, 1, 17, 33, 21, 37)
+[32, 28, 8]
 ```
 
-P25 (*) Generate a random permutation of the elements of a list.
+#### P25 (*) Generate a random permutation of the elements of a list.
+Make sure there is a way to produce deterministic results.
 Hint: Use the solution of problem P23.
 Example:
+```
+> randomPermute("abcdef".toList())
+[d, b, e, f, a, c]
+```
 
-scala> randomPermute(List('a, 'b, 'c, 'd, 'e, 'f))
-res0: List[Symbol] = List('b, 'a, 'd, 'c, 'e, 'f)
-
-P26 (**) Generate the combinations of K distinct objects chosen from the N elements of a list.
-In how many ways can a committee of 3 be chosen from a group of 12 people? We all know that there are C(12,3) = 220 possibilities (C(N,K) denotes the well-known binomial coefficient). For pure mathematicians, this result may be great. But we want to really generate all the possibilities.
+#### P26 (**) Generate the combinations of K distinct objects chosen from the N elements of a list.
+In how many ways can a committee of 3 be chosen from a group of 12 people? 
+We all know that there are C(12,3) = 220 possibilities (C(N,K) denotes the well-known [binomial coefficient](https://en.wikipedia.org/wiki/Binomial_coefficient)). 
+For pure mathematicians, this result may be great. But we want to really generate all the possibilities.
 Example:
-scala> combinations(3, List('a, 'b, 'c, 'd, 'e, 'f))
-res0: List[List[Symbol]] = List(List('a, 'b, 'c), List('a, 'b, 'd), List('a, 'b, 'e), ...
+```
+> combinations(3, "abcde".toList())
+[[c, b, a], [d, b, a], [e, b, a], [d, c, a], [e, c, a], [e, d, a], [d, c, b], [e, c, b], [e, d, b], [e, d, c]]
+```
 
-P27 (**) Group the elements of a set into disjoint subsets.
-a) In how many ways can a group of 9 people work in 3 disjoint subgroups of 2, 3 and 4 persons? Write a function that generates all the possibilities.
+#### P27 (**) Group the elements of a set into disjoint subsets.
+a) In how many ways can a group of 9 people work in 3 disjoint subgroups of 2, 3 and 4 persons? 
+Write a function that generates all the possibilities.
 Example:
-
-scala> group3(List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
+```
+> group3(listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
 res0: List[List[List[String]]] = List(List(List(Aldo, Beat), List(Carla, David, Evi), List(Flip, Gary, Hugo, Ida)), ...
+```
+
 b) Generalize the above predicate in a way that we can specify a list of group sizes and the predicate will return a list of groups.
-
 Example:
-
+```
 scala> group(List(2, 2, 5), List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
 res0: List[List[List[String]]] = List(List(List(Aldo, Beat), List(Carla, David), List(Evi, Flip, Gary, Hugo, Ida)), ...
+```
 Note that we do not want permutations of the group members; i.e. ((Aldo, Beat), ...) is the same solution as ((Beat, Aldo), ...). However, we make a difference between ((Aldo, Beat), (Carla, David), ...) and ((Carla, David), (Aldo, Beat), ...).
 
 You may find more about this combinatorial problem in a good book on discrete mathematics under the term "multinomial coefficients".
