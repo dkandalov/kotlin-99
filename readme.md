@@ -22,7 +22,10 @@ However, in these cases, you learn more if you try to find your own solution.
 
 Solutions are available by clicking on the link at the beginning of the problem description.
 
-[I don't have example solutions to all of the problems yet. I'm working on getting them all done, but in the meantime, contributed solutions, particularly from seasoned Scala programmers would be appreciated. If you feel a particular problem can be solved in a better manner than I did, please let me know that, too. <PMG>]
+[I don't have example solutions to all of the problems yet. I'm working on getting them all done, but in the meantime, 
+contributed solutions, particularly from seasoned Scala programmers would be appreciated. 
+If you feel a particular problem can be solved in a better manner than I did, please let me know that, too. <PMG>]
+
 
 
 ### Working with lists
@@ -277,36 +280,44 @@ But this time the objective is to sort elements according to their length freque
 i.e. in the default, sorting is done ascendingly, lists with rare lengths are placed, others with a more frequent length come later.
 Example:
 ```
-> lsortFreq(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o)))
-res1: List[List[Symbol]] = List(List('i, 'j, 'k, 'l), List('o), List('a, 'b, 'c), List('f, 'g, 'h), List('d, 'e), List('d, 'e), List('m, 'n))
+> lengthFreqSort(listOf("abc".toList(), "de".toList(), "fgh".toList(), "de".toList(), "ijkl".toList(), "mn".toList(), "o".toList()))
+[[i, j, k, l], [o], [a, b, c], [f, g, h], [d, e], [d, e], [m, n]]
 ```
-Note that in the above example, the first two lists in the result have length 4 and 1 and both lengths appear just once. The third and fourth lists have length 3 and there are two list of this length. Finally, the last three lists have length 2. This is the most frequent length.
+Note that in the above example, the first two lists in the result have length 4 and 1 and both lengths appear just once. 
+The third and fourth lists have length 3 and there are two list of this length. Finally, the last three lists have length 2. 
+This is the most frequent length.
+
 
 
 ### Arithmetic
 
 For the next section, we're going to take a different tack with the solutions. We'll declare a new class, S99Int, and an implicit conversion from regular Ints. The arithmetic1 file contains the starting definitions for this section. Each individual solution will show the relevant additions to the S99Int class. The full class will be given at the end of the section.
 
-P31 (**) Determine whether a given integer number is prime.
+#### P31 (**) Determine whether a given integer number is prime.
 scala> 7.isPrime
 res0: Boolean = true
-P32 (**) Determine the greatest common divisor of two positive integer numbers.
+
+#### P32 (**) Determine the greatest common divisor of two positive integer numbers.
 Use Euclid's algorithm.
 scala> gcd(36, 63)
 res0: Int = 9
-P33 (*) Determine whether two positive integer numbers are coprime.
+
+#### P33 (*) Determine whether two positive integer numbers are coprime.
 Two numbers are coprime if their greatest common divisor equals 1.
 scala> 35.isCoprimeTo(64)
 res0: Boolean = true
-P34 (**) Calculate Euler's totient function phi(m).
+
+#### P34 (**) Calculate Euler's totient function phi(m).
 Euler's so-called totient function phi(m) is defined as the number of positive integers r (1 <= r <= m) that are coprime to m.
 scala> 10.totient
 res0: Int = 4
-P35 (**) Determine the prime factors of a given positive integer.
+
+#### P35 (**) Determine the prime factors of a given positive integer.
 Construct a flat list containing the prime factors in ascending order.
 scala> 315.primeFactors
 res0: List[Int] = List(3, 3, 5, 7)
-P36 (**) Determine the prime factors of a given positive integer (2).
+
+#### P36 (**) Determine the prime factors of a given positive integer (2).
 Construct a list containing the prime factors and their multiplicity.
 scala> 315.primeFactorMultiplicity
 res0: List[(Int, Int)] = List((3,2), (5,1), (7,1))
@@ -314,24 +325,27 @@ Alternately, use a Map for the result.
 
 scala> 315.primeFactorMultiplicity
 res0: Map[Int,Int] = Map(3 -> 2, 5 -> 1, 7 -> 1)
-P37 (**) Calculate Euler's totient function phi(m) (improved).
+
+#### P37 (**) Calculate Euler's totient function phi(m) (improved).
 See problem P34 for the definition of Euler's totient function. If the list of the prime factors of a number m is known in the form of problem P36 then the function phi(m>) can be efficiently calculated as follows: Let [[p1, m1], [p2, m2], [p3, m3], ...] be the list of prime factors (and their multiplicities) of a given number m. Then phi(m) can be calculated with the following formula:
 phi(m) = (p1-1)*p1(m1-1) * (p2-1)*p2(m2-1) * (p3-1)*p3(m3-1) * ...
 
 Note that ab stands for the bth power of a.
 
-P38 (*) Compare the two methods of calculating Euler's totient function.
+#### P38 (*) Compare the two methods of calculating Euler's totient function.
 Use the solutions of problems P34 and P37 to compare the algorithms. Try to calculate phi(10090) as an example.
 
-P39 (*) A list of prime numbers.
+#### P39 (*) A list of prime numbers.
 Given a range of integers by its lower and upper limit, construct a list of all prime numbers in that range.
 scala> listPrimesinRange(7 to 31)
 res0: List[Int] = List(7, 11, 13, 17, 19, 23, 29, 31)
-P40 (**) Goldbach's conjecture.
+
+#### P40 (**) Goldbach's conjecture.
 Goldbach's conjecture says that every positive even number greater than 2 is the sum of two prime numbers. E.g. 28 = 5 + 23. It is one of the most famous facts in number theory that has not been proved to be correct in the general case. It has been numerically confirmed up to very large numbers (much larger than Scala's Int can represent). Write a function to find the two prime numbers that sum up to a given even integer.
 scala> 28.goldbach
 res0: (Int, Int) = (5,23)
-P41 (**) A list of Goldbach compositions.
+
+#### P41 (**) A list of Goldbach compositions.
 Given a range of integers by its lower and upper limit, print a list of all even numbers and their Goldbach composition.
 scala> printGoldbachList(9 to 20)
 10 = 3 + 7
@@ -355,7 +369,7 @@ Logic and Codes
 
 As in the previous section, we will start with a skeleton file, logic1.scala, and add code to it for each problem. The difference here is that the file starts out almost empty.
 
-P46 (**) Truth tables for logical expressions.
+#### P46 (**) Truth tables for logical expressions.
 Define functions and, or, nand, nor, xor, impl, and equ (for logical equivalence) which return true or false according to the result of their respective operations; e.g. and(A, B) is true if and only if both A and B are true.
 scala> and(true, true)
 res0: Boolean = true
@@ -372,7 +386,8 @@ true  true  true
 true  false true
 false true  false
 false false false
-P47 (*) Truth tables for logical expressions (2).
+
+#### P47 (*) Truth tables for logical expressions (2).
 Continue problem P46 by redefining and, or, etc as operators. (i.e. make them methods of a new class with an implicit conversion from Boolean.) not will have to be left as a object method.
 scala> table2((a: Boolean, b: Boolean) => a and (a or not(b)))
 A     B     result
@@ -380,10 +395,11 @@ true  true  true
 true  false true
 false true  false
 false false false
-P48 (**) Truth tables for logical expressions (3).
+
+#### P48 (**) Truth tables for logical expressions (3).
 Omitted for now.
 
-P49 (**) Gray code.
+#### P49 (**) Gray code.
 An n-bit Gray code is a sequence of n-bit strings constructed according to certain rules. For example,
 n = 1: C(1) = ("0", "1").
 n = 2: C(2) = ("00", "01", "11", "10").
@@ -394,7 +410,7 @@ scala> gray(3)
 res0 List[String] = List(000, 001, 011, 010, 110, 111, 101, 100)
 See if you can use memoization to make the function more efficient.
 
-P50 (***) Huffman code.
+#### P50 (***) Huffman code.
 First of all, consult a good book on discrete mathematics or algorithms for a detailed description of Huffman codes!
 We suppose a set of symbols with their frequencies, given as a list of (S, F) Tuples. E.g. (("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)). Our objective is to construct a list of (S, C) Tuples, where C is the Huffman code word for the symbol S.
 
@@ -425,7 +441,7 @@ A tree with only a root node would be Node('a') and an empty tree would be End.
 
 Throughout this section, we will be adding methods to the classes above, mostly to Tree.
 
-P54 Omitted; our tree representation will only allow well-formed trees.
+#### P54 Omitted; our tree representation will only allow well-formed trees.
 Score one for static typing.
 
 P55 (**) Construct completely balanced binary trees.
