@@ -21,6 +21,7 @@ fun <T> group(sizes: List<Int>, list: List<T>): List<List<List<T>>> =
             group(sizes.drop(1), filteredList).map{ it + listOf(combination) }
          }
 
+
 class P27Test {
     @Test fun `a) group the elements into 3 disjoint subgroups of 2, 3 and 4`() {
         group3(listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida")).apply {

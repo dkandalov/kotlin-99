@@ -263,21 +263,27 @@ However, we make a difference between ((Aldo, Beat), (Carla, David), ...) and ((
 You may find more about this combinatorial problem in a good book on discrete mathematics under the term 
 "[multinomial coefficients](http://mathworld.wolfram.com/MultinomialCoefficient.html)".
 
-#### P28 (**) Sorting a list of lists according to length of sublists.
-a) We suppose that a list contains elements that are lists themselves. The objective is to sort the elements of the list according to their length. E.g. short lists first, longer lists later, or vice versa.
+#### P28 (*) Sorting a list of lists according to length of sublists.
+a) We suppose that a list contains elements that are lists themselves. 
+The objective is to sort elements of the list according to their length. 
+E.g. short lists first, longer lists later, or vice versa.
 Example:
-
-scala> lsort(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o)))
-res0: List[List[Symbol]] = List(List('o), List('d, 'e), List('d, 'e), List('m, 'n), List('a, 'b, 'c), List('f, 'g, 'h), List('i, 'j, 'k, 'l))
-b) Again, we suppose that a list contains elements that are lists themselves. But this time the objective is to sort the elements according to their length frequency; i.e. in the default, sorting is done ascendingly, lists with rare lengths are placed, others with a more frequent length come later.
-
+```
+> lengthSort(listOf("abc".toList(), "de".toList(), "fgh".toList(), "de".toList(), "ijkl".toList(), "mn".toList(), "o".toList()))
+[[o], [d, e], [d, e], [m, n], [a, b, c], [f, g, h], [i, j, k, l]]
+```
+b) Again, we suppose that a list contains elements that are lists themselves. 
+But this time the objective is to sort elements according to their length frequency; 
+i.e. in the default, sorting is done ascendingly, lists with rare lengths are placed, others with a more frequent length come later.
 Example:
-
-scala> lsortFreq(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o)))
+```
+> lsortFreq(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o)))
 res1: List[List[Symbol]] = List(List('i, 'j, 'k, 'l), List('o), List('a, 'b, 'c), List('f, 'g, 'h), List('d, 'e), List('d, 'e), List('m, 'n))
+```
 Note that in the above example, the first two lists in the result have length 4 and 1 and both lengths appear just once. The third and fourth lists have length 3 and there are two list of this length. Finally, the last three lists have length 2. This is the most frequent length.
 
-Arithmetic
+
+### Arithmetic
 
 For the next section, we're going to take a different tack with the solutions. We'll declare a new class, S99Int, and an implicit conversion from regular Ints. The arithmetic1 file contains the starting definitions for this section. Each individual solution will show the relevant additions to the S99Int class. The full class will be given at the end of the section.
 
