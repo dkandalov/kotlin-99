@@ -315,7 +315,7 @@ true
 Euler's so-called [totient function](https://en.wikipedia.org/wiki/Euler%27s_totient_function) 
 phi(m) is defined as the number of positive integers r (1 <= r <= m) that are coprime to m.
 ```
-> 10.totient
+> 10.totient()
 4
 ```
 
@@ -326,36 +326,28 @@ Construct a list containing prime factors in ascending order.
 [3, 3, 5, 7]
 ```
 
-#### P36 (**) Determine the prime factors of a given positive integer (2).
+#### P36 (*) Determine the prime factors of a given positive integer (2).
 Construct a list containing prime factors and their multiplicity.
 ```
-> 315.primeFactorMultiplicity
-res0: List[(Int, Int)] = List((3,2), (5,1), (7,1))
+> 315.primeFactorMultiplicity()
+[(3, 2), (5, 1), (7, 1)]
 ```
 
-Alternately, use a Map for the result.
-```
-> 315.primeFactorMultiplicity
-res0: Map[Int,Int] = Map(3 -> 2, 5 -> 1, 7 -> 1)
-```
-
-#### P37 (**) Calculate Euler's totient function phi(m) (improved).
+#### P37 (*) Calculate Euler's totient function phi(m) (improved).
 See problem P34 for the definition of Euler's totient function. 
-If the list of the prime factors of a number m is known in the form of problem P36, 
-then the function phi(m>) can be efficiently calculated as follows: 
-Let ``[[p1, m1], [p2, m2], [p3, m3], ...]`` be the list of prime factors (and their multiplicities) of a given number m. 
-Then phi(m) can be calculated with the following formula:
-``phi(m) = (p1-1)*p1(m1-1) * (p2-1)*p2(m2-1) * (p3-1)*p3(m3-1) * ...``
+If the list of the prime factors of a number ``m`` is known in the form of problem P36, 
+then the function ``phi(m)`` can be efficiently calculated as follows: 
+Let ``[[p1, m1], [p2, m2], [p3, m3], ...]`` be the list of prime factors (and their multiplicities) of a given number ``m``. 
+Then ``phi(m)`` can be calculated with the following formula:
+``phi(m) = (p1-1)*p1^(m1-1) * (p2-1)*p2^(m2-1) * (p3-1)*p3^(m3-1) * ...``
 
-Note that ab stands for the bth power of a.
-
-#### P38 (*) Compare the two methods of calculating Euler's totient function.
-Use the solutions of problems P34 and P37 to compare the algorithms. Try to calculate phi(10090) as an example.
+#### P38 (*) Omitted. Compare the two methods of calculating Euler's totient function.
+The assumption is that you already did the comparison, e.g. as unit test assertions. 
 
 #### P39 (*) A list of prime numbers.
 Given a range of integers by its lower and upper limit, construct a list of all prime numbers in that range.
 ```
-> listPrimesinRange(7 to 31)
+> listPrimesInRange(7 to 31)
 [7, 11, 13, 17, 19, 23, 29, 31]
 ```
 

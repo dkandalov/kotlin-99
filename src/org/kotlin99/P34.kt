@@ -9,5 +9,6 @@ fun Int.totient() = (1..this).filter{ it.isCoprimeTo(this) }.size
 class P34Test {
     @Test fun `calculate Euler's totient function`() {
         assertThat(10.totient(), equalTo(4))
+        assertThat(10090.totient(), equalTo(4032))
     }
 }
