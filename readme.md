@@ -253,15 +253,14 @@ Example:
 > group3(listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
 [[["Ida", "Hugo", "Gary", "Flip"], ["Evi", "David", "Carla"], ["Beat", "Aldo"]], ...
 ```
-
 b) Generalize the above predicate in a way that we can specify a list of group sizes and the predicate will return a list of groups.
 Example:
 ```
 > group(listOf(2, 2, 5), listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
 [[["Ida", "Hugo", "Gary", "Flip", "Evi"], ["David", "Carla"], ["Beat", "Aldo"]], ...
 ```
-Note that we do not want permutations of the group members, i.e. ((Aldo, Beat), ...) is the same solution as ((Beat, Aldo), ...). 
-However, we make a difference between ((Aldo, Beat), (Carla, David), ...) and ((Carla, David), (Aldo, Beat), ...).
+Note that we do not want permutations of the group members, i.e. ``[[Aldo, Beat], ...]]`` is the same solution as ``[[Beat, Aldo], ...]``. 
+However, ``[[Aldo, Beat], [Carla, David], ...]`` and ``[[Carla, David], [Aldo, Beat], ...]`` are considered to be different solutions.
 
 You may find more about this combinatorial problem in a good book on discrete mathematics under the term 
 [multinomial coefficients](http://mathworld.wolfram.com/MultinomialCoefficient.html).
@@ -387,32 +386,30 @@ Very rarely, the primes are both bigger than, say, 50. Example (minimum value of
 ### Logic and Codes
 
 #### P46 (*) Truth tables for logical expressions.
-Define functions ``and``, ``or``, ``nand``, ``nor``, ``xor``, ``impl``, and ``equ`` (for logical equivalence) 
+Define functions ``and_``, ``or_``, ``nand_``, ``nor_``, ``xor_``, ``impl_``, and ``equ_`` (for logical equivalence) 
 which return ``true`` or ``false`` according to the result of their respective operations.
 ```
-> and(true, true)
-res0: Boolean = true
-
-> xor(true. true)
-res1: Boolean = false
+> true.and_(true)
+true
+> true.xor_(true)
+false
 ```
-A logical expression in two variables can then be written as an function of two variables, 
-e.g: (a: Boolean, b: Boolean) => and(or(a, b), nand(a, b))
 
-Write a function called table2 which prints the truth table of a given logical expression in two variables.
+Write a function called ``printTruthTable`` which prints the truth table of a given logical expression.
 ```
-> table2((a: Boolean, b: Boolean) => and(a, or(a, b)))
-A     B     result
-true  true  true
-true  false true
-false true  false
-false false false
+> printTruthTable{ a, b -> a.and_(a.or_(b.not_())) }
+a	    b	    result
+true	true	true
+true	false	true
+false	true	false
+false	false	false
+
 ```
 
 #### P47 (*) Truth tables for logical expressions (2).
 Continue problem P46 by redefining and, or, etc as operators. (i.e. make them methods of a new class with an implicit conversion from Boolean.) not will have to be left as a object method.
 ```
-scala> table2((a: Boolean, b: Boolean) => a and (a or not(b)))
+> table2((a: Boolean, b: Boolean) => a and (a or not(b)))
 A     B     result
 true  true  true
 true  false true
@@ -423,8 +420,9 @@ false false false
 #### P48 (**) Truth tables for logical expressions (3).
 Omitted for now.
 
-#### P49 (**) Gray code.
-An n-bit Gray code is a sequence of n-bit strings constructed according to certain rules. For example,
+#### P49 (**) [Gray code](https://en.wikipedia.org/wiki/Gray_code).
+An n-bit Gray code is a sequence of n-bit strings constructed according to certain rules. 
+For example,
 ```
 n = 1: C(1) = ("0", "1").
 n = 2: C(2) = ("00", "01", "11", "10").
@@ -432,14 +430,16 @@ n = 3: C(3) = ("000", "001", "011", "010", "110", "111", "101", "100").
 ```
 Find out the construction rules and write a function to generate Gray codes.
 ```
-scala> gray(3)
-res0 List[String] = List(000, 001, 011, 010, 110, 111, 101, 100)
+> gray(3)
+[000, 001, 011, 010, 110, 111, 101, 100]
 ```
 See if you can use memoization to make the function more efficient.
 
 #### P50 (***) Huffman code.
 First of all, consult a good book on discrete mathematics or algorithms for a detailed description of Huffman codes!
-We suppose a set of symbols with their frequencies, given as a list of (S, F) Tuples. E.g. (("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)). Our objective is to construct a list of (S, C) Tuples, where C is the Huffman code word for the symbol S.
+We suppose a set of symbols with their frequencies, given as a list of (S, F) Tuples. 
+E.g. (("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)). Our objective is to construct a list of (S, C) Tuples, 
+where C is the Huffman code word for the symbol S.
 ```
 scala> huffman(List(("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)))
 res0: List[String, String] = List((a,0), (b,101), (c,100), (d,111), (e,1101), (f,1100))
@@ -479,17 +479,19 @@ Throughout this section, we will be adding methods to the classes above, mostly 
 #### P54 Omitted; our tree representation will only allow well-formed trees.
 Score one for static typing.
 
-P55 (**) Construct completely balanced binary trees.
+#### P55 (**) Construct completely balanced binary trees.
 In a completely balanced binary tree, the following property holds for every node: The number of nodes in its left subtree and the number of nodes in its right subtree are almost equal, which means their difference is not greater than one.
 Define an object named Tree. Write a function Tree.cBalanced to construct completely balanced binary trees for a given number of nodes. The function should generate all solutions. The function should take as parameters the number of nodes and a single value to put in all of them.
 
 scala> Tree.cBalanced(4, "x")
 res0: List(Node[String]) = List(T(x T(x . .) T(x . T(x . .))), T(x T(x . .) T(x T(x . .) .)), ...
-P56 (**) Symmetric binary trees.
+
+#### P56 (**) Symmetric binary trees.
 Let us call a binary tree symmetric if you can draw a vertical line through the root node and then the right subtree is the mirror image of the left subtree. Add an isSymmetric method to the Tree class to check whether a given binary tree is symmetric. Hint: Write an isMirrorOf method first to check whether one tree is the mirror image of another. We are only interested in the structure, not in the contents of the nodes.
 scala> Node('a', Node('b'), Node('c')).isSymmetric
 res0: Boolean = true
-P57 (**) Binary search trees (dictionaries).
+
+#### P57 (**) Binary search trees (dictionaries).
 Write a function to add an element to a binary search tree.
 scala> End.addValue(2)
 res0: Node[Int] = T(2 . .)
@@ -512,17 +514,20 @@ res4: Boolean = true
 
 scala> Tree.fromList(List(3, 2, 5, 7, 4)).isSymmetric
 res5: Boolean = false
-P58 (**) Generate-and-test paradigm.
+
+#### P58 (**) Generate-and-test paradigm.
 Apply the generate-and-test paradigm to construct all symmetric, completely balanced binary trees with a given number of nodes.
 scala> Tree.symmetricBalancedTrees(5, "x")
 res0: List[Node[String]] = List(T(x T(x . T(x . .)) T(x T(x . .) .)), T(x T(x T(x . .) .) T(x . T(x . .))))
-P59 (**) Construct height-balanced binary trees.
+
+#### P59 (**) Construct height-balanced binary trees.
 In a height-balanced binary tree, the following property holds for every node: The height of its left subtree and the height of its right subtree are almost equal, which means their difference is not greater than one.
 Write a method Tree.hbalTrees to construct height-balanced binary trees for a given height with a supplied value for the nodes. The function should generate all solutions.
 
 scala> Tree.hbalTrees(3, "x")
 res0: List[Node[String]] = List(T(x T(x T(x . .) T(x . .)) T(x T(x . .) T(x . .))), T(x T(x T(x . .) T(x . .)) T(x T(x . .) .)), ...
-P60 (**) Construct height-balanced binary trees with a given number of nodes.
+
+#### P60 (**) Construct height-balanced binary trees with a given number of nodes.
 Consider a height-balanced binary tree of height H. What is the maximum number of nodes it can contain? Clearly, MaxN = 2H - 1. However, what is the minimum number MinN? This question is more difficult. Try to find a recursive statement and turn it into a function minHbalNodes that takes a height and returns MinN.
 scala> minHbalNodes(3)
 res0: Int = 4
@@ -536,15 +541,16 @@ scala> Tree.hbalTreesWithNodes(4, "x")
 res2: List[Node[String]] = List(T(x T(x T(x . .) .) T(x . .)), T(x T(x . T(x . .)) T(x . .)), ...
 Find out how many height-balanced trees exist for N = 15.
 
-P61 (*) Count the leaves of a binary tree.
+#### P61 (*) Count the leaves of a binary tree.
 A leaf is a node with no successors. Write a method leafCount to count them.
 scala> Node('x', Node('x'), End).leafCount
 res0: Int = 1
-61A (*) Collect the leaves of a binary tree in a list.
+
+#### 61A (*) Collect the leaves of a binary tree in a list.
 A leaf is a node with no successors. Write a method leafList to collect them in a list.
 scala> Node('a', Node('b'), Node('c', Node('d'), Node('e'))).leafList
 res0: List[Char] = List(b, d, e)
-P62 (*) Collect the internal nodes of a binary tree in a list.
+#### P62 (*) Collect the internal nodes of a binary tree in a list.
 An internal node of a binary tree has either one or two non-empty successors. Write a method internalList to collect them in a list.
 scala> Node('a', Node('b'), Node('c', Node('d'), Node('e'))).internalList
 res0: List[Char] = List(a, c)
