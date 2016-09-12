@@ -347,24 +347,25 @@ The assumption is that you already did the comparison, e.g. as unit test asserti
 #### P39 (*) A list of prime numbers.
 Given a range of integers by its lower and upper limit, construct a list of all prime numbers in that range.
 ```
-> listPrimesInRange(7 to 31)
+> listPrimesInRange(7..31)
 [7, 11, 13, 17, 19, 23, 29, 31]
 ```
 
 #### P40 (**) Goldbach's conjecture.
-Goldbach's conjecture says that every positive even number greater than 2 is the sum of two prime numbers. 
-E.g. 28 = 5 + 23. It is one of the most famous facts in number theory that has not been proved to be correct 
+[Goldbach's conjecture](https://en.wikipedia.org/wiki/Goldbach's_conjecture) 
+says that every positive even number greater than 2 is the sum of two prime numbers. 
+E.g. ``28 = 5 + 23``. It is one of the most famous facts in number theory that has not been proved to be correct 
 in the general case. It has been numerically confirmed up to very large numbers (much larger than Kotlin's Int can represent). 
 Write a function to find the two prime numbers that sum up to a given even integer.
 ```
-> 28.goldbach
-res0: (Int, Int) = (5,23)
+> 28.goldbach()
+(5, 23)
 ```
 
 #### P41 (**) A list of Goldbach compositions.
 Given a range of integers by its lower and upper limit, print a list of all even numbers and their Goldbach composition.
 ```
-> printGoldbachList(9 to 20)
+> printGoldbachList(9..20)
 10 = 3 + 7
 12 = 5 + 7
 14 = 3 + 11
