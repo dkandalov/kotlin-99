@@ -260,11 +260,11 @@ Example:
 > group(listOf(2, 2, 5), listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
 [[["Ida", "Hugo", "Gary", "Flip", "Evi"], ["David", "Carla"], ["Beat", "Aldo"]], ...
 ```
-Note that we do not want permutations of the group members; i.e. ((Aldo, Beat), ...) is the same solution as ((Beat, Aldo), ...). 
+Note that we do not want permutations of the group members, i.e. ((Aldo, Beat), ...) is the same solution as ((Beat, Aldo), ...). 
 However, we make a difference between ((Aldo, Beat), (Carla, David), ...) and ((Carla, David), (Aldo, Beat), ...).
 
 You may find more about this combinatorial problem in a good book on discrete mathematics under the term 
-"[multinomial coefficients](http://mathworld.wolfram.com/MultinomialCoefficient.html)".
+[multinomial coefficients](http://mathworld.wolfram.com/MultinomialCoefficient.html).
 
 #### P28 (*) Sorting a list of lists according to length of sublists.
 a) We suppose that a list contains elements that are lists themselves. 
@@ -351,7 +351,7 @@ Given a range of integers by its lower and upper limit, construct a list of all 
 [7, 11, 13, 17, 19, 23, 29, 31]
 ```
 
-#### P40 (**) Goldbach's conjecture.
+#### P40 (*) Goldbach's conjecture.
 [Goldbach's conjecture](https://en.wikipedia.org/wiki/Goldbach's_conjecture) 
 says that every positive even number greater than 2 is the sum of two prime numbers. 
 E.g. ``28 = 5 + 23``. It is one of the most famous facts in number theory that has not been proved to be correct 
@@ -362,7 +362,7 @@ Write a function to find the two prime numbers that sum up to a given even integ
 (5, 23)
 ```
 
-#### P41 (**) A list of Goldbach compositions.
+#### P41 (*) A list of Goldbach compositions.
 Given a range of integers by its lower and upper limit, print a list of all even numbers and their Goldbach composition.
 ```
 > printGoldbachList(9..20)
@@ -374,78 +374,88 @@ Given a range of integers by its lower and upper limit, print a list of all even
 20 = 3 + 17
 ```
 In most cases, if an even number is written as the sum of two prime numbers, one of them is very small. 
-Very rarely, the primes are both bigger than, say, 50. Try to find out how many such cases there are in the range 2..3000.
-
-Example (minimum value of 50 for the primes):
+Very rarely, the primes are both bigger than, say, 50. Example (minimum value of 50 for the primes):
 ```
-> printGoldbachListLimited(1 to 2000, 50)
+> printGoldbachListLimited(2..3000, 50)
 992 = 73 + 919
 1382 = 61 + 1321
 1856 = 67 + 1789
-1928 = 61 + 1867
+...
 ```
 
 
 ### Logic and Codes
 
-As in the previous section, we will start with a skeleton file, logic1.scala, and add code to it for each problem. 
-The difference here is that the file starts out almost empty.
-
-#### P46 (**) Truth tables for logical expressions.
-Define functions and, or, nand, nor, xor, impl, and equ (for logical equivalence) which return true or false according to the result of their respective operations; e.g. and(A, B) is true if and only if both A and B are true.
-scala> and(true, true)
+#### P46 (*) Truth tables for logical expressions.
+Define functions ``and``, ``or``, ``nand``, ``nor``, ``xor``, ``impl``, and ``equ`` (for logical equivalence) 
+which return ``true`` or ``false`` according to the result of their respective operations.
+```
+> and(true, true)
 res0: Boolean = true
 
-scala> xor(true. true)
+> xor(true. true)
 res1: Boolean = false
-A logical expression in two variables can then be written as an function of two variables, e.g: (a: Boolean, b: Boolean) => and(or(a, b), nand(a, b))
+```
+A logical expression in two variables can then be written as an function of two variables, 
+e.g: (a: Boolean, b: Boolean) => and(or(a, b), nand(a, b))
 
-Now, write a function called table2 which prints the truth table of a given logical expression in two variables.
-
-scala> table2((a: Boolean, b: Boolean) => and(a, or(a, b)))
+Write a function called table2 which prints the truth table of a given logical expression in two variables.
+```
+> table2((a: Boolean, b: Boolean) => and(a, or(a, b)))
 A     B     result
 true  true  true
 true  false true
 false true  false
 false false false
+```
 
 #### P47 (*) Truth tables for logical expressions (2).
 Continue problem P46 by redefining and, or, etc as operators. (i.e. make them methods of a new class with an implicit conversion from Boolean.) not will have to be left as a object method.
+```
 scala> table2((a: Boolean, b: Boolean) => a and (a or not(b)))
 A     B     result
 true  true  true
 true  false true
 false true  false
 false false false
+```
 
 #### P48 (**) Truth tables for logical expressions (3).
 Omitted for now.
 
 #### P49 (**) Gray code.
 An n-bit Gray code is a sequence of n-bit strings constructed according to certain rules. For example,
+```
 n = 1: C(1) = ("0", "1").
 n = 2: C(2) = ("00", "01", "11", "10").
 n = 3: C(3) = ("000", "001", "011", "010", "110", "111", "101", "100").
+```
 Find out the construction rules and write a function to generate Gray codes.
-
+```
 scala> gray(3)
 res0 List[String] = List(000, 001, 011, 010, 110, 111, 101, 100)
+```
 See if you can use memoization to make the function more efficient.
 
 #### P50 (***) Huffman code.
 First of all, consult a good book on discrete mathematics or algorithms for a detailed description of Huffman codes!
 We suppose a set of symbols with their frequencies, given as a list of (S, F) Tuples. E.g. (("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)). Our objective is to construct a list of (S, C) Tuples, where C is the Huffman code word for the symbol S.
-
+```
 scala> huffman(List(("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)))
 res0: List[String, String] = List((a,0), (b,101), (c,100), (d,111), (e,1101), (f,1100))
-
+```
 
 
 ### Binary Trees
 
 A binary tree is either empty or it is composed of a root element and two successors, which are binary trees themselves.
 
-We shall use the following classes to represent binary trees. (Also available in tree1.scala.) An End is equivalent to an empty tree. A Branch has a value, and two descendant trees. The toString functions are relatively arbitrary, but they yield a more compact output than Scala's default. Putting a plus in front of the T makes the class covariant; it will be able to hold subtypes of whatever type it's created for. (This is important so that End can be a singleton object; as a singleton, it must have a specific type, so we give it type Nothing, which is a subtype of every other type.)
+We shall use the following classes to represent binary trees. (Also available in tree1.scala.) 
+An End is equivalent to an empty tree. A Branch has a value, and two descendant trees. 
+The toString functions are relatively arbitrary, but they yield a more compact output than Scala's default. 
+Putting a plus in front of the T makes the class covariant; it will be able to hold subtypes of whatever type it's created for. 
+(This is important so that End can be a singleton object; as a singleton, it must have a specific type, so we give it type Nothing, 
+which is a subtype of every other type.)
 
 sealed abstract class Tree[+T]
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
