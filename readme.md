@@ -408,7 +408,7 @@ false	false	false
 #### P47 (*) Truth tables for logical expressions (2).
 Omitted assuming it was done in the previous problem.
 
-#### P48 (**) Truth tables for logical expressions (3).
+#### P48 (*) Truth tables for logical expressions (3).
 Generalize problem 46 in such a way that the logical expression may contain any number of logical variables.
 Example:
 ```
@@ -416,20 +416,18 @@ Example:
 true
 ```
 
-#### P49 (**) [Gray code](https://en.wikipedia.org/wiki/Gray_code).
-An n-bit Gray code is a sequence of n-bit strings constructed according to certain rules. 
+#### P49 (*) Gray code.
+An n-bit [Gray code](https://en.wikipedia.org/wiki/Gray_code) is a sequence of n-bit strings constructed according to certain rules. 
+Find out the construction rules and write a function to generate Gray codes.
 For example:
 ```
-n = 1: C(1) = ("0", "1").
-n = 2: C(2) = ("00", "01", "11", "10").
-n = 3: C(3) = ("000", "001", "011", "010", "110", "111", "101", "100").
-```
-Find out the construction rules and write a function to generate Gray codes.
-```
-> gray(3)
+> grayCodes(bits = 1)
+[0, 1]
+> grayCodes(bits = 2)
+[00, 01, 11, 10"]
+> grayCodes(bits = 3)
 [000, 001, 011, 010, 110, 111, 101, 100]
 ```
-See if you can use memoization to make the function more efficient.
 
 #### P50 (***) Huffman code.
 First of all, consult a good book on discrete mathematics or algorithms for a detailed description of Huffman codes!
@@ -437,9 +435,10 @@ We suppose a set of symbols with their frequencies, given as a list of (S, F) Tu
 E.g. (("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)). Our objective is to construct a list of (S, C) Tuples, 
 where C is the Huffman code word for the symbol S.
 ```
-scala> huffman(List(("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)))
-res0: List[String, String] = List((a,0), (b,101), (c,100), (d,111), (e,1101), (f,1100))
+> huffman(listOf(("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)))
+[(a,0), (b,101), (c,100), (d,111), (e,1101), (f,1100)]
 ```
+
 
 
 ### Binary Trees
