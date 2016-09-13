@@ -340,8 +340,8 @@ Let ``[[p1, m1], [p2, m2], [p3, m3], ...]`` be the list of prime factors (and th
 Then ``phi(m)`` can be calculated with the following formula:
 ``phi(m) = (p1-1)*p1^(m1-1) * (p2-1)*p2^(m2-1) * (p3-1)*p3^(m3-1) * ...``
 
-#### P38 (*) Omitted. Compare the two methods of calculating Euler's totient function.
-The assumption is that you already did the comparison, e.g. as unit test assertions. 
+#### P38 (*) Compare the two methods of calculating Euler's totient function.
+Omitted. The assumption is that you already did the comparison, e.g. as unit test assertions. 
 
 #### P39 (*) A list of prime numbers.
 Given a range of integers by its lower and upper limit, construct a list of all prime numbers in that range.
@@ -403,26 +403,22 @@ true	true	true
 true	false	true
 false	true	false
 false	false	false
-
 ```
 
 #### P47 (*) Truth tables for logical expressions (2).
-Continue problem P46 by redefining and, or, etc as operators. (i.e. make them methods of a new class with an implicit conversion from Boolean.) not will have to be left as a object method.
-```
-> table2((a: Boolean, b: Boolean) => a and (a or not(b)))
-A     B     result
-true  true  true
-true  false true
-false true  false
-false false false
-```
+Omitted assuming it was done in the previous problem.
 
 #### P48 (**) Truth tables for logical expressions (3).
-Omitted for now.
+Generalize problem 46 in such a way that the logical expression may contain any number of logical variables.
+Example:
+```
+> true.xor_(true, false, true)
+true
+```
 
 #### P49 (**) [Gray code](https://en.wikipedia.org/wiki/Gray_code).
 An n-bit Gray code is a sequence of n-bit strings constructed according to certain rules. 
-For example,
+For example:
 ```
 n = 1: C(1) = ("0", "1").
 n = 2: C(2) = ("00", "01", "11", "10").
