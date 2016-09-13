@@ -9,7 +9,7 @@ Feedback is appreciated, particularly on anything marked TODO.
 The problems have different levels of difficulty. Those marked with a single asterisk (\*) are easy. 
 If you have successfully solved the preceeding problems you should be able to solve them within a few (say 15) minutes. 
 Problems marked with two asterisks (\*\*) are of intermediate difficulty. 
-If you are a skilled Kotlin programmer it shouldn't take you more than 30-90 minutes to solve them. 
+If you are a skilled programmer it might take you about 30-90 minutes to solve them. 
 Problems marked with three asterisks (\*\*\*) are more difficult. 
 You may need more time (i.e. a few hours or more) to find a good solution.
 
@@ -429,14 +429,14 @@ For example:
 [000, 001, 011, 010, 110, 111, 101, 100]
 ```
 
-#### P50 (***) Huffman code.
-Consult internet (or a good book on discrete mathematics or algorithms) for a description of [Huffman coding](https://en.wikipedia.org/wiki/Huffman_coding).
-Suppose we have a list of symbols with their frequencies, given as a list of (S, F) Tuples. 
-E.g. (("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)). 
-Our objective is to construct a list of (S, C) Tuples, where C is the Huffman code word for the symbol S.
+#### P50 (**) Huffman code.
+If you are not familiar with Huffman coding, consult internet (or a good book on discrete mathematics or algorithms) 
+for a description of [Huffman coding](https://en.wikipedia.org/wiki/Huffman_coding).
+Given a list of characters with their frequencies, e.g. ``[('a', 45), ('b', 13), ('c', 12), ('d', 16), ('e', 9), ('f', 5)]``.
+Our objective is to construct a list of ``Pair``s, where first element is character and second is the Huffman code word for it.
 ```
-> huffman(listOf(("a", 45), ("b", 13), ("c", 12), ("d", 16), ("e", 9), ("f", 5)))
-[(a,0), (b,101), (c,100), (d,111), (e,1101), (f,1100)]
+> huffman(listOf(Pair('a', 45), Pair('b', 13), Pair('c', 12), Pair('d', 16), Pair('e', 9), Pair('f', 5)))
+[(a, 0), (b, 101), (c, 100), (d, 111), (e, 1101), (f, 1100)]
 ```
 
 
