@@ -4,39 +4,29 @@ This an adaptation of [Ninety-Nine Scala Problems](http://aperiodic.net/phil/sca
 which itself is an adaptation of the [Ninety-Nine Prolog Problems](https://sites.google.com/site/prologsite/prolog-problems) 
 written by Werner Hett at the Berne University of Applied Sciences in Berne, Switzerland. 
 The problems have been altered them to be more amenable to programming in Kotlin. 
-Feedback is appreciated, particularly on anything marked TODO.
 
-The problems have different levels of difficulty. Those marked with a single asterisk (\*) are easy. 
-If you have successfully solved the preceeding problems you should be able to solve them within a few (say 15) minutes. 
-Problems marked with two asterisks (\*\*) are of intermediate difficulty. 
-If you are a skilled programmer it might take you about 30-90 minutes to solve them. 
-Problems marked with three asterisks (\*\*\*) are more difficult. 
-You may need more time (i.e. a few hours or more) to find a good solution.
+You might want to do these problems if you want to learn Kotlin, interested in the problems described below or both.
 
-The difficulties were updated for Kotlin.
-
+Suggested workflow is to solve problem yourself and then compare result to existing solution.  
+Solutions are available by clicking on the link at the beginning of the problem description (you can use maven to build all solutions).
 Your goal should be to find the most elegant solution of the given problems. 
 Efficiency is important, but clarity is even more crucial. 
 Some of the (easy) problems can be trivially solved using built-in functions. 
 However, in these cases, you learn more if you try to find your own solution.
 
-Solutions are available by clicking on the link at the beginning of the problem description.
+The problems have different levels of difficulty. 
+Those marked with a single asterisk (\*) are easy. 
+If you have successfully solved the preceeding problems, you might be able to solve them within a few (say 15) minutes. 
+Problems marked with two asterisks (\*\*) are of intermediate difficulty and might take you about 30-90 minutes to solve them. 
+Problems marked with three asterisks (\*\*\*) are more difficult. You may need more time (i.e. a few hours or more) to find a good solution.
 
-[I don't have example solutions to all of the problems yet. I'm working on getting them all done, but in the meantime, 
-contributed solutions, particularly from seasoned Scala programmers would be appreciated. 
-If you feel a particular problem can be solved in a better manner than I did, please let me know that, too. <PMG>]
+This is work-in-progress. All contributions are welcome (including new solutions for problems which already have a solution).
 
+The main reason to do these exercises instead of using websites like hackerrank.com and codewars.com
+is that there is no vendor lock-in and no hidden agenda pursued by website owner.
 
 
 ### Working with lists
-
-The solutions to the problems in this section will be in files named after the problems (``P01.kt``, ``P02.kt``, etc.). 
-You can compile the source files with scalac and thereafter use import to bring the functions into scope. 
-Some of the problems can be solved easily by using imported solutions to previous problems.
-
-In many cases, there's more than one reasonable approach. The files linked here may include multiple solutions, with all but one commented out. 
-They'll also indicate whether there's a builtin method in Scala that accomplishes the task.
-
 
 #### P01 (*) Find the last element of a list.
 Example:
@@ -424,7 +414,7 @@ For example:
 > grayCodes(bits = 1)
 [0, 1]
 > grayCodes(bits = 2)
-[00, 01, 11, 10"]
+[00, 01, 11, 10]
 > grayCodes(bits = 3)
 [000, 001, 011, 010, 110, 111, 101, 100]
 ```

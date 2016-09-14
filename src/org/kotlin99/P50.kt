@@ -1,5 +1,6 @@
 package org.kotlin99
 
+import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
@@ -32,9 +33,9 @@ private data class Node(val weight: Int, val char: Char?, val left: Node? = null
 
 class P50Test {
     @Test fun `Huffman encoding`() {
-        com.natpryce.hamkrest.assertion.assertThat(
-                huffman(listOf(Pair('a', 45), Pair('b', 13), Pair('c', 12), Pair('d', 16), Pair('e', 9), Pair('f', 5))),
-                equalTo(listOf(Pair('a', "0"), Pair('b', "101"), Pair('c', "100"), Pair('d', "111"), Pair('e', "1101"), Pair('f', "1100")))
+        assertThat(
+            huffman(listOf(Pair('a', 45), Pair('b', 13), Pair('c', 12), Pair('d', 16), Pair('e', 9), Pair('f', 5))),
+            equalTo(listOf(Pair('a', "0"), Pair('b', "101"), Pair('c', "100"), Pair('d', "111"), Pair('e', "1101"), Pair('f', "1100")))
         )
     }
 }
