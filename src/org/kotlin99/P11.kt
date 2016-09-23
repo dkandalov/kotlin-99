@@ -4,6 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 // Note that T has upper bound of Any (not nullable value)
 fun <T : Any> encodeModifies(list: List<T>): List<Any> =
     pack(list).map {

@@ -3,31 +3,38 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.P50.huffman
 
-fun huffman(charAndFreq: List<Pair<Char, Int>>): List<Pair<Char, String>> {
-    val sortedNodes = charAndFreq.map{ Node(it.second, it.first) }.sortedBy{ it.weight }
-    val tree = buildTree(sortedNodes)
-    return charAndFreq.map{ Pair(it.first, tree.findPath(it.first)!!.reversed()) }
-}
 
-private fun buildTree(nodes: List<Node>): Node =
-    if (nodes.size == 1) nodes.first()
-    else {
-        val node = Node(nodes[0].weight + nodes[1].weight, null, nodes[0], nodes[1])
-        buildTree((nodes.drop(2) + node).sortedBy{ it.weight })
+// Use object as namespace to avoid conflicting names.
+object P50 {
+
+    fun huffman(charAndFreq: List<Pair<Char, Int>>): List<Pair<Char, String>> {
+        val sortedNodes = charAndFreq.map{ Node(it.second, it.first) }.sortedBy{ it.weight }
+        val tree = buildTree(sortedNodes)
+        return charAndFreq.map{ Pair(it.first, tree.findPath(it.first)!!.reversed()) }
     }
 
-private data class Node(val weight: Int, val char: Char?, val left: Node? = null, val right: Node? = null) {
-    fun findPath(char: Char): String? =
-        if (char == this.char) ""
-        else left?.findPath(char)?.plus("0") ?: right?.findPath(char)?.plus("1")
+    private fun buildTree(nodes: List<Node>): Node =
+            if (nodes.size == 1) nodes.first()
+            else {
+                val node = Node(nodes[0].weight + nodes[1].weight, null, nodes[0], nodes[1])
+                buildTree((nodes.drop(2) + node).sortedBy{ it.weight })
+            }
 
-    override fun toString(): String {
-        var s = "Node($weight"
-        if (char != null) s += ", '$char'"
-        if (left != null && right != null) s += ", $left, $right"
-        return s + ")"
+    private data class Node(val weight: Int, val char: Char?, val left: Node? = null, val right: Node? = null) {
+        fun findPath(char: Char): String? =
+                if (char == this.char) ""
+                else left?.findPath(char)?.plus("0") ?: right?.findPath(char)?.plus("1")
+
+        override fun toString(): String {
+            var s = "Node($weight"
+            if (char != null) s += ", '$char'"
+            if (left != null && right != null) s += ", $left, $right"
+            return s + ")"
+        }
     }
+
 }
 
 
