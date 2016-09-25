@@ -13,7 +13,7 @@ data class Node<out T>(val value: T, val left: Tree<T> = End, val right: Tree<T>
     }
 }
 
-val End = object : Tree<Nothing>{
+val End = object : Tree<Nothing> {
     override fun toString() = "."
 }
 

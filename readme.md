@@ -476,7 +476,7 @@ Throughout this section, we will be adding methods to the classes above, mostly 
 #### P54 Omitted; our tree representation will only allow well-formed trees.
 Score one for static typing.
 
-#### P55 (**) Construct completely balanced binary trees.
+#### P55 (*) Construct completely balanced binary trees.
 In a completely balanced binary tree, the following property holds for every node. 
 The number of nodes in its left subtree and the number of nodes in its right subtree are almost equal, 
 which means their difference is not greater than one.
@@ -487,10 +487,16 @@ The function should generate all solutions. The function should take as paramete
 [T(x T(x) T(x . T(x))), T(x T(x . T(x)) T(x)), T(x T(x) T(x T(x) .)), T(x T(x T(x) .) T(x))]
 ```
 
-#### P56 (**) Symmetric binary trees.
-Let us call a binary tree symmetric if you can draw a vertical line through the root node and then the right subtree is the mirror image of the left subtree. Add an isSymmetric method to the Tree class to check whether a given binary tree is symmetric. Hint: Write an isMirrorOf method first to check whether one tree is the mirror image of another. We are only interested in the structure, not in the contents of the nodes.
-scala> Node('a', Node('b'), Node('c')).isSymmetric
-res0: Boolean = true
+#### P56 (*) Symmetric binary trees.
+Let us call a binary tree symmetric if you can draw a vertical line through the root node and 
+then the right subtree is the mirror image of the left subtree. 
+Add an ``isSymmetric`` method to the ``Tree`` to check whether a given binary tree is symmetric. 
+Hint: Write ``isMirrorOf`` method first to check whether one tree is the mirror image of another. 
+We are only interested in the structure, not in the contents of the nodes.
+```
+> Node('a', Node('b'), Node('c')).isSymmetric()
+true
+```
 
 #### P57 (**) Binary search trees (dictionaries).
 Write a function to add an element to a binary search tree.
