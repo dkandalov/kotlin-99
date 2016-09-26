@@ -3,13 +3,13 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import org.junit.Test
 
-fun <T> balancedTrees(size: Int, value: T): List<Tree<T>> {
-    if (size == 0) return listOf(End)
-    else if (size == 1) return listOf(Node(value))
+fun <T> balancedTrees(treeSize: Int, value: T): List<Tree<T>> {
+    if (treeSize == 0) return listOf(End)
+    else if (treeSize == 1) return listOf(Node(value))
     else {
-        val n = (size - 1) / 2
+        val n = (treeSize - 1) / 2
         val subTrees1 = balancedTrees(n, value)
-        val subTrees2 = balancedTrees((size - 1) - n, value)
+        val subTrees2 = balancedTrees((treeSize - 1) - n, value)
         return subTrees1.flatMap { tree1 ->
             subTrees2.flatMap { tree2 ->
                 listOf(Node(value, tree1, tree2), Node(value, tree2, tree1))
@@ -36,5 +36,7 @@ class P55Test {
         )))
     }
 
-    private fun nodeList(vararg nodes: Node<String>): Iterable<Tree<String>> = nodes.toList()
+    companion object {
+        fun nodeList(vararg nodes: Node<String>): Iterable<Tree<String>> = nodes.toList()
+    }
 }

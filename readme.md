@@ -480,10 +480,10 @@ Score one for static typing.
 In a completely balanced binary tree, the following property holds for every node. 
 The number of nodes in its left subtree and the number of nodes in its right subtree are almost equal, 
 which means their difference is not greater than one.
-Define an object named Tree. Write a function ``balancedTree`` to construct completely balanced binary trees for a given number of nodes. 
+Define an object named Tree. Write a function ``balancedTrees`` to construct completely balanced binary trees for a given number of nodes. 
 The function should generate all solutions. The function should take as parameters the number of nodes and a single value to put in all of them.
 ```
-> balancedTree(4, "x")
+> balancedTrees(4, "x")
 [T(x T(x) T(x . T(x))), T(x T(x . T(x)) T(x)), T(x T(x) T(x T(x) .)), T(x T(x T(x) .) T(x))]
 ```
 
@@ -498,7 +498,7 @@ We are only interested in the structure, not in the contents of the nodes.
 true
 ```
 
-#### P57 (**) Binary search trees (dictionaries).
+#### P57 (*) Binary search trees (dictionaries).
 Write a function to add an element to a binary search tree.
 ```
 > End.add(2)
@@ -524,11 +524,12 @@ true
 false
 ```
 
-#### P58 (**) Generate-and-test paradigm.
-Apply the generate-and-test paradigm to construct all symmetric, completely balanced binary trees with a given number of nodes.
+#### P58 (*) Generate-and-test paradigm.
+Apply the generate-and-test paradigm to construct all symmetric, 
+completely balanced binary trees with a given number of nodes.
 ```
-> Tree.symmetricBalancedTrees(5, "x")
-List(T(x T(x . T(x . .)) T(x T(x . .) .)), T(x T(x T(x . .) .) T(x . T(x . .))))
+> symmetricBalancedTrees(5, "x")
+[T(x T(x . T(x)) T(x T(x) .)), T(x T(x T(x) .) T(x . T(x)))]
 ```
 
 #### P59 (**) Construct height-balanced binary trees.
