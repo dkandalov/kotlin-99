@@ -13,7 +13,7 @@ fun Tree<*>.isMirrorOf(that: Tree<*>): Boolean = when {
     else -> false
 }
 
-class P57Test {
+class P56Test {
     @Test fun `tree is mirror of another tree`() {
         assertThat(Node("x").isMirrorOf(Node("x")), equalTo(true))
         assertThat(Node("x").isMirrorOf(Node("x", Node("x"))), equalTo(false))

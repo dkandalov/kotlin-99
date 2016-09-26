@@ -501,28 +501,26 @@ true
 #### P57 (**) Binary search trees (dictionaries).
 Write a function to add an element to a binary search tree.
 ```
-> End.addValue(2)
+> End.add(2)
 T(2)
-> res0.addValue(3)
-T(2 . T(3 . .))
-> res1.addValue(0)
-T(2 T(0 . .) T(3 . .))
+> res0.add(3)
+T(2 . T(3))
+> res1.add(0)
+T(2 T(0) T(3))
 ```
-Hint: The abstract definition of addValue in Tree should be def addValue[U >: T <% Ordered[U]](x: U): Tree[U]. 
-The >: T is because addValue's parameters need to be contravariant in T. 
-(Conceptually, we're adding nodes above existing nodes. In order for the subnodes to be of type T or any subtype, 
-the upper nodes must be of type T or any supertype.) The <% Ordered[U] allows us to use the < operator on the values in the tree.
+Note that definition of ``add`` should have ``T : Comparable<T>`` type constraint 
+to allows us to use the ``<`` operator on the values in the tree.
 
 Use that function to construct a binary tree from a list of integers.
 ```
-> Tree.fromList(List(3, 2, 5, 7, 1))
-res3: Node[Int] = T(3 T(2 T(1 . .) .) T(5 . T(7 . .)))
+> listOf(3, 2, 5, 7, 1).toTree()
+T(3 T(2 T(1) .) T(5 . T(7)))
 ```
-Finally, use that function to test your solution to P56.
+Finally, use ``isSymmetric()`` from P56 to check conversion to tree.
 ```
-> Tree.fromList(List(5, 3, 18, 1, 4, 12, 21)).isSymmetric()
+> listOf(5, 3, 18, 1, 4, 12, 21).toTree().isSymmetric()
 true
-> Tree.fromList(List(3, 2, 5, 7, 4)).isSymmetric()
+> listOf(3, 2, 5, 7, 4).toTree().isSymmetric()
 false
 ```
 
