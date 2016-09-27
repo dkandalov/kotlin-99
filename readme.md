@@ -434,7 +434,7 @@ Our objective is to construct a list of ``Pair``s, where first element is charac
 ### Binary Trees
 
 A binary tree is either empty or it is composed of a root element and two successors, which are binary trees themselves.
-<img style="float: right;" src="img/p67.jpg">
+<img style="float: right;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif">
 
 We will use the following classes to represent binary trees (see P51.kt). 
 An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two descendant trees. 
@@ -540,12 +540,12 @@ Write a method ``heightBalancedTrees`` to construct height-balanced binary trees
 The function should generate all solutions.
 ```
 > heightBalancedTrees(3, "x")
-[(T(x T(x T(x) T(x)) T(x T(x) T(x))), T(x T(x T(x) T(x)) T(x T(x) .)), ...]
+[T(x T(x T(x) T(x)) T(x T(x) T(x))), T(x T(x T(x) T(x)) T(x T(x) .)), ...]
 ```
 
 #### P60 (**) Construct height-balanced binary trees with a given number of nodes.
-Consider a height-balanced binary tree of height H. What is the maximum number of nodes it can contain? 
-Clearly, MaxN = 2H - 1. However, what is the minimum number MinN? This question is more difficult. 
+Consider a height-balanced binary tree of height ``H``. What is the maximum number of nodes it can contain? 
+Clearly, ``MaxN = 2H - 1``. However, what is the minimum number ``MinN``? This question is more difficult. 
 Try to find a recursive statement and turn it into a function minHbalNodes that takes a height and returns MinN.
 ```
 > minHbalNodes(3)
@@ -565,7 +565,7 @@ List(T(x T(x T(x . .) .) T(x . .)), T(x T(x . T(x . .)) T(x . .)), ...
 Find out how many height-balanced trees exist for N = 15.
 
 #### P61 (*) Count the leaves of a binary tree.
-A leaf is a node with no successors. Write a method leafCount to count them.
+A leaf is a node with no successors. Write a method ``leafCount`` to count them.
 ```
 > Node('x', Node('x'), End).leafCount()
 1
