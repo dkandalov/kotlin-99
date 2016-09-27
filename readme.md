@@ -26,23 +26,34 @@ The main reason to do these exercises instead of using websites like hackerrank.
 is that there is no vendor lock-in and no hidden agenda pursued by website owner.
 
 
-### Working with lists
+### Table of Contents
 
-#### P01 (*) Find the last element of a list.
+* [Lists](#lists)
+* [Arithmetic](#arithmetic)
+* [Logic and Codes](#logic-and-codes)
+* [Binary Trees](#binary-trees)
+* [Multiway Trees](#multiway-trees)
+* [Graphs](#graphs)
+* [Miscellaneous](#miscellaneous)
+
+
+### Lists
+
+#### [P01][] (*) Find the last element of a list.
 Example:
 ``` kotlin
 > last(listOf(1, 1, 2, 3, 5, 8))
 > 8
 ```
 
-#### P02 (*) Find the last but one element of a list.
+#### [P02][] (*) Find the last but one element of a list.
 Example:
 ``` kotlin
 > penultimate(listOf(1, 1, 2, 3, 5, 8))
 > 5
 ```
 
-#### P03 (*) Find the Nth element of a list.
+#### [P03][] (*) Find the Nth element of a list.
 By convention, the first element in the list is element 0.
 Example:
 ``` kotlin
@@ -50,35 +61,35 @@ Example:
 > 2
 ```
 
-#### P04 (*) Find the number of elements of a list.
+#### [P04][] (*) Find the number of elements of a list.
 Example:
 ``` kotlin
 > length(listOf(1, 1, 2, 3, 5, 8))
 6
 ```
 
-#### P05 (*) Reverse a list.
+#### [P05][] (*) Reverse a list.
 Example:
 ``` kotlin
 > reverse(listOf(1, 1, 2, 3, 5, 8))
 [8, 5, 3, 2, 1, 1]
 ```
 
-#### P06 (*) Find out whether a list is a palindrome.
+#### [P06][] (*) Find out whether a list is a palindrome.
 Example:
 ``` kotlin
 > isPalindrome(listOf(1, 2, 3, 2, 1))
 true
 ```
 
-#### P07 (*) Flatten a nested list structure.
+#### [P07][] (*) Flatten a nested list structure.
 Example:
 ``` kotlin
 > flatten(listOf(listOf(1, 1), 2, listOf(3, listOf(5, 8))))
 [1, 1, 2, 3, 5, 8]
 ```
 
-#### P08 (*) Eliminate consecutive duplicates of list elements.
+#### [P08][] (*) Eliminate consecutive duplicates of list elements.
 If a list contains repeated elements, they should be replaced with a single copy of the element. 
 The order of the elements should not be changed.
 Example:
@@ -87,7 +98,7 @@ Example:
 [a, b, c, a, d, e]
 ```
 
-#### P09 (*) Pack consecutive duplicates of list elements into sublists.
+#### [P09][] (*) Pack consecutive duplicates of list elements into sublists.
 If a list contains repeated elements, they should be placed in separate sublists.
 Example:
 ``` kotlin
@@ -95,7 +106,7 @@ Example:
 [[a, a, a, a], [b], [c, c], [a, a], [d], [e, e, e, e]]
 ```
 
-#### P10 (*) Run-length encoding of a list.
+#### [P10][] (*) Run-length encoding of a list.
 Use the result of problem P09 to implement the so-called run-length encoding data compression method. 
 Consecutive duplicates of elements are encoded as tuples (N, E) where N is the number of duplicates of the element E.
 Example:
@@ -104,7 +115,7 @@ Example:
 [(4, a), (1, b), (2, c), (2, a), (1, d), (4, e)]
 ```
 
-#### P11 (*) Modified run-length encoding.
+#### [P11][] (*) Modified run-length encoding.
 Modify the result of problem P10 in such a way that if an element has no duplicates it is simply copied into the result list. 
 Only elements with duplicates are transferred as (N, E) terms.
 Example:
@@ -113,7 +124,7 @@ Example:
 [(4, a), b, (2, c), (2, a), d, (4, e)]
 ```
 
-#### P12 (*) Decode a run-length encoded list.
+#### [P12][] (*) Decode a run-length encoded list.
 Given a run-length code list generated as specified in problem P10, construct its uncompressed version.
 Example:
 ``` kotlin
@@ -121,7 +132,7 @@ Example:
 [a, a, a, a, b, c, c, a, a, d, e, e, e, e]
 ```
 
-#### P13 (*) Run-length encoding of a list (direct solution).
+#### [P13][] (*) Run-length encoding of a list (direct solution).
 Implement the so-called run-length encoding data compression method directly. 
 I.e. don't use other methods you've written (like P09's pack); do all the work directly.
 Example:
@@ -130,28 +141,28 @@ Example:
 [(4, a), (1, b), (2, c), (2, a), (1, d), (4, e)]
 ```
 
-#### P14 (*) Duplicate the elements of a list.
+#### [P14][] (*) Duplicate the elements of a list.
 Example:
 ``` kotlin
 > duplicate("abccd".toList())
 [a, a, b, b, c, c, c, c, d, d]
 ```
 
-#### P15 (*) Duplicate the elements of a list a given number of times.
+#### [P15][] (*) Duplicate the elements of a list a given number of times.
 Example:
 ``` kotlin
 > duplicateN(3, "abccd".toList())
 [a, a, a, b, b, b, c, c, c, c, c, c, d, d, d]
 ```
 
-#### P16 (*) Drop every Nth element from a list.
+#### [P16][] (*) Drop every Nth element from a list.
 Example:
 ``` kotlin
 > drop(3, "abcdefghijk".toList())
 [a, b, d, e, g, h, j, k]
 ```
 
-#### P17 (*) Split a list into two parts.
+#### [P17][] (*) Split a list into two parts.
 The length of the first part is given. Use a Tuple for your result.
 Example:
 ``` kotlin
@@ -159,7 +170,7 @@ Example:
 ([a, b, c], [d, e, f, g, h, i, j, k])
 ```
 
-#### P18 (*) Extract a slice from a list.
+#### [P18][] (*) Extract a slice from a list.
 Given two indices, I and K, the slice is the list containing the elements from and including the Ith element 
 up to but not including the Kth element of the original list. Start counting the elements with 0.
 Example:
@@ -168,7 +179,7 @@ Example:
 [d, e, f, g]
 ```
 
-#### P19 (*) Rotate a list N places to the left.
+#### [P19][] (*) Rotate a list N places to the left.
 Examples:
 ``` kotlin
 > rotate(3, "abcdefghijk".toList())
@@ -178,7 +189,7 @@ Examples:
 [j, k, a, b, c, d, e, f, g, h, i]
 ```
 
-#### P20 (*) Remove the Kth element from a list.
+#### [P20][] (*) Remove the Kth element from a list.
 Return the list and the removed element in a Tuple. Elements are numbered from 0.
 Example:
 ``` kotlin
@@ -186,21 +197,21 @@ Example:
 ([a, c, d], b)
 ```
 
-#### P21 (*) Insert an element at a given position into a list.
+#### [P21][] (*) Insert an element at a given position into a list.
 Example:
 ``` kotlin
 > insertAt('new, 1, "abcd".toList())
 [a, X, b, d]
 ```
 
-#### P22 (*) Create a list containing all integers within a given range.
+#### [P22][] (*) Create a list containing all integers within a given range.
 Example:
 ``` kotlin
 > range(4, 9)
 [4, 5, 6, 7, 8, 9]
 ```
 
-#### P23 (*) Extract a given number of randomly selected elements from a list.
+#### [P23][] (*) Extract a given number of randomly selected elements from a list.
 Make sure there is a way to produce deterministic results.
 Example:
 ``` kotlin
@@ -208,7 +219,7 @@ Example:
 [c, h, f]
 ```
 
-#### P24 (*) Lotto: Draw N different random numbers from the set 1..M.
+#### [P24][] (*) Lotto: Draw N different random numbers from the set 1..M.
 Make sure there is a way to produce deterministic results.
 Example:
 ``` kotlin
@@ -216,7 +227,7 @@ Example:
 [32, 28, 8]
 ```
 
-#### P25 (*) Generate a random permutation of the elements of a list.
+#### [P25][] (*) Generate a random permutation of the elements of a list.
 Make sure there is a way to produce deterministic results.
 Hint: Use the solution of problem P23.
 Example:
@@ -225,7 +236,7 @@ Example:
 [d, b, e, f, a, c]
 ```
 
-#### P26 (**) Generate the combinations of K distinct objects chosen from the N elements of a list.
+#### [P26][] (**) Generate the combinations of K distinct objects chosen from the N elements of a list.
 In how many ways can a committee of 3 be chosen from a group of 12 people? 
 There are ``C(12,3) = 220`` possibilities, where ``C(N,K)`` denotes [binomial coefficient](https://en.wikipedia.org/wiki/Binomial_coefficient)). 
 For pure mathematicians, this result may be great. But we want to really generate all the possibilities.
@@ -235,7 +246,7 @@ Example:
 [[c, b, a], [d, b, a], [e, b, a], [d, c, a], [e, c, a], [e, d, a], [d, c, b], [e, c, b], [e, d, b], [e, d, c]]
 ```
 
-#### P27 (**) Group the elements of a set into disjoint subsets.
+#### [P27][] (**) Group the elements of a set into disjoint subsets.
 a) In how many ways can a group of 9 people work in 3 disjoint subgroups of 2, 3 and 4 persons? 
 Write a function that generates all the possibilities.
 Example:
@@ -255,7 +266,7 @@ However, ``[[Aldo, Beat], [Carla, David], ...]`` and ``[[Carla, David], [Aldo, B
 You may find more about this combinatorial problem in a good book on discrete mathematics under the term 
 [multinomial coefficients](http://mathworld.wolfram.com/MultinomialCoefficient.html).
 
-#### P28 (*) Sorting a list of lists according to length of sublists.
+#### [P28][] (*) Sorting a list of lists according to length of sublists.
 a) We suppose that a list contains elements that are lists themselves. 
 The objective is to sort elements of the list according to their length. 
 E.g. short lists first, longer lists later, or vice versa.
@@ -280,27 +291,27 @@ This is the most frequent length.
 
 ### Arithmetic
 
-#### P31 (*) Determine whether a given integer number is [prime](https://en.wikipedia.org/wiki/Prime_number).
+#### [P31][] (*) Determine whether a given integer number is [prime](https://en.wikipedia.org/wiki/Prime_number).
 ``` kotlin
 > 7.isPrime()
 true
 ```
 
-#### P32 (*) Determine the greatest common divisor of two positive integer numbers.
+#### [P32][] (*) Determine the greatest common divisor of two positive integer numbers.
 Use [Euclid's algorithm](https://en.wikipedia.org/wiki/Euclidean_algorithm).
 ``` kotlin
 > gcd(36, 63)
 9
 ```
 
-#### P33 (*) Determine whether two positive integer numbers are [coprime](https://en.wikipedia.org/wiki/Coprime_integers).
+#### [P33][] (*) Determine whether two positive integer numbers are [coprime](https://en.wikipedia.org/wiki/Coprime_integers).
 Two numbers are [coprime](https://en.wikipedia.org/wiki/Coprime_integers) if their greatest common divisor equals 1.
 ``` kotlin
 > 35.isCoprimeTo(64)
 true
 ```
 
-#### P34 (*) Calculate Euler's totient function phi(m).
+#### [P34][] (*) Calculate Euler's totient function phi(m).
 Euler's so-called [totient function](https://en.wikipedia.org/wiki/Euler%27s_totient_function) 
 phi(m) is defined as the number of positive integers r (1 <= r <= m) that are coprime to m.
 ``` kotlin
@@ -308,21 +319,21 @@ phi(m) is defined as the number of positive integers r (1 <= r <= m) that are co
 4
 ```
 
-#### P35 (*) Determine prime factors of a given positive integer.
+#### [P35][] (*) Determine prime factors of a given positive integer.
 Construct a list containing prime factors in ascending order.
 ``` kotlin
 > 315.primeFactors()
 [3, 3, 5, 7]
 ```
 
-#### P36 (*) Determine the prime factors of a given positive integer (2).
+#### [P36][] (*) Determine the prime factors of a given positive integer (2).
 Construct a list containing prime factors and their multiplicity.
 ``` kotlin
 > 315.primeFactorMultiplicity()
 [(3, 2), (5, 1), (7, 1)]
 ```
 
-#### P37 (*) Calculate Euler's totient function phi(m) (improved).
+#### [P37][] (*) Calculate Euler's totient function phi(m) (improved).
 See problem P34 for the definition of Euler's totient function. 
 If the list of the prime factors of a number ``m`` is known in the form of problem P36, 
 then the function ``phi(m)`` can be efficiently calculated as follows: 
@@ -330,17 +341,17 @@ Let ``[[p1, m1], [p2, m2], [p3, m3], ...]`` be the list of prime factors (and th
 Then ``phi(m)`` can be calculated with the following formula:
 ``phi(m) = (p1-1)*p1^(m1-1) * (p2-1)*p2^(m2-1) * (p3-1)*p3^(m3-1) * ...``
 
-#### P38 (*) Compare the two methods of calculating Euler's totient function.
+#### [P38][] (*) Compare the two methods of calculating Euler's totient function.
 Omitted. The assumption is that you already did the comparison, e.g. as unit test assertions. 
 
-#### P39 (*) A list of prime numbers.
+#### [P39][] (*) A list of prime numbers.
 Given a range of integers by its lower and upper limit, construct a list of all prime numbers in that range.
 ``` kotlin
 > listPrimesInRange(7..31)
 [7, 11, 13, 17, 19, 23, 29, 31]
 ```
 
-#### P40 (*) Goldbach's conjecture.
+#### [P40][] (*) Goldbach's conjecture.
 [Goldbach's conjecture](https://en.wikipedia.org/wiki/Goldbach's_conjecture) 
 says that every positive even number greater than 2 is the sum of two prime numbers. 
 E.g. ``28 = 5 + 23``. It is one of the most famous facts in number theory that has not been proved to be correct 
@@ -351,7 +362,7 @@ Write a function to find the two prime numbers that sum up to a given even integ
 (5, 23)
 ```
 
-#### P41 (*) A list of Goldbach compositions.
+#### [P41][] (*) A list of Goldbach compositions.
 Given a range of integers by its lower and upper limit, print a list of all even numbers and their Goldbach composition.
 ``` kotlin
 > printGoldbachList(9..20)
@@ -375,7 +386,7 @@ Very rarely, the primes are both bigger than, say, 50. Example (minimum value of
 
 ### Logic and Codes
 
-#### P46 (*) Truth tables for logical expressions.
+#### [P46][] (*) Truth tables for logical expressions.
 Define functions ``and_``, ``or_``, ``nand_``, ``nor_``, ``xor_``, ``impl_``, and ``equ_`` (for logical equivalence) 
 which return ``true`` or ``false`` according to the result of their respective operations.
 ``` kotlin
@@ -395,10 +406,10 @@ false	true	false
 false	false	false
 ```
 
-#### P47 (*) Truth tables for logical expressions (2).
+#### [P47][] (*) Truth tables for logical expressions (2).
 Omitted assuming it was done in the previous problem.
 
-#### P48 (*) Truth tables for logical expressions (3).
+#### [P48][] (*) Truth tables for logical expressions (3).
 Generalize problem 46 in such a way that the logical expression may contain any number of logical variables.
 Example:
 ``` kotlin
@@ -406,7 +417,7 @@ Example:
 true
 ```
 
-#### P49 (*) Gray code.
+#### [P49][] (*) Gray code.
 An n-bit [Gray code](https://en.wikipedia.org/wiki/Gray_code) is a sequence of n-bit strings constructed according to certain rules. 
 Find out the construction rules and write a function to generate Gray codes.
 For example:
@@ -419,7 +430,7 @@ For example:
 [000, 001, 011, 010, 110, 111, 101, 100]
 ```
 
-#### P50 (**) Huffman code.
+#### [P50][] (**) Huffman code.
 If you are not familiar with Huffman coding, consult internet (or a good book on discrete mathematics or algorithms) 
 for a description of [Huffman coding](https://en.wikipedia.org/wiki/Huffman_coding).
 Given a list of characters with their frequencies, e.g. ``[('a', 45), ('b', 13), ('c', 12), ('d', 16), ('e', 9), ('f', 5)]``.
@@ -473,10 +484,10 @@ Node('a',
 A tree with only a root node would be ``Node('a')`` and an empty tree would be ``End``.
 
 
-#### P54 Omitted; our tree representation will only allow well-formed trees.
+#### [P54][] Omitted; our tree representation will only allow well-formed trees.
 Score one for static typing.
 
-#### P55 (*) Construct completely balanced binary trees.
+#### [P55][] (*) Construct completely balanced binary trees.
 In a completely balanced binary tree, the following property holds for every node. 
 The number of nodes in its left subtree and the number of nodes in its right subtree are almost equal, 
 which means their difference is not greater than one.
@@ -487,7 +498,7 @@ The function should generate all solutions. The function should take as paramete
 [T(x T(x) T(x . T(x))), T(x T(x . T(x)) T(x)), T(x T(x) T(x T(x) .)), T(x T(x T(x) .) T(x))]
 ```
 
-#### P56 (*) Symmetric binary trees.
+#### [P56][] (*) Symmetric binary trees.
 Let us call a binary tree symmetric if you can draw a vertical line through the root node and 
 then the right subtree is the mirror image of the left subtree. 
 Add an ``isSymmetric`` method to the ``Tree`` to check whether a given binary tree is symmetric. 
@@ -498,7 +509,7 @@ We are only interested in the structure, not in the contents of the nodes.
 true
 ```
 
-#### P57 (*) Binary search trees (dictionaries).
+#### [P57][] (*) Binary search trees (dictionaries).
 Write a function to add an element to a binary search tree.
 ``` kotlin
 > End.add(2)
@@ -524,7 +535,7 @@ true
 false
 ```
 
-#### P58 (*) Generate-and-test paradigm.
+#### [P58][] (*) Generate-and-test paradigm.
 Apply the generate-and-test paradigm to construct all symmetric, 
 completely balanced binary trees with a given number of nodes.
 ``` kotlin
@@ -532,7 +543,7 @@ completely balanced binary trees with a given number of nodes.
 [T(x T(x . T(x)) T(x T(x) .)), T(x T(x T(x) .) T(x . T(x)))]
 ```
 
-#### P59 (**) Construct height-balanced binary trees.
+#### [P59][] (**) Construct height-balanced binary trees.
 In a height-balanced binary tree, the following property holds for every node: 
 The height of its left subtree and the height of its right subtree are almost equal, which means their difference is not greater than one.
 Write a method ``heightBalancedTrees`` to construct height-balanced binary trees for a given height with a supplied value for the nodes. 
@@ -542,7 +553,7 @@ The function should generate all solutions.
 [T(x T(x T(x) T(x)) T(x T(x) T(x))), T(x T(x T(x) T(x)) T(x T(x) .)), ...]
 ```
 
-#### P60 (**) Construct height-balanced binary trees with a given number of nodes.
+#### [P60][] (**) Construct height-balanced binary trees with a given number of nodes.
 Consider a height-balanced binary tree of height ``H``. 
 The maximum number of nodes it can contain is ``MaxN = 2**H - 1``. 
 However, what is the minimum number ``MinN``? This question is more difficult. 
@@ -564,7 +575,7 @@ Now, we can attack the main problem: construct all the height-balanced binary tr
 ```
 Find out how many height-balanced trees exist for ``N = 15``.
 
-#### P61 (*) Count the leaves of a binary tree.
+#### [P61][] (*) Count the leaves of a binary tree.
 A leaf is a node with no successors. Write a method ``leafCount`` to count them.
 ``` kotlin
 > Node('x', Node('x'), End).leafCount()
@@ -578,7 +589,7 @@ A leaf is a node with no successors. Write a method leafList to collect them in 
 [b, d, e]
 ```
 
-#### P62 (*) Collect the internal nodes of a binary tree in a list.
+#### [P62][] (*) Collect the internal nodes of a binary tree in a list.
 An internal node of a binary tree has either one or two non-empty successors. 
 Write a method ``internalNodes`` to collect them in a list.
 ``` kotlin
@@ -586,7 +597,7 @@ Write a method ``internalNodes`` to collect them in a list.
 [a, c]
 ```
 
-#### P62B (*) Collect the nodes at a given level in a list.
+#### [P62][]B (*) Collect the nodes at a given level in a list.
 A node of a binary tree is at level ``N`` if the path from the root to the node has length ``N-1``. 
 The root node is at level 1. Write a method ``atLevel`` to collect all nodes at a given level in a list.
 ``` kotlin
@@ -596,7 +607,7 @@ The root node is at level 1. Write a method ``atLevel`` to collect all nodes at 
 Using ``atLevel`` it is easy to construct a method ``levelOrder`` which creates the level-order sequence of the nodes. 
 However, there are more efficient ways to do that.
 
-#### P63 (**) Construct a complete binary tree.
+#### [P63][] (**) Construct a complete binary tree.
 A complete binary tree with height ``H`` is defined as follows: 
 The levels 1,2,3,...,H-1 contain the maximum number of nodes 
 (i.e 2(i-1) at the level i, note that we start counting the levels from 1 at the root). 
@@ -615,7 +626,7 @@ Write a method ``completeBinaryTree`` that takes as parameters the number of nod
 T(x T(x T(x . .) T(x . .)) T(x T(x . .) .))
 ```
 
-#### P64 (**) Layout a binary tree (1).
+#### [P64][] (**) Layout a binary tree (1).
 As a preparation for drawing a tree, a layout algorithm is required to determine the position of each node in a rectangular grid. 
 Several layout methods are conceivable, one of them is shown in the illustration.
 
@@ -637,7 +648,7 @@ T[3,1](a T[1,2](b . T[2,3](c . .)) T[4,2](d . .))
 ```
 The tree in the picture can be constructed with ``fromList(List('n','k','m','c','a','h','g','e','u','p','s','q'))``. 
 
-#### P65 (**) Layout a binary tree (2).
+#### [P65][] (**) Layout a binary tree (2).
 An alternative layout method is depicted in the illustration below. 
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p65.gif">
@@ -651,7 +662,7 @@ T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
 ```
 The tree at right may be constructed with Tree.fromList(List('n','k','m','c','a','e','d','g','u','p','q')). Use it to check your code.
 
-#### P66 (***) Layout a binary tree (3).
+#### [P66][] (***) Layout a binary tree (3).
 Yet another layout strategy is shown in the illustration below. 
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p66.gif">
@@ -667,7 +678,7 @@ T[2,1]('a T[1,2]('b . T[2,3]('c . .)) T[3,2]('d . .))
 ```
 Which layout do you like most?
 
-#### P67 (**) A string representation of binary trees.
+#### [P67][] (**) A string representation of binary trees.
 Somebody represents binary trees as strings of the following type (see example opposite):
 ``a(b(d,e),c(,f(g,)))``.
 Write a method which generates this string representation, if the tree is given as usual (in Nodes and Ends). 
@@ -682,7 +693,7 @@ a(b(d,e),c(,f(g,)))
 a(b(d,e),c(,f(g,)))
 ```
 
-#### P68 (**) Preorder and inorder sequences of binary trees.
+#### [P68][] (**) Preorder and inorder sequences of binary trees.
 We consider binary trees with nodes that are identified by single lower-case letters, as in the example of problem P67.
 
 a) Write methods preorder and inorder that construct the preorder and inorder sequence of a given binary tree, respectively. 
@@ -702,7 +713,7 @@ a(b(d,e),c(,f(g,)))
 What happens if the same character appears in more than one node? 
 Try, for instance, ``Tree.preInTree(List('a', 'b', 'a'), List('b', 'a', 'a'))``.
 
-#### P69 (**) Dotstring representation of binary trees.
+#### [P69][] (**) Dotstring representation of binary trees.
 We consider again binary trees with nodes that are identified by single lower-case letters, as in the example of problem P67. 
 Such a tree can be represented by the preorder sequence of its nodes in which dots (.) are inserted where an empty subtree (End) 
 is encountered during the tree traversal. For example, the tree shown in problem P67 is represented as "abd..e..c.fg...". 
@@ -739,16 +750,16 @@ MTree('a', List(MTree('f', List(MTree('g'))), MTree('c'), MTree('b', List(MTree(
 ```
 The starting code skeleton for this section is mtree1.scala.
 
-#### P70B Omitted; we can only create well-formed trees.
+#### [P70][]B Omitted; we can only create well-formed trees.
 
-#### P70C (*) Count the nodes of a multiway tree.
+#### [P70][]C (*) Count the nodes of a multiway tree.
 Write a method nodeCount which counts the nodes of a given multiway tree.
 ```
 > MTree('a', List(MTree('f'))).nodeCount()
 2
 ```
 
-#### P70 (**) Tree construction from a node string.
+#### [P70][] (**) Tree construction from a node string.
 We suppose that the nodes of a multiway tree contain single characters. In the depth-first order sequence of its nodes, 
 a special character ^ has been inserted whenever, during the tree traversal, the move is a backtrack to the previous level.
 By this rule, the tree in the figure opposite is represented as: ``afg^^c^bd^e^^^``.
@@ -759,7 +770,7 @@ Make the function an implicit conversion from String. Write the reverse function
 afg^^c^bd^e^^^
 ```
 
-#### P71 (*) Determine the internal path length of a tree.
+#### [P71][] (*) Determine the internal path length of a tree.
 We define the internal path length of a multiway tree as the total sum of the path lengths from the root to all nodes of the tree. 
 By this definition, the tree in the figure of problem P70 has an internal path length of 9. Write a method internalPathLength to return that sum.
 ```
@@ -767,14 +778,14 @@ By this definition, the tree in the figure of problem P70 has an internal path l
 9
 ```
 
-#### P72 (*) Construct the postorder sequence of the tree nodes.
+#### [P72][] (*) Construct the postorder sequence of the tree nodes.
 Write a method postorder which constructs the postorder sequence of the nodes of a multiway tree. The result should be a List.
 ```
 > "afg^^c^bd^e^^^".postorder()
 [g, f, c, d, e, b, a]
 ```
 
-#### P73 (**) Lisp-like tree representation.
+#### [P73][] (**) Lisp-like tree representation.
 There is a particular notation for multiway trees in Lisp. Lisp is a prominent functional programming language. 
 In Lisp almost everything is a list. Our example tree would be represented in Lisp as (a (f g) c (b d e)). 
 The following pictures give some more examples.
@@ -934,7 +945,7 @@ human-friendly form:
 ```
 The notation for labeled graphs can also be used for so-called multi-graphs, where more than one edge (or arc) is allowed between two given nodes.
 
-#### P80 (***) Conversions.
+#### [P80][] (***) Conversions.
 Write methods to generate the graph-term and adjacency-list forms from a Graph. 
 Write another method to output the human-friendly form for a graph. Make it the toString method for Graph. 
 Write more functions to create graphs from strings.
@@ -946,7 +957,7 @@ res0: (List[String], List[(String, String, Unit)]) = (List(d, k, h, c, f, g, b),
 res1: List[(String, List[(String, Int)])] = List((m,List((q,7))), (p,List((m,5), (q,9))), (k,List()), (q,List()))
 ```
 
-#### P81 (**) Path from one node to another one.
+#### [P81][] (**) Path from one node to another one.
 Write a method named findPaths to find acyclic paths from one node to another in a graph. The method should return all paths.
 ```
 > Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]").findPaths("p", "q")
@@ -955,14 +966,14 @@ List(List(p, q), List(p, m, q))
 List()
 ```
 
-#### P82 (*) Cycle from a given node.
+#### [P82][] (*) Cycle from a given node.
 Write a method named findCycles to find closed paths (cycles) starting at a given node in a graph. The method should return all cycles.
 ```
 > Graph.fromString("[b-c, f-c, g-h, d, f-b, k-f, h-g]").findCycles("f")
 List(List(f, c, b, f), List(f, b, c, f))
 ```
 
-#### P83 (**) Construct all spanning trees.
+#### [P83][] (**) Construct all spanning trees.
 Write a method spanningTrees to construct all spanning trees of a given graph. 
 With this method, find out how many spanning trees there are for the graph depicted to the right. 
 The data of this example graph can be found below. When you have a correct solution for the spanningTrees method, 
@@ -978,7 +989,7 @@ Graph.term(List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'),
 List([a-b, b-c], [a-c, b-c], [a-b, a-c])
 ```
 
-#### P84 (**) Construct the minimal spanning tree.
+#### [P84][] (**) Construct the minimal spanning tree.
 Write a method minimalSpanningTree to construct the minimal spanning tree of a given labeled graph. Hint: Use Prim's Algorithm. A small modification of the solution of P83 does the trick. The data of the example graph to the right can be found below.
 Graph:
 ```
@@ -991,7 +1002,7 @@ Graph.termLabel(
 [a-b/1, b-c/2]
 ```
 
-#### P85 (**) Graph isomorphism.
+#### [P85][] (**) Graph isomorphism.
 Two graphs G1(N1,E1) and G2(N2,E2) are isomorphic if there is a bijection f: N1 â†’ N2 such that for any nodes X,Y of N1, 
 X and Y are adjacent if and only if f(X) and f(Y) are adjacent.
 Write a method that determines whether two graphs are isomorphic.
@@ -1000,7 +1011,7 @@ Write a method that determines whether two graphs are isomorphic.
 true
 ```
 
-#### P86 (**) Node degree and graph coloration.
+#### [P86][] (**) Node degree and graph coloration.
 a) Write a method Node.degree that determines the degree of a given node.
 ```
 > Graph.fromString("[a-b, b-c, a-c, a-d]").nodes("a").degree()
@@ -1017,7 +1028,7 @@ c) Use Welsh-Powell's algorithm to paint the nodes of a graph in such a way that
 List((Node(a),1), (Node(b),2), (Node(c), 3), (Node(d), 2))
 ```
 
-#### P87 (**) Depth-first order graph traversal.
+#### [P87][] (**) Depth-first order graph traversal.
 Write a method that generates a depth-first order graph traversal sequence. 
 The starting point should be specified, and the output should be a list of nodes 
 that are reachable from this starting point (in depth-first order).
@@ -1026,14 +1037,14 @@ scala> Graph.fromString("[a-b, b-c, e, a-c, a-d]").nodesByDepthFrom("d")
 res0: List[String] = List(c, b, a, d)
 ```
 
-#### P88 (**) Connected components.
+#### [P88][] (**) Connected components.
 Write a function that splits a graph into its connected components.
 ```
 > Graph.fromString("[a-b, c]").splitGraph()
 List([a-b], [c])
 ```
 
-#### P89 (**) Bipartite graphs.
+#### [P89][] (**) Bipartite graphs.
 Write a function that determines whether a given graph is bipartite.
 ```
 > Digraph.fromString("[a>b, c>a, d>b]").isBipartite()
@@ -1051,14 +1062,14 @@ false
 ### Miscellaneous Problems
 
 
-#### P90 (**) Eight queens problem
+#### [P90][] (**) Eight queens problem
 This is a classical problem in computer science. The objective is to place eight queens on a chessboard 
 so that no two queens are attacking each other; i.e., no two queens are in the same row, the same column, or on the same diagonal.
 Hint: Represent the positions of the queens as a list of numbers 1..N. 
 Example: List(4, 2, 7, 3, 6, 8, 5, 1) means that the queen in the first column is in row 4, the queen in the second column is in row 2, etc. 
 Use the generate-and-test paradigm.
 
-#### P91 (**) Knight's tour.
+#### [P91][] (**) Knight's tour.
 Another famous problem is this one: How can a knight jump on an NÃ—N chessboard in such a way that it visits every square exactly once?
 Hints: Represent the squares by pairs of their coordinates of the form (X, Y), where both X and Y are integers between 1 and N. 
 (Alternatively, define a Point class for the same purpose.) 
@@ -1071,7 +1082,7 @@ Can you make a lazy list that only calculates the tours as needed?
 Can you find only "closed tours", where the knight can jump from its final position back to its starting position?
 
 
-#### P92 (***) Von Koch's conjecture.
+#### [P92][] (***) Von Koch's conjecture.
 Several years ago I met a mathematician who was intrigued by a problem for which he didn't know a solution. 
 His name was Von Koch, and I don't know whether the problem has been solved since. 
 (The "I" here refers to the author of the Prolog problems.) 
@@ -1085,25 +1096,25 @@ to find a solution. And remember, we don't know for sure whether there is always
 
 Write a function that calculates a numbering scheme for a given tree. What is the solution for the larger tree pictured below?
 
-#### P93 (***) An arithmetic puzzle.
+#### [P93][] (***) An arithmetic puzzle.
 Given a list of integer numbers, find a correct way of inserting arithmetic signs (operators) such that the result is a correct equation. 
 Example: With the list of numbers List(2,3,5,7,11) we can form the equations 2-3+5+7 = 11 or 2 = (3*5+7)/11 (and ten others!).
 
-#### P94 (***) Generate K-regular simple graphs with N nodes.
+#### [P94][] (***) Generate K-regular simple graphs with N nodes.
 In a K-regular graph all nodes have a degree of K; i.e. the number of edges incident in each node is K. 
 How many (non-isomorphic!) 3-regular graphs with 6 nodes are there? 
 See also a table of results and a Java applet that can represent graphs geometrically.
 
-#### P95 (**) English number words.
+#### [P95][] (**) English number words.
 On financial documents, like checks, numbers must sometimes be written in full words. 
 Example: 175 must be written as one-seven-five. Write a function fullWords(num: Int) to print (non-negative) integer numbers in full words.
 
-#### P96 (**) Syntax checker.
+#### [P96][] (**) Syntax checker.
 In a certain programming language (Ada) identifiers are defined by the syntax diagram (railroad chart) opposite. 
 Transform the syntax diagram into a system of syntax diagrams which do not contain loops; i.e. which are purely recursive. 
 Using these modified diagrams, write a function isIdentifier that can check whether or not a given string is a legal identifier.
 
-#### P97 (**) Sudoku. (alternate solution)
+#### [P97][] (**) Sudoku. (alternate solution)
 Sudoku puzzles go like this:
 ```
    Problem statement                 Solution
@@ -1131,7 +1142,7 @@ Every spot in the puzzle belongs to a (horizontal) row and a (vertical) column, 
 The problem is to fill the missing spots with digits in such a way that every number between 1 and 9 appears exactly once in each row, 
 in each column, and in each square.
 
-#### P98 (***) Nonograms.
+#### [P98][] (***) Nonograms.
 Around 1994, a certain kind of puzzles was very popular in England. The "Sunday Telegraph" newspaper wrote: 
 "Nonograms are puzzles from Japan and are currently published each week only in The Sunday Telegraph. 
 Simply use your logic and skill to complete the grid and reveal a picture or diagram." 
@@ -1158,7 +1169,7 @@ For the example above, the problem can be stated as the two lists ``[[3],[2,1],[
 ``[[1,2],[3,1],[1,5],[7,1],[5],[3],[4],[3]]`` which give the "solid" lengths of the rows and columns, top-to-bottom and left-to-right, 
 respectively. Published puzzles are larger than this example, e.g. 25Ã—20, and apparently always have unique solutions.
 
-#### P99 (***) Crossword puzzle.
+#### [P99][] (***) Crossword puzzle.
 Given an empty (or almost empty) framework of a crossword puzzle and a set of words. The problem is to place the words into the framework.
 The particular crossword puzzle is specified in a text file which first lists the words (one word per line) in an arbitrary order. 
 Then, after an empty line, the crossword framework is defined. In this framework specification, an empty character location is represented 
@@ -1174,3 +1185,14 @@ Hints:
 And remember that the objective is a clean solution, not just a quick-and-dirty hack!
 (2) For efficiency reasons it is important, at least for larger puzzles, to sort the words and the sites in a particular order. 
 For this part of the problem, the solution of P28 may be very helpful.
+
+
+[P01]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P01.kt
+[P02]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P02.kt
+[P03]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P03.kt
+[P04]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P04.kt
+[P05]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P05.kt
+[P06]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P06.kt
+[P07]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P07.kt
+[P08]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P08.kt
+[P09]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P09.kt
