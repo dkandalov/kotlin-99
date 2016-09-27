@@ -460,7 +460,7 @@ val End = object : Tree<Nothing>{
     override fun toString() = "."
 }
 ```
-The example tree on the right is given by
+The example of tree showed above can be written as:
 ``` kotlin
 Node('a',
     Node('b',
@@ -471,8 +471,6 @@ Node('a',
         End)))
 ```
 A tree with only a root node would be ``Node('a')`` and an empty tree would be ``End``.
-
-Throughout this section, we will be adding methods to the classes above, mostly to ``Tree``.
 
 
 #### P54 Omitted; our tree representation will only allow well-formed trees.
@@ -545,25 +543,26 @@ The function should generate all solutions.
 ```
 
 #### P60 (**) Construct height-balanced binary trees with a given number of nodes.
-Consider a height-balanced binary tree of height ``H``. What is the maximum number of nodes it can contain? 
-Clearly, ``MaxN = 2*H - 1``. However, what is the minimum number ``MinN``? This question is more difficult. 
-Try to find a recursive statement and turn it into a function minHbalNodes that takes a height and returns MinN.
+Consider a height-balanced binary tree of height ``H``. 
+The maximum number of nodes it can contain is ``MaxN = 2**H - 1``. 
+However, what is the minimum number ``MinN``? This question is more difficult. 
+Try to find a recursive statement and turn it into a function ``minNodeAmountInHBTree`` that takes a height and returns ``MinN``.
 ``` kotlin
-> minHbalNodes(3)
+> minNodeAmountInHBTree(height = 3)
 4
 ```
-On the other hand, we might ask: what is the maximum height H a height-balanced binary tree with N nodes can have? 
-Write a maxHbalHeight function.
+On the other hand, we might ask: what is the maximum height ``H`` a height-balanced binary tree with ``N`` nodes can have? 
+Write a ``maxHeightOfHBTree`` function.
 ``` kotlin
-> maxHbalHeight(4)
+> maxHeightOfHBTree(nodeAmount = 4)
 3
 ```
-Now, we can attack the main problem: construct all the height-balanced binary trees with a given nuber of nodes.
+Now, we can attack the main problem: construct all the height-balanced binary trees with a given number of nodes.
 ``` kotlin
-> Tree.hbalTreesWithNodes(4, "x")
-List(T(x T(x T(x . .) .) T(x . .)), T(x T(x . T(x . .)) T(x . .)), ...
+> allHBTreesWithNodeAmount(4, "x")
+[T(x T(x T(x) .) T(x)), T(x T(x . T(x)) T(x)), ...]
 ```
-Find out how many height-balanced trees exist for N = 15.
+Find out how many height-balanced trees exist for ``N = 15``.
 
 #### P61 (*) Count the leaves of a binary tree.
 A leaf is a node with no successors. Write a method ``leafCount`` to count them.
@@ -574,26 +573,27 @@ A leaf is a node with no successors. Write a method ``leafCount`` to count them.
 
 #### 61A (*) Collect the leaves of a binary tree in a list.
 A leaf is a node with no successors. Write a method leafList to collect them in a list.
-```
+``` kotlin
 > Node('a', Node('b'), Node('c', Node('d'), Node('e'))).leafList()
 [b, d, e]
 ```
 
 #### P62 (*) Collect the internal nodes of a binary tree in a list.
-An internal node of a binary tree has either one or two non-empty successors. Write a method internalList to collect them in a list.
-```
-> Node('a', Node('b'), Node('c', Node('d'), Node('e'))).internalList()
+An internal node of a binary tree has either one or two non-empty successors. 
+Write a method ``internalNodes`` to collect them in a list.
+``` kotlin
+> Node('a', Node('b'), Node('c', Node('d'), Node('e'))).internalNodes()
 [a, c]
 ```
 
 #### P62B (*) Collect the nodes at a given level in a list.
 A node of a binary tree is at level N if the path from the root to the node has length N-1. The root node is at level 1. 
-Write a method atLevel to collect all nodes at a given level in a list.
-```
+Write a method ``atLevel`` to collect all nodes at a given level in a list.
+``` kotlin
 > Node('a', Node('b'), Node('c', Node('d'), Node('e'))).atLevel(2)
 [b, c]
 ```
-Using atLevel it is easy to construct a method levelOrder which creates the level-order sequence of the nodes. 
+Using ``atLevel`` it is easy to construct a method ``levelOrder`` which creates the level-order sequence of the nodes. 
 However, there are more efficient ways to do that.
 
 #### P63 (**) Construct a complete binary tree.
@@ -601,37 +601,37 @@ A complete binary tree with height H is defined as follows: The levels 1,2,3,...
 (i.e 2(i-1) at the level i, note that we start counting the levels from 1 at the root). 
 In level H, which may contain less than the maximum possible number of nodes, all the nodes are "left-adjusted". 
 This means that in a levelorder tree traversal all internal nodes come first, the leaves come second, and empty successors 
-(the Ends which are not really nodes!) come last.
+(the ``End``s which are not really nodes) come last.
 Particularly, complete binary trees are used as data structures (or addressing schemes) for heaps.
 
 We can assign an address number to each node in a complete binary tree by enumerating the nodes in level order, 
 starting at the root with number 1. In doing so, we realize that for every node X with address A the following property holds: 
 The address of X's left and right successors are 2*A and 2*A+1, respectively, supposed the successors do exist. 
-This fact can be used to elegantly construct a complete binary tree structure. Write a method completeBinaryTree 
-that takes as parameters the number of nodes and the value to put in each node.
-```
-> Tree.completeBinaryTree(6, "x")
+This fact can be used to elegantly construct a complete binary tree structure. 
+Write a method ``completeBinaryTree`` that takes as parameters the number of nodes and the value to put in each node.
+``` kotlin
+> completeBinaryTree(6, "x")
 T(x T(x T(x . .) T(x . .)) T(x T(x . .) .))
 ```
 
 #### P64 (**) Layout a binary tree (1).
 As a preparation for drawing a tree, a layout algorithm is required to determine the position of each node in a rectangular grid. 
 Several layout methods are conceivable, one of them is shown in the illustration on the right.
-In this layout strategy, the position of a node v is obtained by the following two rules:
-- x(v) is equal to the position of the node v in the inorder sequence
-- y(v) is equal to the depth of the node v in the tree
+In this layout strategy, the position of a node ``v`` is obtained by the following two rules:
+- ``x(v)`` is equal to the position of the node ``v`` in the inorder sequence
+- ``y(v)`` is equal to the depth of the node ``v`` in the tree
 In order to store the position of the nodes, we add a new class with the additional information.
 ```
 case class PositionedNode[+T](override val value: T, override val left: Tree[T], override val right: Tree[T], x: Int, y: Int) extends Node[T](value, left, right) {
   override def toString = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 ```
-Write a method layoutBinaryTree that turns a tree of normal Nodes into a tree of PositionedNodes.
+Write a method ``layoutBinaryTree`` that turns a tree of normal Nodes into a tree of PositionedNodes.
 ```
 > Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree()
 T[3,1](a T[1,2](b . T[2,3](c . .)) T[4,2](d . .))
 ```
-The tree at right may be constructed with Tree.fromList(List('n','k','m','c','a','h','g','e','u','p','s','q')). Use it to check your code.
+The tree at right may be constructed with ``fromList(List('n','k','m','c','a','h','g','e','u','p','s','q'))``. 
 
 #### P65 (**) Layout a binary tree (2).
 An alternative layout method is depicted in the illustration opposite. Find out the rules and write the corresponding method. 
