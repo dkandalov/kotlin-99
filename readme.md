@@ -575,36 +575,33 @@ Now, we can attack the main problem: construct all the height-balanced binary tr
 ```
 Find out how many height-balanced trees exist for ``N = 15``.
 
-#### [P61][] (*) Count the leaves of a binary tree.
-A leaf is a node with no successors. Write a method ``leafCount`` to count them.
+#### [P61][] (*) Leaves and internal nodes of a binary tree.
+A leaf is a node with no successors. 
+Write a method ``leafCount`` to count them.
 ``` kotlin
-> Node('x', Node('x'), End).leafCount()
+> Node("x", Node("x"), End).leafCount()
 1
 ```
-
-#### 61A (*) Collect the leaves of a binary tree in a list.
-A leaf is a node with no successors. Write a method leafList to collect them in a list.
+Write a method ``leafValues`` to collect leaf values into a list.
 ``` kotlin
-> Node('a', Node('b'), Node('c', Node('d'), Node('e'))).leafList()
+> Node("a", Node("b"), Node("c", Node("d"), Node("e"))).leafValues()
 [b, d, e]
 ```
-
-#### [P62][] (*) Collect the internal nodes of a binary tree in a list.
 An internal node of a binary tree has either one or two non-empty successors. 
-Write a method ``internalNodes`` to collect them in a list.
+Write a method ``internalValues`` to collect their values into a list.
 ``` kotlin
-> Node('a', Node('b'), Node('c', Node('d'), Node('e'))).internalNodes()
+> Node("a", Node("b"), Node("c", Node("d"), Node("e"))).internalValues()
 [a, c]
 ```
 
-#### [P62][]B (*) Collect the nodes at a given level in a list.
+#### [P62][] (*) Collect nodes at a given level in a list.
 A node of a binary tree is at level ``N`` if the path from the root to the node has length ``N-1``. 
-The root node is at level 1. Write a method ``atLevel`` to collect all nodes at a given level in a list.
+The root node is at level 1. Write a method ``valuesAtLevel`` to collect all node values at a given level into a list.
 ``` kotlin
-> Node('a', Node('b'), Node('c', Node('d'), Node('e'))).atLevel(2)
+> Node('a', Node('b'), Node('c', Node('d'), Node('e'))).valuesAtLevel(2)
 [b, c]
 ```
-Using ``atLevel`` it is easy to construct a method ``levelOrder`` which creates the level-order sequence of the nodes. 
+Using ``valuesAtLevel`` it is easy to construct a method to create the level-order sequence of the nodes. 
 However, there are more efficient ways to do that.
 
 #### [P63][] (**) Construct a complete binary tree.
@@ -1059,7 +1056,7 @@ false
 
 
 
-### Miscellaneous Problems
+### Miscellaneous
 
 
 #### [P90][] (**) Eight queens problem
@@ -1196,3 +1193,60 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P07]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P07.kt
 [P08]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P08.kt
 [P09]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P09.kt
+[P10]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P10.kt
+[P11]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P11.kt
+[P12]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P12.kt
+[P13]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P13.kt
+[P14]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P14.kt
+[P15]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P15.kt
+[P16]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P16.kt
+[P17]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P17.kt
+[P18]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P18.kt
+[P19]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P19.kt
+[P20]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P20.kt
+[P21]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P21.kt
+[P22]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P22.kt
+[P23]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P23.kt
+[P24]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P24.kt
+[P25]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P25.kt
+[P26]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P26.kt
+[P27]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P27.kt
+[P28]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P28.kt
+[P29]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P29.kt
+[P30]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P30.kt
+[P31]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P31.kt
+[P32]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P32.kt
+[P33]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P33.kt
+[P34]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P34.kt
+[P35]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P35.kt
+[P36]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P36.kt
+[P37]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P37.kt
+[P38]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P38.kt
+[P39]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P39.kt
+[P30]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P30.kt
+[P41]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P41.kt
+[P42]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P42.kt
+[P43]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P43.kt
+[P44]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P44.kt
+[P45]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P45.kt
+[P46]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P46.kt
+[P47]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P47.kt
+[P48]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P48.kt
+[P49]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P49.kt
+[P50]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P50.kt
+[P54]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P54.kt
+[P55]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P55.kt
+[P56]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P56.kt
+[P57]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P57.kt
+[P58]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P58.kt
+[P59]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P59.kt
+[P60]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P60.kt
+[P61]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P61.kt
+[P62]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P62.kt
+[P63]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P63.kt
+[P64]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P64.kt
+[P65]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P65.kt
+[P66]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P66.kt
+[P67]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P67.kt
+[P68]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P68.kt
+[P69]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P69.kt
