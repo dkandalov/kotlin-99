@@ -30,14 +30,14 @@ is that there is no vendor lock-in and no hidden agenda pursued by website owner
 
 #### P01 (*) Find the last element of a list.
 Example:
-```
+``` kotlin
 > last(listOf(1, 1, 2, 3, 5, 8))
 > 8
 ```
 
 #### P02 (*) Find the last but one element of a list.
 Example:
-```
+``` kotlin
 > penultimate(listOf(1, 1, 2, 3, 5, 8))
 > 5
 ```
@@ -45,35 +45,35 @@ Example:
 #### P03 (*) Find the Nth element of a list.
 By convention, the first element in the list is element 0.
 Example:
-```
+``` kotlin
 > nth(2, listOf(1, 1, 2, 3, 5, 8))
 > 2
 ```
 
 #### P04 (*) Find the number of elements of a list.
 Example:
-```
+``` kotlin
 > length(listOf(1, 1, 2, 3, 5, 8))
 6
 ```
 
 #### P05 (*) Reverse a list.
 Example:
-```
+``` kotlin
 > reverse(listOf(1, 1, 2, 3, 5, 8))
 [8, 5, 3, 2, 1, 1]
 ```
 
 #### P06 (*) Find out whether a list is a palindrome.
 Example:
-```
+``` kotlin
 > isPalindrome(listOf(1, 2, 3, 2, 1))
 true
 ```
 
 #### P07 (*) Flatten a nested list structure.
 Example:
-```
+``` kotlin
 > flatten(listOf(listOf(1, 1), 2, listOf(3, listOf(5, 8))))
 [1, 1, 2, 3, 5, 8]
 ```
@@ -82,7 +82,7 @@ Example:
 If a list contains repeated elements, they should be replaced with a single copy of the element. 
 The order of the elements should not be changed.
 Example:
-```
+``` kotlin
 > compress("aaaabccaadeeee".toList())
 [a, b, c, a, d, e]
 ```
@@ -90,7 +90,7 @@ Example:
 #### P09 (*) Pack consecutive duplicates of list elements into sublists.
 If a list contains repeated elements, they should be placed in separate sublists.
 Example:
-```
+``` kotlin
 > pack("aaaabccaadeeee".toList())
 [[a, a, a, a], [b], [c, c], [a, a], [d], [e, e, e, e]]
 ```
@@ -99,7 +99,7 @@ Example:
 Use the result of problem P09 to implement the so-called run-length encoding data compression method. 
 Consecutive duplicates of elements are encoded as tuples (N, E) where N is the number of duplicates of the element E.
 Example:
-```
+``` kotlin
 > encode("aaaabccaadeeee".toList())
 [(4, a), (1, b), (2, c), (2, a), (1, d), (4, e)]
 ```
@@ -108,7 +108,7 @@ Example:
 Modify the result of problem P10 in such a way that if an element has no duplicates it is simply copied into the result list. 
 Only elements with duplicates are transferred as (N, E) terms.
 Example:
-```
+``` kotlin
 > encodeModified("aaaabccaadeeee".toList())
 [(4, a), b, (2, c), (2, a), d, (4, e)]
 ```
@@ -116,7 +116,7 @@ Example:
 #### P12 (*) Decode a run-length encoded list.
 Given a run-length code list generated as specified in problem P10, construct its uncompressed version.
 Example:
-```
+``` kotlin
 > decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e)))
 [a, a, a, a, b, c, c, a, a, d, e, e, e, e]
 ```
@@ -125,28 +125,28 @@ Example:
 Implement the so-called run-length encoding data compression method directly. 
 I.e. don't use other methods you've written (like P09's pack); do all the work directly.
 Example:
-```
+``` kotlin
 > encodeDirect("aaaabccaadeeee".toList())
 [(4, a), (1, b), (2, c), (2, a), (1, d), (4, e)]
 ```
 
 #### P14 (*) Duplicate the elements of a list.
 Example:
-```
+``` kotlin
 > duplicate("abccd".toList())
 [a, a, b, b, c, c, c, c, d, d]
 ```
 
 #### P15 (*) Duplicate the elements of a list a given number of times.
 Example:
-```
+``` kotlin
 > duplicateN(3, "abccd".toList())
 [a, a, a, b, b, b, c, c, c, c, c, c, d, d, d]
 ```
 
 #### P16 (*) Drop every Nth element from a list.
 Example:
-```
+``` kotlin
 > drop(3, "abcdefghijk".toList())
 [a, b, d, e, g, h, j, k]
 ```
@@ -154,7 +154,7 @@ Example:
 #### P17 (*) Split a list into two parts.
 The length of the first part is given. Use a Tuple for your result.
 Example:
-```
+``` kotlin
 > split(3, "abcdefghijk".toList())
 ([a, b, c], [d, e, f, g, h, i, j, k])
 ```
@@ -163,14 +163,14 @@ Example:
 Given two indices, I and K, the slice is the list containing the elements from and including the Ith element 
 up to but not including the Kth element of the original list. Start counting the elements with 0.
 Example:
-```
+``` kotlin
 > slice(3, 7, "abcdefghijk".toList())
 [d, e, f, g]
 ```
 
 #### P19 (*) Rotate a list N places to the left.
 Examples:
-```
+``` kotlin
 > rotate(3, "abcdefghijk".toList())
 [d, e, f, g, h, i, j, k, a, b, c]
 
@@ -181,21 +181,21 @@ Examples:
 #### P20 (*) Remove the Kth element from a list.
 Return the list and the removed element in a Tuple. Elements are numbered from 0.
 Example:
-```
+``` kotlin
 > removeAt(1, "abcd".toList())
 ([a, c, d], b)
 ```
 
 #### P21 (*) Insert an element at a given position into a list.
 Example:
-```
+``` kotlin
 > insertAt('new, 1, "abcd".toList())
 [a, X, b, d]
 ```
 
 #### P22 (*) Create a list containing all integers within a given range.
 Example:
-```
+``` kotlin
 > range(4, 9)
 [4, 5, 6, 7, 8, 9]
 ```
@@ -203,7 +203,7 @@ Example:
 #### P23 (*) Extract a given number of randomly selected elements from a list.
 Make sure there is a way to produce deterministic results.
 Example:
-```
+``` kotlin
 > randomSelect(3, "abcdefgh".toList())
 [c, h, f]
 ```
@@ -211,7 +211,7 @@ Example:
 #### P24 (*) Lotto: Draw N different random numbers from the set 1..M.
 Make sure there is a way to produce deterministic results.
 Example:
-```
+``` kotlin
 > lotto(6, 49)
 [32, 28, 8]
 ```
@@ -220,7 +220,7 @@ Example:
 Make sure there is a way to produce deterministic results.
 Hint: Use the solution of problem P23.
 Example:
-```
+``` kotlin
 > randomPermute("abcdef".toList())
 [d, b, e, f, a, c]
 ```
@@ -230,7 +230,7 @@ In how many ways can a committee of 3 be chosen from a group of 12 people?
 There are ``C(12,3) = 220`` possibilities, where ``C(N,K)`` denotes [binomial coefficient](https://en.wikipedia.org/wiki/Binomial_coefficient)). 
 For pure mathematicians, this result may be great. But we want to really generate all the possibilities.
 Example:
-```
+``` kotlin
 > combinations(3, "abcde".toList())
 [[c, b, a], [d, b, a], [e, b, a], [d, c, a], [e, c, a], [e, d, a], [d, c, b], [e, c, b], [e, d, b], [e, d, c]]
 ```
@@ -239,13 +239,13 @@ Example:
 a) In how many ways can a group of 9 people work in 3 disjoint subgroups of 2, 3 and 4 persons? 
 Write a function that generates all the possibilities.
 Example:
-```
+``` kotlin
 > group3(listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
 [[["Ida", "Hugo", "Gary", "Flip"], ["Evi", "David", "Carla"], ["Beat", "Aldo"]], ...
 ```
 b) Generalize the above predicate in a way that we can specify a list of group sizes and the predicate will return a list of groups.
 Example:
-```
+``` kotlin
 > group(listOf(2, 2, 5), listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
 [[["Ida", "Hugo", "Gary", "Flip", "Evi"], ["David", "Carla"], ["Beat", "Aldo"]], ...
 ```
@@ -260,7 +260,7 @@ a) We suppose that a list contains elements that are lists themselves.
 The objective is to sort elements of the list according to their length. 
 E.g. short lists first, longer lists later, or vice versa.
 Example:
-```
+``` kotlin
 > lengthSort(listOf("abc".toList(), "de".toList(), "fgh".toList(), "de".toList(), "ijkl".toList(), "mn".toList(), "o".toList()))
 [[o], [d, e], [d, e], [m, n], [a, b, c], [f, g, h], [i, j, k, l]]
 ```
@@ -268,7 +268,7 @@ b) Again, we suppose that a list contains elements that are lists themselves.
 But this time the objective is to sort elements according to their length frequency; 
 i.e. in the default, sorting is done ascendingly, lists with rare lengths are placed, others with a more frequent length come later.
 Example:
-```
+``` kotlin
 > lengthFreqSort(listOf("abc".toList(), "de".toList(), "fgh".toList(), "de".toList(), "ijkl".toList(), "mn".toList(), "o".toList()))
 [[i, j, k, l], [o], [a, b, c], [f, g, h], [d, e], [d, e], [m, n]]
 ```
@@ -281,21 +281,21 @@ This is the most frequent length.
 ### Arithmetic
 
 #### P31 (*) Determine whether a given integer number is [prime](https://en.wikipedia.org/wiki/Prime_number).
-```
+``` kotlin
 > 7.isPrime()
 true
 ```
 
 #### P32 (*) Determine the greatest common divisor of two positive integer numbers.
 Use [Euclid's algorithm](https://en.wikipedia.org/wiki/Euclidean_algorithm).
-```
+``` kotlin
 > gcd(36, 63)
 9
 ```
 
 #### P33 (*) Determine whether two positive integer numbers are [coprime](https://en.wikipedia.org/wiki/Coprime_integers).
 Two numbers are [coprime](https://en.wikipedia.org/wiki/Coprime_integers) if their greatest common divisor equals 1.
-```
+``` kotlin
 > 35.isCoprimeTo(64)
 true
 ```
@@ -303,21 +303,21 @@ true
 #### P34 (*) Calculate Euler's totient function phi(m).
 Euler's so-called [totient function](https://en.wikipedia.org/wiki/Euler%27s_totient_function) 
 phi(m) is defined as the number of positive integers r (1 <= r <= m) that are coprime to m.
-```
+``` kotlin
 > 10.totient()
 4
 ```
 
 #### P35 (*) Determine prime factors of a given positive integer.
 Construct a list containing prime factors in ascending order.
-```
+``` kotlin
 > 315.primeFactors()
 [3, 3, 5, 7]
 ```
 
 #### P36 (*) Determine the prime factors of a given positive integer (2).
 Construct a list containing prime factors and their multiplicity.
-```
+``` kotlin
 > 315.primeFactorMultiplicity()
 [(3, 2), (5, 1), (7, 1)]
 ```
@@ -335,7 +335,7 @@ Omitted. The assumption is that you already did the comparison, e.g. as unit tes
 
 #### P39 (*) A list of prime numbers.
 Given a range of integers by its lower and upper limit, construct a list of all prime numbers in that range.
-```
+``` kotlin
 > listPrimesInRange(7..31)
 [7, 11, 13, 17, 19, 23, 29, 31]
 ```
@@ -346,14 +346,14 @@ says that every positive even number greater than 2 is the sum of two prime numb
 E.g. ``28 = 5 + 23``. It is one of the most famous facts in number theory that has not been proved to be correct 
 in the general case. It has been numerically confirmed up to very large numbers (much larger than Kotlin's Int can represent). 
 Write a function to find the two prime numbers that sum up to a given even integer.
-```
+``` kotlin
 > 28.goldbach()
 (5, 23)
 ```
 
 #### P41 (*) A list of Goldbach compositions.
 Given a range of integers by its lower and upper limit, print a list of all even numbers and their Goldbach composition.
-```
+``` kotlin
 > printGoldbachList(9..20)
 10 = 3 + 7
 12 = 5 + 7
@@ -364,7 +364,7 @@ Given a range of integers by its lower and upper limit, print a list of all even
 ```
 In most cases, if an even number is written as the sum of two prime numbers, one of them is very small. 
 Very rarely, the primes are both bigger than, say, 50. Example (minimum value of 50 for the primes):
-```
+``` kotlin
 > printGoldbachListLimited(2..3000, 50)
 992 = 73 + 919
 1382 = 61 + 1321
@@ -378,7 +378,7 @@ Very rarely, the primes are both bigger than, say, 50. Example (minimum value of
 #### P46 (*) Truth tables for logical expressions.
 Define functions ``and_``, ``or_``, ``nand_``, ``nor_``, ``xor_``, ``impl_``, and ``equ_`` (for logical equivalence) 
 which return ``true`` or ``false`` according to the result of their respective operations.
-```
+``` kotlin
 > true.and_(true)
 true
 > true.xor_(true)
@@ -386,7 +386,7 @@ false
 ```
 
 Write a function called ``printTruthTable`` which prints the truth table of a given logical expression.
-```
+``` kotlin
 > printTruthTable{ a, b -> a.and_(a.or_(b.not_())) }
 a	    b	    result
 true	true	true
@@ -401,7 +401,7 @@ Omitted assuming it was done in the previous problem.
 #### P48 (*) Truth tables for logical expressions (3).
 Generalize problem 46 in such a way that the logical expression may contain any number of logical variables.
 Example:
-```
+``` kotlin
 > true.xor_(true, false, true)
 true
 ```
@@ -410,7 +410,7 @@ true
 An n-bit [Gray code](https://en.wikipedia.org/wiki/Gray_code) is a sequence of n-bit strings constructed according to certain rules. 
 Find out the construction rules and write a function to generate Gray codes.
 For example:
-```
+``` kotlin
 > grayCodes(bits = 1)
 [0, 1]
 > grayCodes(bits = 2)
@@ -424,7 +424,7 @@ If you are not familiar with Huffman coding, consult internet (or a good book on
 for a description of [Huffman coding](https://en.wikipedia.org/wiki/Huffman_coding).
 Given a list of characters with their frequencies, e.g. ``[('a', 45), ('b', 13), ('c', 12), ('d', 16), ('e', 9), ('f', 5)]``.
 Our objective is to construct a list of ``Pair``s, where first element is character and second is the Huffman code word for it.
-```
+``` kotlin
 > huffman(listOf(Pair('a', 45), Pair('b', 13), Pair('c', 12), Pair('d', 16), Pair('e', 9), Pair('f', 5)))
 [(a, 0), (b, 101), (c, 100), (d, 111), (e, 1101), (f, 1100)]
 ```
@@ -434,7 +434,8 @@ Our objective is to construct a list of ``Pair``s, where first element is charac
 ### Binary Trees
 
 A binary tree is either empty or it is composed of a root element and two successors, which are binary trees themselves.
-<img style="float: right;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif">
+
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif">
 
 We will use the following classes to represent binary trees (see P51.kt). 
 An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two descendant trees. 
@@ -445,7 +446,7 @@ Note the usage of [variance annotation](https://kotlinlang.org/docs/reference/ge
 must have at least one constructor parameter.
 ``End`` has type parameter of ``Nothing`` which is a subtype of every other type.
 
-```
+``` kotlin
 interface Tree<out T>
 
 data class Node<out T>(val value: T, val left: Tree<T> = End, val right: Tree<T> = End) : Tree<T> {
@@ -460,7 +461,7 @@ val End = object : Tree<Nothing>{
 }
 ```
 The example tree on the right is given by
-```
+``` kotlin
 Node('a',
     Node('b',
         Node('d'),
@@ -483,7 +484,7 @@ The number of nodes in its left subtree and the number of nodes in its right sub
 which means their difference is not greater than one.
 Define an object named Tree. Write a function ``balancedTrees`` to construct completely balanced binary trees for a given number of nodes. 
 The function should generate all solutions. The function should take as parameters the number of nodes and a single value to put in all of them.
-```
+``` kotlin
 > balancedTrees(4, "x")
 [T(x T(x) T(x . T(x))), T(x T(x . T(x)) T(x)), T(x T(x) T(x T(x) .)), T(x T(x T(x) .) T(x))]
 ```
@@ -494,14 +495,14 @@ then the right subtree is the mirror image of the left subtree.
 Add an ``isSymmetric`` method to the ``Tree`` to check whether a given binary tree is symmetric. 
 Hint: Write ``isMirrorOf`` method first to check whether one tree is the mirror image of another. 
 We are only interested in the structure, not in the contents of the nodes.
-```
+``` kotlin
 > Node('a', Node('b'), Node('c')).isSymmetric()
 true
 ```
 
 #### P57 (*) Binary search trees (dictionaries).
 Write a function to add an element to a binary search tree.
-```
+``` kotlin
 > End.add(2)
 T(2)
 > res0.add(3)
@@ -513,12 +514,12 @@ Note that definition of ``add`` should have ``T : Comparable<T>`` type constrain
 to allows us to use the ``<`` operator on the values in the tree.
 
 Use that function to construct a binary tree from a list of integers.
-```
+``` kotlin
 > listOf(3, 2, 5, 7, 1).toTree()
 T(3 T(2 T(1) .) T(5 . T(7)))
 ```
 Finally, use ``isSymmetric()`` from P56 to check conversion to tree.
-```
+``` kotlin
 > listOf(5, 3, 18, 1, 4, 12, 21).toTree().isSymmetric()
 true
 > listOf(3, 2, 5, 7, 4).toTree().isSymmetric()
@@ -528,7 +529,7 @@ false
 #### P58 (*) Generate-and-test paradigm.
 Apply the generate-and-test paradigm to construct all symmetric, 
 completely balanced binary trees with a given number of nodes.
-```
+``` kotlin
 > symmetricBalancedTrees(5, "x")
 [T(x T(x . T(x)) T(x T(x) .)), T(x T(x T(x) .) T(x . T(x)))]
 ```
@@ -538,27 +539,27 @@ In a height-balanced binary tree, the following property holds for every node:
 The height of its left subtree and the height of its right subtree are almost equal, which means their difference is not greater than one.
 Write a method ``heightBalancedTrees`` to construct height-balanced binary trees for a given height with a supplied value for the nodes. 
 The function should generate all solutions.
-```
+``` kotlin
 > heightBalancedTrees(3, "x")
 [T(x T(x T(x) T(x)) T(x T(x) T(x))), T(x T(x T(x) T(x)) T(x T(x) .)), ...]
 ```
 
 #### P60 (**) Construct height-balanced binary trees with a given number of nodes.
 Consider a height-balanced binary tree of height ``H``. What is the maximum number of nodes it can contain? 
-Clearly, ``MaxN = 2H - 1``. However, what is the minimum number ``MinN``? This question is more difficult. 
+Clearly, ``MaxN = 2*H - 1``. However, what is the minimum number ``MinN``? This question is more difficult. 
 Try to find a recursive statement and turn it into a function minHbalNodes that takes a height and returns MinN.
-```
+``` kotlin
 > minHbalNodes(3)
-res0: Int = 4
+4
 ```
 On the other hand, we might ask: what is the maximum height H a height-balanced binary tree with N nodes can have? 
 Write a maxHbalHeight function.
-```
+``` kotlin
 > maxHbalHeight(4)
 3
 ```
 Now, we can attack the main problem: construct all the height-balanced binary trees with a given nuber of nodes.
-```
+``` kotlin
 > Tree.hbalTreesWithNodes(4, "x")
 List(T(x T(x T(x . .) .) T(x . .)), T(x T(x . T(x . .)) T(x . .)), ...
 ```
@@ -566,7 +567,7 @@ Find out how many height-balanced trees exist for N = 15.
 
 #### P61 (*) Count the leaves of a binary tree.
 A leaf is a node with no successors. Write a method ``leafCount`` to count them.
-```
+``` kotlin
 > Node('x', Node('x'), End).leafCount()
 1
 ```
