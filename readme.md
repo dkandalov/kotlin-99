@@ -587,8 +587,8 @@ Write a method ``internalNodes`` to collect them in a list.
 ```
 
 #### P62B (*) Collect the nodes at a given level in a list.
-A node of a binary tree is at level N if the path from the root to the node has length N-1. The root node is at level 1. 
-Write a method ``atLevel`` to collect all nodes at a given level in a list.
+A node of a binary tree is at level ``N`` if the path from the root to the node has length ``N-1``. 
+The root node is at level 1. Write a method ``atLevel`` to collect all nodes at a given level in a list.
 ``` kotlin
 > Node('a', Node('b'), Node('c', Node('d'), Node('e'))).atLevel(2)
 [b, c]
@@ -597,16 +597,17 @@ Using ``atLevel`` it is easy to construct a method ``levelOrder`` which creates 
 However, there are more efficient ways to do that.
 
 #### P63 (**) Construct a complete binary tree.
-A complete binary tree with height H is defined as follows: The levels 1,2,3,...,H-1 contain the maximum number of nodes 
+A complete binary tree with height ``H`` is defined as follows: 
+The levels 1,2,3,...,H-1 contain the maximum number of nodes 
 (i.e 2(i-1) at the level i, note that we start counting the levels from 1 at the root). 
-In level H, which may contain less than the maximum possible number of nodes, all the nodes are "left-adjusted". 
-This means that in a levelorder tree traversal all internal nodes come first, the leaves come second, and empty successors 
-(the ``End``s which are not really nodes) come last.
+In level ``H``, which may contain less than the maximum possible number of nodes, all the nodes are "left-adjusted". 
+This means that in a level-order tree traversal all internal nodes come first, the leaves come second, 
+and empty successors (the ``End``s which are not really nodes) come last.
 Particularly, complete binary trees are used as data structures (or addressing schemes) for heaps.
 
 We can assign an address number to each node in a complete binary tree by enumerating the nodes in level order, 
-starting at the root with number 1. In doing so, we realize that for every node X with address A the following property holds: 
-The address of X's left and right successors are 2*A and 2*A+1, respectively, supposed the successors do exist. 
+starting at the root with number 1. In doing so, we realize that for every node ``X`` with address ``A`` the following property holds: 
+The address of ``X``'s left and right successors are ``2*A`` and ``2*A+1``, respectively, supposed the successors do exist. 
 This fact can be used to elegantly construct a complete binary tree structure. 
 Write a method ``completeBinaryTree`` that takes as parameters the number of nodes and the value to put in each node.
 ``` kotlin
@@ -616,7 +617,10 @@ T(x T(x T(x . .) T(x . .)) T(x T(x . .) .))
 
 #### P64 (**) Layout a binary tree (1).
 As a preparation for drawing a tree, a layout algorithm is required to determine the position of each node in a rectangular grid. 
-Several layout methods are conceivable, one of them is shown in the illustration on the right.
+Several layout methods are conceivable, one of them is shown in the illustration.
+
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p64.gif">
+
 In this layout strategy, the position of a node ``v`` is obtained by the following two rules:
 - ``x(v)`` is equal to the position of the node ``v`` in the inorder sequence
 - ``y(v)`` is equal to the depth of the node ``v`` in the tree
@@ -627,29 +631,37 @@ case class PositionedNode[+T](override val value: T, override val left: Tree[T],
 }
 ```
 Write a method ``layoutBinaryTree`` that turns a tree of normal Nodes into a tree of PositionedNodes.
-```
+``` kotlin
 > Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree()
 T[3,1](a T[1,2](b . T[2,3](c . .)) T[4,2](d . .))
 ```
-The tree at right may be constructed with ``fromList(List('n','k','m','c','a','h','g','e','u','p','s','q'))``. 
+The tree in the picture can be constructed with ``fromList(List('n','k','m','c','a','h','g','e','u','p','s','q'))``. 
 
 #### P65 (**) Layout a binary tree (2).
-An alternative layout method is depicted in the illustration opposite. Find out the rules and write the corresponding method. 
+An alternative layout method is depicted in the illustration below. 
+
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p65.gif">
+
+Find out the rules and write the corresponding method. 
 Hint: On a given level, the horizontal distance between neighboring nodes is constant.
 Use the same conventions as in problem P64.
-```
+``` kotlin
 > Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree2()
 T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
 ```
 The tree at right may be constructed with Tree.fromList(List('n','k','m','c','a','e','d','g','u','p','q')). Use it to check your code.
 
 #### P66 (***) Layout a binary tree (3).
-Yet another layout strategy is shown in the illustration opposite. The method yields a very compact layout 
-while maintaining a certain symmetry in every node. Find out the rules and write the corresponding method. 
+Yet another layout strategy is shown in the illustration below. 
+
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p66.gif">
+
+The method yields a very compact layout while maintaining a certain symmetry in every node. 
+Find out the rules and write the corresponding method. 
 Hint: Consider the horizontal distance between a node and its successor nodes. 
 How tight can you pack together two subtrees to construct the combined binary tree?
 Use the same conventions as in problem P64 and P65. Note: This is a difficult problem. Don't give up too early!
-```
+``` kotlin
 > Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree3()
 T[2,1]('a T[1,2]('b . T[2,3]('c . .)) T[3,2]('d . .))
 ```
@@ -663,26 +675,27 @@ Use that method for the Tree class's and subclass's toString methods. Then write
 i.e. given the string representation, construct the tree in the usual form.
 
 For simplicity, suppose the information in the nodes is a single letter and there are no spaces in the string.
-```
+``` kotlin
 > Node('a', Node('b', Node('d'), Node('e')), Node('c', End, Node('f', Node('g'), End))).toString
 a(b(d,e),c(,f(g,)))
-> Tree.fromString("a(b(d,e),c(,f(g,)))")
+> treeFromString("a(b(d,e),c(,f(g,)))")
 a(b(d,e),c(,f(g,)))
 ```
 
 #### P68 (**) Preorder and inorder sequences of binary trees.
 We consider binary trees with nodes that are identified by single lower-case letters, as in the example of problem P67.
+
 a) Write methods preorder and inorder that construct the preorder and inorder sequence of a given binary tree, respectively. 
-The results should be lists, e.g. List('a','b','d','e','c','f','g') for the preorder sequence of the example in problem P67.
-```
+The results should be lists, e.g. ``['a','b','d','e','c','f','g']`` for the preorder sequence of the example in problem P67.
+``` kotlin
 > Tree.string2Tree("a(b(d,e),c(,f(g,)))").preorder()
 [a, b, d, e, c, f, g]
 > Tree.string2Tree("a(b(d,e),c(,f(g,)))").inorder()
 [d, b, e, a, c, g, f]
 ```
 b) If both the preorder sequence and the inorder sequence of the nodes of a binary tree are given, 
-then the tree is determined unambiguously. Write a method preInTree that does the job.
-```
+then the tree is determined unambiguously. Write a method ``preInTree`` that does the job.
+``` kotlin
 > Tree.preInTree(List('a', 'b', 'd', 'e', 'c', 'f', 'g'), List('d', 'b', 'e', 'a', 'c', 'g', 'f'))
 a(b(d,e),c(,f(g,)))
 ```
@@ -694,7 +707,7 @@ We consider again binary trees with nodes that are identified by single lower-ca
 Such a tree can be represented by the preorder sequence of its nodes in which dots (.) are inserted where an empty subtree (End) 
 is encountered during the tree traversal. For example, the tree shown in problem P67 is represented as "abd..e..c.fg...". 
 First, try to establish a syntax (BNF or syntax diagrams) and then write two methods, toDotstring and fromDotstring, which do the conversion in both directions.
-```
+``` kotlin
 > Tree.string2Tree("a(b(d,e),c(,f(g,)))").toDotstring
 abd..e..c.fg...
 > Tree.fromDotstring("abd..e..c.fg...")
