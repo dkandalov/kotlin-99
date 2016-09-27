@@ -434,8 +434,9 @@ Our objective is to construct a list of ``Pair``s, where first element is charac
 ### Binary Trees
 
 A binary tree is either empty or it is composed of a root element and two successors, which are binary trees themselves.
+<img style="float: right;" src="img/p67.jpg">
 
-We shall use the following classes to represent binary trees (see P51.kt). 
+We will use the following classes to represent binary trees (see P51.kt). 
 An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two descendant trees. 
 The ``toString()`` functions are relatively arbitrary and were written to produce minimal readable output.
 Note the usage of [variance annotation](https://kotlinlang.org/docs/reference/generics.html#declaration-site-variance) 
@@ -535,11 +536,11 @@ completely balanced binary trees with a given number of nodes.
 #### P59 (**) Construct height-balanced binary trees.
 In a height-balanced binary tree, the following property holds for every node: 
 The height of its left subtree and the height of its right subtree are almost equal, which means their difference is not greater than one.
-Write a method ``Tree.hbalTrees`` to construct height-balanced binary trees for a given height with a supplied value for the nodes. 
+Write a method ``heightBalancedTrees`` to construct height-balanced binary trees for a given height with a supplied value for the nodes. 
 The function should generate all solutions.
 ```
-> Tree.hbalTrees(3, "x")
-List(T(x T(x T(x . .) T(x . .)) T(x T(x . .) T(x . .))), T(x T(x T(x . .) T(x . .)) T(x T(x . .) .)), ...
+> heightBalancedTrees(3, "x")
+[(T(x T(x T(x) T(x)) T(x T(x) T(x))), T(x T(x T(x) T(x)) T(x T(x) .)), ...]
 ```
 
 #### P60 (**) Construct height-balanced binary trees with a given number of nodes.
