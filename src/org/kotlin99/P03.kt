@@ -5,7 +5,7 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import java.util.*
 
-fun <T> nth(n: Int, list: List<T>): T {
+tailrec fun <T> nth(n: Int, list: List<T>): T {
     if (n < 0) throw IllegalArgumentException()
     return if (n == 0) list.first() else nth(n - 1, list.drop(1))
 }

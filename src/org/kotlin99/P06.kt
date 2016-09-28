@@ -4,7 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
-fun <T> isPalindrome(list: List<T>): Boolean =
+tailrec fun <T> isPalindrome(list: List<T>): Boolean =
     if (list.size <= 1) true
     else if (list.first() != list.last()) false
     else isPalindrome(list.drop(1).dropLast(1))

@@ -3,6 +3,7 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.P55Test.Companion.nodeList
 
 fun maxNodeAmountInHBTree(height: Int): Int =
     Math.pow(2.0, height.toDouble()).toInt() - 1
@@ -87,7 +88,7 @@ class P60Test {
     }
 
     @Test fun `all height-balanced trees (with specified amount of nodes)`() {
-        assertThat(allHBTreesWithNodeAmount(4, "x"), hasSameElementsAs(P55Test.nodeList(
+        assertThat(allHBTreesWithNodeAmount(4, "x"), hasSameElementsAs(nodeList(
                 Node("x",
                     Node("x", Node("x"), End),
                     Node("x")),

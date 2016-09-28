@@ -1,8 +1,8 @@
 package org.kotlin99
 
 import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.P57Test.Companion.equalTo
 
 data class Point(val x: Int, val y: Int)
 
@@ -29,23 +29,23 @@ fun <T> Tree<T>.layout(xShift: Int = 0, y: Int = 1): Tree<Positioned<T>> =
 
 class P64Test {
     @Test fun `layout binary tree (1)`() {
-        assertThat(Node("a").layout(), equalTo<Tree<Positioned<String>>>(Node(Positioned("a", 1, 1))))
-        assertThat(Node("a", Node("b")).layout(), equalTo<Tree<Positioned<String>>>(
+        assertThat(Node("a").layout(), equalTo(Node(Positioned("a", 1, 1))))
+        assertThat(Node("a", Node("b")).layout(), equalTo(
                 Node(Positioned("a", 2, 1),
                      Node(Positioned("b", 1, 2)),
                      End)
         ))
-        assertThat(Node("a", Node("b"), Node("c")).layout(), equalTo<Tree<Positioned<String>>>(
+        assertThat(Node("a", Node("b"), Node("c")).layout(), equalTo(
                 Node(Positioned("a", 2, 1),
                      Node(Positioned("b", 1, 2)),
                      Node(Positioned("c", 3, 2)))
         ))
-        assertThat(Node("a", Node("b", End, Node("c")), Node("d")).layout(), equalTo<Tree<Positioned<String>>>(
+        assertThat(Node("a", Node("b", End, Node("c")), Node("d")).layout(), equalTo(
                 Node(Positioned("a", 3, 1),
                      Node(Positioned("b", 1, 2), End, Node(Positioned("c", 2, 3))),
                      Node(Positioned("d", 4, 2)))
         ))
-        assertThat(Node("a", Node("b", Node("b1"), Node("b2")), Node("c", Node("c1"), Node("c2"))).layout(), equalTo<Tree<Positioned<String>>>(
+        assertThat(Node("a", Node("b", Node("b1"), Node("b2")), Node("c", Node("c1"), Node("c2"))).layout(), equalTo(
                 Node(Positioned("a", 4, 1),
                      Node(Positioned("b", 2, 2),
                           Node(Positioned("b1", 1, 3)),
