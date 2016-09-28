@@ -505,7 +505,7 @@ Add an ``isSymmetric`` method to the ``Tree`` to check whether a given binary tr
 Hint: Write ``isMirrorOf`` method first to check whether one tree is the mirror image of another. 
 We are only interested in the structure, not in the contents of the nodes.
 ``` kotlin
-> Node('a', Node('b'), Node('c')).isSymmetric()
+> Node("a", Node("b"), Node("c")).isSymmetric()
 true
 ```
 
@@ -625,25 +625,30 @@ T(x T(x T(x) T(x)) T(x T(x) .))
 
 #### [P64][] (**) Layout a binary tree (1).
 As a preparation for drawing a tree, a layout algorithm is required to determine the position of each node in a rectangular grid. 
-Several layout methods are conceivable, one of them is shown in the illustration.
+Several layout methods are conceivable, one of them is shown in the illustration below.
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p64.gif">
 
 In this layout strategy, the position of a node ``v`` is obtained by the following two rules:
-- ``x(v)`` is equal to the position of the node ``v`` in the inorder sequence
+- ``x(v)`` is equal to the position of the node ``v`` in the in-order sequence
 - ``y(v)`` is equal to the depth of the node ``v`` in the tree
-In order to store the position of the nodes, we add a new class with the additional information.
-```
-case class PositionedNode[+T](override val value: T, override val left: Tree[T], override val right: Tree[T], x: Int, y: Int) extends Node[T](value, left, right) {
-  override def toString = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
+In order to store the position of the nodes, we add a new data classes with the additional information.
+``` kotlin
+data class Point(val x: Int, val y: Int)
+
+data class Positioned<out T>(val value: T, val point: Point) {
+    constructor (value: T, x: Int, y: Int) : this(value, Point(x, y))
+
+    override fun toString(): String =
+            "[" + point.x.toString() + "," + point.y.toString() + "] " + value.toString()
 }
 ```
-Write a method ``layoutBinaryTree`` that turns a tree of normal Nodes into a tree of PositionedNodes.
+Write a method ``layout`` that turns a tree of normal ``Node``s into a tree with positions ``Tree<Positioned<T>>``.
 ``` kotlin
-> Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree()
-T[3,1](a T[1,2](b . T[2,3](c . .)) T[4,2](d . .))
+> Node("a", Node("b", End, Node("c")), Node("d")).layout()
+T([3,1] a T([1,2] b . T([2,3] c)) T([4,2] d))
 ```
-The tree in the picture can be constructed with ``fromList(List('n','k','m','c','a','h','g','e','u','p','s','q'))``. 
+The tree in the picture can be constructed with ``listOf('n','k','m','c','a','h','g','e','u','p','s','q').toTree()``. 
 
 #### [P65][] (**) Layout a binary tree (2).
 An alternative layout method is depicted in the illustration below. 
@@ -652,12 +657,12 @@ An alternative layout method is depicted in the illustration below.
 
 Find out the rules and write the corresponding method. 
 Hint: On a given level, the horizontal distance between neighboring nodes is constant.
-Use the same conventions as in problem P64.
+Use the same conventions as in the problem [P64](#P64).
 ``` kotlin
 > Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree2()
 T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
 ```
-The tree at right may be constructed with Tree.fromList(List('n','k','m','c','a','e','d','g','u','p','q')). Use it to check your code.
+The tree in the picture can be constructed with ``fromList(listOf('n','k','m','c','a','e','d','g','u','p','q'))``.
 
 #### [P66][] (***) Layout a binary tree (3).
 Yet another layout strategy is shown in the illustration below. 

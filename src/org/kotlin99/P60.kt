@@ -21,9 +21,9 @@ fun minHeightOfHBTree(nodeAmount: Int): Int =
         if (nodeAmount == 0) 0
         else minHeightOfHBTree(nodeAmount / 2) + 1
 
-fun <T> Tree<T>.nodeAmount(): Int = when {
+fun <T> Tree<T>.nodeCount(): Int = when {
     this == End -> 0
-    this is Node<T> -> 1 + left.nodeAmount() + right.nodeAmount()
+    this is Node<T> -> 1 + left.nodeCount() + right.nodeCount()
     else -> throw IllegalStateException()
 }
 
@@ -31,7 +31,7 @@ fun <T> allHBTreesWithNodeAmount(nodeAmount: Int, value: T): List<Tree<T>> {
     val heightRange = minHeightOfHBTree(nodeAmount)..maxHeightOfHBTree(nodeAmount)
     return heightRange
         .flatMap{ heightBalancedTrees(it, value) }
-        .filter{ it.nodeAmount() == nodeAmount }
+        .filter{ it.nodeCount() == nodeAmount }
 }
 
 
@@ -81,9 +81,9 @@ class P60Test {
     }
 
     @Test fun `amount of nodes in a tree`() {
-        assertThat(End.nodeAmount(), equalTo(0))
-        assertThat(Node("x").nodeAmount(), equalTo(1))
-        assertThat(Node("x", Node("x", Node("x"))).nodeAmount(), equalTo(3))
+        assertThat(End.nodeCount(), equalTo(0))
+        assertThat(Node("x").nodeCount(), equalTo(1))
+        assertThat(Node("x", Node("x", Node("x"))).nodeCount(), equalTo(3))
     }
 
     @Test fun `all height-balanced trees (with specified amount of nodes)`() {
