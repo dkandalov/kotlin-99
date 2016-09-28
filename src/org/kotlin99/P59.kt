@@ -32,7 +32,7 @@ fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
 fun <T> Tree<T>.height(): Int =
         if (this == End) 0
         else if (this is Node<T>) 1 + Math.max(left.height(), right.height())
-        else throw IllegalStateException()
+        else throw UnknownTreeImplementation(this)
 
 fun <T> Tree<T>.nodes(): List<Node<T>> = when {
     this is Node<T> -> left.nodes() + right.nodes() + this

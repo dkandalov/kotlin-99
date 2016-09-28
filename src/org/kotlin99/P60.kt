@@ -24,7 +24,7 @@ fun minHeightOfHBTree(nodeAmount: Int): Int =
 fun <T> Tree<T>.nodeCount(): Int = when {
     this == End -> 0
     this is Node<T> -> 1 + left.nodeCount() + right.nodeCount()
-    else -> throw IllegalStateException()
+    else -> throw throw UnknownTreeImplementation(this)
 }
 
 fun <T> allHBTreesWithNodeAmount(nodeAmount: Int, value: T): List<Tree<T>> {

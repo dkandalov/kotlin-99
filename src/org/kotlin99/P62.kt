@@ -10,7 +10,7 @@ fun <T> Tree<T>.valuesAtLevel(n: Int): List<T> =
             if (n == 1) listOf(this.value)
             else left.valuesAtLevel(n - 1) + right.valuesAtLevel(n - 1)
         } else {
-            throw IllegalStateException()
+            throw throw UnknownTreeImplementation(this)
         }
 
 

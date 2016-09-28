@@ -17,6 +17,10 @@ val End = object : Tree<Nothing> {
     override fun toString() = "."
 }
 
+class UnknownTreeImplementation(message: String) : RuntimeException(message) {
+    constructor (any: Any): this(any.toString())
+}
+
 
 class P51Test {
     @Test fun `tree construction and string conversion`() {

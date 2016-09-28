@@ -18,7 +18,7 @@ fun <T : Comparable<T>> Tree<T>.add(value: T): Tree<T> =
             if (this.value < value) copy(right = right.add(value))
             else copy(left = left.add(value))
         } else {
-            throw IllegalStateException()
+            throw UnknownTreeImplementation(this)
         }
 
 
