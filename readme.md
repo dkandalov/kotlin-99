@@ -448,7 +448,7 @@ A binary tree is either empty or it is composed of a root element and two succes
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif">
 
-We will use the following classes to represent binary trees (see [P51.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P50.kt)). 
+We will use the following classes to represent binary trees (see [P51.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P51.kt)). 
 An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two descendant trees. 
 The ``toString()`` functions are relatively arbitrary and were written to produce minimal readable output.
 Note the usage of [variance annotation](https://kotlinlang.org/docs/reference/generics.html#declaration-site-variance) 
