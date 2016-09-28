@@ -604,23 +604,23 @@ The root node is at level 1. Write a method ``valuesAtLevel`` to collect all nod
 Using ``valuesAtLevel`` it is easy to construct a method to create the level-order sequence of the nodes. 
 However, there are more efficient ways to do that.
 
-#### [P63][] (**) Construct a complete binary tree.
-A complete binary tree with height ``H`` is defined as follows: 
-The levels 1,2,3,...,H-1 contain the maximum number of nodes 
-(i.e 2(i-1) at the level i, note that we start counting the levels from 1 at the root). 
-In level ``H``, which may contain less than the maximum possible number of nodes, all the nodes are "left-adjusted". 
+#### [P63][] (*) Construct a complete binary tree.
+A [complete binary tree](https://en.wikipedia.org/wiki/Binary_tree#Types_of_binary_trees) with height ``H`` is defined as follows: 
+The levels ``1,2,3,...,H-1`` contain the maximum number of nodes, i.e ``2(i-1)`` nodes at the level ``i`` (note that we start counting the levels from 1 at the root). 
+At level ``H``, which may contain less than the maximum possible number of nodes, all the nodes are "left-adjusted". 
 This means that in a level-order tree traversal all internal nodes come first, the leaves come second, 
 and empty successors (the ``End``s which are not really nodes) come last.
 Particularly, complete binary trees are used as data structures (or addressing schemes) for heaps.
 
 We can assign an address number to each node in a complete binary tree by enumerating the nodes in level order, 
 starting at the root with number 1. In doing so, we realize that for every node ``X`` with address ``A`` the following property holds: 
-The address of ``X``'s left and right successors are ``2*A`` and ``2*A+1``, respectively, supposed the successors do exist. 
-This fact can be used to elegantly construct a complete binary tree structure. 
+The address of ``X``'s left and right children are ``2*A`` and ``2*A+1`` (assuming the children exist). 
+This fact can be used to elegantly construct a complete binary tree structure.
+ 
 Write a method ``completeBinaryTree`` that takes as parameters the number of nodes and the value to put in each node.
 ``` kotlin
 > completeBinaryTree(6, "x")
-T(x T(x T(x . .) T(x . .)) T(x T(x . .) .))
+T(x T(x T(x) T(x)) T(x T(x) .))
 ```
 
 #### [P64][] (**) Layout a binary tree (1).
@@ -1193,6 +1193,7 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P07]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P07.kt
 [P08]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P08.kt
 [P09]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P09.kt
+
 [P10]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P10.kt
 [P11]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P11.kt
 [P12]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P12.kt
@@ -1204,6 +1205,7 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P18]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P18.kt
 [P19]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P19.kt
 [P20]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P20.kt
+
 [P21]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P21.kt
 [P22]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P22.kt
 [P23]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P23.kt
@@ -1213,6 +1215,7 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P27]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P27.kt
 [P28]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P28.kt
 [P29]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P29.kt
+
 [P30]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P30.kt
 [P31]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P31.kt
 [P32]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P32.kt
@@ -1224,6 +1227,7 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P38]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P38.kt
 [P39]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P39.kt
 [P30]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P30.kt
+
 [P41]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P41.kt
 [P42]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P42.kt
 [P43]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P43.kt
@@ -1233,6 +1237,7 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P47]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P47.kt
 [P48]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P48.kt
 [P49]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P49.kt
+
 [P50]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P50.kt
 [P54]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P54.kt
 [P55]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P55.kt
@@ -1240,6 +1245,7 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P57]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P57.kt
 [P58]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P58.kt
 [P59]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P59.kt
+
 [P60]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P60.kt
 [P61]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P61.kt
 [P62]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P62.kt
@@ -1250,3 +1256,31 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P67]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P67.kt
 [P68]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P68.kt
 [P69]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P69.kt
+
+[P70]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P70.kt
+[P71]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P71.kt
+[P72]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P72.kt
+[P73]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P73.kt
+
+[P80]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P80.kt
+[P81]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P81.kt
+[P82]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P82.kt
+[P83]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P83.kt
+[P84]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P84.kt
+[P85]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P85.kt
+[P86]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P86.kt
+[P87]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P87.kt
+[P88]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P88.kt
+[P89]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P89.kt
+
+[P90]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P90.kt
+[P91]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P91.kt
+[P92]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P92.kt
+[P93]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P93.kt
+[P94]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P94.kt
+[P95]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P95.kt
+[P96]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P96.kt
+[P97]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P97.kt
+[P98]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P98.kt
+[P99]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P99.kt
+
