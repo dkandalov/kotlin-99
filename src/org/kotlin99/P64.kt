@@ -23,7 +23,7 @@ fun <T> Tree<T>.layout(xShift: Int = 0, y: Int = 1): Tree<Positioned<T>> =
             val point = Point(left.nodeCount() + 1 + xShift, y)
             Node(Positioned(value, point), positionedLeft, positionedRight)
         } else {
-            throw throw UnknownTreeImplementation(this)
+            throw UnknownTreeImplementation(this)
         }
 
 
