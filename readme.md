@@ -527,7 +527,7 @@ Use that function to construct a binary tree from a list of integers.
 > listOf(3, 2, 5, 7, 1).toTree()
 T(3 T(2 T(1) .) T(5 . T(7)))
 ```
-Finally, use ``isSymmetric()`` from P56 to check conversion to tree.
+Finally, use ``isSymmetric()`` from [P56](#p56--symmetric-binary-trees) to check conversion to tree.
 ``` kotlin
 > listOf(5, 3, 18, 1, 4, 12, 21).toTree().isSymmetric()
 true
@@ -657,12 +657,12 @@ An alternative layout method is depicted in the illustration below.
 
 Find out the rules and write the corresponding method. 
 Hint: On a given level, the horizontal distance between neighboring nodes is constant.
-Use the same conventions as in the problem [P64](#P64).
+Use the same conventions as in the problem [P64](#p64--layout-a-binary-tree-1).
 ``` kotlin
-> Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree2()
+> Node("a", Node("b", End, Node("c")), Node("d")).layout2()
 T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
 ```
-The tree in the picture can be constructed with ``fromList(listOf('n','k','m','c','a','e','d','g','u','p','q'))``.
+The tree in the picture can be constructed with ``listOf('n','k','m','c','a','e','d','g','u','p','q').toTree()``.
 
 #### [P66][] (***) Layout a binary tree (3).
 Yet another layout strategy is shown in the illustration below. 
@@ -673,7 +673,8 @@ The method yields a very compact layout while maintaining a certain symmetry in 
 Find out the rules and write the corresponding method. 
 Hint: Consider the horizontal distance between a node and its successor nodes. 
 How tight can you pack together two subtrees to construct the combined binary tree?
-Use the same conventions as in problem P64 and P65. Note: This is a difficult problem. Don't give up too early!
+Use the same conventions as in problem [P64](#p64--layout-a-binary-tree-1) and [P65](#p65--layout-a-binary-tree-2). 
+Note: This is a difficult problem. Don't give up too early!
 ``` kotlin
 > Node('a', Node('b', End, Node('c')), Node('d')).layoutBinaryTree3()
 T[2,1]('a T[1,2]('b . T[2,3]('c . .)) T[3,2]('d . .))
@@ -765,8 +766,8 @@ Write a method nodeCount which counts the nodes of a given multiway tree.
 We suppose that the nodes of a multiway tree contain single characters. In the depth-first order sequence of its nodes, 
 a special character ^ has been inserted whenever, during the tree traversal, the move is a backtrack to the previous level.
 By this rule, the tree in the figure opposite is represented as: ``afg^^c^bd^e^^^``.
-Define the syntax of the string and write a function string2MTree to construct an MTree from a String. 
-Make the function an implicit conversion from String. Write the reverse function, and make it the toString method of MTree.
+Define the syntax of the string and write a function string2MTree to construct an MTree from a ``String``. 
+Make the function an implicit conversion from ``String``. Write the reverse function, and make it the toString method of MTree.
 ```
 > MTree('a', List(MTree('f', List(MTree('g'))), MTree('c'), MTree('b', List(MTree('d'), MTree('e'))))).toString()
 afg^^c^bd^e^^^

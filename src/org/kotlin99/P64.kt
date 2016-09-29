@@ -18,10 +18,9 @@ fun <T> Tree<T>.layout(xShift: Int = 0, y: Int = 1): Tree<Positioned<T>> =
         if (this == End) {
             End
         } else if (this is Node<T>) {
-            val positionedLeft = left.layout(xShift, y + 1)
-            val positionedRight = right.layout(left.nodeCount() + 1 + xShift, y + 1)
-            val point = Point(left.nodeCount() + 1 + xShift, y)
-            Node(Positioned(value, point), positionedLeft, positionedRight)
+            Node(value = Positioned(value, Point(left.nodeCount() + 1 + xShift, y)),
+                 left = left.layout(xShift, y + 1),
+                 right = right.layout(left.nodeCount() + 1 + xShift, y + 1))
         } else {
             throw UnknownTreeImplementation(this)
         }
