@@ -27,13 +27,13 @@ fun <T : Comparable<T>> Tree<T>.add(value: T): Tree<T> =
 
 class P57Test {
     @Test fun `add element to tree`() {
-        assertThat(End.add(2), equalTo(Node(2)))
-        assertThat(Node(2).add(3), equalTo(Node(2, End, Node(3))))
-        assertThat(Node(2, End, Node(3)).add(0), equalTo(Node(2, Node(0), Node(3))))
+        assertThat(End.add(2), treeEqualTo(Node(2)))
+        assertThat(Node(2).add(3), treeEqualTo(Node(2, End, Node(3))))
+        assertThat(Node(2, End, Node(3)).add(0), treeEqualTo(Node(2, Node(0), Node(3))))
     }
 
     @Test fun `convert list to tree`() {
-        assertThat(listOf(3, 2, 5, 7, 1).toTree(), equalTo(
+        assertThat(listOf(3, 2, 5, 7, 1).toTree(), treeEqualTo(
             Node(3,
                 Node(2, Node(1), End),
                 Node(5, End, Node(7)))
@@ -56,6 +56,6 @@ class P57Test {
          *
          * There might be a better solution than this but I'm not aware of it.
          */
-        fun <T> equalTo(expected: Node<T>): Matcher<Tree<T>> = equalTo(expected as Tree<T>)
+        fun <T> treeEqualTo(expected: Node<T>): Matcher<Tree<T>> = equalTo(expected as Tree<T>)
     }
 }

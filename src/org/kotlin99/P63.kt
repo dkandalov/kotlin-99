@@ -3,7 +3,7 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.P57Test.Companion.equalTo
+import org.kotlin99.P57Test.Companion.treeEqualTo
 
 fun <T> completeBinaryTree(nodeAmount: Int, value: T): Tree<T> {
     fun generate(nodeAddress: Int): Tree<T> =
@@ -15,16 +15,16 @@ fun <T> completeBinaryTree(nodeAmount: Int, value: T): Tree<T> {
 
 class P63Test {
     @Test fun `construct complete binary tree`() {
-        assertThat(completeBinaryTree(1, "x"), equalTo(
+        assertThat(completeBinaryTree(1, "x"), treeEqualTo(
                 Node("x")
         ))
-        assertThat(completeBinaryTree(2, "x"), equalTo(
+        assertThat(completeBinaryTree(2, "x"), treeEqualTo(
                 Node("x", Node("x"))
         ))
-        assertThat(completeBinaryTree(3, "x"), equalTo(
+        assertThat(completeBinaryTree(3, "x"), treeEqualTo(
                 Node("x", Node("x"), Node("x"))
         ))
-        assertThat(completeBinaryTree(6, "x"), equalTo(
+        assertThat(completeBinaryTree(6, "x"), treeEqualTo(
                 Node("x",
                     Node("x", Node("x"), Node("x")),
                     Node("x", Node("x"), End))
