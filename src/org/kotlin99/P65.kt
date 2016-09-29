@@ -1,8 +1,9 @@
 package org.kotlin99
 
 import com.natpryce.hamkrest.assertion.assertThat
+import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.P57Test.Companion.equalTo
+import org.kotlin99.P64Test.Companion.toPrettyString
 
 fun <T> Tree<T>.layout2(parentX: Int = 0, y: Int = 1, totalHeight: Int = height()): Tree<Positioned<T>> =
     if (this == End) End
@@ -28,39 +29,82 @@ fun <T> Tree<T>.layout2(parentX: Int = 0, y: Int = 1, totalHeight: Int = height(
 
 class P65Test {
     @Test fun `layout binary tree (2)`() {
-        assertThat(Node("a").layout2(), equalTo(
-                Node(Positioned("a", 1, 1))
-        ))
-        assertThat(Node("a", Node("b")).layout2(), equalTo(
-                Node(Positioned("a", 2, 1),
-                     Node(Positioned("b", 1, 2)),
-                     End)
-        ))
-        assertThat(Node("a", Node("b"), Node("c")).layout2(), equalTo(
-                Node(Positioned("a", 2, 1),
-                     Node(Positioned("b", 1, 2)),
-                     Node(Positioned("c", 3, 2)))
-        ))
-        assertThat(Node("a", Node("b", Node("c"))).layout2(), equalTo(
-                Node(Positioned("a", 4, 1),
-                     Node(Positioned("b", 2, 2),
-                          Node(Positioned("c", 1, 3))))
-        ))
-        assertThat(Node("a", End, Node("b", End, Node("c"))).layout2(), equalTo(
-                Node(Positioned("a", 1, 1),
-                     End,
-                     Node(Positioned("b", 3, 2),
-                          End,
-                          Node(Positioned("c", 4, 3))))
-        ))
-        assertThat(Node("a", Node("b", Node("b1"), Node("b2")), Node("c", Node("c1"), Node("c2"))).layout2(), equalTo(
-                Node(Positioned("a", 4, 1),
-                     Node(Positioned("b", 2, 2),
-                          Node(Positioned("b1", 1, 3)),
-                          Node(Positioned("b2", 3, 3))),
-                     Node(Positioned("c", 6, 2),
-                          Node(Positioned("c1", 5, 3)),
-                          Node(Positioned("c2", 7, 3))))
-        ))
+        assertThat(
+                Node("a").layout2().toPrettyString(),
+                equalTo("""
+                | 012
+                |0···
+                |1·a·
+                |2···
+            """.trimMargin()))
+
+        assertThat(
+                Node("a", Node("b")).layout2().toPrettyString(),
+                equalTo("""
+                | 0123
+                |0····
+                |1··a·
+                |2·b··
+                |3····
+            """.trimMargin()))
+
+        assertThat(
+                Node("a", Node("b"), Node("c")).layout2().toPrettyString(),
+                equalTo("""
+                | 01234
+                |0·····
+                |1··a··
+                |2·b·c·
+                |3·····
+            """.trimMargin()))
+
+        assertThat(
+                Node("a", Node("b", Node("c"))).layout2().toPrettyString(),
+                equalTo("""
+                | 012345
+                |0······
+                |1····a·
+                |2··b···
+                |3·c····
+                |4······
+                """.trimMargin()))
+
+        assertThat(
+                Node("a", End, Node("b", End, Node("c"))).layout2().toPrettyString(),
+                equalTo("""
+                | 012345
+                |0······
+                |1·a····
+                |2···b··
+                |3····c·
+                |4······
+                """.trimMargin()))
+
+        assertThat(
+                Node("a", Node("b", Node("d"), Node("e")), Node("c", Node("f"), Node("g"))).layout2().toPrettyString(),
+                equalTo("""
+                | 012345678
+                |0·········
+                |1····a····
+                |2··b···c··
+                |3·d·e·f·g·
+                |4·········
+                """.trimMargin()))
     }
+
+    @Test fun `P65 illustration example`() {
+        assertThat(
+                listOf('n','k','m','c','a','e','d','g','u','p','q').toTree().layout2().toPrettyString(),
+                equalTo("""
+                | 0123456789012345678901234
+                |0·························
+                |1···············n·········
+                |2·······k···············u·
+                |3···c·······m·······p·····
+                |4·a···e···············q···
+                |5····d·g··················
+                |6·························
+                """.trimMargin()))
+    }
+
 }
