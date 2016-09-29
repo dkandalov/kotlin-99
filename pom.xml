@@ -33,6 +33,8 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>src</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -41,16 +43,11 @@
                 <executions>
                     <execution>
                         <id>compile</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirs>
-                                <source>target/generated-sources/annotations</source>
-                                <source>src/main/kotlin</source>
-                            </sourceDirs>
-                        </configuration>
+                        <goals> <goal>compile</goal> </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <goals> <goal>test-compile</goal> </goals>
                     </execution>
                 </executions>
             </plugin>
