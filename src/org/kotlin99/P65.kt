@@ -94,7 +94,7 @@ class P65Test {
 
     @Test fun `P65 illustration example`() {
         assertThat(
-                listOf('n','k','m','c','a','e','d','g','u','p','q').toTree().layout2().toPrettyString(),
+                "nkmcaedgupq".toList().toTree().layout2().toPrettyString(),
                 equalTo("""
                 | 0123456789012345678901234
                 |0·························

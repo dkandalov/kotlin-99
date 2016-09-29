@@ -14,6 +14,11 @@ data class Positioned<out T>(val value: T, val point: Point) {
 }
 
 
+/**
+ * Assigned coordinates to tree nodes where:
+ * - X is determined by the position of parent node and the amount of current node left children
+ * - Y is depth of current node (root node has depth 1)
+ */
 fun <T> Tree<T>.layout(xShift: Int = 0, y: Int = 1): Tree<Positioned<T>> =
         if (this == End) {
             End
@@ -107,7 +112,7 @@ class P64Test {
 
     @Test fun `P64 illustration example`() {
         assertThat(
-                listOf('n','k','m','c','a','h','g','e','u','p','s','q').toTree().layout().toPrettyString(),
+                "nkmcahgeupsq".toList().toTree().layout().toPrettyString(),
                 equalTo("""
                 | 01234567890123
                 |0··············
