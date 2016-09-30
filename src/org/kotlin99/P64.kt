@@ -23,9 +23,10 @@ fun <T> Tree<T>.layout(xShift: Int = 0, y: Int = 1): Tree<Positioned<T>> =
         if (this == End) {
             End
         } else if (this is Node<T>) {
-            Node(value = Positioned(value, Point(left.nodeCount() + 1 + xShift, y)),
+            val x = xShift + left.nodeCount() + 1
+            Node(value = Positioned(value, Point(x, y)),
                  left = left.layout(xShift, y + 1),
-                 right = right.layout(left.nodeCount() + 1 + xShift, y + 1))
+                 right = right.layout(x, y + 1))
         } else {
             throw UnknownTreeImplementation(this)
         }
@@ -35,19 +36,18 @@ class P64Test {
 
     @Test fun `positioned nodes pretty print`() {
         assertThat(
-                Node(Positioned("x", 1, 1)).toPrettyString(),
+                Node(Positioned("a", 1, 1)).toPrettyString(),
                 equalTo("""
                 | 012
                 |0···
-                |1·x·
+                |1·a·
                 |2···
             """.trimMargin()))
 
         assertThat(
                 Node(Positioned("a", 2, 1),
                      Node(Positioned("b", 1, 2)),
-                     Node(Positioned("c", 3, 2)))
-                        .toPrettyString(),
+                     Node(Positioned("c", 3, 2))).toPrettyString(),
                 equalTo("""
                 | 01234
                 |0·····
@@ -76,6 +76,17 @@ class P64Test {
                 |2·b··
                 |3····
             """.trimMargin()))
+
+        assertThat(
+                Node("a", Node("b", Node("c"))).layout().toPrettyString(),
+                equalTo("""
+                | 01234
+                |0·····
+                |1···a·
+                |2··b··
+                |3·c···
+                |4·····
+                """.trimMargin()))
 
         assertThat(
                 Node("a", Node("b"), Node("c")).layout().toPrettyString(),

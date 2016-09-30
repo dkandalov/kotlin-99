@@ -5,29 +5,38 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.P64Test.Companion.toPrettyString
 
-fun <T> Tree<T>.layout2(parentX: Int = 0, y: Int = 1, totalHeight: Int = height()): Tree<Positioned<T>> =
-    if (this == End) End
-    else if (this is Node<T>) {
+fun <T> Tree<T>.layout2(x: Int = leftmostBranchXShift(), y: Int = 1, spaces: Spaces = Spaces(this)): Tree<Positioned<T>> =
+        if (this == End) {
+            End
+        } else if (this is Node<T>) {
+            Node(Positioned(value, x, y),
+                 left.layout2(x - spaces.toInt(), y + 1, spaces.decrease()),
+                 right.layout2(x + spaces.toInt(), y + 1, spaces.decrease()))
+        } else {
+            throw UnknownTreeImplementation(this)
+        }
 
-        val positionedLeft = left.layout2(parentX, y + 1, totalHeight)
-        val newX =
-            if (positionedLeft is Node<Positioned<T>>) {
-                val shiftFromChildren = Math.pow(2.0, (totalHeight - y - 1).toDouble()).toInt()
-                positionedLeft.value.point.x + shiftFromChildren
-            } else {
-                val shiftFromParent = Math.pow(2.0, (totalHeight - y).toDouble()).toInt()
-                if (parentX == 0) 1 else parentX + shiftFromParent
-            }
+data class Spaces(val value: Int) {
+    constructor(tree: Tree<*>): this(tree.height() - 2)
+    fun decrease() = Spaces(value - 1)
+    fun toInt() = 2.pow(value)
+}
 
-        val positionedRight = right.layout2(newX, y + 1, totalHeight)
-        Node(Positioned(value, newX, y), positionedLeft, positionedRight)
-
-    } else {
-        throw UnknownTreeImplementation(this)
+private fun <T> Tree<T>.leftmostBranchXShift(): Int {
+    fun leftmostBranchHeight(tree: Tree<T>): Int {
+        return if (tree == End) 0
+        else if (tree is Node<T>) leftmostBranchHeight(tree.left) + 1
+        else throw UnknownTreeImplementation(tree)
     }
+    val height = height() // need the whole tree height here because leftmost branch might not be the longest
+    return (2..leftmostBranchHeight(this)).map{ Spaces(height - it).toInt() }.sum() + 1
+}
+
+private fun Int.pow(n: Int): Int = Math.pow(this.toDouble(), n.toDouble()).toInt()
 
 
 class P65Test {
+
     @Test fun `layout binary tree (2)`() {
         assertThat(
                 Node("a").layout2().toPrettyString(),
@@ -48,16 +57,7 @@ class P65Test {
                 |3····
             """.trimMargin()))
 
-        assertThat(
-                Node("a", Node("b"), Node("c")).layout2().toPrettyString(),
-                equalTo("""
-                | 01234
-                |0·····
-                |1··a··
-                |2·b·c·
-                |3·····
-            """.trimMargin()))
-
+        println(Node("a", Node("b", Node("c"))).layout2())
         assertThat(
                 Node("a", Node("b", Node("c"))).layout2().toPrettyString(),
                 equalTo("""
@@ -70,6 +70,18 @@ class P65Test {
                 """.trimMargin()))
 
         assertThat(
+                Node("a", Node("b", Node("c", Node("d")))).layout2().toPrettyString(),
+                equalTo("""
+                | 0123456789
+                |0··········
+                |1········a·
+                |2····b·····
+                |3··c·······
+                |4·d········
+                |5··········
+                """.trimMargin()))
+
+        assertThat(
                 Node("a", End, Node("b", End, Node("c"))).layout2().toPrettyString(),
                 equalTo("""
                 | 012345
@@ -79,6 +91,16 @@ class P65Test {
                 |3····c·
                 |4······
                 """.trimMargin()))
+
+        assertThat(
+                Node("a", Node("b"), Node("c")).layout2().toPrettyString(),
+                equalTo("""
+                | 01234
+                |0·····
+                |1··a··
+                |2·b·c·
+                |3·····
+            """.trimMargin()))
 
         assertThat(
                 Node("a", Node("b", Node("d"), Node("e")), Node("c", Node("f"), Node("g"))).layout2().toPrettyString(),

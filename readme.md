@@ -626,6 +626,7 @@ T(x T(x T(x) T(x)) T(x T(x) .))
 ### [P64][] (**) Layout a binary tree (1).
 As a preparation for drawing a tree, a layout algorithm is required to determine the position of each node in a rectangular grid. 
 Several layout methods are conceivable, one of them is shown in the illustration below.
+This tree can be constructed with ``"nkmcahgeupsq".toList().toTree()``.
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p64.gif">
 
@@ -648,11 +649,11 @@ Write a method ``layout`` that turns a tree of normal ``Node``s into a tree with
 > Node("a", Node("b", End, Node("c")), Node("d")).layout()
 T([3,1] a T([1,2] b . T([2,3] c)) T([4,2] d))
 ```
-The tree in the picture can be constructed with ``"nkmcahgeupsq".toList().toTree()``. 
 
 ### [P65][] (**) Layout a binary tree (2).
 An alternative layout method is depicted in the illustration below 
-(note that it is not the same tree as in the previous problem). 
+(note that it is not the same tree as in the previous problem).
+This tree can be constructed with ``"nkmcaedgupq".toList().toTree()``.
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p65.gif">
 
@@ -663,7 +664,7 @@ Use the same conventions as in the problem [P64](#p64--layout-a-binary-tree-1).
 > Node("a", Node("b", End, Node("c")), Node("d")).layout2()
 T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
 ```
-The tree in the picture can be constructed with ``"nkmcaedgupq".toList().toTree()``.
+
 
 ### [P66][] (***) Layout a binary tree (3).
 Yet another layout strategy is shown in the illustration below
