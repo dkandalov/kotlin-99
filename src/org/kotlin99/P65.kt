@@ -5,7 +5,8 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.P64Test.Companion.toPrettyString
 
-fun <T> Tree<T>.layout2(x: Int = leftmostBranchXShift(), y: Int = 1, spaces: Spaces = Spaces(this)): Tree<Positioned<T>> =
+fun <T> Tree<T>.layout2(x: Int = leftmostBranchXShift(), y: Int = 1,
+                        spaces: Spaces = Spaces(this)): Tree<Positioned<T>> =
         if (this == End) {
             End
         } else if (this is Node<T>) {
@@ -28,7 +29,7 @@ private fun <T> Tree<T>.leftmostBranchXShift(): Int {
         else if (tree is Node<T>) leftmostBranchHeight(tree.left) + 1
         else throw UnknownTreeImplementation(tree)
     }
-    val height = height() // need the whole tree height here because leftmost branch might not be the longest
+    val height = height() // Need the whole tree height here because leftmost branch might not be the tallest branch.
     return (2..leftmostBranchHeight(this)).map{ Spaces(height - it).toInt() }.sum() + 1
 }
 
@@ -57,7 +58,6 @@ class P65Test {
                 |3····
             """.trimMargin()))
 
-        println(Node("a", Node("b", Node("c"))).layout2())
         assertThat(
                 Node("a", Node("b", Node("c"))).layout2().toPrettyString(),
                 equalTo("""
@@ -114,7 +114,7 @@ class P65Test {
                 """.trimMargin()))
     }
 
-    @Test fun `P65 illustration example`() {
+    @Test fun `illustration example`() {
         assertThat(
                 "nkmcaedgupq".toList().toTree().layout2().toPrettyString(),
                 equalTo("""

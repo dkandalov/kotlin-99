@@ -667,8 +667,8 @@ T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
 
 
 ### [P66][] (***) Layout a binary tree (3).
-Yet another layout strategy is shown in the illustration below
-(note that it is not the same tree as in the previous problem). 
+Yet another layout strategy is shown in the illustration below. 
+This tree can be constructed with ``"nkmcaedgupq".toList().toTree()``.
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p66.gif">
 
