@@ -3,16 +3,16 @@
 This an adaptation of [Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/) by Phil Gold 
 which itself is an adaptation of the [Ninety-Nine Prolog Problems](https://sites.google.com/site/prologsite/prolog-problems) 
 written by Werner Hett at the Berne University of Applied Sciences in Berne, Switzerland. 
-The problems have been altered them to be more amenable to programming in Kotlin. 
+The problems have been altered to be more amenable to programming in Kotlin. 
 
-You might want to do these problems if you want to learn Kotlin, interested in the problems described below or both.
+You might want to do these problems if you want to learn Kotlin, are interested in the problems described below, or both.
 
-Suggested workflow is to solve problem yourself and then compare result to existing solution.  
+Suggested workflow is to solve a problem yourself and then compare your solution to the existing one provided.  
 Solutions are available by clicking on the link at the beginning of the problem description (you can use maven to build all solutions).
-Your goal should be to find the most elegant solution of the given problems. 
+Your goal should be to find the most elegant solution to the given problems. 
 Efficiency is important, but clarity is even more crucial. 
 Some of the (easy) problems can be trivially solved using built-in functions. 
-However, in these cases, you learn more if you try to find your own solution.
+However, in these cases, you can learn more if you try to find your own solution.
 
 The problems have different levels of difficulty. 
 Those marked with a single asterisk (\*) are easy. 
@@ -23,7 +23,7 @@ Problems marked with three asterisks (\*\*\*) are more difficult. You may need m
 This is work-in-progress. All contributions are welcome (including new solutions for problems which already have a solution).
 
 The main reason to do these exercises instead of using websites like hackerrank.com and codewars.com
-is that there is no vendor lock-in and no hidden agenda pursued by website owner.
+is that there is no vendor lock-in and no hidden agenda pursued by the website owner.
 
 
 ## Table of Contents
