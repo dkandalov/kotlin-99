@@ -40,8 +40,7 @@ fun String.convertToTree(): Tree<String> {
         }
     }
 
-    val (tree, ignored) = parse()
-    return tree
+    return parse().first
 }
 
 
