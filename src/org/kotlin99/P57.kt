@@ -56,6 +56,6 @@ class P57Test {
          *
          * There might be a better solution than this but I'm not aware of it.
          */
-        fun <T> treeEqualTo(expected: Node<T>): Matcher<Tree<T>> = equalTo(expected as Tree<T>)
+        fun <T> treeEqualTo(expected: Tree<T>): Matcher<Tree<T>> = equalTo(expected)
     }
 }

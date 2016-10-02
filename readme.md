@@ -685,25 +685,27 @@ T[2,1]('a T[1,2]('b . T[2,3]('c . .)) T[3,2]('d . .))
 Which layout do you like most?
 
 ### [P67][] (**) A string representation of binary trees.
-Somebody represents binary trees as strings of the following type (see example opposite):
+Binary trees can be represented as strings of the following type:
 ``a(b(d,e),c(,f(g,)))``.
-Write a method which generates this string representation, if the tree is given as usual (in Nodes and Ends). 
-Use that method for the Tree class's and subclass's toString methods. Then write a method (on the Tree object) which does this inverse; 
-i.e. given the string representation, construct the tree in the usual form.
+    
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif">
 
-For simplicity, suppose the information in the nodes is a single letter and there are no spaces in the string.
+Write a method which generates this string representation given tree as ``Node``s and ``End``s. 
+And a method which does this inverse, i.e. given the string representation, construct the tree in the usual form.
 ``` kotlin
-> Node('a', Node('b', Node('d'), Node('e')), Node('c', End, Node('f', Node('g'), End))).toString
+> Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End))).convertToString()
 a(b(d,e),c(,f(g,)))
-> treeFromString("a(b(d,e),c(,f(g,)))")
-a(b(d,e),c(,f(g,)))
+> "a(b(d,e),c(,f(g,)))".convertToTree()
+T(a T(b T(d) T(e)) T(c . T(f T(g) .)))
 ```
 
 ### [P68][] (**) Preorder and inorder sequences of binary trees.
-We consider binary trees with nodes that are identified by single lower-case letters, as in the example of problem P67.
+We consider binary trees with nodes that are identified by single lower-case letters, as in the example of problem 
+[P67](#p67--a-string-representation-of-binary-trees).
 
-a) Write methods preorder and inorder that construct the preorder and inorder sequence of a given binary tree, respectively. 
-The results should be lists, e.g. ``['a','b','d','e','c','f','g']`` for the preorder sequence of the example in problem P67.
+a) Write methods ``preorder`` and ``inorder`` that construct the preorder and inorder sequence of a given binary tree, respectively. 
+The results should be lists, e.g. ``['a','b','d','e','c','f','g']`` for the preorder sequence of the example in problem 
+[P67](#p67--a-string-representation-of-binary-trees).
 ``` kotlin
 > Tree.string2Tree("a(b(d,e),c(,f(g,)))").preorder()
 [a, b, d, e, c, f, g]
