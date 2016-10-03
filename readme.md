@@ -700,22 +700,19 @@ T(a T(b T(d) T(e)) T(c . T(f T(g) .)))
 ```
 
 ### [P68][] (**) Preorder and inorder sequences of binary trees.
-We consider binary trees with nodes that are identified by single lower-case letters, as in the example of problem 
-[P67](#p67--a-string-representation-of-binary-trees).
-
-a) Write methods ``preorder`` and ``inorder`` that construct the preorder and inorder sequence of a given binary tree, respectively. 
-The results should be lists, e.g. ``['a','b','d','e','c','f','g']`` for the preorder sequence of the example in problem 
+a) Write methods ``preorderValues`` and ``inorderValues`` that construct the pre-order and in-order sequence of a given binary tree, respectively. 
+The results should be lists, e.g. ``["a","b","d","e","c","f","g"]`` for the preorder sequence of the example in problem 
 [P67](#p67--a-string-representation-of-binary-trees).
 ``` kotlin
-> Tree.string2Tree("a(b(d,e),c(,f(g,)))").preorder()
+> "a(b(d,e),c(,f(g,)))".convertToTree().preorderValues()
 [a, b, d, e, c, f, g]
-> Tree.string2Tree("a(b(d,e),c(,f(g,)))").inorder()
+> "a(b(d,e),c(,f(g,)))".convertToTree().inorderValues()
 [d, b, e, a, c, g, f]
 ```
-b) If both the preorder sequence and the inorder sequence of the nodes of a binary tree are given, 
-then the tree is determined unambiguously. Write a method ``preInTree`` that does the job.
+b) If both the preorder sequence and the in-order sequence of the nodes of a binary tree are given, 
+then the tree is determined unambiguously. Write a method ``createTree`` that does the job.
 ``` kotlin
-> Tree.preInTree(List('a', 'b', 'd', 'e', 'c', 'f', 'g'), List('d', 'b', 'e', 'a', 'c', 'g', 'f'))
+> createTree(preorder = List('a', 'b', 'd', 'e', 'c', 'f', 'g'), inorder = List('d', 'b', 'e', 'a', 'c', 'g', 'f'))
 a(b(d,e),c(,f(g,)))
 ```
 What happens if the same character appears in more than one node? 
