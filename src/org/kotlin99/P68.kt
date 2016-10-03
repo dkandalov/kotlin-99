@@ -3,7 +3,7 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.P57Test.Companion.treeEqualTo
+import org.kotlin99.P57Test.Companion.equalToTree
 
 fun <T> Tree<T>.preorder(): List<T> =
         if (this == End) emptyList<T>()
@@ -53,21 +53,21 @@ class P68Test {
 
     @Test fun `convert pre-order and in-order lists into a tree`() {
         assertThat(createTree(preorder = listOf("a"), inorder = listOf("a")),
-                   treeEqualTo("a".convertToTree()))
+                   equalToTree("a".convertToTree()))
 
         assertThat(createTree(preorder = listOf("a", "b", "c"), inorder = listOf("b", "a", "c")),
-                   treeEqualTo("a(b,c)".convertToTree()))
+                   equalToTree("a(b,c)".convertToTree()))
 
         assertThat(createTree(preorder = listOf("a", "b", "d", "e", "c", "f", "g"), inorder = listOf("d", "b", "e", "a", "c", "g", "f")),
-                   treeEqualTo("a(b(d,e),c(,f(g,)))".convertToTree()))
+                   equalToTree("a(b(d,e),c(,f(g,)))".convertToTree()))
     }
 
     @Test fun `convert pre-order and in-order lists with duplicate values into a tree`() {
         assertThat(createTree(preorder = listOf("a", "b", "a"), inorder = listOf("b", "a", "a")),
-                   treeEqualTo("a(b,a)".convertToTree()))
+                   equalToTree("a(b,a)".convertToTree()))
 
         assertThat(createTree(preorder = listOf("a", "a", "a"), inorder = listOf("a", "a", "a")),
-                   treeEqualTo("a(,a(,a))".convertToTree()))
+                   equalToTree("a(,a(,a))".convertToTree()))
     }
 
     @Test fun `span list at element matching predicate (and drop matched element)`() {

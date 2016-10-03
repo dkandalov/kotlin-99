@@ -3,7 +3,7 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.P57Test.Companion.treeEqualTo
+import org.kotlin99.P57Test.Companion.equalToTree
 
 fun <T> Tree<T>.convertToString(): String =
         if (this == End) {
@@ -55,10 +55,10 @@ class P67Test {
     }
 
     @Test fun `conversion from string`() {
-        assertThat("".convertToTree(), treeEqualTo<String>(End))
-        assertThat("a".convertToTree(), treeEqualTo(Node("a")))
-        assertThat("a(b,c)".convertToTree(), treeEqualTo(Node("a", Node("b"), Node("c"))))
-        assertThat("a(b(d,e),c(,f(g,)))".convertToTree(), treeEqualTo(
+        assertThat("".convertToTree(), equalToTree<String>(End))
+        assertThat("a".convertToTree(), equalToTree(Node("a")))
+        assertThat("a(b,c)".convertToTree(), equalToTree(Node("a", Node("b"), Node("c"))))
+        assertThat("a(b(d,e),c(,f(g,)))".convertToTree(), equalToTree(
                 Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End)))
         ))
     }
