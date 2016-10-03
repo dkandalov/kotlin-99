@@ -700,23 +700,23 @@ T(a T(b T(d) T(e)) T(c . T(f T(g) .)))
 ```
 
 ### [P68][] (**) Preorder and inorder sequences of binary trees.
-a) Write methods ``preorderValues`` and ``inorderValues`` that construct the pre-order and in-order sequence of a given binary tree, respectively. 
+a) Write methods ``preorder`` and ``inorder`` that construct the pre-order and in-order sequence of a given binary tree, respectively. 
 The results should be lists, e.g. ``["a","b","d","e","c","f","g"]`` for the preorder sequence of the example in problem 
 [P67](#p67--a-string-representation-of-binary-trees).
 ``` kotlin
-> "a(b(d,e),c(,f(g,)))".convertToTree().preorderValues()
+> "a(b(d,e),c(,f(g,)))".convertToTree().preorder()
 [a, b, d, e, c, f, g]
-> "a(b(d,e),c(,f(g,)))".convertToTree().inorderValues()
+> "a(b(d,e),c(,f(g,)))".convertToTree().inorder()
 [d, b, e, a, c, g, f]
 ```
 b) If both the preorder sequence and the in-order sequence of the nodes of a binary tree are given, 
 then the tree is determined unambiguously. Write a method ``createTree`` that does the job.
 ``` kotlin
-> createTree(preorder = List('a', 'b', 'd', 'e', 'c', 'f', 'g'), inorder = List('d', 'b', 'e', 'a', 'c', 'g', 'f'))
+> createTree(preorder = listOf("a", "b", "d", "e", "c", "f", "g"), inorder = listOf("d", "b", "e", "a", "c", "g", "f"))
 a(b(d,e),c(,f(g,)))
 ```
 What happens if the same character appears in more than one node? 
-Try, for instance, ``Tree.preInTree(List('a', 'b', 'a'), List('b', 'a', 'a'))``.
+Try, for instance, ``createTree(preorder = listOf("a", "b", "a"), inorder = listOf("b", "a", "a"))``.
 
 ### [P69][] (**) Dotstring representation of binary trees.
 We consider again binary trees with nodes that are identified by single lower-case letters, as in the example of problem P67. 

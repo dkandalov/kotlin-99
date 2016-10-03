@@ -56,6 +56,7 @@ class P57Test {
          *
          * There might be a better solution than this but I'm not aware of it.
          */
+        // TODO rename to equalToTree
         fun <T> treeEqualTo(expected: Tree<T>): Matcher<Tree<T>> = equalTo(expected)
     }
 }
