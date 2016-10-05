@@ -10,9 +10,8 @@ import org.kotlin99.P50.huffmanCodes
 object P50 {
 
     fun huffmanCodes(charAndFreq: List<Pair<Char, Int>>): List<Pair<Char, String>> {
-        val nodes = charAndFreq.map{ Node(it.second, it.first) }
-        val tree = buildTree(nodes)
-        return charAndFreq.map{ Pair(it.first, tree.findPath(it.first)!!.reversed()) }
+        val tree = buildTree(charAndFreq.map{ Node(it.second, it.first) })
+        return charAndFreq.map{ Pair(it.first, tree.findPath(it.first)!!) }
     }
 
     private fun buildTree(nodes: List<Node>): Node =
@@ -43,8 +42,8 @@ object P50 {
 class P50Test {
     @Test fun `Huffman encoding`() {
         assertThat(
-            huffmanCodes(listOf(Pair('a', 45), Pair('b', 13), Pair('c', 12), Pair('d', 16), Pair('e', 9), Pair('f', 5))),
-            equalTo(listOf(Pair('a', "0"), Pair('b', "101"), Pair('c', "100"), Pair('d', "111"), Pair('e', "1101"), Pair('f', "1100")))
+            huffmanCodes(listOf(Pair('a', 25), Pair('b', 21), Pair('c', 18), Pair('d', 14), Pair('e', 9), Pair('f', 7), Pair('g', 6))),
+            equalTo(listOf(Pair('a', "10"), Pair('b', "00"), Pair('c', "111"), Pair('d', "110"), Pair('e', "010"), Pair('f', "0111"), Pair('g', "0110")))
         )
     }
 }

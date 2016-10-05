@@ -436,7 +436,7 @@ for a description of [Huffman coding](https://en.wikipedia.org/wiki/Huffman_codi
 Given a list of characters with their frequencies, e.g. ``[('a', 45), ('b', 13), ('c', 12), ('d', 16), ('e', 9), ('f', 5)]``.
 Our objective is to construct a list of ``Pair``s, where first element is character and second is the Huffman code word for it.
 ``` kotlin
-> huffman(listOf(Pair('a', 45), Pair('b', 13), Pair('c', 12), Pair('d', 16), Pair('e', 9), Pair('f', 5)))
+> huffmanCodes(listOf(Pair('a', 45), Pair('b', 13), Pair('c', 12), Pair('d', 16), Pair('e', 9), Pair('f', 5)))
 [(a, 0), (b, 101), (c, 100), (d, 111), (e, 1101), (f, 1100)]
 ```
 
@@ -715,18 +715,21 @@ then the tree is determined unambiguously. Write a method ``createTree`` that do
 > createTree(preorder = listOf("a", "b", "d", "e", "c", "f", "g"), inorder = listOf("d", "b", "e", "a", "c", "g", "f"))
 a(b(d,e),c(,f(g,)))
 ```
-What happens if the same character appears in more than one node? 
-Try, for instance, ``createTree(preorder = listOf("a", "b", "a"), inorder = listOf("b", "a", "a"))``.
+What happens if the same character appears in more than one node? Try, for instance: 
+```
+createTree(preorder = listOf("a", "b", "a"), inorder = listOf("b", "a", "a"))
+```
 
 ### [P69][] (**) Dotstring representation of binary trees.
 We consider again binary trees with nodes that are identified by single lower-case letters, as in the example of problem P67. 
-Such a tree can be represented by the preorder sequence of its nodes in which dots (.) are inserted where an empty subtree (End) 
-is encountered during the tree traversal. For example, the tree shown in problem P67 is represented as "abd..e..c.fg...". 
-First, try to establish a syntax (BNF or syntax diagrams) and then write two methods, toDotstring and fromDotstring, which do the conversion in both directions.
+Such a tree can be represented by the preorder sequence of its nodes in which dots (.) are inserted where an empty subtree ``End`` 
+is encountered during the tree traversal. For example, the tree shown in problem P67 is represented as ``"abd..e..c.fg..."``. 
+First, try to establish a syntax (BNF or syntax diagrams) and then write two methods, 
+``toDotstring`` and ``fromDotstring``, which do the conversion in both directions.
 ``` kotlin
-> Tree.string2Tree("a(b(d,e),c(,f(g,)))").toDotstring
+> "a(b(d,e),c(,f(g,)))".convertToTree().toDotstring()
 abd..e..c.fg...
-> Tree.fromDotstring("abd..e..c.fg...")
+> "abd..e..c.fg...".fromDotstring()
 a(b(d,e),c(,f(g,)))
 ```
 
@@ -995,7 +998,8 @@ List([a-b, b-c], [a-c, b-c], [a-b, a-c])
 ```
 
 ### [P84][] (**) Construct the minimal spanning tree.
-Write a method minimalSpanningTree to construct the minimal spanning tree of a given labeled graph. Hint: Use Prim's Algorithm. A small modification of the solution of P83 does the trick. The data of the example graph to the right can be found below.
+Write a method minimalSpanningTree to construct the minimal spanning tree of a given labeled graph. Hint: Use Prim's Algorithm. 
+A small modification of the solution of P83 does the trick. The data of the example graph to the right can be found below.
 Graph:
 ```
 Graph.termLabel(
@@ -1027,7 +1031,8 @@ b) Write a method that lists all nodes of a graph sorted according to decreasing
 > Graph.fromString("[a-b, b-c, a-c, a-d]").nodesByDegree()
 List(Node(a), Node(c), Node(b), Node(d))
 ```
-c) Use Welsh-Powell's algorithm to paint the nodes of a graph in such a way that adjacent nodes have different colors. Make a method colorNodes that returns a list of tuples, each of which contains a node and an integer representing its color.
+c) Use Welsh-Powell's algorithm to paint the nodes of a graph in such a way that adjacent nodes have different colors. 
+Make a method colorNodes that returns a list of tuples, each of which contains a node and an integer representing its color.
 ```
 > Graph.fromString("[a-b, b-c, a-c, a-d]").colorNodes()
 List((Node(a),1), (Node(b),2), (Node(c), 3), (Node(d), 2))
