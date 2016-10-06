@@ -755,19 +755,22 @@ The code to represent these is somewhat simpler than the code for binary trees, 
 for nodes and terminators, and partly because we don't need the restriction that the value type be ordered.
 ``` kotlin
 data class MTree<out T>(val value: T, val children: List<MTree<T>> = emptyList()) {
+
+    constructor(value: T, vararg children: MTree<T>): this(value, children.toList())
+
     override fun toString(): String =
         if (children.isEmpty()) value.toString()
         else value.toString() + " {" + children.joinToString(", "){ it.toString() } + "}"
-}
+} 
 ```
 The example tree is, thus:
 ``` kotlin
-MTree("a", listOf(
-    MTree("f", listOf(
-        MTree("g"))),
+MTree("a",
+    MTree("f",
+        MTree("g")),
     MTree("c"),
-    MTree("b", listOf(
-        MTree("d"), MTree("e")))
+    MTree("b",
+        MTree("d"), MTree("e"))
 ))
 
 ```
@@ -777,7 +780,7 @@ The starting code for this section is in [MTree.kt](https://github.com/dkandalov
 ### [P70][]A (*) Count the nodes of a multiway tree.
 Write a method ``nodeCount`` which counts the nodes of a given multiway tree.
 ``` kotlin
-> MTree("a", listOf(MTree("f"))).nodeCount()
+> MTree("a", MTree("f")).nodeCount()
 2
 ```
 
