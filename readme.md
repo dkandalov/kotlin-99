@@ -431,16 +431,24 @@ For example:
 ```
 
 ### [P50][] (**) Huffman code.
-If you are not familiar with Huffman coding, consult internet (or a good book on discrete mathematics or algorithms) 
+If you are not familiar with Huffman coding, consult internet (or a good book) 
 for a description of [Huffman coding](https://en.wikipedia.org/wiki/Huffman_coding).
-Given a list of characters with their frequencies, e.g. ``[('a', 45), ('b', 13), ('c', 12), ('d', 16), ('e', 9), ('f', 5)]``.
-Our objective is to construct a list of ``Pair``s, where first element is character and second is the Huffman code word for it.
+
+a) Given characters with their frequencies, e.g. ``{a=25, b=21, c=18, d=14, e=9, f=7, g=6}``.
+Our objective is to construct a ``Map``, where key is character and value is the Huffman code for it.
 ``` kotlin
-> huffmanCodes(listOf(Pair('a', 45), Pair('b', 13), Pair('c', 12), Pair('d', 16), Pair('e', 9), Pair('f', 5)))
-[(a, 0), (b, 101), (c, 100), (d, 111), (e, 1101), (f, 1100)]
+> createEncoding(linkedMapOf(Pair('a', 25), Pair('b', 21), Pair('c', 18), Pair('d', 14), Pair('e', 9), Pair('f', 7), Pair('g', 6)))
+{a=10, b=00, c=111, d=110, e=010, f=0111, g=0110}
 ```
+b) Write ``encode`` and ``decode`` functions for conversion between ``String`` and encoded ``String`` with zeroes and ones.
+For example:
+```
+"this is a sentence".encode(encoding)
+00110000101011100101011101001110101111011001111011000111
 
-
+"00110000101011100101011101001110101111011001111011000111".decode(encoding)
+this is a sentence
+```
 
 ## Binary Trees
 
