@@ -800,16 +800,18 @@ afg^^c^bd^e^^^
 
 ### [P71][] (*) Determine the internal path length of a tree.
 We define the internal path length of a multiway tree as the total sum of the path lengths from the root to all nodes of the tree. 
-By this definition, the tree in the figure of problem P70 has an internal path length of 9. Write a method internalPathLength to return that sum.
-```
-> "afg^^c^bd^e^^^".internalPathLength()
+By this definition, the tree in the figure of problem [P70B](#p70b-tree-construction-from-a-node-string) 
+has an internal path length of 9. Write a method ``internalPathLength`` to return that sum.
+``` kotlin
+> "afg^^c^bd^e^^^".convertToMTree().internalPathLength()
 9
 ```
 
 ### [P72][] (*) Construct the postorder sequence of the tree nodes.
-Write a method postorder which constructs the postorder sequence of the nodes of a multiway tree. The result should be a List.
-```
-> "afg^^c^bd^e^^^".postorder()
+Write a method postorder which constructs the postorder sequence of the node values of a multiway tree. 
+The result should be a ``List``.
+``` kotlin
+> "afg^^c^bd^e^^^".convertToMTree().postorder()
 [g, f, c, d, e, b, a]
 ```
 
@@ -1290,7 +1292,8 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P68]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P68.kt
 [P69]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P69.kt
 
-[P70]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P70.kt
+[P70A]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P70A.kt
+[P70B]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P70B.kt
 [P71]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P71.kt
 [P72]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P72.kt
 [P73]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P73.kt
