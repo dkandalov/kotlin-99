@@ -456,7 +456,7 @@ A binary tree is either empty or it is composed of a root element and two succes
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif">
 
-We will use the following classes to represent binary trees (see [P51.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P51.kt)). 
+We will use the following classes to represent binary trees (see [Tree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/Tree.kt)). 
 An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two descendant trees. 
 The ``toString()`` functions are relatively arbitrary and were written to produce minimal readable output.
 Note the usage of [variance annotation](https://kotlinlang.org/docs/reference/generics.html#declaration-site-variance) 
@@ -745,38 +745,43 @@ a(b(d,e),c(,f(g,)))
 
 ## Multiway Trees
 
-A multiway tree is composed of a root element and a (possibly empty) set of successors which are multiway trees themselves. 
+A [multiway tree](https://en.wikipedia.org/wiki/List_of_data_structures#Multiway_trees) 
+is composed of a root element and a (possibly empty) set of successors which are multiway trees themselves. 
 A multiway tree is never empty. The set of successor trees is sometimes called a forest.
+
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p70.gif">
 
 The code to represent these is somewhat simpler than the code for binary trees, partly because we don't separate classes 
 for nodes and terminators, and partly because we don't need the restriction that the value type be ordered.
-```
-case class MTree[+T](value: T, children: List[MTree[T]]) {
-  def this(value: T) = this(value, List())
-  override def toString = "M(" + value.toString + " {" + children.map(_.toString).mkString(",") + "})"
-}
-
-object MTree {
-  def apply[T](value: T) = new MTree(value, List())
-  def apply[T](value: T, children: List[MTree[T]]) = new MTree(value, children)
+``` kotlin
+data class MTree<out T>(val value: T, val children: List<MTree<T>> = emptyList()) {
+    override fun toString(): String =
+        if (children.isEmpty()) value.toString()
+        else value.toString() + " {" + children.joinToString(", "){ it.toString() } + "}"
 }
 ```
 The example tree is, thus:
-```
-MTree('a', List(MTree('f', List(MTree('g'))), MTree('c'), MTree('b', List(MTree('d'), MTree('e')))))
-```
-The starting code skeleton for this section is mtree1.scala.
+``` kotlin
+MTree("a", listOf(
+    MTree("f", listOf(
+        MTree("g"))),
+    MTree("c"),
+    MTree("b", listOf(
+        MTree("d"), MTree("e")))
+))
 
-### [P70][]B Omitted; we can only create well-formed trees.
-
-### [P70][]C (*) Count the nodes of a multiway tree.
-Write a method nodeCount which counts the nodes of a given multiway tree.
 ```
-> MTree('a', List(MTree('f'))).nodeCount()
+The starting code for this section is in [MTree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/MTree.kt).
+
+
+### [P70][]A (*) Count the nodes of a multiway tree.
+Write a method ``nodeCount`` which counts the nodes of a given multiway tree.
+``` kotlin
+> MTree("a", listOf(MTree("f"))).nodeCount()
 2
 ```
 
-### [P70][] (**) Tree construction from a node string.
+### [P70][]B (**) Tree construction from a node string.
 We suppose that the nodes of a multiway tree contain single characters. In the depth-first order sequence of its nodes, 
 a special character ^ has been inserted whenever, during the tree traversal, the move is a backtrack to the previous level.
 By this rule, the tree in the figure opposite is represented as: ``afg^^c^bd^e^^^``.
