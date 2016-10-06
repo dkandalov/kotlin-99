@@ -17,7 +17,8 @@ object End : Tree<Nothing> {
     override fun toString() = "."
 }
 
-// TODO create extension method on Tree
+fun Tree<*>.throwUnknownImplementation(): Nothing = this.throwUnknownImplementation()
+
 class UnknownTreeImplementation(message: String) : RuntimeException(message) {
     constructor (any: Any): this(any.toString())
 }

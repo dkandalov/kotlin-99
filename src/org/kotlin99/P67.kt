@@ -15,7 +15,7 @@ fun <T> Tree<T>.convertToString(): String =
                 ""
             }
         } else {
-            throw UnknownTreeImplementation(this)
+            this.throwUnknownImplementation()
         }
 
 fun String.convertToTree(): Tree<String> {

@@ -9,7 +9,7 @@ import org.kotlin99.P57Test.Companion.equalToTree
 fun <T> Tree<T>.toDotString(): String =
     if (this == End) "."
     else if (this is Node<T>) value.toString() + left.toDotString() + right.toDotString()
-    else throw UnknownTreeImplementation(this)
+    else this.throwUnknownImplementation()
 
 /**
  * BNF grammar:

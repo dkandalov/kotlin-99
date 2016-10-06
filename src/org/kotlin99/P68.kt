@@ -8,12 +8,12 @@ import org.kotlin99.P57Test.Companion.equalToTree
 fun <T> Tree<T>.preorder(): List<T> =
         if (this == End) emptyList<T>()
         else if (this is Node<T>) listOf(value) + left.preorder() + right.preorder()
-        else throw UnknownTreeImplementation(this)
+        else this.throwUnknownImplementation()
 
 fun <T> Tree<T>.inorder(): List<T> =
         if (this == End) emptyList<T>()
         else if (this is Node<T>) left.inorder() + listOf(value) + right.inorder()
-        else throw UnknownTreeImplementation(this)
+        else this.throwUnknownImplementation()
 
 fun <T> createTree(preorder: List<T>, inorder: List<T>): Tree<T> =
         if (preorder.isEmpty()) End

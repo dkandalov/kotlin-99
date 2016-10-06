@@ -14,7 +14,7 @@ fun <T> Tree<T>.layout2(x: Int = leftmostBranchXShift(), y: Int = 1,
                  left.layout2(x - spaces.toInt(), y + 1, spaces.decrease()),
                  right.layout2(x + spaces.toInt(), y + 1, spaces.decrease()))
         } else {
-            throw UnknownTreeImplementation(this)
+            this.throwUnknownImplementation()
         }
 
 data class Spaces(val value: Int) {
@@ -27,7 +27,7 @@ private fun <T> Tree<T>.leftmostBranchXShift(): Int {
     fun leftmostBranchHeight(tree: Tree<T>): Int {
         return if (tree == End) 0
         else if (tree is Node<T>) leftmostBranchHeight(tree.left) + 1
-        else throw UnknownTreeImplementation(tree)
+        else this.throwUnknownImplementation()
     }
     val height = height() // Need the whole tree height here because leftmost branch might not be the tallest branch.
     return (2..leftmostBranchHeight(this)).map{ Spaces(height - it).toInt() }.sum() + 1
