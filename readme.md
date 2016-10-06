@@ -442,7 +442,7 @@ Our objective is to construct a ``Map``, where key is character and value is the
 ```
 b) Write ``encode`` and ``decode`` functions for conversion between ``String`` and encoded ``String`` with zeroes and ones.
 For example:
-```
+``` kotlin
 "this is a sentence".encode(encoding)
 00110000101011100101011101001110101111011001111011000111
 
@@ -724,20 +724,21 @@ then the tree is determined unambiguously. Write a method ``createTree`` that do
 a(b(d,e),c(,f(g,)))
 ```
 What happens if the same character appears in more than one node? Try, for instance: 
-```
+``` kotlin
 createTree(preorder = listOf("a", "b", "a"), inorder = listOf("b", "a", "a"))
 ```
 
-### [P69][] (**) Dotstring representation of binary trees.
-We consider again binary trees with nodes that are identified by single lower-case letters, as in the example of problem P67. 
-Such a tree can be represented by the preorder sequence of its nodes in which dots (.) are inserted where an empty subtree ``End`` 
-is encountered during the tree traversal. For example, the tree shown in problem P67 is represented as ``"abd..e..c.fg..."``. 
-First, try to establish a syntax (BNF or syntax diagrams) and then write two methods, 
-``toDotstring`` and ``fromDotstring``, which do the conversion in both directions.
+### [P69][] (*) Dot-string representation of binary trees.
+Binary tree in which leaves contain only single characters can be represented by the preorder sequence of its nodes 
+in which dots ``.`` are inserted where an empty subtree ``End`` is encountered during tree traversal. 
+For example, the tree shown in problem [P67](#p67--a-string-representation-of-binary-trees) is represented as ``abd..e..c.fg...``.
+
+First, try to establish a syntax ([BNF](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form) or syntax diagrams) 
+and then write two methods, ``toDotString`` and ``fromDotString``, which do the conversion in both directions.
 ``` kotlin
-> "a(b(d,e),c(,f(g,)))".convertToTree().toDotstring()
+> "a(b(d,e),c(,f(g,)))".convertToTree().toDotString()
 abd..e..c.fg...
-> "abd..e..c.fg...".fromDotstring()
+> "abd..e..c.fg...".fromDotString()
 a(b(d,e),c(,f(g,)))
 ```
 
