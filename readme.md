@@ -777,15 +777,15 @@ MTree("a",
 The starting code for this section is in [MTree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/MTree.kt).
 
 
-### [P70][]A (*) Count the nodes of a multiway tree.
+### [P70A][] (*) Count the nodes of a multiway tree.
 Write a method ``nodeCount`` which counts the nodes of a given multiway tree.
 ``` kotlin
 > MTree("a", MTree("f")).nodeCount()
 2
 ```
 
-### [P70][]B (**) Tree construction from a node string.
-We suppose that the nodes of a multiway tree contain single characters. In the depth-first order sequence of its nodes, 
+### [P70B][] (*) Tree construction from a node string.
+Suppose that the nodes of a multiway tree contain single characters. In the depth-first order sequence of its nodes, 
 a special character ``^`` has been inserted whenever, during the tree traversal, the move is a backtrack to the previous level.
 By this rule, the tree in the following figure is represented as: ``afg^^c^bd^e^^^``.
 
@@ -794,7 +794,7 @@ By this rule, the tree in the following figure is represented as: ``afg^^c^bd^e^
 Define the syntax of the string and write a function ``convertToMTree`` to construct an ``MTree`` from a ``String``. 
 Write the reverse ``convertToString`` function.
 ``` kotlin
-> MTree('a', List(MTree('f', List(MTree('g'))), MTree('c'), MTree('b', List(MTree('d'), MTree('e'))))).toString()
+> MTree('a', MTree('f', MTree('g')), MTree('c'), MTree('b', MTree('d'), MTree('e'))).toString()
 afg^^c^bd^e^^^
 ```
 

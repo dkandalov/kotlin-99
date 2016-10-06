@@ -16,13 +16,12 @@ data class MTree<out T>(val value: T, val children: List<MTree<T>> = emptyList()
 class P70Test {
     @Test fun `tree construction and string conversion`() {
         val tree =
-                MTree("a",
-                    MTree("f",
-                        MTree("g")),
-                    MTree("c"),
-                    MTree("b",
-                        MTree("d"), MTree("e"))
-            )
+            MTree("a",
+                MTree("f",
+                    MTree("g")),
+                MTree("c"),
+                MTree("b",
+                    MTree("d"), MTree("e")))
         assertThat(tree.toString(), equalTo("a {f {g}, c, b {d, e}}"))
     }
 }
