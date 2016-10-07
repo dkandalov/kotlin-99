@@ -820,7 +820,7 @@ The result should be a ``List``.
 In Lisp almost everything is a list. Our example tree would be represented in Lisp as ``(a (f g) c (b d e))``. 
 The following pictures give some more examples.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p73.gif">
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p73.png">
 
 Note that in the Lisp notation a node with successors (children) in the tree is always the first element in a list, followed by its children. 
 The "lispy" representation of a multiway tree is a sequence of atoms and parentheses ``(`` and ``)``, with the atoms separated by spaces. 
