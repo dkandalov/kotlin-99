@@ -816,18 +816,25 @@ The result should be a ``List``.
 ```
 
 ### [P73][] (**) Lisp-like tree representation.
-There is a particular notation for multiway trees in Lisp. Lisp is a prominent functional programming language. 
-In Lisp almost everything is a list. Our example tree would be represented in Lisp as (a (f g) c (b d e)). 
+[Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language) is a prominent functional programming language. 
+In Lisp almost everything is a list. Our example tree would be represented in Lisp as ``(a (f g) c (b d e))``. 
 The following pictures give some more examples.
 
-Note that in the "lispy" notation a node with successors (children) in the tree is always the first element in a list, followed by its children. 
-The "lispy" representation of a multiway tree is a sequence of atoms and parentheses '(' and ')', with the atoms separated by spaces. 
-We can represent this syntax as a Scala String. Write a method lispyTree which constructs a "lispy string" from an MTree.
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p73.gif">
+
+Note that in the Lisp notation a node with successors (children) in the tree is always the first element in a list, followed by its children. 
+The "lispy" representation of a multiway tree is a sequence of atoms and parentheses ``(`` and ``)``, with the atoms separated by spaces. 
+
+a) Write a method ``toLispString`` which constructs a "lispy" ``String`` from an ``MTree``.
+``` kotlin
+> MTree("a", MTree("b", MTree("c"))).toLispString()
+(a (b c))
 ```
-> MTree("a", List(MTree("b", List(MTree("c"))))).lispyTree
-res0: String = (a (b c))
+b) As a second, even more interesting, exercise try to write a method that takes a "lispy" string and turns it into a multiway tree.
+``` kotlin
+> "(a (f g) c (b d e))".fromLispString()
+a {f {g}, c, b {d, e}}
 ```
-As a second, even more interesting, exercise try to write a method that takes a "lispy" string and turns it into a multiway tree.
 
 
 ## Graphs
