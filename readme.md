@@ -839,17 +839,21 @@ a {f {g}, c, b {d, e}}
 
 ## Graphs
 
-A graph is defined as a set of nodes and a set of edges, where each edge is a pair of nodes.
+A [graph](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)) 
+is defined as a set of nodes and a set of edges, where each edge is a pair of nodes.
 
 The class to represent a graph is mutable, which isn't in keeping with pure functional programming, 
 but a pure functional data structure would make things much, much more complicated. 
-Pure functional graphs with cycles require laziness; I think Scala can handle it, 
+Pure functional graphs with cycles require laziness; Kotlin can probably handle it, 
 but I think that would add too much of a barrier to the following questions.
 
-Our Graphs use an incidence list internally. Each has a list of nodes and a list of edges. 
-Each node also has a list of edges that connect it to other nodes. In a directed graph, nodes that are the target 
-of arcs do not have references to those arcs in their adjacency list.
-```
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph1.gif">
+
+Our graphs use an incidence list internally. Each has a list of nodes and a list of edges. 
+Each node also has a list of edges that connect it to other nodes. 
+In a [directed graph](https://en.wikipedia.org/wiki/Directed_graph), 
+nodes that are the target of arcs do not have references to those arcs in their adjacency list.
+``` kotlin
 abstract class GraphBase[T, U] {
   case class Edge(n1: Node, n2: Node, value: U) {
     def toTuple = (n1.value, n2.value, value)
@@ -915,45 +919,49 @@ class Digraph[T, U] extends GraphBase[T, U] {
   }
 }
 ```
-The full initial Graph code, which also includes objects for creating graphs, is in graph1.scala.
+The full initial Graph code, which also includes objects for creating graphs, is in 
+[Graph.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/Graph.kt).
 
 There are a few ways to create a graph from primitives. The graph-term form lists the nodes and edges separately:
-```
-Graph.term(List('b', 'c', 'd', 'f', 'g', 'h', 'k'),
-           List(('b', 'c'), ('b', 'f'), ('c', 'f'), ('f', 'k'), ('g', 'h')))
+``` kotlin
+Graph.term(listOf('b', 'c', 'd', 'f', 'g', 'h', 'k'),
+           listOf(('b', 'c'), ('b', 'f'), ('c', 'f'), ('f', 'k'), ('g', 'h')))
 ```
 The adjacency-list form associates each node with its adjacent nodes. In an undirected graph, care must be taken to ensure 
-that all links are symmetric--if b is adjacent to c, c must also be adjacent to b.
-```
-Graph.adjacent(List(('b', List('c', 'f')), ('c', List('b', 'f')), ('d', Nil),
-                    ('f', List('b', 'c', 'k')), ('g', List('h')), ('h', List('g')),
-                    ('k', List('f'))))
+that all links are symmetric, i.e. if b is adjacent to c, c must also be adjacent to b.
+``` kotlin
+Graph.adjacent(listOf(('b', listOf('c', 'f')), ('c', listOf('b', 'f')), ('d', Nil),
+                    ('f', listOf('b', 'c', 'k')), ('g', listOf('h')), ('h', listOf('g')),
+                    ('k', listOf('f'))))
 ```                    
 The representations we introduced so far are bound to our implementation and therefore well suited for automated processing, 
 but their syntax is not very user-friendly. Typing the terms by hand is cumbersome and error-prone. 
 We can define a more compact and "human-friendly" notation as follows: 
-A graph is represented by a string of terms of the type X or Y-Z separated by commas. 
-The standalone terms stand for isolated nodes, the Y-Z terms describe edges. 
-If an X appears as an endpoint of an edge, it is automatically defined as a node. Our example could be written as:
+A graph is represented by a string of terms of the type ``X`` or ``Y-Z`` separated by commas. 
+The standalone terms stand for isolated nodes, the ``Y-Z`` terms describe edges. 
+If an ``X`` appears as an endpoint of an edge, it is automatically defined as a node. 
+Our example could be written as:
 ```
 [b-c, f-c, g-h, d, f-b, k-f, h-g]
 ```
 We call this the human-friendly form. As the example shows, the list does not have to be sorted 
-and may even contain the same edge multiple times. Notice the isolated node d.
+and may even contain the same edge multiple times. Notice the isolated node ``d``.
 
 When the edges of a graph are directed, we call them arcs. These are represented by ordered pairs. 
 Such a graph is called directed graph. To represent a directed graph, the forms discussed above are slightly modified. 
-The example graph opposite is represented as follows:
+The example graph is represented as follows:
+
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph1.gif">
 
 graph-term form:
-```
-Digraph.term(List('r', 's', 't', 'u', 'v'),
-             List(('s', 'r'), ('s', 'u'), ('u', 'r'), ('u', 's'), ('v', 'u')))
+``` kotlin
+Digraph.term(listOf('r', 's', 't', 'u', 'v'),
+             listOf(('s', 'r'), ('s', 'u'), ('u', 'r'), ('u', 's'), ('v', 'u')))
 ```
 adjacency-list form:
-```
-Digraph.adjacent(List(('r', Nil), ('s', List('r', 'u')), ('t', Nil),
-                      ('u', List('r', 's')), ('v', List('u'))))
+``` kotlin
+Digraph.adjacent(listOf(('r', Nil), ('s', listOf('r', 'u')), ('t', Nil),
+                      ('u', listOf('r', 's')), ('v', listOf('u'))))
 ```
 (Note that the adjacency-list form is the same for graphs and digraphs.)
 
@@ -965,29 +973,30 @@ Finally, graphs and digraphs may have additional information attached to nodes a
 For the nodes, this is no problem, as we can put any type into them. On the other hand, for edges we have to extend our notation. 
 Graphs with additional information attached to edges are called labeled graphs.
 
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph3.gif">
+
 graph-term form:
-```
-Digraph.termLabel(List('k', 'm', 'p', 'q'),
-                  List(('m', 'q', 7), ('p', 'm', 5), ('p', 'q', 9)))
+``` kotlin
+Digraph.termLabel(listOf('k', 'm', 'p', 'q'), listOf(('m', 'q', 7), ('p', 'm', 5), ('p', 'q', 9)))
 ```                  
 adjacency-list form:
-```
+``` kotlin
 Digraph.adjacentLabel(
-  List(('k', Nil), ('m', List(('q', 7))), ('p', List(('m', 5), ('q', 9))),
-       ('q', Nil)))
+  listOf(('k', Nil), ('m', listOf(('q', 7))), ('p', listOf(('m', 5), ('q', 9))), ('q', Nil)))
 ```
 human-friendly form:
 ```
 [p>q/9, m>q/7, k, p>m/5]
 ```
-The notation for labeled graphs can also be used for so-called multi-graphs, where more than one edge (or arc) is allowed between two given nodes.
+The notation for labeled graphs can also be used for so-called multi-graphs, 
+where more than one edge (or arc) is allowed between two given nodes.
 
 ### [P80][] (***) Conversions.
-Write methods to generate the graph-term and adjacency-list forms from a Graph. 
-Write another method to output the human-friendly form for a graph. Make it the toString method for Graph. 
+Write methods to generate the graph-term and adjacency-list forms from a ``Graph``. 
+Write another method to output the human-friendly form for a graph. Make it the toString method for ``Graph``. 
 Write more functions to create graphs from strings.
 Hint: You might need separate functions for labeled and unlabeled graphs.
-```
+``` kotlin
 > Graph.fromString("[b-c, f-c, g-h, d, f-b, k-f, h-g]").toTermForm()
 res0: (List[String], List[(String, String, Unit)]) = (List(d, k, h, c, f, g, b),List((h,g,()), (k,f,()), (f,b,()), (g,h,()), (f,c,()), (b,c,())))
 > Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]").toAdjacentForm()
@@ -996,7 +1005,7 @@ res1: List[(String, List[(String, Int)])] = List((m,List((q,7))), (p,List((m,5),
 
 ### [P81][] (**) Path from one node to another one.
 Write a method named findPaths to find acyclic paths from one node to another in a graph. The method should return all paths.
-```
+``` kotlin
 > Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]").findPaths("p", "q")
 List(List(p, q), List(p, m, q))
 > Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]").findPaths("p", "k")
@@ -1005,7 +1014,7 @@ List()
 
 ### [P82][] (*) Cycle from a given node.
 Write a method named findCycles to find closed paths (cycles) starting at a given node in a graph. The method should return all cycles.
-```
+``` kotlin
 > Graph.fromString("[b-c, f-c, g-h, d, f-b, k-f, h-g]").findCycles("f")
 List(List(f, c, b, f), List(f, b, c, f))
 ```
@@ -1017,7 +1026,7 @@ The data of this example graph can be found below. When you have a correct solut
 use it to define two other useful methods: isTree and isConnected. Both are five-minute tasks!
 
 Graph:
-```
+``` kotlin
 Graph.term(List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'),
            List(('a', 'b'), ('a', 'd'), ('b', 'c'), ('b', 'e'),
                 ('c', 'e'), ('d', 'e'), ('d', 'f'), ('d', 'g'),
@@ -1030,7 +1039,7 @@ List([a-b, b-c], [a-c, b-c], [a-b, a-c])
 Write a method minimalSpanningTree to construct the minimal spanning tree of a given labeled graph. Hint: Use Prim's Algorithm. 
 A small modification of the solution of P83 does the trick. The data of the example graph to the right can be found below.
 Graph:
-```
+``` kotlin
 Graph.termLabel(
   List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'),
        List(('a', 'b', 5), ('a', 'd', 3), ('b', 'c', 2), ('b', 'e', 4),
@@ -1044,25 +1053,25 @@ Graph.termLabel(
 Two graphs G1(N1,E1) and G2(N2,E2) are isomorphic if there is a bijection f: N1 â†’ N2 such that for any nodes X,Y of N1, 
 X and Y are adjacent if and only if f(X) and f(Y) are adjacent.
 Write a method that determines whether two graphs are isomorphic.
-```
+``` kotlin
 > Graph.fromString("[a-b]").isIsomorphicTo(Graph.fromString("[5-7]"))
 true
 ```
 
 ### [P86][] (**) Node degree and graph coloration.
 a) Write a method Node.degree that determines the degree of a given node.
-```
+``` kotlin
 > Graph.fromString("[a-b, b-c, a-c, a-d]").nodes("a").degree()
 3
 ```
 b) Write a method that lists all nodes of a graph sorted according to decreasing degree.
-```
+``` kotlin
 > Graph.fromString("[a-b, b-c, a-c, a-d]").nodesByDegree()
 List(Node(a), Node(c), Node(b), Node(d))
 ```
 c) Use Welsh-Powell's algorithm to paint the nodes of a graph in such a way that adjacent nodes have different colors. 
 Make a method colorNodes that returns a list of tuples, each of which contains a node and an integer representing its color.
-```
+``` kotlin
 > Graph.fromString("[a-b, b-c, a-c, a-d]").colorNodes()
 List((Node(a),1), (Node(b),2), (Node(c), 3), (Node(d), 2))
 ```
@@ -1071,21 +1080,21 @@ List((Node(a),1), (Node(b),2), (Node(c), 3), (Node(d), 2))
 Write a method that generates a depth-first order graph traversal sequence. 
 The starting point should be specified, and the output should be a list of nodes 
 that are reachable from this starting point (in depth-first order).
-```
+``` kotlin
 scala> Graph.fromString("[a-b, b-c, e, a-c, a-d]").nodesByDepthFrom("d")
 res0: List[String] = List(c, b, a, d)
 ```
 
 ### [P88][] (**) Connected components.
 Write a function that splits a graph into its connected components.
-```
+``` kotlin
 > Graph.fromString("[a-b, c]").splitGraph()
 List([a-b], [c])
 ```
 
 ### [P89][] (**) Bipartite graphs.
 Write a function that determines whether a given graph is bipartite.
-```
+``` kotlin
 > Digraph.fromString("[a>b, c>a, d>b]").isBipartite()
 true
 > Graph.fromString("[a-b, b-c, c-a]").isBipartite()
