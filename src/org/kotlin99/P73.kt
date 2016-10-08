@@ -97,8 +97,7 @@ private class SequenceParser(val tokenParsers: List<TokenParser>) : TokenParser 
             rest = rest.drop(token.length())
             parsers = parsers.drop(1)
         }
-        if (tokens.size == 1) return tokens.first()
-        else return Seq(tokens)
+        return Seq(tokens)
     }
 }
 
@@ -114,12 +113,11 @@ private class RepeatedParser(val tokenParser: TokenParser) : TokenParser {
 
 private class OrParser(vararg val tokenParsers: TokenParser): TokenParser {
     override fun parse(s: String): Token? {
-        val result = null
         tokenParsers.forEach {
             val token = it.parse(s)
             if (token != null) return token
         }
-        return result
+        return null
     }
 }
 
