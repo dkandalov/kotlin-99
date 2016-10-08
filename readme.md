@@ -816,7 +816,7 @@ The result should be a ``List``.
 ```
 
 ### [P73][] (**) Lisp-like tree representation.
-[Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language) is a prominent functional programming language. 
+[Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language)) is a prominent functional programming language. 
 In Lisp almost everything is a list. Our example tree would be represented in Lisp as ``(a (f g) c (b d e))``. 
 The following pictures give some more examples.
 
