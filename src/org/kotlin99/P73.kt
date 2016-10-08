@@ -46,14 +46,15 @@ data class Seq(val tokens: List<Token>): Token {
 
 interface TokenParser {
     fun parse(s: String): ParseResult<Token>
-    fun match(s: String) = parse(s).token != null
 }
 data class ParseResult<out T : Token>(val token: T?, val s: String)
+fun <T : Token> okParseResult(token: T, s: String): ParseResult<T> = ParseResult(token, s)
+fun failedParseResult(s: String): ParseResult<Nothing> = ParseResult(null, s)
 
 class TextParser(val value: String): TokenParser {
     override fun parse(s: String): ParseResult<Token> =
-            if (s.startsWith(value)) ParseResult(Text(value), s.drop(1))
-            else ParseResult(null, s)
+            if (s.startsWith(value)) okParseResult(Text(value), s.drop(1))
+            else failedParseResult(s)
 }
 val LParenParser = TextParser("(")
 val RParenParser = TextParser(")")
@@ -62,11 +63,11 @@ val SpaceParser = TextParser(" ")
 object AtomParser : TokenParser {
     override fun parse(s: String): ParseResult<Token> {
         val atom = s.takeWhile{
-            !LParenParser.match(it.toString()) &&
-            !RParenParser.match(it.toString()) &&
-            !SpaceParser.match(it.toString())
+            LParenParser.value != it.toString() &&
+            RParenParser.value != it.toString() &&
+            SpaceParser.value != it.toString()
         }
-        return if (atom.isEmpty()) ParseResult(null, s) else ParseResult(Atom(atom), s.drop(atom.length))
+        return if (atom.isEmpty()) failedParseResult(s) else okParseResult(Atom(atom), s.drop(atom.length))
     }
 }
 
@@ -79,15 +80,15 @@ class SequenceParser(val tokenParsers: List<TokenParser>) : TokenParser {
         var parsers = tokenParsers
         while (rest.isNotEmpty() && parsers.isNotEmpty()) {
             val (token, s1) = parsers.first().parse(rest)
-            if (token == null) return ParseResult(null, s)
+            if (token == null) return failedParseResult(s)
             if (!token.canDrop()) {
                 tokens.add(token)
             }
             rest = s1
             parsers = parsers.drop(1)
         }
-        if (tokens.size == 1) return ParseResult(tokens.first(), rest)
-        else return ParseResult(Seq(tokens), rest)
+        if (tokens.size == 1) return okParseResult(tokens.first(), rest)
+        else return okParseResult(Seq(tokens), rest)
     }
 }
 
@@ -95,10 +96,10 @@ class RepeatedParser(val tokenParser: TokenParser) : TokenParser {
     override fun parse(s: String): ParseResult<Seq> {
         val (token, s1) = tokenParser.parse(s)
         return when (token) {
-            null -> ParseResult(Seq(), s)
+            null -> okParseResult(Seq(), s)
             else -> {
                 val result = parse(s1)
-                ParseResult(result.token!!.prepend(token), result.s)
+                okParseResult(result.token!!.prepend(token), result.s)
             }
         }
     }
@@ -106,10 +107,10 @@ class RepeatedParser(val tokenParser: TokenParser) : TokenParser {
 
 class OrParser(vararg val tokenParsers: TokenParser): TokenParser {
     override fun parse(s: String): ParseResult<Token> {
-        val result = ParseResult(null, s)
+        val result = failedParseResult(s)
         tokenParsers.forEach {
             val (token, s1) = it.parse(s)
-            if (token != null) return ParseResult(token, s1)
+            if (token != null) return okParseResult(token, s1)
         }
         return result
     }
