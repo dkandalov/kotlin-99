@@ -15,10 +15,10 @@ fun String.fromLispString(): MTree<String> =
 
 fun Token.toMTree(): MTree<String> =
         if (this is Seq) {
-            val value = tokens.filter{ it is Value }.map{ (it as Value).value }.first()
+            val atom = tokens.filter{ it is Atom }.map{ (it as Atom).value }.first()
             val children = tokens.filter{ it is Seq }.flatMap{ (it as Seq).tokens }.map{ it.toMTree() }
-            MTree(value, children)
-        } else if (this is Value) {
+            MTree(atom, children)
+        } else if (this is Atom) {
             MTree(value)
         } else {
             throw IllegalStateException()
@@ -32,7 +32,7 @@ data class Text(val value: String) : Token {
     override fun toString() = "'$value'"
     override fun canDrop() = true
 }
-data class Value(val value: String): Token {
+data class Atom(val value: String): Token {
     override fun toString() = "v'$value'"
     override fun canDrop(): Boolean = false
 }
@@ -59,14 +59,14 @@ val LParenParser = TextParser("(")
 val RParenParser = TextParser(")")
 val SpaceParser = TextParser(" ")
 
-object ValueParser: TokenParser {
+object AtomParser : TokenParser {
     override fun parse(s: String): ParseResult<Token> {
-        val value = s.takeWhile{
+        val atom = s.takeWhile{
             !LParenParser.match(it.toString()) &&
             !RParenParser.match(it.toString()) &&
             !SpaceParser.match(it.toString())
         }
-        return if (value.isEmpty()) ParseResult(null, s) else ParseResult(Value(value), s.drop(value.length))
+        return if (atom.isEmpty()) ParseResult(null, s) else ParseResult(Atom(atom), s.drop(atom.length))
     }
 }
 
@@ -118,8 +118,8 @@ class OrParser(vararg val tokenParsers: TokenParser): TokenParser {
 object SExprParser : TokenParser {
     override fun parse(s: String): ParseResult<Token> {
         val parser = OrParser(
-            SequenceParser(LParenParser, ValueParser, RepeatedParser(SequenceParser(SpaceParser, this)), RParenParser),
-            ValueParser
+                SequenceParser(LParenParser, AtomParser, RepeatedParser(SequenceParser(SpaceParser, this)), RParenParser),
+                AtomParser
         )
         return parser.parse(s)
     }
@@ -135,16 +135,16 @@ class P73Test {
     }
 
     @Test fun `parse s-expression into tokens`() {
-        assertThat(SExprParser.parse("a").token!!, equalTo<Token>(Value("a")))
-        assertThat(SExprParser.parse("(a)").token!!, equalTo<Token>(Value("a")))
+        assertThat(SExprParser.parse("a").token!!, equalTo<Token>(Atom("a")))
+        assertThat(SExprParser.parse("(a)").token!!, equalTo<Token>(Atom("a")))
         assertThat(SExprParser.parse("(a b c d)").token!!, equalTo<Token>(
-            Seq(Value("a"),
-                Seq(Value("b"), Value("c"), Value("d")))
+            Seq(Atom("a"),
+                Seq(Atom("b"), Atom("c"), Atom("d")))
         ))
         assertThat(SExprParser.parse("(a b (c d))").token!!, equalTo<Token>(
-            Seq(Value("a"),
-                Seq(Value("b"),
-                    Seq(Value("c"), Seq(Value("d")))
+            Seq(Atom("a"),
+                Seq(Atom("b"),
+                    Seq(Atom("c"), Seq(Atom("d")))
                 )
             )
         ))
@@ -152,14 +152,14 @@ class P73Test {
 
     @Test fun `transform tokens into multiway tree`() {
         assertThat(
-            Seq(Value("a"),
-                Seq(Value("b"), Value("c"), Value("d"))
+            Seq(Atom("a"),
+                Seq(Atom("b"), Atom("c"), Atom("d"))
             ).toMTree(),
             equalTo(MTree("a", MTree("b"), MTree("c"), MTree("d"))))
 
         assertThat(
-            Seq(Value("a"),
-                Seq(Value("b"), Value("c"), Value("d"))
+            Seq(Atom("a"),
+                Seq(Atom("b"), Atom("c"), Atom("d"))
             ).toMTree(),
             equalTo(MTree("a", MTree("b"), MTree("c"), MTree("d"))))
     }
