@@ -13,73 +13,78 @@ fun String.fromLispString(): MTree<String> =
         SExprParser.parse(this)!!.trim()!!.toMTree()
 
 
-fun Token.toMTree(): MTree<String> =
-        if (this is Seq) {
-            val atom = (tokens.first() as Atom).value
-            val children = tokens.drop(1).flatMap{ token ->
-                if (token is Seq) {
-                    token.tokens.map{ it.toMTree() }
-                } else if (token is Atom) {
-                    listOf(MTree(token.value))
-                } else {
-                    emptyList()
-                }
-            }
-            MTree(atom, children)
-        } else if (this is Atom) {
-            MTree(value)
-        } else {
-            throw IllegalStateException()
-        }
+private object SExprParser : TokenParser {
+    override fun parse(s: String): Token? {
+        val parser = OrParser(
+                SequenceParser(LParenParser, AtomParser, RepeatedParser(SequenceParser(SpaceParser, this)), RParenParser),
+                AtomParser
+        )
+        return parser.parse(s)
+    }
+}
+
+private fun Token.toMTree(): MTree<String> {
+    fun Token.toList(): List<Token> =
+        if (this is Atom) listOf(this)
+        else if (this is Seq) this.tokens
+        else throw IllegalStateException(this.toString())
+
+    return if (this is Seq) {
+        MTree((tokens[0] as Atom).value, tokens[1].toList().map { it.toMTree() })
+    } else if (this is Atom) {
+        MTree(value)
+    } else {
+        throw IllegalStateException(this.toString())
+    }
+}
 
 
-interface Token {
+private interface Token {
     fun length(): Int
     fun trim(): Token?
 }
-data class Text(val value: String) : Token {
-    override fun toString() = "'$value'"
+private data class Text(val value: String) : Token {
     override fun trim() = null
     override fun length() = value.length
+    override fun toString() = "$value"
 }
-data class Atom(val value: String): Token {
-    override fun toString() = "v'$value'"
+private data class Atom(val value: String): Token {
     override fun trim() = this
     override fun length() = value.length
+    override fun toString() = "'$value'"
 }
-data class Seq(val tokens: List<Token>): Token {
+private data class Seq(val tokens: List<Token>): Token {
     constructor (vararg tokens: Token) : this(tokens.toList())
-    fun prepend(token: Token): Seq = Seq(listOf(token) + tokens)
     override fun trim(): Token? =
         if (tokens.isEmpty()) null
         else {
             val trimmed = tokens.map{ it.trim() }.filter{ it != null }.map{ it!! }
             if (trimmed.size == 1) trimmed.first() else Seq(trimmed)
         }
-    override fun toString() = "Seq[" + tokens.joinToString(" ") + "]"
     override fun length() = tokens.sumBy{ it.length() }
+    override fun toString() = "Seq[" + tokens.joinToString(" ") + "]"
 }
 
 
-interface TokenParser {
+private interface TokenParser {
     fun parse(s: String): Token?
 }
-class TextParser(val value: String): TokenParser {
+private class TextParser(val value: String): TokenParser {
     override fun parse(s: String): Token? =
             if (s.startsWith(value)) Text(value) else null
 }
-val LParenParser = TextParser("(")
-val RParenParser = TextParser(")")
-val SpaceParser = TextParser(" ")
+private val LParenParser = TextParser("(")
+private val RParenParser = TextParser(")")
+private val SpaceParser = TextParser(" ")
 
-object AtomParser : TokenParser {
+private object AtomParser : TokenParser {
     override fun parse(s: String): Token? {
         val atom = s.takeWhile{ it != '(' && it != ')' && it != ' ' }
         return if (atom.isEmpty()) null else Atom(atom)
     }
 }
 
-class SequenceParser(val tokenParsers: List<TokenParser>) : TokenParser {
+private class SequenceParser(val tokenParsers: List<TokenParser>) : TokenParser {
     constructor(vararg tokenParsers: TokenParser) : this(tokenParsers.toList())
 
     override fun parse(s: String): Token? {
@@ -97,7 +102,9 @@ class SequenceParser(val tokenParsers: List<TokenParser>) : TokenParser {
     }
 }
 
-class RepeatedParser(val tokenParser: TokenParser) : TokenParser {
+private class RepeatedParser(val tokenParser: TokenParser) : TokenParser {
+    private fun Seq.prepend(token: Token): Seq = Seq(listOf(token) + tokens)
+
     override fun parse(s: String): Seq {
         val token = tokenParser.parse(s)
         return if (token == null) Seq()
@@ -105,7 +112,7 @@ class RepeatedParser(val tokenParser: TokenParser) : TokenParser {
     }
 }
 
-class OrParser(vararg val tokenParsers: TokenParser): TokenParser {
+private class OrParser(vararg val tokenParsers: TokenParser): TokenParser {
     override fun parse(s: String): Token? {
         val result = null
         tokenParsers.forEach {
@@ -113,16 +120,6 @@ class OrParser(vararg val tokenParsers: TokenParser): TokenParser {
             if (token != null) return token
         }
         return result
-    }
-}
-
-object SExprParser : TokenParser {
-    override fun parse(s: String): Token? {
-        val parser = OrParser(
-                SequenceParser(LParenParser, AtomParser, RepeatedParser(SequenceParser(SpaceParser, this)), RParenParser),
-                AtomParser
-        )
-        return parser.parse(s)
     }
 }
 
