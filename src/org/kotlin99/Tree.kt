@@ -3,28 +3,28 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
 
-interface Tree<out T>
-
-data class Node<out T>(val value: T, val left: Tree<T> = End, val right: Tree<T> = End) : Tree<T> {
-    override fun toString(): String {
-        val children = if (left == End && right == End) "" else " $left $right"
-        return "T($value$children)"
+interface Tree<out T> {
+    // This class declared inside Tree interface to use Tree as a "namespace".
+    data class Node<out T>(val value: T, val left: Tree<T> = End, val right: Tree<T> = End) : Tree<T> {
+        override fun toString(): String {
+            val children = if (left == End && right == End) "" else " $left $right"
+            return "T($value$children)"
+        }
     }
+
+    object End : Tree<Nothing> {
+        override fun toString() = "."
+    }
+
+    fun Tree<*>.throwUnknownImplementation(): Nothing = throw UnknownImplementation(this.toString())
+
+    class UnknownImplementation(message: String) : RuntimeException(message)
 }
 
-object End : Tree<Nothing> {
-    override fun toString() = "."
-}
-
-fun Tree<*>.throwUnknownImplementation(): Nothing = this.throwUnknownImplementation()
-
-class UnknownTreeImplementation(message: String) : RuntimeException(message) {
-    constructor (any: Any): this(any.toString())
-}
-
-
-class P51Test {
+class TreeTest {
     @Test fun `tree construction and string conversion`() {
         val node =
             Node('a',

@@ -3,6 +3,8 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
 
 fun <T> Tree<T>.isSymmetric(): Boolean = this == End || (this is Node<*> && left.isMirrorOf(right))
 

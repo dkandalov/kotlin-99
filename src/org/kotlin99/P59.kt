@@ -7,6 +7,8 @@ import com.natpryce.hamkrest.describe
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.kotlin99.P55Test.Companion.nodeList
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
 
 fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
     if (height < 1) listOf(End)

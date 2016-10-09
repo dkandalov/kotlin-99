@@ -4,6 +4,8 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.P57Test.Companion.equalToTree
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
 
 fun <T> Tree<T>.preorder(): List<T> =
         if (this == End) emptyList<T>()

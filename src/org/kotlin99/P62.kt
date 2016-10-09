@@ -2,6 +2,9 @@ package org.kotlin99
 
 import com.natpryce.hamkrest.assertion.assertThat
 import org.junit.Test
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
+
 
 fun <T> Tree<T>.valuesAtLevel(n: Int): List<T> =
         if (this == End) {

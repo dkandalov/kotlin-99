@@ -3,6 +3,8 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import org.junit.Test
 import org.kotlin99.P55Test.Companion.nodeList
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
 
 fun <T> symmetricBalancedTrees(treeSize: Int, value: T): List<Tree<T>> =
         balancedTrees(treeSize, value).filter { it.isSymmetric() }

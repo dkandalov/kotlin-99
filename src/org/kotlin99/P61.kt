@@ -3,6 +3,8 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
 
 
 fun Tree<*>.leafCount(): Int = leafValues().size

@@ -6,6 +6,8 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
 
 fun <T : Comparable<T>> List<T>.toTree(): Tree<T> =
     fold(End as Tree<T>) { tree, value ->

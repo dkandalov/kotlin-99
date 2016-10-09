@@ -4,6 +4,8 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.P55Test.Companion.nodeList
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
 
 fun maxNodeAmountInHBTree(height: Int): Int =
     Math.pow(2.0, height.toDouble()).toInt() - 1

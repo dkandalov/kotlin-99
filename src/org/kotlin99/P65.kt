@@ -4,6 +4,8 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.P64Test.Companion.toPrettyString
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
 
 fun <T> Tree<T>.layout2(x: Int = leftmostBranchXShift(), y: Int = 1,
                         spaces: Spaces = Spaces(this)): Tree<Positioned<T>> =

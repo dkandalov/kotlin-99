@@ -2,6 +2,8 @@ package org.kotlin99
 
 import com.natpryce.hamkrest.assertion.assertThat
 import org.junit.Test
+import org.kotlin99.Tree.End
+import org.kotlin99.Tree.Node
 
 fun <T> balancedTrees(treeSize: Int, value: T): List<Tree<T>> {
     if (treeSize == 0) return listOf(End)
