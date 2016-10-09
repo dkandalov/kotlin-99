@@ -839,6 +839,9 @@ a {f {g}, c, b {d, e}}
 
 ## Graphs
 
+(Warning! The introductory text below is quite long. If you are familiar with graphs, 
+you might just look at source code in [Graph.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/Graph.kt).)
+
 A [graph](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)) 
 is defined as a set of nodes and a set of edges, where each edge is a pair of nodes.
 
@@ -854,85 +857,90 @@ Each node also has a list of edges that connect it to other nodes.
 In a [directed graph](https://en.wikipedia.org/wiki/Directed_graph), 
 nodes that are the target of arcs do not have references to those arcs in their adjacency list.
 ``` kotlin
-abstract class GraphBase[T, U] {
-  case class Edge(n1: Node, n2: Node, value: U) {
-    def toTuple = (n1.value, n2.value, value)
-  }
-  case class Node(value: T) {
-    var adj: List[Edge] = Nil
-    def neighbors: List[Node] = adj.map(edgeTarget(_, this).get)
-  }
+class Graph<T, U> {
+    val nodes: MutableMap<T, Graph.Node<T>> = HashMap()
+    val edges: MutableList<Edge<T, U>> = ArrayList()
 
-  var nodes: Map[T, Node] = Map()
-  var edges: List[Edge] = Nil
+    fun addNode(value: T): Node<T> {
+        val node = Graph.Node(value)
+        nodes.put(value, node)
+        return node
+    }
 
-  // If the edge E connects N to another node, returns the other node,
-  // otherwise returns None.
-  def edgeTarget(e: Edge, n: Node): Option[Node]
+    fun addEdge(n1: T, n2: T, value: U) {
+        if (!nodes.contains(n1) || !nodes.contains(n2)) {
+            throw IllegalStateException("Expected '$n1' and '$n2' nodes to exist in graph")
+        }
+        val edge = Edge(nodes[n1]!!, nodes[n2]!!, value)
+        if (edges.all{ !it.equivalentTo(edge) }) {
+            edges.add(edge)
+            nodes[n1]!!.adj.add(edge)
+            nodes[n2]!!.adj.add(edge)
+        }
+    }
 
-  override def equals(o: Any) = o match {
-    case g: GraphBase[T,U] => (nodes.keys.toList -- g.nodes.keys.toList == Nil &&
-                               edges.map(_.toTuple) -- g.edges.map(_.toTuple) == Nil)
-    case _ => false
-  }
+    fun addArc(source: T, dest: T, value: U) {
+        val edge = Edge(nodes[source]!!, nodes[dest]!!, value)
+        edges.add(edge)
+        nodes[source]!!.adj.add(edge)
+    }
 
-  def addNode(value: T) = {
-    val n = new Node(value)
-    nodes = Map(value -> n) ++ nodes
-    n
-  }
+    override fun toString(): String {
+        val standaloneNodes = nodes.values.filter{ node -> edges.all { it.n1 != node && it.n2 != node } }
+        val s = (edges.map{ it.toString() } + standaloneNodes.map{ it.toString() }).joinToString()
+        return "[$s]"
+    }
+
+    override fun equals(other: Any?): Boolean{
+        if (this === other || other?.javaClass != javaClass) return false
+        other as Graph<*, *>
+        return nodes == other.nodes && edges == other.edges
+    }
+
+    override fun hashCode() = 31 * nodes.hashCode() + edges.hashCode()
+
+
+    data class Edge<T, U>(val n1: Node<T>, val n2: Node<T>, val value: U) {
+        fun target(node: Node<T>): Node<T>? =
+                if (n1 == node) n2 else if (n2 == node) n1 else null
+
+        fun equivalentTo(other: Edge<T, U>) =
+                (n1 == other.n1 && n2 == other.n2) || (n1 == other.n2 && n2 == other.n1)
+
+        override fun toString() = n1.toString() + "-" + n2
+    }
+
+    data class DirectedEdge<T, U>(val from: Node<T>, val to: Node<T>, val value: U) {
+        fun target(node: Node<T>): Node<T>? =
+            if (from == node) to
+            else null
+    }
+
+    data class Node<T>(val value: T) {
+        val adj: MutableList<Edge<T, *>> = ArrayList()
+        fun neighbors(): List<Node<T>> = adj.map{ edge -> edge.target(this)!! }
+        override fun toString() = value.toString()
+    }
 }
 
-class Graph[T, U] extends GraphBase[T, U] {
-  override def equals(o: Any) = o match {
-    case g: Graph[T,U] => super.equals(g)
-    case _ => false
-  }
-
-  def edgeTarget(e: Edge, n: Node): Option[Node] =
-    if (e.n1 == n) Some(e.n2)
-    else if (e.n2 == n) Some(e.n1)
-    else None
-
-  def addEdge(n1: T, n2: T, value: U) = {
-    val e = new Edge(nodes(n1), nodes(n2), value)
-    edges = e :: edges
-    nodes(n1).adj = e :: nodes(n1).adj
-    nodes(n2).adj = e :: nodes(n2).adj
-  }
-}
-
-class Digraph[T, U] extends GraphBase[T, U] {
-  override def equals(o: Any) = o match {
-    case g: Digraph[T,U] => super.equals(g)
-    case _ => false
-  }
-
-  def edgeTarget(e: Edge, n: Node): Option[Node] =
-    if (e.n1 == n) Some(e.n2)
-    else None
-
-  def addArc(source: T, dest: T, value: U) = {
-    val e = new Edge(nodes(source), nodes(dest), value)
-    edges = e :: edges
-    nodes(source).adj = e :: nodes(source).adj
-  }
-}
 ```
-The full initial Graph code, which also includes objects for creating graphs, is in 
-[Graph.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/Graph.kt).
 
 There are a few ways to create a graph from primitives. The graph-term form lists the nodes and edges separately:
 ``` kotlin
-Graph.term(listOf('b', 'c', 'd', 'f', 'g', 'h', 'k'),
-           listOf(('b', 'c'), ('b', 'f'), ('c', 'f'), ('f', 'k'), ('g', 'h')))
+Graph.terms(nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
+            edges = listOf(Pair("b", "c"), Pair("b", "f"), Pair("c", "f"), Pair("f", "k"), Pair("g", "h")))
 ```
 The adjacency-list form associates each node with its adjacent nodes. In an undirected graph, care must be taken to ensure 
 that all links are symmetric, i.e. if b is adjacent to c, c must also be adjacent to b.
 ``` kotlin
-Graph.adjacent(listOf(('b', listOf('c', 'f')), ('c', listOf('b', 'f')), ('d', Nil),
-                    ('f', listOf('b', 'c', 'k')), ('g', listOf('h')), ('h', listOf('g')),
-                    ('k', listOf('f'))))
+Graph.adjacent(
+	Pair("b", listOf("c", "f")),
+	Pair("c", listOf("b", "f")),
+	Pair("d", emptyList()),
+	Pair("f", listOf("b", "c", "k")),
+	Pair("g", listOf("h")),
+	Pair("h", listOf("g")),
+	Pair("k", listOf("f")))
 ```                    
 The representations we introduced so far are bound to our implementation and therefore well suited for automated processing, 
 but their syntax is not very user-friendly. Typing the terms by hand is cumbersome and error-prone. 
@@ -942,7 +950,7 @@ The standalone terms stand for isolated nodes, the ``Y-Z`` terms describe edges.
 If an ``X`` appears as an endpoint of an edge, it is automatically defined as a node. 
 Our example could be written as:
 ```
-[b-c, f-c, g-h, d, f-b, k-f, h-g]
+[b-c, f-c, g-h, f-b, k-f, h-g, d]
 ```
 We call this the human-friendly form. As the example shows, the list does not have to be sorted 
 and may even contain the same edge multiple times. Notice the isolated node ``d``.
