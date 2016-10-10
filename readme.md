@@ -955,20 +955,20 @@ Our example could be written as:
 We call this the human-friendly form. As the example shows, the list does not have to be sorted 
 and may even contain the same edge multiple times. Notice the isolated node ``d``.
 
-When the edges of a graph are directed, we call them arcs. These are represented by ordered pairs. 
-Such a graph is called directed graph. To represent a directed graph, the forms discussed above are slightly modified. 
+[Directed graph](https://en.wikipedia.org/wiki/Directed_graph) is a graph where edges have direction.
+To represent a directed graph, the forms discussed above are slightly modified. 
 The example graph is represented as follows:
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph2.gif">
 
 In graph-term form:
 ``` kotlin
-Graph.arcTerms(listOf("r", "s", "t", "u", "v"),
-               listOf(Pair("s", "r"), Pair("s", "u"), Pair("u", "r"), Pair("u", "s"), Pair("v", "u")))
+Graph.directedTerms(listOf("r", "s", "t", "u", "v"),
+                    listOf(Pair("s", "r"), Pair("s", "u"), Pair("u", "r"), Pair("u", "s"), Pair("v", "u")))
 ```
 In adjacency-list form (note that the adjacency-list form is the same for graphs and digraphs):
 ``` kotlin
-Graph.arcAdjacent(
+Graph.directedAdjacent(
 	Pair("r", emptyList()),
 	Pair("s", listOf("r", "u")),
 	Pair("t", emptyList()),
@@ -980,7 +980,7 @@ Human-friendly form:
 ```
 [s>r, s>u, u>r, u>s, v>u, t]
 ```
-Finally, graphs and digraphs may have additional information attached to nodes and edges (arcs). 
+Finally, graphs and digraphs may have additional information attached to nodes and edges. 
 For the nodes, this is no problem, as we can put any type into them. On the other hand, for edges we have to extend our notation. 
 Graphs with additional information attached to edges are called labeled graphs.
 
@@ -1000,7 +1000,7 @@ Human-friendly form:
 [p>q/9, m>q/7, k, p>m/5]
 ```
 The notation for labeled graphs can also be used for so-called multi-graphs, 
-where more than one edge (or arc) is allowed between two given nodes.
+where more than one edge is allowed between two given nodes.
 
 ### [P80][] (***) Conversions.
 Write methods to generate the graph-term and adjacency-list forms from a ``Graph``. 

@@ -9,7 +9,7 @@ import java.util.*
 
 class Graph<T, U> {
     val nodes: MutableMap<T, Node<T>> = HashMap()
-    val edges: MutableList<Link<T, U>> = ArrayList()
+    val edges: MutableList<Edge<T, U>> = ArrayList()
 
     fun addNode(value: T): Node<T> {
         val node = Node(value)
@@ -17,11 +17,11 @@ class Graph<T, U> {
         return node
     }
 
-    fun addEdge(n1: T, n2: T, value: U) {
+    fun addUndirectedEdge(n1: T, n2: T, value: U) {
         if (!nodes.contains(n1) || !nodes.contains(n2)) {
             throw IllegalStateException("Expected '$n1' and '$n2' nodes to exist in graph")
         }
-        val edge = Edge(nodes[n1]!!, nodes[n2]!!, value)
+        val edge = UndirectedEdge(nodes[n1]!!, nodes[n2]!!, value)
         if (edges.all{ !it.equivalentTo(edge) }) {
             edges.add(edge)
             nodes[n1]!!.adj.add(edge)
@@ -29,11 +29,11 @@ class Graph<T, U> {
         }
     }
 
-    fun addArc(source: T, dest: T, value: U) {
-        val arc = Arc(nodes[source]!!, nodes[dest]!!, value)
-        if (!edges.contains(arc)) {
-            edges.add(arc)
-            nodes[source]!!.adj.add(arc)
+    fun addDirectedEdge(source: T, dest: T, value: U) {
+        val edge = DirectedEdge(nodes[source]!!, nodes[dest]!!, value)
+        if (!edges.contains(edge)) {
+            edges.add(edge)
+            nodes[source]!!.adj.add(edge)
         }
     }
 
@@ -53,12 +53,12 @@ class Graph<T, U> {
 
 
     data class Node<T>(val value: T) {
-        val adj: MutableList<Link<T, *>> = ArrayList()
+        val adj: MutableList<Edge<T, *>> = ArrayList()
         fun neighbors(): List<Node<T>> = adj.map{ edge -> edge.target(this)!! }
         override fun toString() = value.toString()
     }
 
-    interface Link<T, U> {
+    interface Edge<T, U> {
         val n1: Node<T>
         val n2: Node<T>
         fun target(node: Node<T>): Node<T>?
@@ -66,12 +66,12 @@ class Graph<T, U> {
                 (n1 == other.n1 && n2 == other.n2) || (n1 == other.n2 && n2 == other.n1)
     }
 
-    data class Edge<T, U>(override val n1: Node<T>, override val n2: Node<T>, val value: U) : Link<T, U> {
+    data class UndirectedEdge<T, U>(override val n1: Node<T>, override val n2: Node<T>, val value: U) : Edge<T, U> {
         override fun target(node: Node<T>) = if (n1 == node) n2 else if (n2 == node) n1 else null
         override fun toString() = n1.toString() + "-" + n2
     }
 
-    data class Arc<T, U>(override val n1: Node<T>, override val n2: Node<T>, val value: U) : Link<T, U> {
+    data class DirectedEdge<T, U>(override val n1: Node<T>, override val n2: Node<T>, val value: U) : Edge<T, U> {
         override fun target(node: Node<T>) = if (n1 == node) n2 else null
         override fun toString() = n1.toString() + ">" + n2
     }
@@ -80,13 +80,13 @@ class Graph<T, U> {
     companion object {
         fun <T> terms(nodes: List<T>, edges: List<Pair<T, T>>): Graph<T, *> {
             return createFromTerms(nodes, edges) { graph, n1, n2, value ->
-                graph.addEdge(n1, n2, value)
+                graph.addUndirectedEdge(n1, n2, value)
             }
         }
 
-        fun <T> arcTerms(nodes: List<T>, arcs: List<Pair<T, T>>): Graph<T, *> {
-            return createFromTerms(nodes, arcs) { graph, n1, n2, value ->
-                graph.addArc(n1, n2, value)
+        fun <T> directedTerms(nodes: List<T>, edges: List<Pair<T, T>>): Graph<T, *> {
+            return createFromTerms(nodes, edges) { graph, n1, n2, value ->
+                graph.addDirectedEdge(n1, n2, value)
             }
         }
 
@@ -96,17 +96,17 @@ class Graph<T, U> {
 
         fun <T> adjacent(nodesWithNeighbors: List<Pair<T, List<T>>>): Graph<T, *> {
             return fromAdjacencyList(nodesWithNeighbors) { graph, n1, n2, value ->
-                graph.addEdge(n1, n2, value)
+                graph.addUndirectedEdge(n1, n2, value)
             }
         }
 
-        fun <T> arcAdjacent(vararg nodesWithNeighbors: Pair<T, List<T>>): Graph<T, *> {
-            return arcAdjacent(nodesWithNeighbors.toList())
+        fun <T> directedAdjacent(vararg nodesWithNeighbors: Pair<T, List<T>>): Graph<T, *> {
+            return directedAdjacent(nodesWithNeighbors.toList())
         }
 
-        fun <T> arcAdjacent(nodesWithNeighbors: List<Pair<T, List<T>>>): Graph<T, *> {
+        fun <T> directedAdjacent(nodesWithNeighbors: List<Pair<T, List<T>>>): Graph<T, *> {
             return fromAdjacencyList(nodesWithNeighbors) { graph, n1, n2, value ->
-                graph.addArc(n1, n2, value)
+                graph.addDirectedEdge(n1, n2, value)
             }
         }
 
@@ -165,13 +165,13 @@ class GraphTest {
     }
 
     @Test fun `create directed graph from list of nodes and edges`() {
-        val graph = Graph.arcTerms(listOf("r", "s", "t", "u", "v"),
-                                   listOf(Pair("s", "r"), Pair("s", "u"), Pair("u", "r"), Pair("u", "s"), Pair("v", "u")))
+        val graph = Graph.directedTerms(listOf("r", "s", "t", "u", "v"),
+                                        listOf(Pair("s", "r"), Pair("s", "u"), Pair("u", "r"), Pair("u", "s"), Pair("v", "u")))
         assertPropertiesOfDirectedGraphFromIllustration(graph)
     }
 
     @Test fun `create directed graph from adjacency list`() {
-        val graph = Graph.arcAdjacent(
+        val graph = Graph.directedAdjacent(
                 Pair("r", emptyList()),
                 Pair("s", listOf("r", "u")),
                 Pair("t", emptyList()),
