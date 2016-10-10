@@ -959,23 +959,26 @@ When the edges of a graph are directed, we call them arcs. These are represented
 Such a graph is called directed graph. To represent a directed graph, the forms discussed above are slightly modified. 
 The example graph is represented as follows:
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph1.gif">
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph2.gif">
 
-graph-term form:
+In graph-term form:
 ``` kotlin
-Digraph.term(listOf('r', 's', 't', 'u', 'v'),
-             listOf(('s', 'r'), ('s', 'u'), ('u', 'r'), ('u', 's'), ('v', 'u')))
+Graph.arcTerms(listOf("r", "s", "t", "u", "v"),
+               listOf(Pair("s", "r"), Pair("s", "u"), Pair("u", "r"), Pair("u", "s"), Pair("v", "u")))
 ```
-adjacency-list form:
+In adjacency-list form (note that the adjacency-list form is the same for graphs and digraphs):
 ``` kotlin
-Digraph.adjacent(listOf(('r', Nil), ('s', listOf('r', 'u')), ('t', Nil),
-                      ('u', listOf('r', 's')), ('v', listOf('u'))))
+Graph.arcAdjacent(
+	Pair("r", emptyList()),
+	Pair("s", listOf("r", "u")),
+	Pair("t", emptyList()),
+	Pair("u", listOf("r", "s")),
+	Pair("v", listOf("u")))
 ```
-(Note that the adjacency-list form is the same for graphs and digraphs.)
 
-human-friendly form:
+Human-friendly form:
 ```
-[s>r, t, u>r, s>u, u>s, v>u]
+[s>r, s>u, u>r, u>s, v>u, t]
 ```
 Finally, graphs and digraphs may have additional information attached to nodes and edges (arcs). 
 For the nodes, this is no problem, as we can put any type into them. On the other hand, for edges we have to extend our notation. 
@@ -983,16 +986,16 @@ Graphs with additional information attached to edges are called labeled graphs.
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph3.gif">
 
-graph-term form:
+Graph-term form:
 ``` kotlin
 Digraph.termLabel(listOf('k', 'm', 'p', 'q'), listOf(('m', 'q', 7), ('p', 'm', 5), ('p', 'q', 9)))
 ```                  
-adjacency-list form:
+Adjacency-list form:
 ``` kotlin
 Digraph.adjacentLabel(
   listOf(('k', Nil), ('m', listOf(('q', 7))), ('p', listOf(('m', 5), ('q', 9))), ('q', Nil)))
 ```
-human-friendly form:
+Human-friendly form:
 ```
 [p>q/9, m>q/7, k, p>m/5]
 ```
