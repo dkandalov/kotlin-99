@@ -980,15 +980,13 @@ Human-friendly form:
 ```
 [s>r, s>u, u>r, u>s, v>u, t]
 ```
-Finally, graphs and digraphs may have additional information attached to nodes and edges. 
-For the nodes, this is no problem, as we can put any type into them. On the other hand, for edges we have to extend our notation. 
-Graphs with additional information attached to edges are called labeled graphs.
+Finally, graphs with additional information attached to edges are called labeled graphs.
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph3.gif">
 
 Graph-term form:
 ``` kotlin
-Digraph.termLabel(listOf('k', 'm', 'p', 'q'), listOf(('m', 'q', 7), ('p', 'm', 5), ('p', 'q', 9)))
+Graph.terms(listOf("k", "m", "p", "q"), listOf(Triple("m", "q", 7), Triple("p", "m", 5), Triple("p", "q", 9)))
 ```                  
 Adjacency-list form:
 ``` kotlin
