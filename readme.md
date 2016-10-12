@@ -986,30 +986,33 @@ Finally, graphs with additional information attached to edges are called labeled
 
 Graph-term form:
 ``` kotlin
-Graph.terms(listOf("k", "m", "p", "q"), listOf(Triple("m", "q", 7), Triple("p", "m", 5), Triple("p", "q", 9)))
+Graph.labeledTerms(
+    listOf("k", "m", "p", "q"), 
+    listOf(Triple("m", "q", 7), Triple("p", "m", 5), Triple("p", "q", 9)))
 ```                  
 Adjacency-list form:
 ``` kotlin
-Digraph.adjacentLabel(
-  listOf(('k', Nil), ('m', listOf(('q', 7))), ('p', listOf(('m', 5), ('q', 9))), ('q', Nil)))
+Graph.labeledAdjacent(listOf(
+    Pair("k", emptyList()),
+    Pair("m", listOf(Pair("q", 7))),
+    Pair("p", listOf(Pair("m", 5), Pair("q", 9))),
+    Pair("q", emptyList())))
 ```
 Human-friendly form:
 ```
-[p>q/9, m>q/7, k, p>m/5]
+[m-q/7, p-m/5, p-q/9, k]
 ```
 The notation for labeled graphs can also be used for so-called multi-graphs, 
 where more than one edge is allowed between two given nodes.
 
 ### [P80][] (***) Conversions.
-Write methods to generate the graph-term and adjacency-list forms from a ``Graph``. 
-Write another method to output the human-friendly form for a graph. Make it the toString method for ``Graph``. 
-Write more functions to create graphs from strings.
-Hint: You might need separate functions for labeled and unlabeled graphs.
+Write functions ``toTermForm`` and ``toAdjacentForm`` to generate the graph-term and adjacency-list forms of a ``Graph``. 
+Write more functions to create graphs from strings (you might need separate functions for labeled and unlabeled graphs).
 ``` kotlin
 > Graph.fromString("[b-c, f-c, g-h, d, f-b, k-f, h-g]").toTermForm()
-res0: (List[String], List[(String, String, Unit)]) = (List(d, k, h, c, f, g, b),List((h,g,()), (k,f,()), (f,b,()), (g,h,()), (f,c,()), (b,c,())))
-> Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]").toAdjacentForm()
-res1: List[(String, List[(String, Int)])] = List((m,List((q,7))), (p,List((m,5), (q,9))), (k,List()), (q,List()))
+(List(d, k, h, c, f, g, b),List((h,g,()), (k,f,()), (f,b,()), (g,h,()), (f,c,()), (b,c,())))
+> Graph.directedFromString("[p>q/9, m>q/7, k, p>m/5]").toAdjacentForm()
+List((m,List((q,7))), (p,List((m,5), (q,9))), (k,List()), (q,List()))
 ```
 
 ### [P81][] (**) Path from one node to another one.

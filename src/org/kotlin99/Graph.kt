@@ -95,14 +95,12 @@ class Graph<T, U> {
             return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
         }
 
-        fun <T> adjacent(vararg nodesWithNeighbors: Pair<T, List<T>>) = adjacent(nodesWithNeighbors.toList())
         fun <T> adjacent(nodesWithNeighbors: List<Pair<T, List<T>>>): Graph<T, *> {
             return fromAdjacencyList(nodesWithNeighbors.map{ Pair(it.first, it.second.toPairs())}) { graph, n1, n2, value ->
                 graph.addUndirectedEdge(n1, n2, value)
             }
         }
 
-        fun <T> directedAdjacent(vararg nodesWithNeighbors: Pair<T, List<T>>) = directedAdjacent(nodesWithNeighbors.toList())
         fun <T> directedAdjacent(nodesWithNeighbors: List<Pair<T, List<T>>>): Graph<T, *> {
             return fromAdjacencyList(nodesWithNeighbors.map{ Pair(it.first, it.second.toPairs())}) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
         }
@@ -164,14 +162,14 @@ class GraphTest {
     }
 
     @Test fun `create graph from adjacency list`() {
-        val graph = Graph.adjacent(
+        val graph = Graph.adjacent(listOf(
                 Pair("b", listOf("c", "f")),
                 Pair("c", listOf("b", "f")),
                 Pair("d", emptyList()),
                 Pair("f", listOf("b", "c", "k")),
                 Pair("g", listOf("h")),
                 Pair("h", listOf("g")),
-                Pair("k", listOf("f")))
+                Pair("k", listOf("f"))))
 
         assertPropertiesOfGraphFromIllustration(graph)
     }
@@ -183,17 +181,19 @@ class GraphTest {
     }
 
     @Test fun `create directed graph from adjacency list`() {
-        val graph = Graph.directedAdjacent(
+        val graph = Graph.directedAdjacent(listOf(
                 Pair("r", emptyList()),
                 Pair("s", listOf("r", "u")),
                 Pair("t", emptyList()),
                 Pair("u", listOf("r", "s")),
-                Pair("v", listOf("u")))
+                Pair("v", listOf("u"))))
         assertPropertiesOfDirectedGraphFromIllustration(graph)
     }
 
     @Test fun `create labeled undirected graph`() {
-        val graph = Graph.labeledTerms(listOf("k", "m", "p", "q"), listOf(Triple("m", "q", 7), Triple("p", "m", 5), Triple("p", "q", 9)))
+        val graph = Graph.labeledTerms(
+                listOf("k", "m", "p", "q"),
+                listOf(Triple("m", "q", 7), Triple("p", "m", 5), Triple("p", "q", 9)))
         assertThat(graph.nodes.size, equalTo(4))
         assertThat(graph.edges.size, equalTo(3))
         assertThat(graph.toString(), equalTo("[m-q/7, p-m/5, p-q/9, k]"))
