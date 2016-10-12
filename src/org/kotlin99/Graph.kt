@@ -4,6 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.Graph.Node
+import org.kotlin99.Graph.Term
 import java.util.*
 
 
@@ -77,21 +78,23 @@ class Graph<T, U> {
         override fun toString() = n1.toString() + ">" + n2 + (if (label == null) "" else "/" + label.toString())
     }
 
+    data class Term<T, U>(val n1: T, val n2: T, val label: U? = null)
 
     companion object {
-        fun <T> terms(nodes: List<T>, edges: List<Pair<T, T>>): Graph<T, *> {
-            return createFromTerms(nodes, edges.toTriples()) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
-        }
 
-        fun <T> directedTerms(nodes: List<T>, edges: List<Pair<T, T>>): Graph<T, *> {
-            return createFromTerms(nodes, edges.toTriples()) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
-        }
-
-        fun <T, U> labeledTerms(nodes: List<T>, edges: List<Triple<T, T, U>>): Graph<T, U> {
+        fun <T> terms(nodes: List<T>, edges: List<Term<T, Nothing>>): Graph<T, *> {
             return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
         }
 
-        fun <T, U> labeledDirectedTerms(nodes: List<T>, edges: List<Triple<T, T, U>>): Graph<T, U> {
+        fun <T> directedTerms(nodes: List<T>, edges: List<Term<T, Nothing>>): Graph<T, *> {
+            return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
+        }
+
+        fun <T, U> labeledTerms(nodes: List<T>, edges: List<Term<T, U>>): Graph<T, U> {
+            return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
+        }
+
+        fun <T, U> labeledDirectedTerms(nodes: List<T>, edges: List<Term<T, U>>): Graph<T, U> {
             return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
         }
 
@@ -117,11 +120,11 @@ class Graph<T, U> {
             }
         }
 
-        private fun <T, U> createFromTerms(nodes: List<T>, edges: List<Triple<T, T, U>>,
-                                        addFunction: (Graph<T, U>, T, T, U) -> Unit): Graph<T, U> {
+        private fun <T, U> createFromTerms(nodes: List<T>, edges: List<Term<T, U>>,
+                                        addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
             val graph = Graph<T, U>()
             nodes.forEach { graph.addNode(it) }
-            edges.forEach { addFunction(graph, it.first, it.second, it.third) }
+            edges.forEach { addFunction(graph, it.n1, it.n2, it.label) }
             return graph
         }
 
@@ -137,14 +140,13 @@ class Graph<T, U> {
         }
 
         private fun <T> List<T>.toPairs() = map{ Pair(it, null) }
-        private fun <T> List<Pair<T, T>>.toTriples() = map{ Triple(it.first, it.second, null) }
     }
 }
 
 
 class GraphTest {
     @Test fun `create simple graph from list of nodes and edges`() {
-        val graph = Graph.terms(nodes = listOf("a", "b", "c"), edges = listOf(Pair("a", "b")))
+        val graph = Graph.terms(nodes = listOf("a", "b", "c"), edges = listOf(Term("a", "b")))
 
         assertThat(graph.nodes.size, equalTo(3))
         assertThat(graph.edges.size, equalTo(1))
@@ -157,7 +159,7 @@ class GraphTest {
 
     @Test fun `create graph from list of nodes and edges`() {
         val graph = Graph.terms(nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
-                                edges = listOf(Pair("b", "c"), Pair("b", "f"), Pair("c", "f"), Pair("f", "k"), Pair("g", "h")))
+                                edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h")))
         assertPropertiesOfGraphFromIllustration(graph)
     }
 
@@ -176,7 +178,7 @@ class GraphTest {
 
     @Test fun `create directed graph from list of nodes and edges`() {
         val graph = Graph.directedTerms(listOf("r", "s", "t", "u", "v"),
-                                        listOf(Pair("s", "r"), Pair("s", "u"), Pair("u", "r"), Pair("u", "s"), Pair("v", "u")))
+                                        listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u")))
         assertPropertiesOfDirectedGraphFromIllustration(graph)
     }
 
@@ -193,14 +195,14 @@ class GraphTest {
     @Test fun `create labeled undirected graph`() {
         val graph = Graph.labeledTerms(
                 listOf("k", "m", "p", "q"),
-                listOf(Triple("m", "q", 7), Triple("p", "m", 5), Triple("p", "q", 9)))
+                listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9)))
         assertThat(graph.nodes.size, equalTo(4))
         assertThat(graph.edges.size, equalTo(3))
         assertThat(graph.toString(), equalTo("[m-q/7, p-m/5, p-q/9, k]"))
     }
 
     @Test fun `create labeled directed graph`() {
-        val graph = Graph.labeledDirectedTerms(listOf("k", "m", "p", "q"), listOf(Triple("m", "q", 7), Triple("p", "m", 5), Triple("p", "q", 9)))
+        val graph = Graph.labeledDirectedTerms(listOf("k", "m", "p", "q"), listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9)))
         assertThat(graph.nodes.size, equalTo(4))
         assertThat(graph.edges.size, equalTo(3))
         assertThat(graph.toString(), equalTo("[m>q/7, p>m/5, p>q/9, k]"))
