@@ -4,7 +4,8 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.Graph.Node
-import org.kotlin99.Graph.Term
+import org.kotlin99.Graph.TermForm
+import org.kotlin99.Graph.TermForm.Term
 import java.util.*
 import java.util.regex.Pattern
 
@@ -79,7 +80,13 @@ class Graph<T, U> {
         override fun toString() = n1.toString() + ">" + n2 + (if (label == null) "" else "/" + label.toString())
     }
 
-    data class Term<T, U>(val n1: T, val n2: T, val label: U? = null)
+
+    data class TermForm<out T, out U>(val nodes: Collection<T>, val edges: List<Term<T, U>>) {
+        data class Term<out T, out U>(val n1: T, val n2: T, val label: U? = null) {
+            override fun toString() = if (label == null) "Term($n1, $n2)" else "Term($n1, $n2, $label)"
+        }
+    }
+
 
     companion object {
         private val graphTokenSeparators = Pattern.compile("[->/]")
@@ -92,9 +99,9 @@ class Graph<T, U> {
             val nodes = tokens.flatMap{ it }.toCollection(LinkedHashSet())
             val edges = tokens.filter{ it.size == 2 }.map{ Term<String, Nothing>(it[0], it[1]) }
             if (s.contains("-")) {
-                return terms(nodes, edges)
+                return terms(TermForm(nodes, edges))
             } else {
-                return directedTerms(nodes, edges)
+                return directedTerms(TermForm(nodes, edges))
             }
         }
 
@@ -106,26 +113,26 @@ class Graph<T, U> {
             val nodes = tokens.flatMap{ it.take(2) }.toCollection(LinkedHashSet())
             val edges = tokens.filter{ it.size == 3 }.map{ Term(it[0], it[1], it[2].toInt()) }
             if (s.contains("-")) {
-                return labeledTerms(nodes, edges)
+                return labeledTerms(TermForm(nodes, edges))
             } else {
-                return labeledDirectedTerms(nodes, edges)
+                return labeledDirectedTerms(TermForm(nodes, edges))
             }
         }
 
-        fun <T> terms(nodes: Collection<T>, edges: List<Term<T, Nothing>>): Graph<T, *> {
-            return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
+        fun <T> terms(termForm: TermForm<T, Nothing>): Graph<T, *> {
+            return createFromTerms(termForm) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
         }
 
-        fun <T> directedTerms(nodes: Collection<T>, edges: List<Term<T, Nothing>>): Graph<T, *> {
-            return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
+        fun <T> directedTerms(termForm: TermForm<T, Nothing>): Graph<T, *> {
+            return createFromTerms(termForm) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
         }
 
-        fun <T, U> labeledTerms(nodes: Collection<T>, edges: List<Term<T, U>>): Graph<T, U> {
-            return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
+        fun <T, U> labeledTerms(termForm: TermForm<T, U>): Graph<T, U> {
+            return createFromTerms(termForm) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
         }
 
-        fun <T, U> labeledDirectedTerms(nodes: Collection<T>, edges: List<Term<T, U>>): Graph<T, U> {
-            return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
+        fun <T, U> labeledDirectedTerms(termForm: TermForm<T, U>): Graph<T, U> {
+            return createFromTerms(termForm) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
         }
 
         fun <T> adjacent(nodesWithNeighbors: List<Pair<T, List<T>>>): Graph<T, *> {
@@ -150,11 +157,10 @@ class Graph<T, U> {
             }
         }
 
-        private fun <T, U> createFromTerms(nodes: Collection<T>, edges: List<Term<T, U>>,
-                                        addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
+        private fun <T, U> createFromTerms(termForm: TermForm<T, U>, addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
             val graph = Graph<T, U>()
-            nodes.forEach { graph.addNode(it) }
-            edges.forEach { addFunction(graph, it.n1, it.n2, it.label) }
+            termForm.nodes.forEach { graph.addNode(it) }
+            termForm.edges.forEach { addFunction(graph, it.n1, it.n2, it.label) }
             return graph
         }
 
@@ -176,7 +182,7 @@ class Graph<T, U> {
 
 class GraphTest {
     @Test fun `create simple graph from list of nodes and edges`() {
-        val graph = Graph.terms(nodes = listOf("a", "b", "c"), edges = listOf(Term("a", "b")))
+        val graph = Graph.terms(TermForm(nodes = listOf("a", "b", "c"), edges = listOf(Term("a", "b"))))
 
         assertThat(graph.nodes.size, equalTo(3))
         assertThat(graph.edges.size, equalTo(1))
@@ -188,8 +194,9 @@ class GraphTest {
     }
 
     @Test fun `create graph from list of nodes and edges`() {
-        Graph.terms(nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
-                    edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h")))
+        Graph.terms(TermForm(
+                nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
+                edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h"))))
              .assertPropertiesOfUndirectedGraphExample()
     }
 
@@ -206,8 +213,9 @@ class GraphTest {
     }
 
     @Test fun `create directed graph from list of nodes and edges`() {
-        Graph.directedTerms(listOf("r", "s", "t", "u", "v"),
-                            listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u")))
+        Graph.directedTerms(TermForm(
+                            listOf("r", "s", "t", "u", "v"),
+                            listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u"))))
              .assertPropertiesOfDirectedGraphExample()
     }
 
@@ -222,14 +230,14 @@ class GraphTest {
     }
 
     @Test fun `create labeled undirected graph`() {
-        Graph.labeledTerms(
+        Graph.labeledTerms(TermForm(
                 listOf("k", "m", "p", "q"),
-                listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9)))
+                listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9))))
              .assertPropertiesOfUndirectedLabeledGraphExample()
     }
 
     @Test fun `create labeled directed graph`() {
-        Graph.labeledDirectedTerms(listOf("k", "m", "p", "q"), listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9)))
+        Graph.labeledDirectedTerms(TermForm(listOf("k", "m", "p", "q"), listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9))))
              .assertPropertiesOfDirectedLabeledGraphExample()
     }
 
