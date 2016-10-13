@@ -3,8 +3,10 @@ package org.kotlin99
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.Graph.Node
-import org.kotlin99.Graph.TermForm
+import org.kotlin99.Graph.*
+import org.kotlin99.Graph.AdjacencyList.Entry
+import org.kotlin99.Graph.AdjacencyList.Entry.Companion.links
+import org.kotlin99.Graph.AdjacencyList.Link
 import org.kotlin99.Graph.TermForm.Term
 import java.util.*
 import java.util.regex.Pattern
@@ -87,6 +89,16 @@ class Graph<T, U> {
         }
     }
 
+    data class AdjacencyList<T, out U>(val entries: List<Entry<T, U>>) {
+        constructor(vararg entries: Entry<T, U>): this(entries.toList())
+        data class Link<out T, out U>(val node: T, val label: U? = null)
+        data class Entry<out T, out U>(val node: T, val links: List<Link<T, U>> = emptyList<Nothing>()) {
+            constructor(node: T, vararg links: Link<T, U>): this(node, links.toList())
+            companion object {
+                fun <T> links(vararg linkValues: T): List<Link<T, Nothing>> = linkValues.map { Link(it, null)}
+            }
+        }
+    }
 
     companion object {
         private val graphTokenSeparators = Pattern.compile("[->/]")
@@ -135,24 +147,24 @@ class Graph<T, U> {
             return createFromTerms(termForm) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
         }
 
-        fun <T> adjacent(nodesWithNeighbors: List<Pair<T, List<T>>>): Graph<T, *> {
-            return fromAdjacencyList(nodesWithNeighbors.map{ Pair(it.first, it.second.toPairs())}) { graph, n1, n2, value ->
+        fun <T> adjacent(adjacencyList: AdjacencyList<T, Nothing>): Graph<T, *> {
+            return fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
                 graph.addUndirectedEdge(n1, n2, value)
             }
         }
 
-        fun <T> directedAdjacent(nodesWithNeighbors: List<Pair<T, List<T>>>): Graph<T, *> {
-            return fromAdjacencyList(nodesWithNeighbors.map{ Pair(it.first, it.second.toPairs())}) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
+        fun <T> directedAdjacent(adjacencyList: AdjacencyList<T, Nothing>): Graph<T, *> {
+            return fromAdjacencyList(adjacencyList) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
         }
 
-        fun <T, U> labeledAdjacent(nodesWithNeighbors: List<Pair<T, List<Pair<T, U>>>>): Graph<T, U> {
-            return fromAdjacencyList(nodesWithNeighbors) { graph, n1, n2, value ->
+        fun <T, U> labeledAdjacent(adjacencyList: AdjacencyList<T, U>): Graph<T, U> {
+            return fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
                 graph.addUndirectedEdge(n1, n2, value)
             }
         }
 
-        fun <T, U> labeledDirectedAdjacent(nodesWithNeighbors: List<Pair<T, List<Pair<T, U>>>>): Graph<T, U> {
-            return fromAdjacencyList(nodesWithNeighbors) { graph, n1, n2, value ->
+        fun <T, U> labeledDirectedAdjacent(adjacencyList: AdjacencyList<T, U>): Graph<T, U> {
+            return fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
                 graph.addDirectedEdge(n1, n2, value)
             }
         }
@@ -164,18 +176,16 @@ class Graph<T, U> {
             return graph
         }
 
-        private fun <T, U> fromAdjacencyList(nodesWithNeighbors: List<Pair<T, List<Pair<T, U>>>>,
-                                             addFunction: (Graph<T, U>, T, T, U) -> Unit): Graph<T, U> {
+        private fun <T, U> fromAdjacencyList(adjacencyList: AdjacencyList<T, U>,
+                                             addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
             val graph = Graph<T, U>()
-            nodesWithNeighbors.forEach { graph.addNode(it.first) }
-            nodesWithNeighbors.forEach{
-                val (nodeValue, adjacentNodeValues) = it
-                adjacentNodeValues.forEach{ addFunction(graph, nodeValue, it.first, it.second) }
+            adjacencyList.entries.forEach { graph.addNode(it.node) }
+            adjacencyList.entries.forEach{
+                val (node, links) = it
+                links.forEach{ addFunction(graph, node, it.node, it.label) }
             }
             return graph
         }
-
-        private fun <T> List<T>.toPairs() = map{ Pair(it, null) }
     }
 }
 
@@ -201,14 +211,14 @@ class GraphTest {
     }
 
     @Test fun `create graph from adjacency list`() {
-        Graph.adjacent(listOf(
-                Pair("b", listOf("c", "f")),
-                Pair("c", listOf("b", "f")),
-                Pair("d", emptyList()),
-                Pair("f", listOf("b", "c", "k")),
-                Pair("g", listOf("h")),
-                Pair("h", listOf("g")),
-                Pair("k", listOf("f"))))
+        Graph.adjacent(AdjacencyList(
+                Entry("b", links("c", "f")),
+                Entry("c", links("b", "f")),
+                Entry("d"),
+                Entry("f", links("b", "c", "k")),
+                Entry("g", links("h")),
+                Entry("h", links("g")),
+                Entry("k", links("f"))))
              .assertPropertiesOfUndirectedGraphExample()
     }
 
@@ -220,12 +230,12 @@ class GraphTest {
     }
 
     @Test fun `create directed graph from adjacency list`() {
-        Graph.directedAdjacent(listOf(
-                Pair("r", emptyList()),
-                Pair("s", listOf("r", "u")),
-                Pair("t", emptyList()),
-                Pair("u", listOf("r", "s")),
-                Pair("v", listOf("u"))))
+        Graph.directedAdjacent(AdjacencyList(
+                Entry("r"),
+                Entry("s", links("r", "u")),
+                Entry("t"),
+                Entry("u", links("r", "s")),
+                Entry("v", links("u"))))
              .assertPropertiesOfDirectedGraphExample()
     }
 
@@ -242,20 +252,20 @@ class GraphTest {
     }
 
     @Test fun `create labeled undirected graph from adjacency list`() {
-        Graph.labeledAdjacent(listOf(
-                Pair("k", emptyList()),
-                Pair("m", listOf(Pair("q", 7))),
-                Pair("p", listOf(Pair("m", 5), Pair("q", 9))),
-                Pair("q", emptyList())))
+        Graph.labeledAdjacent(AdjacencyList(
+                Entry("k"),
+                Entry("m", Link("q", 7)),
+                Entry("p", Link("m", 5), Link("q", 9)),
+                Entry("q")))
              .assertPropertiesOfUndirectedLabeledGraphExample()
     }
 
     @Test fun `create labeled directed graph from adjacency list`() {
-        Graph.labeledDirectedAdjacent(listOf(
-                Pair("k", emptyList()),
-                Pair("m", listOf(Pair("q", 7))),
-                Pair("p", listOf(Pair("m", 5), Pair("q", 9))),
-                Pair("q", emptyList())))
+        Graph.labeledDirectedAdjacent(AdjacencyList(
+                Entry("k"),
+                Entry("m", Link("q", 7)),
+                Entry("p", Link("m", 5), Link("q", 9)),
+                Entry("q")))
              .assertPropertiesOfDirectedLabeledGraphExample()
     }
 
