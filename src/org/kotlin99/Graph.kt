@@ -9,7 +9,6 @@ import org.kotlin99.Graph.AdjacencyList.Entry.Companion.links
 import org.kotlin99.Graph.AdjacencyList.Link
 import org.kotlin99.Graph.TermForm.Term
 import java.util.*
-import java.util.regex.Pattern
 
 
 class Graph<T, U> {
@@ -95,7 +94,7 @@ class Graph<T, U> {
 
         data class Entry<out T, out U>(val node: T, val links: List<Link<T, U>> = emptyList<Nothing>()) {
             constructor(node: T, vararg links: Link<T, U>): this(node, links.toList())
-            override fun toString() = "Entry($node, [${links.joinToString()}])"
+            override fun toString() = "Entry($node, links[${links.joinToString()}])"
 
             companion object {
                 fun <T> links(vararg linkValues: T): List<Link<T, Nothing>> = linkValues.map { Link(it, null) }
@@ -103,41 +102,11 @@ class Graph<T, U> {
         }
 
         data class Link<out T, out U>(val node: T, val label: U? = null) {
-            override fun toString() = if (label == null) "Link($node)" else "Link($node, $label)"
+            override fun toString() = if (label == null) "$node" else "$node/$label"
         }
     }
 
     companion object {
-        private val graphTokenSeparators = Pattern.compile("[->/]")
-
-        fun fromString(s: String): Graph<String, Nothing> {
-            if (!s.startsWith('[') || !s.endsWith(']')) {
-                throw IllegalArgumentException("Expected string starting '[' and ending with ']' but it was '$s'")
-            }
-            val tokens = s.substring(1, s.length - 1).split(", ").map { it.split(graphTokenSeparators) }
-            val nodes = tokens.flatMap{ it }.toCollection(LinkedHashSet())
-            val edges = tokens.filter{ it.size == 2 }.map{ Term<String, Nothing>(it[0], it[1]) }
-            if (s.contains("-")) {
-                return terms(TermForm(nodes, edges))
-            } else {
-                return directedTerms(TermForm(nodes, edges))
-            }
-        }
-
-        fun fromStringLabel(s: String): Graph<String, Int> {
-            if (!s.startsWith('[') || !s.endsWith(']')) {
-                throw IllegalArgumentException("Expected string starting '[' and ending with ']' but it was '$s'")
-            }
-            val tokens = s.substring(1, s.length - 1).split(", ").map { it.split(graphTokenSeparators) }
-            val nodes = tokens.flatMap{ it.take(2) }.toCollection(LinkedHashSet())
-            val edges = tokens.filter{ it.size == 3 }.map{ Term(it[0], it[1], it[2].toInt()) }
-            if (s.contains("-")) {
-                return labeledTerms(TermForm(nodes, edges))
-            } else {
-                return labeledDirectedTerms(TermForm(nodes, edges))
-            }
-        }
-
         fun <T> terms(termForm: TermForm<T, Nothing>): Graph<T, Nothing> {
             return createFromTerms(termForm) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
         }
@@ -211,14 +180,14 @@ class GraphTest {
     }
 
     @Test fun `create graph from list of nodes and edges`() {
-        Graph.terms(TermForm(
+        val graph = Graph.terms(TermForm(
                 nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
                 edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h"))))
-             .assertPropertiesOfUndirectedGraphExample()
+        graph.assertPropertiesOfUndirectedGraphExample()
     }
 
     @Test fun `create graph from adjacency list`() {
-        Graph.adjacent(AdjacencyList(
+        val graph = Graph.adjacent(AdjacencyList(
                 Entry("b", links("c", "f")),
                 Entry("c", links("b", "f")),
                 Entry("d"),
@@ -226,101 +195,95 @@ class GraphTest {
                 Entry("g", links("h")),
                 Entry("h", links("g")),
                 Entry("k", links("f"))))
-             .assertPropertiesOfUndirectedGraphExample()
+        graph.assertPropertiesOfUndirectedGraphExample()
     }
 
     @Test fun `create directed graph from list of nodes and edges`() {
-        Graph.directedTerms(TermForm(
+        val graph = Graph.directedTerms(TermForm(
                             listOf("r", "s", "t", "u", "v"),
                             listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u"))))
-             .assertPropertiesOfDirectedGraphExample()
+        graph.assertPropertiesOfDirectedGraphExample()
     }
 
     @Test fun `create directed graph from adjacency list`() {
-        Graph.directedAdjacent(AdjacencyList(
+        val graph = Graph.directedAdjacent(AdjacencyList(
                 Entry("r"),
                 Entry("s", links("r", "u")),
                 Entry("t"),
                 Entry("u", links("r", "s")),
                 Entry("v", links("u"))))
-             .assertPropertiesOfDirectedGraphExample()
+        graph.assertPropertiesOfDirectedGraphExample()
     }
 
     @Test fun `create labeled undirected graph`() {
-        Graph.labeledTerms(TermForm(
+        val graph = Graph.labeledTerms(TermForm(
                 listOf("k", "m", "p", "q"),
                 listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9))))
-             .assertPropertiesOfUndirectedLabeledGraphExample()
+        graph.assertPropertiesOfUndirectedLabeledGraphExample()
     }
 
     @Test fun `create labeled directed graph`() {
-        Graph.labeledDirectedTerms(TermForm(listOf("k", "m", "p", "q"), listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9))))
-             .assertPropertiesOfDirectedLabeledGraphExample()
+        val graph = Graph.labeledDirectedTerms(TermForm(listOf("k", "m", "p", "q"), listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9))))
+        graph.assertPropertiesOfDirectedLabeledGraphExample()
     }
 
     @Test fun `create labeled undirected graph from adjacency list`() {
-        Graph.labeledAdjacent(AdjacencyList(
+        val graph = Graph.labeledAdjacent(AdjacencyList(
                 Entry("k"),
                 Entry("m", Link("q", 7)),
                 Entry("p", Link("m", 5), Link("q", 9)),
                 Entry("q")))
-             .assertPropertiesOfUndirectedLabeledGraphExample()
+        graph.assertPropertiesOfUndirectedLabeledGraphExample()
     }
 
     @Test fun `create labeled directed graph from adjacency list`() {
-        Graph.labeledDirectedAdjacent(AdjacencyList(
+        val graph = Graph.labeledDirectedAdjacent(AdjacencyList(
                 Entry("k"),
                 Entry("m", Link("q", 7)),
                 Entry("p", Link("m", 5), Link("q", 9)),
                 Entry("q")))
-             .assertPropertiesOfDirectedLabeledGraphExample()
+        graph.assertPropertiesOfDirectedLabeledGraphExample()
     }
 
-    @Test fun `graph conversion from and to string`() {
-        Graph.fromString("[b-c, b-f, c-f, f-k, g-h, d]").assertPropertiesOfUndirectedGraphExample()
-        Graph.fromString("[s>r, s>u, u>r, u>s, v>u, t]").assertPropertiesOfDirectedGraphExample()
+    companion object {
+        fun Graph<String, *>.assertPropertiesOfUndirectedGraphExample() {
+            assertThat(nodes.size, equalTo(7))
+            assertThat(edges.size, equalTo(5))
+            assertThat(toString(), equalTo("[b-c, b-f, c-f, f-k, g-h, d]"))
 
-        Graph.fromStringLabel("[m-q/7, p-m/5, p-q/9, k]").assertPropertiesOfUndirectedLabeledGraphExample()
-        Graph.fromStringLabel("[m>q/7, p>m/5, p>q/9, k]").assertPropertiesOfDirectedLabeledGraphExample()
-    }
+            assertThat(nodes["f"]!!.neighbors(), equalTo(listOf(Node("b"), Node("c"), Node("k"))))
+            assertThat(nodes["g"]!!.neighbors(), equalTo(listOf(Node("h"))))
+            assertThat(nodes["d"]!!.neighbors(), equalTo(emptyList()))
+        }
 
-    private fun Graph<String, *>.assertPropertiesOfUndirectedGraphExample() {
-        assertThat(nodes.size, equalTo(7))
-        assertThat(edges.size, equalTo(5))
-        assertThat(toString(), equalTo("[b-c, b-f, c-f, f-k, g-h, d]"))
+        fun Graph<String, *>.assertPropertiesOfDirectedGraphExample() {
+            assertThat(nodes.size, equalTo(5))
+            assertThat(edges.size, equalTo(5))
+            assertThat(toString(), equalTo("[s>r, s>u, u>r, u>s, v>u, t]"))
 
-        assertThat(nodes["f"]!!.neighbors(), equalTo(listOf(Node("b"), Node("c"), Node("k"))))
-        assertThat(nodes["g"]!!.neighbors(), equalTo(listOf(Node("h"))))
-        assertThat(nodes["d"]!!.neighbors(), equalTo(emptyList()))
-    }
+            assertThat(nodes["s"]!!.neighbors(), equalTo(listOf(Node("r"), Node("u"))))
+            assertThat(nodes["v"]!!.neighbors(), equalTo(listOf(Node("u"))))
+            assertThat(nodes["r"]!!.neighbors(), equalTo(emptyList()))
+        }
 
-    private fun Graph<String, *>.assertPropertiesOfDirectedGraphExample() {
-        assertThat(nodes.size, equalTo(5))
-        assertThat(edges.size, equalTo(5))
-        assertThat(toString(), equalTo("[s>r, s>u, u>r, u>s, v>u, t]"))
+        fun Graph<String, Int>.assertPropertiesOfUndirectedLabeledGraphExample() {
+            assertThat(nodes.size, equalTo(4))
+            assertThat(edges.size, equalTo(3))
+            assertThat(toString(), equalTo("[m-q/7, p-m/5, p-q/9, k]"))
 
-        assertThat(nodes["s"]!!.neighbors(), equalTo(listOf(Node("r"), Node("u"))))
-        assertThat(nodes["v"]!!.neighbors(), equalTo(listOf(Node("u"))))
-        assertThat(nodes["r"]!!.neighbors(), equalTo(emptyList()))
-    }
+            assertThat(nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
+            assertThat(nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"), Node("p"))))
+            assertThat(nodes["k"]!!.neighbors(), equalTo(emptyList()))
+        }
 
-    private fun Graph<String, Int>.assertPropertiesOfUndirectedLabeledGraphExample() {
-        assertThat(nodes.size, equalTo(4))
-        assertThat(edges.size, equalTo(3))
-        assertThat(toString(), equalTo("[m-q/7, p-m/5, p-q/9, k]"))
+        fun Graph<String, Int>.assertPropertiesOfDirectedLabeledGraphExample() {
+            assertThat(nodes.size, equalTo(4))
+            assertThat(edges.size, equalTo(3))
+            assertThat(toString(), equalTo("[m>q/7, p>m/5, p>q/9, k]"))
 
-        assertThat(nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
-        assertThat(nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"), Node("p"))))
-        assertThat(nodes["k"]!!.neighbors(), equalTo(emptyList()))
-    }
-
-    private fun Graph<String, Int>.assertPropertiesOfDirectedLabeledGraphExample() {
-        assertThat(nodes.size, equalTo(4))
-        assertThat(edges.size, equalTo(3))
-        assertThat(toString(), equalTo("[m>q/7, p>m/5, p>q/9, k]"))
-
-        assertThat(nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
-        assertThat(nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"))))
-        assertThat(nodes["k"]!!.neighbors(), equalTo(emptyList()))
+            assertThat(nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
+            assertThat(nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"))))
+            assertThat(nodes["k"]!!.neighbors(), equalTo(emptyList()))
+        }
     }
 }

@@ -858,31 +858,33 @@ In a [directed graph](https://en.wikipedia.org/wiki/Directed_graph),
 nodes that are the target of arcs do not have references to those arcs in their adjacency list.
 ``` kotlin
 class Graph<T, U> {
-    val nodes: MutableMap<T, Graph.Node<T>> = HashMap()
+    val nodes: MutableMap<T, Node<T, U>> = HashMap()
     val edges: MutableList<Edge<T, U>> = ArrayList()
 
-    fun addNode(value: T): Node<T> {
-        val node = Graph.Node(value)
+    fun addNode(value: T): Node<T, U> {
+        val node = Node<T, U>(value)
         nodes.put(value, node)
         return node
     }
 
-    fun addEdge(n1: T, n2: T, value: U) {
+    fun addUndirectedEdge(n1: T, n2: T, label: U?) {
         if (!nodes.contains(n1) || !nodes.contains(n2)) {
             throw IllegalStateException("Expected '$n1' and '$n2' nodes to exist in graph")
         }
-        val edge = Edge(nodes[n1]!!, nodes[n2]!!, value)
+        val edge = UndirectedEdge(nodes[n1]!!, nodes[n2]!!, label)
         if (edges.all{ !it.equivalentTo(edge) }) {
             edges.add(edge)
-            nodes[n1]!!.adj.add(edge)
-            nodes[n2]!!.adj.add(edge)
+            nodes[n1]!!.edges.add(edge)
+            nodes[n2]!!.edges.add(edge)
         }
     }
 
-    fun addArc(source: T, dest: T, value: U) {
-        val edge = Edge(nodes[source]!!, nodes[dest]!!, value)
-        edges.add(edge)
-        nodes[source]!!.adj.add(edge)
+    fun addDirectedEdge(source: T, dest: T, label: U?) {
+        val edge = DirectedEdge(nodes[source]!!, nodes[dest]!!, label)
+        if (!edges.contains(edge)) {
+            edges.add(edge)
+            nodes[source]!!.edges.add(edge)
+        }
     }
 
     override fun toString(): String {
@@ -900,26 +902,29 @@ class Graph<T, U> {
     override fun hashCode() = 31 * nodes.hashCode() + edges.hashCode()
 
 
-    data class Edge<T, U>(val n1: Node<T>, val n2: Node<T>, val value: U) {
-        fun target(node: Node<T>): Node<T>? =
-                if (n1 == node) n2 else if (n2 == node) n1 else null
+    data class Node<T, U>(val value: T) {
+        val edges: MutableList<Edge<T, U>> = ArrayList()
+        fun neighbors(): List<Node<T, U>> = edges.map{ edge -> edge.target(this)!! }
+        override fun toString() = value.toString()
+    }
 
+    interface Edge<T, U> {
+        val n1: Node<T, U>
+        val n2: Node<T, U>
+        val label: U?
+        fun target(node: Node<T, U>): Node<T, U>?
         fun equivalentTo(other: Edge<T, U>) =
                 (n1 == other.n1 && n2 == other.n2) || (n1 == other.n2 && n2 == other.n1)
-
-        override fun toString() = n1.toString() + "-" + n2
     }
 
-    data class DirectedEdge<T, U>(val from: Node<T>, val to: Node<T>, val value: U) {
-        fun target(node: Node<T>): Node<T>? =
-            if (from == node) to
-            else null
+    data class UndirectedEdge<T, U>(override val n1: Node<T, U>, override val n2: Node<T, U>, override val label: U?) : Edge<T, U> {
+        override fun target(node: Node<T, U>) = if (n1 == node) n2 else if (n2 == node) n1 else null
+        override fun toString() = n1.toString() + "-" + n2 + (if (label == null) "" else "/" + label.toString())
     }
 
-    data class Node<T>(val value: T) {
-        val adj: MutableList<Edge<T, *>> = ArrayList()
-        fun neighbors(): List<Node<T>> = adj.map{ edge -> edge.target(this)!! }
-        override fun toString() = value.toString()
+    data class DirectedEdge<T, U>(override val n1: Node<T, U>, override val n2: Node<T, U>, override val label: U?) : Edge<T, U> {
+        override fun target(node: Node<T, U>) = if (n1 == node) n2 else null
+        override fun toString() = n1.toString() + ">" + n2 + (if (label == null) "" else "/" + label.toString())
     }
 }
 
@@ -927,21 +932,22 @@ class Graph<T, U> {
 
 There are a few ways to create a graph from primitives. The graph-term form lists the nodes and edges separately:
 ``` kotlin
-Graph.terms(nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
-            edges = listOf(Pair("b", "c"), Pair("b", "f"), Pair("c", "f"), Pair("f", "k"), Pair("g", "h")))
+Graph.terms(TermForm(
+    nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
+    edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h"))))
 ```
 The adjacency-list form associates each node with its adjacent nodes. In an undirected graph, care must be taken to ensure 
-that all links are symmetric, i.e. if b is adjacent to c, c must also be adjacent to b.
+that all links are symmetric, i.e. if ``b`` is adjacent to ``c``, ``c`` must also be adjacent to ``b``.
 ``` kotlin
-Graph.adjacent(
-	Pair("b", listOf("c", "f")),
-	Pair("c", listOf("b", "f")),
-	Pair("d", emptyList()),
-	Pair("f", listOf("b", "c", "k")),
-	Pair("g", listOf("h")),
-	Pair("h", listOf("g")),
-	Pair("k", listOf("f")))
-```                    
+Graph.adjacent(AdjacencyList(
+    Entry("b", links("c", "f")),
+    Entry("c", links("b", "f")),
+    Entry("d"),
+    Entry("f", links("b", "c", "k")),
+    Entry("g", links("h")),
+    Entry("h", links("g")),
+    Entry("k", links("f"))))
+```
 The representations we introduced so far are bound to our implementation and therefore well suited for automated processing, 
 but their syntax is not very user-friendly. Typing the terms by hand is cumbersome and error-prone. 
 We can define a more compact and "human-friendly" notation as follows: 
@@ -963,17 +969,18 @@ The example graph is represented as follows:
 
 In graph-term form:
 ``` kotlin
-Graph.directedTerms(listOf("r", "s", "t", "u", "v"),
-                    listOf(Pair("s", "r"), Pair("s", "u"), Pair("u", "r"), Pair("u", "s"), Pair("v", "u")))
+Graph.directedTerms(TermForm(
+    listOf("r", "s", "t", "u", "v"),
+    listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u"))))
 ```
 In adjacency-list form (note that the adjacency-list form is the same for graphs and digraphs):
 ``` kotlin
-Graph.directedAdjacent(
-	Pair("r", emptyList()),
-	Pair("s", listOf("r", "u")),
-	Pair("t", emptyList()),
-	Pair("u", listOf("r", "s")),
-	Pair("v", listOf("u")))
+Graph.directedAdjacent(AdjacencyList(
+    Entry("r"),
+    Entry("s", links("r", "u")),
+    Entry("t"),
+    Entry("u", links("r", "s")),
+    Entry("v", links("u"))))
 ```
 
 Human-friendly form:
@@ -986,17 +993,17 @@ Finally, graphs with additional information attached to edges are called labeled
 
 Graph-term form:
 ``` kotlin
-Graph.labeledTerms(
-    listOf("k", "m", "p", "q"), 
-    listOf(Triple("m", "q", 7), Triple("p", "m", 5), Triple("p", "q", 9)))
+Graph.labeledTerms(TermForm(
+    listOf("k", "m", "p", "q"),
+    listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9))))
 ```                  
 Adjacency-list form:
 ``` kotlin
-Graph.labeledAdjacent(listOf(
-    Pair("k", emptyList()),
-    Pair("m", listOf(Pair("q", 7))),
-    Pair("p", listOf(Pair("m", 5), Pair("q", 9))),
-    Pair("q", emptyList())))
+Graph.labeledDirectedAdjacent(AdjacencyList(
+    Entry("k"),
+    Entry("m", Link("q", 7)),
+    Entry("p", Link("m", 5), Link("q", 9)),
+    Entry("q")))
 ```
 Human-friendly form:
 ```
@@ -1005,14 +1012,15 @@ Human-friendly form:
 The notation for labeled graphs can also be used for so-called multi-graphs, 
 where more than one edge is allowed between two given nodes.
 
-### [P80][] (***) Conversions.
-Write functions ``toTermForm`` and ``toAdjacentForm`` to generate the graph-term and adjacency-list forms of a ``Graph``. 
-Write more functions to create graphs from strings (you might need separate functions for labeled and unlabeled graphs).
+### [P80][] (*) Conversions.
+Write ``fromString`` and ``directedFromString`` functions to create graphs from strings 
+(you can detect if graph is labeled or unlabeled based on input string format).
+Write functions ``toTermForm`` and ``toAdjacencyList`` to generate the graph-term and adjacency-list forms of a ``Graph``. 
 ``` kotlin
-> Graph.fromString("[b-c, f-c, g-h, d, f-b, k-f, h-g]").toTermForm()
-(List(d, k, h, c, f, g, b),List((h,g,()), (k,f,()), (f,b,()), (g,h,()), (f,c,()), (b,c,())))
-> Graph.directedFromString("[p>q/9, m>q/7, k, p>m/5]").toAdjacentForm()
-List((m,List((q,7))), (p,List((m,5), (q,9))), (k,List()), (q,List()))
+> Graph.fromString("[b-c, b-f, c-f, f-k, g-h, d]").toTermForm()
+TermForm(nodes=[f, g, d, b, c, k, h], edges=[Term(b, c), Term(b, f), Term(c, f), Term(f, k), Term(g, h)])
+> Graph.directedFromString("[p>q/9, m>q/7, k, p>m/5]").toAdjacencyList()
+AdjacencyList(Entry("q"), Entry("p", listOf(Link("q", 9), Link("m", 5))), Entry("m", listOf(Link("q", 7))), Entry("k"))
 ```
 
 ### [P81][] (**) Path from one node to another one.
