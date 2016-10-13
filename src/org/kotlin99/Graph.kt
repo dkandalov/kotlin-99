@@ -82,26 +82,34 @@ class Graph<T, U> {
     data class Term<T, U>(val n1: T, val n2: T, val label: U? = null)
 
     companion object {
+        private val graphTokenSeparators = Pattern.compile("[->/]")
 
         fun fromString(s: String): Graph<String, *> {
             if (!s.startsWith('[') || !s.endsWith(']')) {
                 throw IllegalArgumentException("Expected string starting '[' and ending with ']' but it was '$s'")
             }
-            val tokens = s.substring(1, s.length - 1).split(", ").map { it.split("-") }
+            val tokens = s.substring(1, s.length - 1).split(", ").map { it.split(graphTokenSeparators) }
             val nodes = tokens.flatMap{ it }.toCollection(LinkedHashSet())
             val edges = tokens.filter{ it.size == 2 }.map{ Term<String, Nothing>(it[0], it[1]) }
-            return terms(nodes, edges)
+            if (s.contains("-")) {
+                return terms(nodes, edges)
+            } else {
+                return directedTerms(nodes, edges)
+            }
         }
 
         fun fromStringLabel(s: String): Graph<String, Int> {
             if (!s.startsWith('[') || !s.endsWith(']')) {
                 throw IllegalArgumentException("Expected string starting '[' and ending with ']' but it was '$s'")
             }
-            val pattern = Pattern.compile("[-/]")
-            val tokens = s.substring(1, s.length - 1).split(", ").map { it.split(pattern) }
+            val tokens = s.substring(1, s.length - 1).split(", ").map { it.split(graphTokenSeparators) }
             val nodes = tokens.flatMap{ it.take(2) }.toCollection(LinkedHashSet())
             val edges = tokens.filter{ it.size == 3 }.map{ Term(it[0], it[1], it[2].toInt()) }
-            return labeledTerms(nodes, edges)
+            if (s.contains("-")) {
+                return labeledTerms(nodes, edges)
+            } else {
+                return labeledDirectedTerms(nodes, edges)
+            }
         }
 
         fun <T> terms(nodes: Collection<T>, edges: List<Term<T, Nothing>>): Graph<T, *> {
@@ -182,7 +190,7 @@ class GraphTest {
     @Test fun `create graph from list of nodes and edges`() {
         val graph = Graph.terms(nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
                                 edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h")))
-        assertPropertiesOfGraphFromIllustration(graph)
+        assertPropertiesOfGraph(graph)
     }
 
     @Test fun `create graph from adjacency list`() {
@@ -194,14 +202,13 @@ class GraphTest {
                 Pair("g", listOf("h")),
                 Pair("h", listOf("g")),
                 Pair("k", listOf("f"))))
-
-        assertPropertiesOfGraphFromIllustration(graph)
+        assertPropertiesOfGraph(graph)
     }
 
     @Test fun `create directed graph from list of nodes and edges`() {
         val graph = Graph.directedTerms(listOf("r", "s", "t", "u", "v"),
                                         listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u")))
-        assertPropertiesOfDirectedGraphFromIllustration(graph)
+        assertPropertiesOfDirectedGraph(graph)
     }
 
     @Test fun `create directed graph from adjacency list`() {
@@ -211,21 +218,19 @@ class GraphTest {
                 Pair("t", emptyList()),
                 Pair("u", listOf("r", "s")),
                 Pair("v", listOf("u"))))
-        assertPropertiesOfDirectedGraphFromIllustration(graph)
+        assertPropertiesOfDirectedGraph(graph)
     }
 
     @Test fun `create labeled undirected graph`() {
         val graph = Graph.labeledTerms(
                 listOf("k", "m", "p", "q"),
                 listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9)))
-        assertPropertiesOfUndirectedLabeledGraphFromReadme(graph)
+        assertPropertiesOfUndirectedLabeledGraph(graph)
     }
 
     @Test fun `create labeled directed graph`() {
         val graph = Graph.labeledDirectedTerms(listOf("k", "m", "p", "q"), listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9)))
-        assertThat(graph.nodes.size, equalTo(4))
-        assertThat(graph.edges.size, equalTo(3))
-        assertThat(graph.toString(), equalTo("[m>q/7, p>m/5, p>q/9, k]"))
+        assertPropertiesOfDirectedLabeledGraph(graph)
     }
 
     @Test fun `create labeled undirected graph from adjacency list`() {
@@ -234,9 +239,7 @@ class GraphTest {
                 Pair("m", listOf(Pair("q", 7))),
                 Pair("p", listOf(Pair("m", 5), Pair("q", 9))),
                 Pair("q", emptyList())))
-        assertThat(graph.nodes.size, equalTo(4))
-        assertThat(graph.edges.size, equalTo(3))
-        assertThat(graph.toString(), equalTo("[m-q/7, p-m/5, p-q/9, k]"))
+        assertPropertiesOfUndirectedLabeledGraph(graph)
     }
 
     @Test fun `create labeled directed graph from adjacency list`() {
@@ -245,21 +248,18 @@ class GraphTest {
                 Pair("m", listOf(Pair("q", 7))),
                 Pair("p", listOf(Pair("m", 5), Pair("q", 9))),
                 Pair("q", emptyList())))
-        assertThat(graph.nodes.size, equalTo(4))
-        assertThat(graph.edges.size, equalTo(3))
-        assertThat(graph.toString(), equalTo("[m>q/7, p>m/5, p>q/9, k]"))
+        assertPropertiesOfDirectedLabeledGraph(graph)
     }
 
     @Test fun `graph conversion from and to string`() {
-        "[b-c, b-f, c-f, f-k, g-h, d]".let {
-            assertPropertiesOfGraphFromIllustration(Graph.fromString(it))
-        }
-        "[m-q/7, p-m/5, p-q/9, k]".let {
-            assertPropertiesOfUndirectedLabeledGraphFromReadme(Graph.fromStringLabel(it))
-        }
+        assertPropertiesOfGraph(Graph.fromString("[b-c, b-f, c-f, f-k, g-h, d]"))
+        assertPropertiesOfDirectedGraph(Graph.fromString("[s>r, s>u, u>r, u>s, v>u, t]"))
+
+        assertPropertiesOfUndirectedLabeledGraph(Graph.fromStringLabel("[m-q/7, p-m/5, p-q/9, k]"))
+        assertPropertiesOfDirectedLabeledGraph(Graph.fromStringLabel("[m>q/7, p>m/5, p>q/9, k]"))
     }
 
-    private fun assertPropertiesOfGraphFromIllustration(graph: Graph<String, *>) {
+    private fun assertPropertiesOfGraph(graph: Graph<String, *>) {
         assertThat(graph.nodes.size, equalTo(7))
         assertThat(graph.edges.size, equalTo(5))
         assertThat(graph.toString(), equalTo("[b-c, b-f, c-f, f-k, g-h, d]"))
@@ -269,7 +269,7 @@ class GraphTest {
         assertThat(graph.nodes["d"]!!.neighbors(), equalTo(emptyList()))
     }
 
-    private fun assertPropertiesOfDirectedGraphFromIllustration(graph: Graph<String, *>) {
+    private fun assertPropertiesOfDirectedGraph(graph: Graph<String, *>) {
         assertThat(graph.nodes.size, equalTo(5))
         assertThat(graph.edges.size, equalTo(5))
         assertThat(graph.toString(), equalTo("[s>r, s>u, u>r, u>s, v>u, t]"))
@@ -279,13 +279,23 @@ class GraphTest {
         assertThat(graph.nodes["r"]!!.neighbors(), equalTo(emptyList()))
     }
 
-    private fun assertPropertiesOfUndirectedLabeledGraphFromReadme(graph: Graph<String, Int>) {
+    private fun assertPropertiesOfUndirectedLabeledGraph(graph: Graph<String, Int>) {
         assertThat(graph.nodes.size, equalTo(4))
         assertThat(graph.edges.size, equalTo(3))
         assertThat(graph.toString(), equalTo("[m-q/7, p-m/5, p-q/9, k]"))
 
-        assertThat(graph.nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"), Node("p"))))
         assertThat(graph.nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
+        assertThat(graph.nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"), Node("p"))))
+        assertThat(graph.nodes["k"]!!.neighbors(), equalTo(emptyList()))
+    }
+
+    private fun assertPropertiesOfDirectedLabeledGraph(graph: Graph<String, Int>) {
+        assertThat(graph.nodes.size, equalTo(4))
+        assertThat(graph.edges.size, equalTo(3))
+        assertThat(graph.toString(), equalTo("[m>q/7, p>m/5, p>q/9, k]"))
+
+        assertThat(graph.nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
+        assertThat(graph.nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"))))
         assertThat(graph.nodes["k"]!!.neighbors(), equalTo(emptyList()))
     }
 }
