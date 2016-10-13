@@ -188,13 +188,13 @@ class GraphTest {
     }
 
     @Test fun `create graph from list of nodes and edges`() {
-        val graph = Graph.terms(nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
-                                edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h")))
-        assertPropertiesOfGraph(graph)
+        Graph.terms(nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
+                    edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h")))
+             .assertPropertiesOfUndirectedGraphExample()
     }
 
     @Test fun `create graph from adjacency list`() {
-        val graph = Graph.adjacent(listOf(
+        Graph.adjacent(listOf(
                 Pair("b", listOf("c", "f")),
                 Pair("c", listOf("b", "f")),
                 Pair("d", emptyList()),
@@ -202,100 +202,100 @@ class GraphTest {
                 Pair("g", listOf("h")),
                 Pair("h", listOf("g")),
                 Pair("k", listOf("f"))))
-        assertPropertiesOfGraph(graph)
+             .assertPropertiesOfUndirectedGraphExample()
     }
 
     @Test fun `create directed graph from list of nodes and edges`() {
-        val graph = Graph.directedTerms(listOf("r", "s", "t", "u", "v"),
-                                        listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u")))
-        assertPropertiesOfDirectedGraph(graph)
+        Graph.directedTerms(listOf("r", "s", "t", "u", "v"),
+                            listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u")))
+             .assertPropertiesOfDirectedGraphExample()
     }
 
     @Test fun `create directed graph from adjacency list`() {
-        val graph = Graph.directedAdjacent(listOf(
+        Graph.directedAdjacent(listOf(
                 Pair("r", emptyList()),
                 Pair("s", listOf("r", "u")),
                 Pair("t", emptyList()),
                 Pair("u", listOf("r", "s")),
                 Pair("v", listOf("u"))))
-        assertPropertiesOfDirectedGraph(graph)
+             .assertPropertiesOfDirectedGraphExample()
     }
 
     @Test fun `create labeled undirected graph`() {
-        val graph = Graph.labeledTerms(
+        Graph.labeledTerms(
                 listOf("k", "m", "p", "q"),
                 listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9)))
-        assertPropertiesOfUndirectedLabeledGraph(graph)
+             .assertPropertiesOfUndirectedLabeledGraphExample()
     }
 
     @Test fun `create labeled directed graph`() {
-        val graph = Graph.labeledDirectedTerms(listOf("k", "m", "p", "q"), listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9)))
-        assertPropertiesOfDirectedLabeledGraph(graph)
+        Graph.labeledDirectedTerms(listOf("k", "m", "p", "q"), listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9)))
+             .assertPropertiesOfDirectedLabeledGraphExample()
     }
 
     @Test fun `create labeled undirected graph from adjacency list`() {
-        val graph = Graph.labeledAdjacent(listOf(
+        Graph.labeledAdjacent(listOf(
                 Pair("k", emptyList()),
                 Pair("m", listOf(Pair("q", 7))),
                 Pair("p", listOf(Pair("m", 5), Pair("q", 9))),
                 Pair("q", emptyList())))
-        assertPropertiesOfUndirectedLabeledGraph(graph)
+             .assertPropertiesOfUndirectedLabeledGraphExample()
     }
 
     @Test fun `create labeled directed graph from adjacency list`() {
-        val graph = Graph.labeledDirectedAdjacent(listOf(
+        Graph.labeledDirectedAdjacent(listOf(
                 Pair("k", emptyList()),
                 Pair("m", listOf(Pair("q", 7))),
                 Pair("p", listOf(Pair("m", 5), Pair("q", 9))),
                 Pair("q", emptyList())))
-        assertPropertiesOfDirectedLabeledGraph(graph)
+             .assertPropertiesOfDirectedLabeledGraphExample()
     }
 
     @Test fun `graph conversion from and to string`() {
-        assertPropertiesOfGraph(Graph.fromString("[b-c, b-f, c-f, f-k, g-h, d]"))
-        assertPropertiesOfDirectedGraph(Graph.fromString("[s>r, s>u, u>r, u>s, v>u, t]"))
+        Graph.fromString("[b-c, b-f, c-f, f-k, g-h, d]").assertPropertiesOfUndirectedGraphExample()
+        Graph.fromString("[s>r, s>u, u>r, u>s, v>u, t]").assertPropertiesOfDirectedGraphExample()
 
-        assertPropertiesOfUndirectedLabeledGraph(Graph.fromStringLabel("[m-q/7, p-m/5, p-q/9, k]"))
-        assertPropertiesOfDirectedLabeledGraph(Graph.fromStringLabel("[m>q/7, p>m/5, p>q/9, k]"))
+        Graph.fromStringLabel("[m-q/7, p-m/5, p-q/9, k]").assertPropertiesOfUndirectedLabeledGraphExample()
+        Graph.fromStringLabel("[m>q/7, p>m/5, p>q/9, k]").assertPropertiesOfDirectedLabeledGraphExample()
     }
 
-    private fun assertPropertiesOfGraph(graph: Graph<String, *>) {
-        assertThat(graph.nodes.size, equalTo(7))
-        assertThat(graph.edges.size, equalTo(5))
-        assertThat(graph.toString(), equalTo("[b-c, b-f, c-f, f-k, g-h, d]"))
+    private fun Graph<String, *>.assertPropertiesOfUndirectedGraphExample() {
+        assertThat(nodes.size, equalTo(7))
+        assertThat(edges.size, equalTo(5))
+        assertThat(toString(), equalTo("[b-c, b-f, c-f, f-k, g-h, d]"))
 
-        assertThat(graph.nodes["f"]!!.neighbors(), equalTo(listOf(Node("b"), Node("c"), Node("k"))))
-        assertThat(graph.nodes["g"]!!.neighbors(), equalTo(listOf(Node("h"))))
-        assertThat(graph.nodes["d"]!!.neighbors(), equalTo(emptyList()))
+        assertThat(nodes["f"]!!.neighbors(), equalTo(listOf(Node("b"), Node("c"), Node("k"))))
+        assertThat(nodes["g"]!!.neighbors(), equalTo(listOf(Node("h"))))
+        assertThat(nodes["d"]!!.neighbors(), equalTo(emptyList()))
     }
 
-    private fun assertPropertiesOfDirectedGraph(graph: Graph<String, *>) {
-        assertThat(graph.nodes.size, equalTo(5))
-        assertThat(graph.edges.size, equalTo(5))
-        assertThat(graph.toString(), equalTo("[s>r, s>u, u>r, u>s, v>u, t]"))
+    private fun Graph<String, *>.assertPropertiesOfDirectedGraphExample() {
+        assertThat(nodes.size, equalTo(5))
+        assertThat(edges.size, equalTo(5))
+        assertThat(toString(), equalTo("[s>r, s>u, u>r, u>s, v>u, t]"))
 
-        assertThat(graph.nodes["s"]!!.neighbors(), equalTo(listOf(Node("r"), Node("u"))))
-        assertThat(graph.nodes["v"]!!.neighbors(), equalTo(listOf(Node("u"))))
-        assertThat(graph.nodes["r"]!!.neighbors(), equalTo(emptyList()))
+        assertThat(nodes["s"]!!.neighbors(), equalTo(listOf(Node("r"), Node("u"))))
+        assertThat(nodes["v"]!!.neighbors(), equalTo(listOf(Node("u"))))
+        assertThat(nodes["r"]!!.neighbors(), equalTo(emptyList()))
     }
 
-    private fun assertPropertiesOfUndirectedLabeledGraph(graph: Graph<String, Int>) {
-        assertThat(graph.nodes.size, equalTo(4))
-        assertThat(graph.edges.size, equalTo(3))
-        assertThat(graph.toString(), equalTo("[m-q/7, p-m/5, p-q/9, k]"))
+    private fun Graph<String, Int>.assertPropertiesOfUndirectedLabeledGraphExample() {
+        assertThat(nodes.size, equalTo(4))
+        assertThat(edges.size, equalTo(3))
+        assertThat(toString(), equalTo("[m-q/7, p-m/5, p-q/9, k]"))
 
-        assertThat(graph.nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
-        assertThat(graph.nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"), Node("p"))))
-        assertThat(graph.nodes["k"]!!.neighbors(), equalTo(emptyList()))
+        assertThat(nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
+        assertThat(nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"), Node("p"))))
+        assertThat(nodes["k"]!!.neighbors(), equalTo(emptyList()))
     }
 
-    private fun assertPropertiesOfDirectedLabeledGraph(graph: Graph<String, Int>) {
-        assertThat(graph.nodes.size, equalTo(4))
-        assertThat(graph.edges.size, equalTo(3))
-        assertThat(graph.toString(), equalTo("[m>q/7, p>m/5, p>q/9, k]"))
+    private fun Graph<String, Int>.assertPropertiesOfDirectedLabeledGraphExample() {
+        assertThat(nodes.size, equalTo(4))
+        assertThat(edges.size, equalTo(3))
+        assertThat(toString(), equalTo("[m>q/7, p>m/5, p>q/9, k]"))
 
-        assertThat(graph.nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
-        assertThat(graph.nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"))))
-        assertThat(graph.nodes["k"]!!.neighbors(), equalTo(emptyList()))
+        assertThat(nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
+        assertThat(nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"))))
+        assertThat(nodes["k"]!!.neighbors(), equalTo(emptyList()))
     }
 }
