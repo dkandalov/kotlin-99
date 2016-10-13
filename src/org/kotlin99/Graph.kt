@@ -13,11 +13,11 @@ import java.util.regex.Pattern
 
 
 class Graph<T, U> {
-    val nodes: MutableMap<T, Node<T>> = HashMap()
+    val nodes: MutableMap<T, Node<T, U>> = HashMap()
     val edges: MutableList<Edge<T, U>> = ArrayList()
 
-    fun addNode(value: T): Node<T> {
-        val node = Node(value)
+    fun addNode(value: T): Node<T, U> {
+        val node = Node<T, U>(value)
         nodes.put(value, node)
         return node
     }
@@ -29,8 +29,8 @@ class Graph<T, U> {
         val edge = UndirectedEdge(nodes[n1]!!, nodes[n2]!!, label)
         if (edges.all{ !it.equivalentTo(edge) }) {
             edges.add(edge)
-            nodes[n1]!!.adj.add(edge)
-            nodes[n2]!!.adj.add(edge)
+            nodes[n1]!!.edges.add(edge)
+            nodes[n2]!!.edges.add(edge)
         }
     }
 
@@ -38,7 +38,7 @@ class Graph<T, U> {
         val edge = DirectedEdge(nodes[source]!!, nodes[dest]!!, label)
         if (!edges.contains(edge)) {
             edges.add(edge)
-            nodes[source]!!.adj.add(edge)
+            nodes[source]!!.edges.add(edge)
         }
     }
 
@@ -57,28 +57,28 @@ class Graph<T, U> {
     override fun hashCode() = 31 * nodes.hashCode() + edges.hashCode()
 
 
-    data class Node<T>(val value: T) {
-        val adj: MutableList<Edge<T, *>> = ArrayList()
-        fun neighbors(): List<Node<T>> = adj.map{ edge -> edge.target(this)!! }
+    data class Node<T, U>(val value: T) {
+        val edges: MutableList<Edge<T, U>> = ArrayList()
+        fun neighbors(): List<Node<T, U>> = edges.map{ edge -> edge.target(this)!! }
         override fun toString() = value.toString()
     }
 
     interface Edge<T, U> {
-        val n1: Node<T>
-        val n2: Node<T>
+        val n1: Node<T, U>
+        val n2: Node<T, U>
         val label: U?
-        fun target(node: Node<T>): Node<T>?
+        fun target(node: Node<T, U>): Node<T, U>?
         fun equivalentTo(other: Edge<T, U>) =
                 (n1 == other.n1 && n2 == other.n2) || (n1 == other.n2 && n2 == other.n1)
     }
 
-    data class UndirectedEdge<T, U>(override val n1: Node<T>, override val n2: Node<T>, override val label: U?) : Edge<T, U> {
-        override fun target(node: Node<T>) = if (n1 == node) n2 else if (n2 == node) n1 else null
+    data class UndirectedEdge<T, U>(override val n1: Node<T, U>, override val n2: Node<T, U>, override val label: U?) : Edge<T, U> {
+        override fun target(node: Node<T, U>) = if (n1 == node) n2 else if (n2 == node) n1 else null
         override fun toString() = n1.toString() + "-" + n2 + (if (label == null) "" else "/" + label.toString())
     }
 
-    data class DirectedEdge<T, U>(override val n1: Node<T>, override val n2: Node<T>, override val label: U?) : Edge<T, U> {
-        override fun target(node: Node<T>) = if (n1 == node) n2 else null
+    data class DirectedEdge<T, U>(override val n1: Node<T, U>, override val n2: Node<T, U>, override val label: U?) : Edge<T, U> {
+        override fun target(node: Node<T, U>) = if (n1 == node) n2 else null
         override fun toString() = n1.toString() + ">" + n2 + (if (label == null) "" else "/" + label.toString())
     }
 
@@ -91,19 +91,26 @@ class Graph<T, U> {
 
     data class AdjacencyList<T, out U>(val entries: List<Entry<T, U>>) {
         constructor(vararg entries: Entry<T, U>): this(entries.toList())
-        data class Link<out T, out U>(val node: T, val label: U? = null)
+        override fun toString() = "AdjacencyList(${entries.joinToString()})"
+
         data class Entry<out T, out U>(val node: T, val links: List<Link<T, U>> = emptyList<Nothing>()) {
             constructor(node: T, vararg links: Link<T, U>): this(node, links.toList())
+            override fun toString() = "Entry($node, [${links.joinToString()}])"
+
             companion object {
-                fun <T> links(vararg linkValues: T): List<Link<T, Nothing>> = linkValues.map { Link(it, null)}
+                fun <T> links(vararg linkValues: T): List<Link<T, Nothing>> = linkValues.map { Link(it, null) }
             }
+        }
+
+        data class Link<out T, out U>(val node: T, val label: U? = null) {
+            override fun toString() = if (label == null) "Link($node)" else "Link($node, $label)"
         }
     }
 
     companion object {
         private val graphTokenSeparators = Pattern.compile("[->/]")
 
-        fun fromString(s: String): Graph<String, *> {
+        fun fromString(s: String): Graph<String, Nothing> {
             if (!s.startsWith('[') || !s.endsWith(']')) {
                 throw IllegalArgumentException("Expected string starting '[' and ending with ']' but it was '$s'")
             }
@@ -131,11 +138,11 @@ class Graph<T, U> {
             }
         }
 
-        fun <T> terms(termForm: TermForm<T, Nothing>): Graph<T, *> {
+        fun <T> terms(termForm: TermForm<T, Nothing>): Graph<T, Nothing> {
             return createFromTerms(termForm) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
         }
 
-        fun <T> directedTerms(termForm: TermForm<T, Nothing>): Graph<T, *> {
+        fun <T> directedTerms(termForm: TermForm<T, Nothing>): Graph<T, Nothing> {
             return createFromTerms(termForm) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
         }
 
