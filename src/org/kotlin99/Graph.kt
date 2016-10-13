@@ -6,6 +6,7 @@ import org.junit.Test
 import org.kotlin99.Graph.Node
 import org.kotlin99.Graph.Term
 import java.util.*
+import java.util.regex.Pattern
 
 
 class Graph<T, U> {
@@ -82,19 +83,40 @@ class Graph<T, U> {
 
     companion object {
 
-        fun <T> terms(nodes: List<T>, edges: List<Term<T, Nothing>>): Graph<T, *> {
+        fun fromString(s: String): Graph<String, *> {
+            if (!s.startsWith('[') || !s.endsWith(']')) {
+                throw IllegalArgumentException("Expected string starting '[' and ending with ']' but it was '$s'")
+            }
+            val tokens = s.substring(1, s.length - 1).split(", ").map { it.split("-") }
+            val nodes = tokens.flatMap{ it }.toCollection(LinkedHashSet())
+            val edges = tokens.filter{ it.size == 2 }.map{ Term<String, Nothing>(it[0], it[1]) }
+            return terms(nodes, edges)
+        }
+
+        fun fromStringLabel(s: String): Graph<String, Int> {
+            if (!s.startsWith('[') || !s.endsWith(']')) {
+                throw IllegalArgumentException("Expected string starting '[' and ending with ']' but it was '$s'")
+            }
+            val pattern = Pattern.compile("[-/]")
+            val tokens = s.substring(1, s.length - 1).split(", ").map { it.split(pattern) }
+            val nodes = tokens.flatMap{ it.take(2) }.toCollection(LinkedHashSet())
+            val edges = tokens.filter{ it.size == 3 }.map{ Term(it[0], it[1], it[2].toInt()) }
+            return labeledTerms(nodes, edges)
+        }
+
+        fun <T> terms(nodes: Collection<T>, edges: List<Term<T, Nothing>>): Graph<T, *> {
             return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
         }
 
-        fun <T> directedTerms(nodes: List<T>, edges: List<Term<T, Nothing>>): Graph<T, *> {
+        fun <T> directedTerms(nodes: Collection<T>, edges: List<Term<T, Nothing>>): Graph<T, *> {
             return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
         }
 
-        fun <T, U> labeledTerms(nodes: List<T>, edges: List<Term<T, U>>): Graph<T, U> {
+        fun <T, U> labeledTerms(nodes: Collection<T>, edges: List<Term<T, U>>): Graph<T, U> {
             return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
         }
 
-        fun <T, U> labeledDirectedTerms(nodes: List<T>, edges: List<Term<T, U>>): Graph<T, U> {
+        fun <T, U> labeledDirectedTerms(nodes: Collection<T>, edges: List<Term<T, U>>): Graph<T, U> {
             return createFromTerms(nodes, edges) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
         }
 
@@ -120,7 +142,7 @@ class Graph<T, U> {
             }
         }
 
-        private fun <T, U> createFromTerms(nodes: List<T>, edges: List<Term<T, U>>,
+        private fun <T, U> createFromTerms(nodes: Collection<T>, edges: List<Term<T, U>>,
                                         addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
             val graph = Graph<T, U>()
             nodes.forEach { graph.addNode(it) }
@@ -196,9 +218,7 @@ class GraphTest {
         val graph = Graph.labeledTerms(
                 listOf("k", "m", "p", "q"),
                 listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9)))
-        assertThat(graph.nodes.size, equalTo(4))
-        assertThat(graph.edges.size, equalTo(3))
-        assertThat(graph.toString(), equalTo("[m-q/7, p-m/5, p-q/9, k]"))
+        assertPropertiesOfUndirectedLabeledGraphFromReadme(graph)
     }
 
     @Test fun `create labeled directed graph`() {
@@ -230,6 +250,15 @@ class GraphTest {
         assertThat(graph.toString(), equalTo("[m>q/7, p>m/5, p>q/9, k]"))
     }
 
+    @Test fun `graph conversion from and to string`() {
+        "[b-c, b-f, c-f, f-k, g-h, d]".let {
+            assertPropertiesOfGraphFromIllustration(Graph.fromString(it))
+        }
+        "[m-q/7, p-m/5, p-q/9, k]".let {
+            assertPropertiesOfUndirectedLabeledGraphFromReadme(Graph.fromStringLabel(it))
+        }
+    }
+
     private fun assertPropertiesOfGraphFromIllustration(graph: Graph<String, *>) {
         assertThat(graph.nodes.size, equalTo(7))
         assertThat(graph.edges.size, equalTo(5))
@@ -248,5 +277,15 @@ class GraphTest {
         assertThat(graph.nodes["s"]!!.neighbors(), equalTo(listOf(Node("r"), Node("u"))))
         assertThat(graph.nodes["v"]!!.neighbors(), equalTo(listOf(Node("u"))))
         assertThat(graph.nodes["r"]!!.neighbors(), equalTo(emptyList()))
+    }
+
+    private fun assertPropertiesOfUndirectedLabeledGraphFromReadme(graph: Graph<String, Int>) {
+        assertThat(graph.nodes.size, equalTo(4))
+        assertThat(graph.edges.size, equalTo(3))
+        assertThat(graph.toString(), equalTo("[m-q/7, p-m/5, p-q/9, k]"))
+
+        assertThat(graph.nodes["m"]!!.neighbors(), equalTo(listOf(Node("q"), Node("p"))))
+        assertThat(graph.nodes["p"]!!.neighbors(), equalTo(listOf(Node("m"), Node("q"))))
+        assertThat(graph.nodes["k"]!!.neighbors(), equalTo(emptyList()))
     }
 }
