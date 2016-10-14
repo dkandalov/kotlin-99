@@ -1014,13 +1014,13 @@ The notation for labeled graphs can also be used for so-called multi-graphs,
 where more than one edge is allowed between two given nodes.
 
 ### [P80][] (*) Conversions.
-Write ``fromString`` and ``directedFromString`` functions to create graphs from strings 
+Write ``String.toGraph()`` and ``String.toLabeledGraph()`` functions to create graphs from strings 
 (you can detect if graph is labeled or unlabeled based on input string format).
 Write functions ``toTermForm`` and ``toAdjacencyList`` to generate the graph-term and adjacency-list forms of a ``Graph``. 
 ``` kotlin
-> Graph.fromString("[b-c, b-f, c-f, f-k, g-h, d]").toTermForm()
+> "[b-c, b-f, c-f, f-k, g-h, d]".toGraph().toTermForm()
 TermForm(nodes=[f, g, d, b, c, k, h], edges=[Term(b, c), Term(b, f), Term(c, f), Term(f, k), Term(g, h)])
-> Graph.directedFromString("[p>q/9, m>q/7, k, p>m/5]").toAdjacencyList()
+> "[m>q/7, p>m/5, p>q/9, k]".toLabeledGraph().toAdjacencyList()
 AdjacencyList(Entry("q"), Entry("p", listOf(Link("q", 9), Link("m", 5))), Entry("m", listOf(Link("q", 7))), Entry("k"))
 ```
 
