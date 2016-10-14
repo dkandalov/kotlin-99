@@ -887,20 +887,6 @@ class Graph<T, U> {
         }
     }
 
-    override fun toString(): String {
-        val standaloneNodes = nodes.values.filter{ node -> edges.all { it.n1 != node && it.n2 != node } }
-        val s = (edges.map{ it.toString() } + standaloneNodes.map{ it.toString() }).joinToString()
-        return "[$s]"
-    }
-
-    override fun equals(other: Any?): Boolean{
-        if (this === other || other?.javaClass != javaClass) return false
-        other as Graph<*, *>
-        return nodes == other.nodes && edges == other.edges
-    }
-
-    override fun hashCode() = 31 * nodes.hashCode() + edges.hashCode()
-
 
     data class Node<T, U>(val value: T) {
         val edges: MutableList<Edge<T, U>> = ArrayList()
@@ -1027,8 +1013,8 @@ AdjacencyList(Entry("q"), Entry("p", listOf(Link("q", 9), Link("m", 5))), Entry(
 Write a method named ``findPaths`` to find acyclic paths from one node to another in a graph. 
 The method should return all paths.
 ``` kotlin
-> "[p>q/9, m>q/7, k, p>m/5]"toLabeledGraph().findPaths("p", "q")
-[[p, q, [p, m, q]]
+> "[p>q/9, m>q/7, k, p>m/5]".toLabeledGraph().findPaths("p", "q")
+[[p, q], [p, m, q]]
 > "[p>q/9, m>q/7, k, p>m/5]".toLabeledGraph().findPaths("p", "k")
 []
 ```
