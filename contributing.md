@@ -9,4 +9,4 @@ All pull requests will be accepted but might be edited later :)
 
 To build the project clone repository and use maven (e.g. ``mvn compile``, ``mvn test``).
 
-Current CI status: https://travis-ci.org/dkandalov/kotlin-99.svg?branch=master
+[![Build Status](https://travis-ci.org/dkandalov/kotlin-99.svg?branch=master)](https://travis-ci.org/dkandalov/kotlin-99)
