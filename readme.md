@@ -432,8 +432,7 @@ For example:
 ```
 
 ### [P50][] (**) Huffman code.
-If you are not familiar with Huffman coding, consult internet (or a good book) 
-for a description of [Huffman coding](https://en.wikipedia.org/wiki/Huffman_coding).
+If you are not familiar with [Huffman coding](https://en.wikipedia.org/wiki/Huffman_coding), consult internet (or a good book). 
 
 a) Given characters with their frequencies, e.g. ``{a=25, b=21, c=18, d=14, e=9, f=7, g=6}``.
 Our objective is to construct a ``Map``, where key is character and value is the Huffman code for it.
@@ -1025,26 +1024,31 @@ AdjacencyList(Entry("q"), Entry("p", listOf(Link("q", 9), Link("m", 5))), Entry(
 ```
 
 ### [P81][] (**) Path from one node to another one.
-Write a method named findPaths to find acyclic paths from one node to another in a graph. The method should return all paths.
+Write a method named ``findPaths`` to find acyclic paths from one node to another in a graph. 
+The method should return all paths.
 ``` kotlin
-> Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]").findPaths("p", "q")
-List(List(p, q), List(p, m, q))
-> Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]").findPaths("p", "k")
-List()
+> "[p>q/9, m>q/7, k, p>m/5]"toLabeledGraph().findPaths("p", "q")
+[[p, q, [p, m, q]]
+> "[p>q/9, m>q/7, k, p>m/5]".toLabeledGraph().findPaths("p", "k")
+[]
 ```
 
 ### [P82][] (*) Cycle from a given node.
-Write a method named findCycles to find closed paths (cycles) starting at a given node in a graph. The method should return all cycles.
+Write a method named ``findCycles`` to find closed paths (cycles) starting at a given node in a graph. 
+The method should return all cycles.
 ``` kotlin
-> Graph.fromString("[b-c, f-c, g-h, d, f-b, k-f, h-g]").findCycles("f")
-List(List(f, c, b, f), List(f, b, c, f))
+> "[b-c, f-c, g-h, d, f-b, k-f, h-g]".toGraph().findCycles("f")
+[[f, c, b, f], [f, b, c, f]]
 ```
 
 ### [P83][] (**) Construct all spanning trees.
-Write a method spanningTrees to construct all spanning trees of a given graph. 
-With this method, find out how many spanning trees there are for the graph depicted to the right. 
-The data of this example graph can be found below. When you have a correct solution for the spanningTrees method, 
-use it to define two other useful methods: isTree and isConnected. Both are five-minute tasks!
+Write a method ``spanningTrees`` to construct all spanning trees of a given graph. 
+With this method, find out how many spanning trees there are for the graph depicted below.
+
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p83.gif">
+
+The data of this example graph can be found below. When you have a correct solution for the ``spanningTrees`` method, 
+use it to define two other useful methods: ``isTree`` and ``isConnected``. Both are five-minute tasks!
 
 Graph:
 ``` kotlin
@@ -1052,12 +1056,13 @@ Graph.term(List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'),
            List(('a', 'b'), ('a', 'd'), ('b', 'c'), ('b', 'e'),
                 ('c', 'e'), ('d', 'e'), ('d', 'f'), ('d', 'g'),
                 ('e', 'h'), ('f', 'g'), ('g', 'h')))
-> Graph.fromString("[a-b, b-c, a-c]").spanningTrees
+> Graph.fromString("[a-b, b-c, a-c]").spanningTrees()
 List([a-b, b-c], [a-c, b-c], [a-b, a-c])
 ```
 
 ### [P84][] (**) Construct the minimal spanning tree.
-Write a method minimalSpanningTree to construct the minimal spanning tree of a given labeled graph. Hint: Use Prim's Algorithm. 
+Write a method ``minimalSpanningTree`` to construct the minimal spanning tree of a given labeled graph. 
+Hint: Use [Prim's Algorithm](https://en.wikipedia.org/wiki/Prim's_algorithm). 
 A small modification of the solution of P83 does the trick. The data of the example graph to the right can be found below.
 Graph:
 ``` kotlin
@@ -1066,7 +1071,7 @@ Graph.termLabel(
        List(('a', 'b', 5), ('a', 'd', 3), ('b', 'c', 2), ('b', 'e', 4),
             ('c', 'e', 6), ('d', 'e', 7), ('d', 'f', 4), ('d', 'g', 3),
             ('e', 'h', 5), ('f', 'g', 4), ('g', 'h', 1)))
-> Graph.fromStringLabel("[a-b/1, b-c/2, a-c/3]").minimalSpanningTree()
+> "[a-b/1, b-c/2, a-c/3]".toLabeledGraph().minimalSpanningTree()
 [a-b/1, b-c/2]
 ```
 
