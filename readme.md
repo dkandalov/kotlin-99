@@ -286,7 +286,7 @@ Example:
 Note that in the above example, the first two lists in the result have length 4 and 1 and both lengths appear just once. 
 The third and fourth lists have length 3 and there are two list of this length. Finally, the last three lists have length 2. 
 This is the most frequent length.
-
+         	                                                                        
 
 
 ## Arithmetic
@@ -406,8 +406,9 @@ false	true	false
 false	false	false
 ```
 
-### [P47][] (*) Truth tables for logical expressions (2).
-Omitted assuming it was done in the previous problem.
+### P47 (*) Truth tables for logical expressions (2).
+For scala the task was to use implicit conversion.
+This is much simpler in Kotlin so the task omitted assuming it was done in the previous problem.
 
 ### [P48][] (*) Truth tables for logical expressions (3).
 Generalize problem 46 in such a way that the logical expression may contain any number of logical variables.
@@ -1255,104 +1256,92 @@ And remember that the objective is a clean solution, not just a quick-and-dirty 
 For this part of the problem, the solution of P28 may be very helpful.
 
 
-[P01]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P01.kt
-[P02]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P02.kt
-[P03]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P03.kt
-[P04]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P04.kt
-[P05]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P05.kt
-[P06]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P06.kt
-[P07]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P07.kt
-[P08]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P08.kt
-[P09]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P09.kt
+[P01]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P01.kt
+[P02]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P02.kt
+[P03]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P03.kt
+[P04]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P04.kt
+[P05]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P05.kt
+[P06]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P06.kt
+[P07]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P07.kt
+[P08]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P08.kt
+[P09]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P09.kt
+[P10]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P10.kt
+[P11]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P11.kt
+[P12]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P12.kt
+[P13]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P13.kt
+[P14]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P14.kt
+[P15]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P15.kt
+[P16]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P16.kt
+[P17]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P17.kt
+[P18]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P18.kt
+[P19]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P19.kt
+[P20]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P20.kt
+[P21]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P21.kt
+[P22]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P22.kt
+[P23]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P23.kt
+[P24]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P24.kt
+[P25]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P25.kt
+[P26]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P26.kt
+[P27]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P27.kt
+[P28]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P28.kt
 
-[P10]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P10.kt
-[P11]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P11.kt
-[P12]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P12.kt
-[P13]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P13.kt
-[P14]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P14.kt
-[P15]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P15.kt
-[P16]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P16.kt
-[P17]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P17.kt
-[P18]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P18.kt
-[P19]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P19.kt
-[P20]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P20.kt
+[P31]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P31.kt
+[P32]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P32.kt
+[P33]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P33.kt
+[P34]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P34.kt
+[P35]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P35.kt
+[P36]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P36.kt
+[P37]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P37.kt
+[P38]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P38.kt
+[P39]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P39.kt
+[P30]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P40.kt
+[P41]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P41.kt
 
-[P21]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P21.kt
-[P22]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P22.kt
-[P23]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P23.kt
-[P24]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P24.kt
-[P25]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P25.kt
-[P26]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P26.kt
-[P27]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P27.kt
-[P28]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P28.kt
-[P29]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P29.kt
+[P46]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/logic/P46.kt
+[P48]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/logic/P48.kt
+[P49]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/logic/P49.kt
+[P50]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/logic/P50.kt
 
-[P30]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P30.kt
-[P31]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P31.kt
-[P32]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P32.kt
-[P33]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P33.kt
-[P34]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P34.kt
-[P35]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P35.kt
-[P36]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P36.kt
-[P37]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P37.kt
-[P38]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P38.kt
-[P39]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P39.kt
-[P30]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P30.kt
+[P55]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P55.kt
+[P56]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P56.kt
+[P57]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P57.kt
+[P58]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P58.kt
+[P59]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P59.kt
+[P60]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P60.kt
+[P61]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P61.kt
+[P62]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P62.kt
+[P63]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P63.kt
+[P64]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P64.kt
+[P65]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P65.kt
+[P66]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P66.kt
+[P67]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P67.kt
+[P68]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P68.kt
+[P69]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/P69.kt
 
-[P41]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P41.kt
-[P42]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P42.kt
-[P43]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P43.kt
-[P44]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P44.kt
-[P45]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P45.kt
-[P46]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P46.kt
-[P47]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P47.kt
-[P48]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P48.kt
-[P49]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P49.kt
+[P70A]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/multiwaytrees/P70A.kt
+[P70B]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/multiwaytrees/P70B.kt
+[P71]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/multiwaytrees/P71.kt
+[P72]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/multiwaytrees/P72.kt
+[P73]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/multiwaytrees/P73.kt
 
-[P50]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P50.kt
-[P54]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P54.kt
-[P55]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P55.kt
-[P56]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P56.kt
-[P57]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P57.kt
-[P58]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P58.kt
-[P59]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P59.kt
+[P80]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/P80.kt
+[P81]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/P81.kt
+[P82]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/P82.kt
+[P83]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/P83.kt
+[P84]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/P84.kt
+[P85]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/P85.kt
+[P86]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/P86.kt
+[P87]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/P87.kt
+[P88]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/P88.kt
+[P89]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/P89.kt
 
-[P60]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P60.kt
-[P61]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P61.kt
-[P62]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P62.kt
-[P63]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P63.kt
-[P64]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P64.kt
-[P65]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P65.kt
-[P66]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P66.kt
-[P67]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P67.kt
-[P68]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P68.kt
-[P69]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P69.kt
-
-[P70A]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P70A.kt
-[P70B]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P70B.kt
-[P71]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P71.kt
-[P72]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P72.kt
-[P73]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P73.kt
-
-[P80]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P80.kt
-[P81]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P81.kt
-[P82]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P82.kt
-[P83]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P83.kt
-[P84]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P84.kt
-[P85]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P85.kt
-[P86]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P86.kt
-[P87]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P87.kt
-[P88]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P88.kt
-[P89]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P89.kt
-
-[P90]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P90.kt
-[P91]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P91.kt
-[P92]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P92.kt
-[P93]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P93.kt
-[P94]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P94.kt
-[P95]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P95.kt
-[P96]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P96.kt
-[P97]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P97.kt
-[P98]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P98.kt
-[P99]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/P99.kt
-
+[P90]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P90.kt
+[P91]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P91.kt
+[P92]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P92.kt
+[P93]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P93.kt
+[P94]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P94.kt
+[P95]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P95.kt
+[P96]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P96.kt
+[P97]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P97.kt
+[P98]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P98.kt
+[P99]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P99.kt
