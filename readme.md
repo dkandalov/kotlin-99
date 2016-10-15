@@ -1,5 +1,20 @@
 # Ninety-Nine Kotlin Problems
 
+
+## Table of Contents
+
+* [Introduction](#introduction)
+* [Lists](#lists)
+* [Arithmetic](#arithmetic)
+* [Logic and Codes](#logic-and-codes)
+* [Binary Trees](#binary-trees)
+* [Multiway Trees](#multiway-trees)
+* [Graphs](#graphs)
+* [Miscellaneous](#miscellaneous)
+
+
+## Introduction
+
 This an adaptation of [Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/) by Phil Gold 
 which itself is an adaptation of the [Ninety-Nine Prolog Problems](https://sites.google.com/site/prologsite/prolog-problems) 
 written by Werner Hett at the Berne University of Applied Sciences in Berne, Switzerland. 
@@ -25,16 +40,6 @@ This is work-in-progress. All contributions are welcome (including new solutions
 The main reason to do these exercises instead of using websites like hackerrank.com and codewars.com
 is that there is no vendor lock-in and no hidden agenda pursued by the website owner.
 
-
-## Table of Contents
-
-* [Lists](#lists)
-* [Arithmetic](#arithmetic)
-* [Logic and Codes](#logic-and-codes)
-* [Binary Trees](#binary-trees)
-* [Multiway Trees](#multiway-trees)
-* [Graphs](#graphs)
-* [Miscellaneous](#miscellaneous)
 
 
 ## Lists
@@ -840,7 +845,7 @@ a {f {g}, c, b {d, e}}
 ## Graphs
 
 (Warning! The introductory text below is quite long. If you are familiar with graphs, 
-you might just look at source code in [Graph.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/Graph.kt).)
+you might just look at source code in [Graph.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/graphs/Graph.kt).)
 
 A [graph](https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)) 
 is defined as a set of nodes and a set of edges, where each edge is a pair of nodes.
@@ -1009,7 +1014,7 @@ TermForm(nodes=[f, g, d, b, c, k, h], edges=[Term(b, c), Term(b, f), Term(c, f),
 AdjacencyList(Entry("q"), Entry("p", listOf(Link("q", 9), Link("m", 5))), Entry("m", listOf(Link("q", 7))), Entry("k"))
 ```
 
-### [P81][] (**) Path from one node to another one.
+### [P81][] (*) Path between nodes.
 Write a method named ``findPaths`` to find acyclic paths from one node to another in a graph. 
 The method should return all paths.
 ``` kotlin
@@ -1019,7 +1024,7 @@ The method should return all paths.
 []
 ```
 
-### [P82][] (*) Cycle from a given node.
+### [P82][] (*) Cycles from a node.
 Write a method named ``findCycles`` to find closed paths (cycles) starting at a given node in a graph. 
 The method should return all cycles.
 ``` kotlin
@@ -1027,8 +1032,8 @@ The method should return all cycles.
 [[f, c, b, f], [f, b, c, f]]
 ```
 
-### [P83][] (**) Construct all spanning trees.
-Write a method ``spanningTrees`` to construct all spanning trees of a given graph. 
+### [P83][] (**) Spanning trees.
+Write a method ``spanningTrees`` to construct all [spanning trees](https://en.wikipedia.org/wiki/Spanning_tree) of a given graph. 
 With this method, find out how many spanning trees there are for the graph depicted below.
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p83.gif">
@@ -1046,9 +1051,12 @@ Graph.term(List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'),
 List([a-b, b-c], [a-c, b-c], [a-b, a-c])
 ```
 
-### [P84][] (**) Construct the minimal spanning tree.
-Write a method ``minimalSpanningTree`` to construct the minimal spanning tree of a given labeled graph. 
-Hint: Use [Prim's Algorithm](https://en.wikipedia.org/wiki/Prim's_algorithm). 
+### [P84][] (**) Minimum spanning tree.
+Write a method ``minSpanningTree`` to construct the [minimum spanning tree](https://en.wikipedia.org/wiki/Minimum_spanning_tree)
+of a given labeled graph. Hint: Use [Prim's Algorithm](https://en.wikipedia.org/wiki/Prim's_algorithm).
+ 
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p84.gif">
+ 
 A small modification of the solution of P83 does the trick. The data of the example graph to the right can be found below.
 Graph:
 ``` kotlin
@@ -1057,34 +1065,34 @@ Graph.termLabel(
        List(('a', 'b', 5), ('a', 'd', 3), ('b', 'c', 2), ('b', 'e', 4),
             ('c', 'e', 6), ('d', 'e', 7), ('d', 'f', 4), ('d', 'g', 3),
             ('e', 'h', 5), ('f', 'g', 4), ('g', 'h', 1)))
-> "[a-b/1, b-c/2, a-c/3]".toLabeledGraph().minimalSpanningTree()
+> "[a-b/1, b-c/2, a-c/3]".toLabeledGraph().minSpanningTree()
 [a-b/1, b-c/2]
 ```
 
 ### [P85][] (**) Graph isomorphism.
-Two graphs G1(N1,E1) and G2(N2,E2) are isomorphic if there is a bijection f: N1 â†’ N2 such that for any nodes X,Y of N1, 
-X and Y are adjacent if and only if f(X) and f(Y) are adjacent.
+Two graphs ``G1(N1,E1)`` and ``G2(N2,E2)`` are [isomorphic](https://en.wikipedia.org/wiki/Graph_isomorphism) 
+if there is a bijection f: N1 â†’ N2 such that for any nodes X,Y of N1, X and Y are adjacent if and only if f(X) and f(Y) are adjacent.
 Write a method that determines whether two graphs are isomorphic.
 ``` kotlin
-> Graph.fromString("[a-b]").isIsomorphicTo(Graph.fromString("[5-7]"))
+> "[a-b]".toGraph().isIsomorphicTo(Graph.fromString("[5-7]"))
 true
 ```
 
 ### [P86][] (**) Node degree and graph coloration.
-a) Write a method Node.degree that determines the degree of a given node.
+a) Write a method ``Node.degree`` that determines the degree of a given node.
 ``` kotlin
-> Graph.fromString("[a-b, b-c, a-c, a-d]").nodes("a").degree()
+> "[a-b, b-c, a-c, a-d]".toGraph().nodes("a").degree()
 3
 ```
-b) Write a method that lists all nodes of a graph sorted according to decreasing degree.
+b) Write a method ``nodesByDegree`` that lists all nodes of a graph sorted according to decreasing degree.
 ``` kotlin
-> Graph.fromString("[a-b, b-c, a-c, a-d]").nodesByDegree()
+> "[a-b, b-c, a-c, a-d]".toGraph().nodesByDegree()
 List(Node(a), Node(c), Node(b), Node(d))
 ```
 c) Use Welsh-Powell's algorithm to paint the nodes of a graph in such a way that adjacent nodes have different colors. 
 Make a method colorNodes that returns a list of tuples, each of which contains a node and an integer representing its color.
 ``` kotlin
-> Graph.fromString("[a-b, b-c, a-c, a-d]").colorNodes()
+> "[a-b, b-c, a-c, a-d]".toGraph().colorNodes()
 List((Node(a),1), (Node(b),2), (Node(c), 3), (Node(d), 2))
 ```
 
@@ -1093,27 +1101,27 @@ Write a method that generates a depth-first order graph traversal sequence.
 The starting point should be specified, and the output should be a list of nodes 
 that are reachable from this starting point (in depth-first order).
 ``` kotlin
-scala> Graph.fromString("[a-b, b-c, e, a-c, a-d]").nodesByDepthFrom("d")
-res0: List[String] = List(c, b, a, d)
+> "[a-b, b-c, e, a-c, a-d]".toGraph().nodesByDepthFrom("d")
+[c, b, a, d]
 ```
 
 ### [P88][] (**) Connected components.
 Write a function that splits a graph into its connected components.
 ``` kotlin
-> Graph.fromString("[a-b, c]").splitGraph()
+> "[a-b, c]".toGraph().splitGraph()
 List([a-b], [c])
 ```
 
 ### [P89][] (**) Bipartite graphs.
 Write a function that determines whether a given graph is bipartite.
 ``` kotlin
-> Digraph.fromString("[a>b, c>a, d>b]").isBipartite()
+> "[a>b, c>a, d>b]".toGraph().isBipartite()
 true
-> Graph.fromString("[a-b, b-c, c-a]").isBipartite()
+> "[a-b, b-c, c-a]".toGraph().isBipartite()
 false
-> Graph.fromString("[a-b, b-c, d]").isBipartite()
+> "[a-b, b-c, d]".toGraph().isBipartite()
 true
-> Graph.fromString("[a-b, b-c, d, e-f, f-g, g-e, h]").isBipartite()
+> "[a-b, b-c, d, e-f, f-g, g-e, h]".toGraph().isBipartite()
 false
 ```
 
