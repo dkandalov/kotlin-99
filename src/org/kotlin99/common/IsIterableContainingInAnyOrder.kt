@@ -16,47 +16,39 @@ class IsIterableContainingInAnyOrder<in T>(private val matchers: Iterable<Matche
     override fun invoke(actual: Iterable<T>): MatchResult {
         val matching = Matching(matchers)
         for (item in actual) {
-            if (!matching.matches(item)) {
-                return MatchResult.Mismatch(matching.mismatchDescription)
+            val matchResult = matching.matches(item)
+            if (matchResult != MatchResult.Match) {
+                return matchResult
             }
         }
-        return if (matching.isFinished(actual)) MatchResult.Match
-        else MatchResult.Mismatch(matching.mismatchDescription)
+        return matching.isFinished(actual)
     }
 
     override val description: String
         get() = "iterable with items [${matchers.joinToString{ it.description }}] in any order"
 
 
-    private class Matching<in S>(matchers: Iterable<Matcher<S>>, var mismatchDescription: String = "") {
-        private val matchers: MutableCollection<Matcher<S>> = ArrayList(matchers.toList())
+    private class Matching<in S>(matchers: Iterable<Matcher<S>>) {
+        private val matchers = ArrayList(matchers.toList())
 
-        fun matches(item: S): Boolean {
+        fun matches(item: S): MatchResult {
             if (matchers.isEmpty()) {
-                mismatchDescription += "no match for: $item"
-                return false
+                return MatchResult.Mismatch("no match for: $item")
             }
-            return isMatched(item)
-        }
-
-        fun isFinished(items: Iterable<S>): Boolean {
-            if (matchers.isEmpty()) {
-                return true
-            }
-            mismatchDescription += "no item matches: [${matchers.joinToString(", "){ it.description }}] " +
-                                   "in [${items.joinToString()}]"
-            return false
-        }
-
-        private fun isMatched(item: S): Boolean {
             for (matcher in matchers) {
                 if (matcher.invoke(item) == MatchResult.Match) {
                     matchers.remove(matcher)
-                    return true
+                    return MatchResult.Match
                 }
             }
-            mismatchDescription += "not matched: $item"
-            return false
+            return MatchResult.Mismatch("not matched: $item")
+        }
+
+        fun isFinished(items: Iterable<S>): MatchResult {
+            if (matchers.isEmpty()) {
+                return MatchResult.Match
+            }
+            return MatchResult.Mismatch("no item matches: [${matchers.joinToString(", "){ it.description }}] in [${items.joinToString()}]")
         }
     }
 
