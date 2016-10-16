@@ -13,19 +13,18 @@ import java.util.*
 fun <T, U> Graph<T, U>.spanningTrees(): List<Graph<T, U>> {
     fun Edge<T, U>.contains(node: Node<T, U>) = n1 == node || n2 == node
     fun Edge<T, U>.connectsTo(nodes: List<Node<T, U>>) = nodes.contains(n1) != nodes.contains(n2)
-    fun List<Graph<T, U>>.removeEquivalentGraphs(): List<Graph<T, U>> {
-        val result = ArrayList<Graph<T, U>>()
-        forEach { graph -> if (result.none{ it.equivalentTo(graph) }) result.add(graph) }
-        return result
-    }
+    fun List<Graph<T, U>>.removeEquivalentGraphs(): List<Graph<T, U>> =
+        fold(ArrayList<Graph<T, U>>()) { result, graph ->
+            if (result.none{ it.equivalentTo(graph) }) result.add(graph)
+            result
+        }
 
     fun spanningTrees(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>, treeEdges: List<Edge<T, U>>): List<Graph<T, U>> =
         if (graphNodes.isEmpty()) {
             val nodeValues = nodes.keys.toList()
             val terms = treeEdges.map{ Term(it.n1.value, it.n2.value, it.label) }
             listOf(Graph.labeledTerms(TermForm(nodeValues, terms)))
-        }
-        else graphEdges.filter{ it.connectsTo(graphNodes) }.flatMap { edge ->
+        } else graphEdges.filter{ it.connectsTo(graphNodes) }.flatMap { edge ->
             spanningTrees(
                 graphEdges.filterNot{ it == edge },
                 graphNodes.filterNot{ edge.contains(it) },
@@ -33,7 +32,7 @@ fun <T, U> Graph<T, U>.spanningTrees(): List<Graph<T, U>> {
             )
         }
 
-    return spanningTrees(edges.toList(), nodes.values.toList().drop(1), emptyList()).removeEquivalentGraphs()
+    return spanningTrees(edges, nodes.values.drop(1), emptyList()).removeEquivalentGraphs()
 }
 
 fun Graph<*, *>.isTree(): Boolean = spanningTrees().size == 1
@@ -65,7 +64,7 @@ class P83Test {
         }
     }
 
-    @Test fun `all spanning of graph from task example`() {
+    @Test fun `all spanning trees of graph from illustration`() {
         val graph = "[a-b, a-d, b-c, b-e, c-e, d-e, d-f, d-g, e-h, f-g, g-h]".toGraph()
         val spanningTrees = graph.spanningTrees()
         println(spanningTrees)

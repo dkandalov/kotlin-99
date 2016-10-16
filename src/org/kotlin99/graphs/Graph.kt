@@ -26,7 +26,7 @@ class Graph<T, U> {
             throw IllegalStateException("Expected '$n1' and '$n2' nodes to exist in graph")
         }
         val edge = UndirectedEdge(nodes[n1]!!, nodes[n2]!!, label)
-        if (edges.all{ !it.equivalentTo(edge) }) {
+        if (edges.none{ it.equivalentTo(edge) }) {
             edges.add(edge)
             nodes[n1]!!.edges.add(edge)
             nodes[n2]!!.edges.add(edge)

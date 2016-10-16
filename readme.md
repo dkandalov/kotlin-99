@@ -1036,14 +1036,6 @@ The method should return all cycles. (Note that single edge doesn't count as a c
 
 ### [P83][] (**) Spanning trees.
 Write a method ``spanningTrees`` to construct all [spanning trees](https://en.wikipedia.org/wiki/Spanning_tree) of a given graph. 
-With this method, find out how many spanning trees there are for the graph depicted below.
-
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p83.gif">
-
-The graph from the example can be constructed like this:
-``` kotlin
-"[a-b, a-d, b-c, b-e, c-e, d-e, d-f, d-g, e-h, f-g, g-h]".toGraph()
-```
 
 When you have a correct solution for the ``spanningTrees`` method, 
 use it to define two other useful methods: ``Graph.isTree`` and ``Graph.isConnected``.
@@ -1054,6 +1046,13 @@ use it to define two other useful methods: ``Graph.isTree`` and ``Graph.isConnec
 false
 > "[a-b, b-c, a-c]".toGraph().isConnected()
 true
+``` 
+Find out how many spanning trees there are for the graph depicted below.
+
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p83.gif">
+
+``` kotlin
+"[a-b, a-d, b-c, b-e, c-e, d-e, d-f, d-g, e-h, f-g, g-h]".toGraph()
 ```
 
 ### [P84][] (**) Minimum spanning tree.
@@ -1062,18 +1061,13 @@ of a given labeled graph. Hint: Use [Prim's Algorithm](https://en.wikipedia.org/
 ``` kotlin
 > "[a-b/1, b-c/2, a-c/3]".toLabeledGraph().minSpanningTree()
 [a-b/1, b-c/2]
-```
-
+``` 
 Find minimum spanning tree for the graph below:
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p84.gif">
 
 ``` kotlin
-Graph.termLabel(
-  List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'),
-       List(('a', 'b', 5), ('a', 'd', 3), ('b', 'c', 2), ('b', 'e', 4),
-            ('c', 'e', 6), ('d', 'e', 7), ('d', 'f', 4), ('d', 'g', 3),
-            ('e', 'h', 5), ('f', 'g', 4), ('g', 'h', 1)))
+"[a-b/5, a-d/3, b-c/2, b-e/4, c-e/6, d-e/7, d-f/4, d-g/3, e-h/5, f-g/4, g-h/1]".toLabeledGraph()
 ```
 
 ### [P85][] (**) Graph isomorphism.
