@@ -3,10 +3,9 @@ package org.kotlin99.binarytrees
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.binarytrees.Tree
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
-import org.kotlin99.common.hasSameElementsAs
+import org.kotlin99.common.IsIterableContainingInAnyOrder.Companion.containsInAnyOrder
 
 
 fun Tree<*>.leafCount(): Int = leafValues().size
@@ -30,14 +29,14 @@ class P61Test {
     @Test fun `collect leaf values into a list`() {
         assertThat(Node("a").leafValues(), equalTo(listOf("a")))
         assertThat(Node("a", Node("b"), End).leafValues(), equalTo(listOf("b")))
-        assertThat(Node("a", Node("b"), Node("c")).leafValues(), equalTo(listOf("b", "c")))
-        assertThat(Node("a", Node("b"), Node("c", Node("d"), Node("e"))).leafValues(), equalTo(listOf("b", "d", "e")))
+        assertThat(Node("a", Node("b"), Node("c")).leafValues(), containsInAnyOrder("b", "c"))
+        assertThat(Node("a", Node("b"), Node("c", Node("d"), Node("e"))).leafValues(), containsInAnyOrder("b", "d", "e"))
     }
 
     @Test fun `collect internal values into a list`() {
         assertThat(Node("a").internalValues(), equalTo(emptyList()))
         assertThat(Node("a", Node("b"), End).internalValues(), equalTo(listOf("a")))
         assertThat(Node("a", Node("b"), Node("c")).internalValues(), equalTo(listOf("a")))
-        assertThat(Node("a", Node("b"), Node("c", Node("d"), Node("e"))).internalValues(), hasSameElementsAs(listOf("a", "c")))
+        assertThat(Node("a", Node("b"), Node("c", Node("d"), Node("e"))).internalValues(), containsInAnyOrder("a", "c"))
     }
 }

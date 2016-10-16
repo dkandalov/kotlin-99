@@ -3,7 +3,7 @@ package org.kotlin99.graphs
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.common.hasSameElementsAs
+import org.kotlin99.common.IsIterableContainingInAnyOrder.Companion.containsInAnyOrder
 
 fun <T> Graph<T, *>.findCycles(node: T): List<List<T>> {
     fun findCycles(path: List<T>): List<List<T>> {
@@ -20,11 +20,11 @@ class P82Test {
     @Test fun `find cycles in undirected graph`() {
         assertThat("[a]".toGraph().findCycles("a"), equalTo(listOf()))
         assertThat("[a-b]".toGraph().findCycles("a"), equalTo(listOf()))
-        assertThat("[a-b, b-c, a-c]".toGraph().findCycles("a"), hasSameElementsAs(listOf(
+        assertThat("[a-b, b-c, a-c]".toGraph().findCycles("a"), containsInAnyOrder(listOf(
                 listOf("a", "b", "c", "a"),
                 listOf("a", "c", "b", "a")
         )))
-        assertThat("[a-b, b-c, a-c, a-d, d-c]".toGraph().findCycles("a"), hasSameElementsAs(listOf(
+        assertThat("[a-b, b-c, a-c, a-d, d-c]".toGraph().findCycles("a"), containsInAnyOrder(listOf(
                 listOf("a", "b", "c", "a"),
                 listOf("a", "c", "b", "a"),
                 listOf("a", "c", "d", "a"),
@@ -33,15 +33,15 @@ class P82Test {
                 listOf("a", "b", "c", "d", "a")
         )))
 
-        assertThat("[b-c, b-f, c-f, f-k, g-h, d]".toGraph().findCycles("f"), hasSameElementsAs(listOf(
+        assertThat("[b-c, b-f, c-f, f-k, g-h, d]".toGraph().findCycles("f"), containsInAnyOrder(listOf(
                 listOf("f", "b", "c", "f"),
                 listOf("f", "c", "b", "f")
         )))
     }
 
     @Test fun `find cycles in directed graph`() {
-        assertThat("[a>b, b>c, a>c]".toGraph().findCycles("a"), hasSameElementsAs(listOf()))
-        assertThat("[a>b, b>c, c>a]".toGraph().findCycles("a"), hasSameElementsAs(listOf(
+        assertThat("[a>b, b>c, a>c]".toGraph().findCycles("a"), containsInAnyOrder(listOf()))
+        assertThat("[a>b, b>c, c>a]".toGraph().findCycles("a"), containsInAnyOrder(listOf(
                 listOf("a", "b", "c", "a")
         )))
     }

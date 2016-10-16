@@ -6,11 +6,10 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.describe
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.kotlin99.binarytrees.Tree
 import org.kotlin99.binarytrees.P55Test.Companion.nodeList
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
-import org.kotlin99.common.hasSameElementsAs
+import org.kotlin99.common.IsIterableContainingInAnyOrder.Companion.containsInAnyOrder
 
 fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
     if (height < 1) listOf(End)
@@ -45,8 +44,8 @@ fun <T> Tree<T>.nodes(): List<Node<T>> = when {
 
 class P59Test {
     @Test fun `construct all height-balanced binary trees`() {
-        assertThat(heightBalancedTrees(1, "x"), hasSameElementsAs(nodeList(Node("x"))))
-        assertThat(heightBalancedTrees(2, "x"), hasSameElementsAs(nodeList(
+        assertThat(heightBalancedTrees(1, "x"), containsInAnyOrder(nodeList(Node("x"))))
+        assertThat(heightBalancedTrees(2, "x"), containsInAnyOrder(nodeList(
                 Node("x", Node("x"), Node("x")),
                 Node("x", End, Node("x")),
                 Node("x", Node("x"), End)

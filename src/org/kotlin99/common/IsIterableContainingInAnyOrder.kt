@@ -11,7 +11,8 @@ import org.kotlin99.common.IsIterableContainingInAnyOrder.Companion.containsInAn
 import java.util.*
 
 
-class IsIterableContainingInAnyOrder<in T>(private val matchers: Collection<Matcher<T>>) : Matcher<Iterable<T>> {
+class IsIterableContainingInAnyOrder<in T>(private val matchers: Iterable<Matcher<T>>) : Matcher<Iterable<T>> {
+
     override fun invoke(actual: Iterable<T>): MatchResult {
         val matching = Matching(matchers)
         for (item in actual) {
@@ -19,15 +20,16 @@ class IsIterableContainingInAnyOrder<in T>(private val matchers: Collection<Matc
                 return MatchResult.Mismatch(matching.mismatchDescription)
             }
         }
-        return if (matching.isFinished(actual)) MatchResult.Match else MatchResult.Mismatch(matching.mismatchDescription)
+        return if (matching.isFinished(actual)) MatchResult.Match
+        else MatchResult.Mismatch(matching.mismatchDescription)
     }
 
     override val description: String
         get() = "iterable with items [${matchers.joinToString{ it.description }}] in any order"
 
 
-    private class Matching<in S>(matchers: Collection<Matcher<S>>, var mismatchDescription: String = "") {
-        private val matchers: MutableCollection<Matcher<S>> = ArrayList(matchers)
+    private class Matching<in S>(matchers: Iterable<Matcher<S>>, var mismatchDescription: String = "") {
+        private val matchers: MutableCollection<Matcher<S>> = ArrayList(matchers.toList())
 
         fun matches(item: S): Boolean {
             if (matchers.isEmpty()) {
@@ -64,10 +66,18 @@ class IsIterableContainingInAnyOrder<in T>(private val matchers: Collection<Matc
         }
 
         fun <T> containsInAnyOrder(vararg items: T): Matcher<Iterable<T>> {
-            return IsIterableContainingInAnyOrder(items.map{ equalTo(it) })
+            return containsInAnyOrder(items.map{ equalTo(it) })
         }
 
-        fun <T> containsInAnyOrder(itemMatchers: Collection<Matcher<T>>): Matcher<Iterable<T>> {
+        @Suppress("UNCHECKED_CAST")
+        @JvmName("containsInAnyOrderEqualTo")
+        fun <T> containsInAnyOrder(items: Iterable<T>): Matcher<Iterable<T>> {
+            val matchers = if (items.count() > 0 && items.first() is Iterable<*>)
+                items.map{ containsInAnyOrder(it as Iterable<*>) as Matcher<T> } else items.map { equalTo(it) }
+            return containsInAnyOrder(matchers)
+        }
+
+        fun <T> containsInAnyOrder(itemMatchers: Iterable<Matcher<T>>): Matcher<Iterable<T>> {
             return IsIterableContainingInAnyOrder(itemMatchers)
         }
     }
@@ -75,6 +85,10 @@ class IsIterableContainingInAnyOrder<in T>(private val matchers: Collection<Matc
 
 
 class IsIterableContainingInAnyOrderTest {
+
+    @Test fun `matches empty lists`() {
+        assertMatches("empty list", containsInAnyOrder(emptyList()), emptyList<Int>())
+    }
 
     @Test fun `matches single item iterable`() {
         assertMatches("single item", containsInAnyOrder(1), listOf(1))
@@ -111,6 +125,21 @@ class IsIterableContainingInAnyOrderTest {
 
     @Test fun `does not match if there are more matchers than elements`() {
         assertMismatchDescription("no item matches: [is equal to 4] in [1, 2, 3]", containsInAnyOrder(1, 2, 3, 4), listOf(1, 2, 3))
+    }
+
+    @Test fun `matches nested empty lists`() {
+        assertMatches("nested empty list", containsInAnyOrder(listOf(emptyList<Int>())), listOf(emptyList()))
+    }
+
+    @Test fun `matches nested single item lists`() {
+        assertMatches("single item", containsInAnyOrder(listOf(listOf(1))), listOf(listOf(1)))
+    }
+
+    @Test fun `matches nested lists with multiple elements`() {
+        assertMatches("multiple items", containsInAnyOrder(listOf(listOf(2, 1))), listOf(listOf(1, 2)))
+        assertMatches("multiple items", containsInAnyOrder(listOf(listOf(2, 1, 1))), listOf(listOf(1, 1, 2)))
+        assertMatches("multiple items", containsInAnyOrder(listOf(listOf(1), listOf(3, 2, 1))), listOf(listOf(1, 2, 3), listOf(1)))
+        assertMatches("multiple items", containsInAnyOrder(listOf(listOf(1), listOf(4, 2, 1))), listOf(listOf(1, 2, 4), listOf(1)))
     }
 
     @Test fun `has a readable description`() {

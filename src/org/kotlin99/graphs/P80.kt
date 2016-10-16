@@ -6,7 +6,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.describe
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.common.hasSameElementsAs
+import org.kotlin99.common.IsIterableContainingInAnyOrder.Companion.containsInAnyOrder
 import org.kotlin99.graphs.Graph.AdjacencyList
 import org.kotlin99.graphs.Graph.AdjacencyList.Entry
 import org.kotlin99.graphs.Graph.AdjacencyList.Entry.Companion.links
@@ -125,7 +125,7 @@ class P80Test {
 
     private fun <T, U> equalTo(expected: AdjacencyList<T, U>) : Matcher<AdjacencyList<T, U>> {
         return object : Matcher.Primitive<AdjacencyList<T, U>>() {
-            override fun invoke(actual: AdjacencyList<T, U>) = hasSameElementsAs(expected.entries).invoke(actual.entries)
+            override fun invoke(actual: AdjacencyList<T, U>) = containsInAnyOrder(expected.entries).invoke(actual.entries)
             override val description: String get() = "has the same elements as ${describe(expected)}"
             override val negatedDescription : String get() = "element are not the same as in ${describe(expected)}"
         }

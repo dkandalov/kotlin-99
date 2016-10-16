@@ -4,7 +4,7 @@ import com.natpryce.hamkrest.anyElement
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.common.hasSameElementsAs
+import org.kotlin99.common.IsIterableContainingInAnyOrder.Companion.containsInAnyOrder
 
 fun <T> group3(list: List<T>): List<List<List<T>>> =
     combinations(2, list).flatMap { listOfTwo ->
@@ -26,8 +26,8 @@ fun <T> group(sizes: List<Int>, list: List<T>): List<List<List<T>>> =
 class P27Test {
     @Test fun `a) group the elements into 3 disjoint subgroups of 2, 3 and 4`() {
         group3(listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida")).apply {
-            forEach { println(it) }
-            assertThat(this, anyElement(hasSameElementsAs(
+            // forEach { println(it) }
+            assertThat(this, anyElement(containsInAnyOrder(
                     listOf(listOf("Aldo", "Beat"), listOf("Carla", "David", "Evi"), listOf("Flip", "Gary", "Hugo", "Ida"))
             )))
             assertThat(size, equalTo(1260))
@@ -36,8 +36,8 @@ class P27Test {
 
     @Test fun `b) group the elements into disjoint subgroups of specified sizes`() {
         group(listOf(2, 2, 5), listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida")).apply {
-            forEach { println(it) }
-            assertThat(this, anyElement(hasSameElementsAs(
+            // forEach { println(it) }
+            assertThat(this, anyElement(containsInAnyOrder(
                     listOf(listOf("Aldo", "Beat"), listOf("Carla", "David"), listOf("Evi", "Flip", "Gary", "Hugo", "Ida"))
             )))
             assertThat(size, equalTo(756))
