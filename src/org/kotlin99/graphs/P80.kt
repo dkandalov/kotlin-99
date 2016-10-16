@@ -115,19 +115,21 @@ class P80Test {
         )))
     }
 
-    fun <T, U> equivalentTo(expected: Graph<T, U>): Matcher<Graph<T, U>> =
-        object : Matcher<Graph<T, U>> {
-            override fun invoke(actual: Graph<T, U>): MatchResult =
-                    if (actual.equivalentTo(expected)) MatchResult.Match else MatchResult.Mismatch("was ${describe(actual)}")
-            override val description: String get() = "is equivalent to ${describe(expected)}"
-            override val negatedDescription: String get() = "is not equivalent to ${describe(expected)}"
-        }
-
     private fun <T, U> equalTo(expected: AdjacencyList<T, U>) : Matcher<AdjacencyList<T, U>> {
         return object : Matcher.Primitive<AdjacencyList<T, U>>() {
             override fun invoke(actual: AdjacencyList<T, U>) = containsInAnyOrder(expected.entries).invoke(actual.entries)
             override val description: String get() = "has the same elements as ${describe(expected)}"
             override val negatedDescription : String get() = "element are not the same as in ${describe(expected)}"
         }
+    }
+
+    companion object {
+        fun <T, U> equivalentTo(expected: Graph<T, U>): Matcher<Graph<T, U>> =
+            object : Matcher<Graph<T, U>> {
+                override fun invoke(actual: Graph<T, U>): MatchResult =
+                        if (actual.equivalentTo(expected)) MatchResult.Match else MatchResult.Mismatch("was ${describe(actual)}")
+                override val description: String get() = "is equivalent to ${describe(expected)}"
+                override val negatedDescription: String get() = "is not equivalent to ${describe(expected)}"
+            }
     }
 }

@@ -1040,19 +1040,20 @@ With this method, find out how many spanning trees there are for the graph depic
 
 <img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p83.gif">
 
-The data of this example graph can be found below:
+The graph from the example can be constructed like this:
 ``` kotlin
-Graph.term(listOf("a", "b", "c", "d", "e", "f", "g", "h"),
-           listOf(("a", "b"), ("a", "d"), ("b", "c"), ("b", "e"),
-                 ("c", "e"), ("d", "e"), ("d", "f"), ("d", "g"),
-                 ("e", "h"), ("f", "g"), ("g", "h")))
+"[a-b, a-d, b-c, b-e, c-e, d-e, d-f, d-g, e-h, f-g, g-h]".toGraph()
 ```
 
 When you have a correct solution for the ``spanningTrees`` method, 
 use it to define two other useful methods: ``Graph.isTree`` and ``Graph.isConnected``.
 ``` kotlin
-> Graph.fromString("[a-b, b-c, a-c]").spanningTrees()
+> "[a-b, b-c, a-c]".toGraph().spanningTrees()
 [[a-b, b-c], [a-b, c-a], [b-c, c-a]]
+> "[a-b, b-c, a-c]".toGraph().isTree()
+false
+> "[a-b, b-c, a-c]".toGraph().isConnected()
+true
 ```
 
 ### [P84][] (**) Minimum spanning tree.

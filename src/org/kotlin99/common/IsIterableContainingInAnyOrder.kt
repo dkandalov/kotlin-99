@@ -71,9 +71,9 @@ class IsIterableContainingInAnyOrder<in T>(private val matchers: Iterable<Matche
 
         @Suppress("UNCHECKED_CAST")
         @JvmName("containsInAnyOrderEqualTo")
-        fun <T> containsInAnyOrder(items: Iterable<T>): Matcher<Iterable<T>> {
+        fun <T> containsInAnyOrder(items: Iterable<T>, leafMatcher: (T) -> Matcher<T> = { equalTo(it) }): Matcher<Iterable<T>> {
             val matchers = if (items.count() > 0 && items.first() is Iterable<*>)
-                items.map{ containsInAnyOrder(it as Iterable<*>) as Matcher<T> } else items.map { equalTo(it) }
+                items.map{ containsInAnyOrder(it as Iterable<*>) as Matcher<T> } else items.map { leafMatcher(it) }
             return containsInAnyOrder(matchers)
         }
 
