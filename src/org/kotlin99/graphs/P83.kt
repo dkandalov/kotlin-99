@@ -39,7 +39,7 @@ fun Graph<*, *>.isTree(): Boolean = spanningTrees().size == 1
 fun Graph<*, *>.isConnected(): Boolean = spanningTrees().size > 0
 
 
-class P83 {
+class P83Test {
     @Test fun `find all spanning trees`() {
         assertThat("[a]".toGraph().spanningTrees(), hasSameElementsAs(listOf("[a]".toGraph())))
         assertThat("[a-b]".toGraph().spanningTrees(), hasSameElementsAs(listOf("[a-b]".toGraph())))

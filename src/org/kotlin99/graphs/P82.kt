@@ -16,7 +16,7 @@ fun <T> Graph<T, *>.findCycles(node: T): List<List<T>> {
 }
 
 
-class P82 {
+class P82Test {
     @Test fun `find cycles in undirected graph`() {
         assertThat("[a]".toGraph().findCycles("a"), equalTo(listOf()))
         assertThat("[a-b]".toGraph().findCycles("a"), equalTo(listOf()))
