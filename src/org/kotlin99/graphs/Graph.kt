@@ -47,13 +47,17 @@ class Graph<T, U> {
         return "[$s]"
     }
 
-    override fun equals(other: Any?): Boolean{
+    override fun equals(other: Any?): Boolean {
         if (this === other || other?.javaClass != javaClass) return false
         other as Graph<*, *>
         return nodes == other.nodes && edges == other.edges
     }
 
     override fun hashCode() = 31 * nodes.hashCode() + edges.hashCode()
+
+    fun equivalentTo(other: Graph<T, U>): Boolean {
+        return nodes == other.nodes && edges.all { edge -> other.edges.any{ it.equivalentTo(edge) } }
+    }
 
 
     data class Node<T, U>(val value: T) {

@@ -1,5 +1,6 @@
 package org.kotlin99.graphs
 
+import com.natpryce.hamkrest.MatchResult
 import com.natpryce.hamkrest.Matcher
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.describe
@@ -72,6 +73,18 @@ class P80Test {
         "[m>q/7, p>m/5, p>q/9, k]".toLabeledGraph().assertPropertiesOfDirectedLabeledGraphExample()
     }
 
+    @Test fun `graph equality and equivalence`() {
+        assertThat("[a]".toGraph(), equalTo("[a]".toGraph()))
+        assertThat("[a]".toGraph(), !equalTo("[b]".toGraph()))
+
+        assertThat("[a-b]".toGraph(), equalTo("[a-b]".toGraph()))
+        assertThat("[a-b]".toGraph(), !equalTo("[b-a]".toGraph()))
+
+        assertThat("[a-b]".toGraph(), equivalentTo("[a-b]".toGraph()))
+        assertThat("[a-b]".toGraph(), equivalentTo("[b-a]".toGraph()))
+        assertThat("[a-b, b-c]".toGraph(), equivalentTo("[c-b, b-a]".toGraph()))
+    }
+
     @Test fun `convert graph to term form`() {
         assertThat("[b-c, b-f, c-f, f-k, g-h, d]".toGraph().toTermForm(), equalTo(TermForm(
                 listOf("f", "g", "d", "b", "c", "k", "h"),
@@ -101,6 +114,14 @@ class P80Test {
                 Entry("k")
         )))
     }
+
+    fun <T, U> equivalentTo(expected: Graph<T, U>): Matcher<Graph<T, U>> =
+        object : Matcher<Graph<T, U>> {
+            override fun invoke(actual: Graph<T, U>): MatchResult =
+                    if (actual.equivalentTo(expected)) MatchResult.Match else MatchResult.Mismatch("was ${describe(actual)}")
+            override val description: String get() = "is equivalent to ${describe(expected)}"
+            override val negatedDescription: String get() = "is not equivalent to ${describe(expected)}"
+        }
 
     private fun <T, U> equalTo(expected: AdjacencyList<T, U>) : Matcher<AdjacencyList<T, U>> {
         return object : Matcher.Primitive<AdjacencyList<T, U>>() {
