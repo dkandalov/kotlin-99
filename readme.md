@@ -1026,9 +1026,11 @@ The method should return all paths.
 
 ### [P82][] (*) Cycles from a node.
 Write a method named ``findCycles`` to find closed paths (cycles) starting at a given node in a graph. 
-The method should return all cycles.
+The method should return all cycles. (Note that single edge doesn't count as a cycle.)
 ``` kotlin
-> "[b-c, f-c, g-h, d, f-b, k-f, h-g]".toGraph().findCycles("f")
+> "[a-b]".toGraph().findCycles("a")
+[]
+> "[b-c, b-f, c-f, f-k, g-h, d]".toGraph().findCycles("f")
 [[f, c, b, f], [f, b, c, f]]
 ```
 
