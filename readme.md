@@ -1088,13 +1088,13 @@ a) Write a method ``Node.degree`` that determines the degree of a given node.
 b) Write a method ``nodesByDegree`` that lists all nodes of a graph sorted according to decreasing degree.
 ``` kotlin
 > "[a-b, b-c, a-c, a-d]".toGraph().nodesByDegree()
-List(Node(a), Node(c), Node(b), Node(d))
+[a, c, b, d]
 ```
 c) Use Welsh-Powell's algorithm to paint the nodes of a graph in such a way that adjacent nodes have different colors. 
 Make a method colorNodes that returns a list of tuples, each of which contains a node and an integer representing its color.
 ``` kotlin
 > "[a-b, b-c, a-c, a-d]".toGraph().colorNodes()
-List((Node(a),1), (Node(b),2), (Node(c), 3), (Node(d), 2))
+[(Node(a),1), (Node(b),2), (Node(c), 3), (Node(d), 2)]
 ```
 
 ### [P87][] (**) Depth-first order graph traversal.
@@ -1110,7 +1110,7 @@ that are reachable from this starting point (in depth-first order).
 Write a function that splits a graph into its connected components.
 ``` kotlin
 > "[a-b, c]".toGraph().splitGraph()
-List([a-b], [c])
+[[a-b], [c]]
 ```
 
 ### [P89][] (**) Bipartite graphs.

@@ -21,9 +21,10 @@ fun <T, U> Graph<T, U>.spanningTrees(): List<Graph<T, U>> {
 
     fun spanningTrees(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>, treeEdges: List<Edge<T, U>>): List<Graph<T, U>> =
         if (graphNodes.isEmpty()) {
-            val nodeValues = nodes.keys.toList()
-            val terms = treeEdges.map{ Term(it.n1.value, it.n2.value, it.label) }
-            listOf(Graph.labeledTerms(TermForm(nodeValues, terms)))
+            listOf(Graph.labeledTerms(TermForm(
+                    nodes.keys,
+                    treeEdges.map{ Term(it.n1.value, it.n2.value, it.label) }
+            )))
         } else graphEdges.filter{ it.connectsTo(graphNodes) }.flatMap { edge ->
             spanningTrees(
                 graphEdges.filterNot{ it == edge },
