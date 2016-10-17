@@ -3,8 +3,7 @@ package org.kotlin99.graphs
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.graphs.Graph.Edge
-import org.kotlin99.graphs.Graph.Node
+import org.kotlin99.graphs.Graph.*
 import org.kotlin99.graphs.Graph.TermForm.Term
 import org.kotlin99.graphs.P80Test.Companion.equivalentTo
 import java.util.*
@@ -13,7 +12,9 @@ import java.util.*
 fun <T, U: Comparable<U>> Graph<T, U>.minSpanningTree(): Graph<T, U> {
     fun Edge<T, U>.contains(node: Node<T, U>) = n1 == node || n2 == node
     fun Edge<T, U>.connectsTo(nodes: List<Node<T, U>>) = nodes.contains(n1) != nodes.contains(n2)
+    fun Edge<T, U>.toTerm() = Term(n1.value, n2.value, label)
 
+    // Comparator is only required for tree without labels (i.e. with null label values).
     val comparator = Comparator<Edge<T, U>> { e1, e2 ->
         if (e1.label == null && e2.label == null) 0
         else if (e1.label == null) -1
@@ -21,23 +22,19 @@ fun <T, U: Comparable<U>> Graph<T, U>.minSpanningTree(): Graph<T, U> {
         else e1.label?.compareTo(e2.label!!)!!
     }
 
-    fun spanningTrees(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>, treeEdges: List<Edge<T, U>>): Graph<T, U> {
+    fun spanningTrees(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>): Graph<T, U> {
         if (graphNodes.isEmpty()) {
-            return Graph.labeledTerms(Graph.TermForm(
-                    nodes.keys,
-                    treeEdges.map{ Term(it.n1.value, it.n2.value, it.label) }
-            ))
+            return Graph.labeledTerms(TermForm(nodes.keys, (edges - graphEdges).map { it.toTerm() }))
         } else {
             val edge = graphEdges.filter{ it.connectsTo(graphNodes) }.minWith(comparator)!!
             return spanningTrees(
                 graphEdges.filterNot{ it == edge },
-                graphNodes.filterNot{ edge.contains(it) },
-                treeEdges + edge
+                graphNodes.filterNot{ edge.contains(it) }
             )
         }
     }
 
-    return spanningTrees(edges, nodes.values.drop(1), emptyList())
+    return spanningTrees(edges, nodes.values.drop(1))
 }
 
 class P84Test {

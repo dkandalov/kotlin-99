@@ -13,27 +13,24 @@ import java.util.*
 fun <T, U> Graph<T, U>.spanningTrees(): List<Graph<T, U>> {
     fun Edge<T, U>.contains(node: Node<T, U>) = n1 == node || n2 == node
     fun Edge<T, U>.connectsTo(nodes: List<Node<T, U>>) = nodes.contains(n1) != nodes.contains(n2)
+    fun Edge<T, U>.toTerm() = Term(n1.value, n2.value, label)
     fun List<Graph<T, U>>.removeEquivalentGraphs(): List<Graph<T, U>> =
         fold(ArrayList<Graph<T, U>>()) { result, graph ->
             if (result.none{ it.equivalentTo(graph) }) result.add(graph)
             result
         }
 
-    fun spanningTrees(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>, treeEdges: List<Edge<T, U>>): List<Graph<T, U>> =
+    fun spanningTrees(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>): List<Graph<T, U>> =
         if (graphNodes.isEmpty()) {
-            listOf(Graph.labeledTerms(TermForm(
-                    nodes.keys,
-                    treeEdges.map{ Term(it.n1.value, it.n2.value, it.label) }
-            )))
+            listOf(Graph.labeledTerms(TermForm(nodes.keys, (edges - graphEdges).map { it.toTerm() })))
         } else graphEdges.filter{ it.connectsTo(graphNodes) }.flatMap { edge ->
             spanningTrees(
                 graphEdges.filterNot{ it == edge },
-                graphNodes.filterNot{ edge.contains(it) },
-                treeEdges + edge
+                graphNodes.filterNot{ edge.contains(it) }
             )
         }
 
-    return spanningTrees(edges, nodes.values.drop(1), emptyList()).removeEquivalentGraphs()
+    return spanningTrees(edges, nodes.values.drop(1)).removeEquivalentGraphs()
 }
 
 fun Graph<*, *>.isTree(): Boolean = spanningTrees().size == 1
