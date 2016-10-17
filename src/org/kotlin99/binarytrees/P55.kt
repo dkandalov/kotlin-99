@@ -4,7 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import org.junit.Test
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
-import org.kotlin99.common.IsIterableContainingInAnyOrder.Companion.containsInAnyOrder
+import org.kotlin99.common.containsAll
 
 fun <T> balancedTrees(treeSize: Int, value: T): List<Tree<T>> {
     if (treeSize == 0) return listOf(End)
@@ -23,15 +23,15 @@ fun <T> balancedTrees(treeSize: Int, value: T): List<Tree<T>> {
 
 class P55Test {
     @Test fun `construct all balanced trees`() {
-        assertThat(balancedTrees(1, "x"), containsInAnyOrder(nodeList(Node("x"))))
-        assertThat(balancedTrees(2, "x"), containsInAnyOrder(nodeList(
+        assertThat(balancedTrees(1, "x"), containsAll(nodeList(Node("x"))))
+        assertThat(balancedTrees(2, "x"), containsAll(nodeList(
                 Node("x", End, Node("x")),
                 Node("x", Node("x"), End)
         )))
-        assertThat(balancedTrees(3, "x"), containsInAnyOrder(nodeList(
+        assertThat(balancedTrees(3, "x"), containsAll(nodeList(
                 Node("x", Node("x"), Node("x"))
         )))
-        assertThat(balancedTrees(4, "x"), containsInAnyOrder(nodeList(
+        assertThat(balancedTrees(4, "x"), containsAll(nodeList(
                 Node("x", Node("x"), Node("x", End, Node("x"))),
                 Node("x", Node("x", End, Node("x")), Node("x")),
                 Node("x", Node("x"), Node("x", Node("x"), End)),

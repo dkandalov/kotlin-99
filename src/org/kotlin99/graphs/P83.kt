@@ -4,7 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.kotlin99.common.IsIterableContainingInAnyOrder.Companion.containsInAnyOrder
+import org.kotlin99.common.containsAll
 import org.kotlin99.graphs.Graph.*
 import org.kotlin99.graphs.Graph.TermForm.Term
 import org.kotlin99.graphs.P80Test.Companion.equivalentTo
@@ -43,17 +43,17 @@ fun Graph<*, *>.isConnected(): Boolean = spanningTrees().size > 0
 
 class P83Test {
     @Test fun `find all spanning trees`() {
-        assertThat("[a]".toGraph().spanningTrees(), containsInAnyOrder(listOf("[a]".toGraph())))
-        assertThat("[a-b]".toGraph().spanningTrees(), containsInAnyOrder(listOf("[a-b]".toGraph())))
+        assertThat("[a]".toGraph().spanningTrees(), containsAll(listOf("[a]".toGraph())))
+        assertThat("[a-b]".toGraph().spanningTrees(), containsAll(listOf("[a-b]".toGraph())))
 
-        assertThat("[a-b, b-c, c-a]".toGraph().spanningTrees(), containsInAnyOrder(listOf(
+        assertThat("[a-b, b-c, c-a]".toGraph().spanningTrees(), containsAll(listOf(
                 "[a-b, b-c]".toGraph(),
                 "[a-b, c-a]".toGraph(),
                 "[b-c, c-a]".toGraph()
         )){ equivalentTo(it) })
 
         "[a-b, b-c, b-d, b-e, a-f]".toGraph().let {
-            assertThat(it.spanningTrees(), containsInAnyOrder(listOf(it)){ equivalentTo(it) })
+            assertThat(it.spanningTrees(), containsAll(listOf(it)){ equivalentTo(it) })
             assertThat(it.isTree(), equalTo(true))
         }
     }

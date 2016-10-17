@@ -3,7 +3,7 @@ package org.kotlin99.lists
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.common.IsIterableContainingInAnyOrder.Companion.containsInAnyOrder
+import org.kotlin99.common.containsAll
 
 fun <T> combinations(n: Int, list: List<T>): List<List<T>> =
         if (n == 0) listOf(emptyList())
@@ -19,17 +19,17 @@ private fun <T> List<T>.flatMapTails(f: (List<T>) -> (List<List<T>>)): List<List
 class P26Test {
     @Test fun `generate the combinations of K distinct objects chosen from the N elements of a list`() {
         assertThat(combinations(0, "abc".toList()), equalTo(listOf(emptyList())))
-        assertThat(combinations(1, "abc".toList()), containsInAnyOrder(listOf(
+        assertThat(combinations(1, "abc".toList()), containsAll(listOf(
                 "a".toList(), "b".toList(), "c".toList()
         )))
-        assertThat(combinations(2, "abc".toList()), containsInAnyOrder(listOf(
+        assertThat(combinations(2, "abc".toList()), containsAll(listOf(
                 "cb".toList(), "ab".toList(), "ca".toList()
         )))
-        assertThat(combinations(3, "abc".toList()), containsInAnyOrder(listOf(
+        assertThat(combinations(3, "abc".toList()), containsAll(listOf(
                 "cba".toList()
         )))
 
-        assertThat(combinations(3, "abcde".toList()), containsInAnyOrder(listOf(
+        assertThat(combinations(3, "abcde".toList()), containsAll(listOf(
                 "cba".toList(), "dba".toList(), "eba".toList(),
                 "dca".toList(), "eca".toList(), "eda".toList(),
                 "dcb".toList(), "ecb".toList(), "edb".toList(),
@@ -41,14 +41,14 @@ class P26Test {
 
 class SameElementsMatcherTest {
     @Test fun `nested lists`() {
-        assertThat(listOf(emptyList<Int>()), containsInAnyOrder(listOf(emptyList<Int>())))
-        assertThat(listOf(listOf(1)), containsInAnyOrder(listOf(listOf(1))))
+        assertThat(listOf(emptyList<Int>()), containsAll(listOf(emptyList<Int>())))
+        assertThat(listOf(listOf(1)), containsAll(listOf(listOf(1))))
 
-        assertThat(listOf(listOf(1, 1)), !containsInAnyOrder(listOf(listOf(1))))
-        assertThat(listOf(listOf(1, 2)), containsInAnyOrder(listOf(listOf(2, 1))))
+        assertThat(listOf(listOf(1, 1)), !containsAll(listOf(listOf(1))))
+        assertThat(listOf(listOf(1, 2)), containsAll(listOf(listOf(2, 1))))
 
-        assertThat(listOf(listOf(1, 2, 3), listOf(1)), containsInAnyOrder(listOf(listOf(1), listOf(3, 2, 1))))
-        assertThat(listOf(listOf(1, 2, 4), listOf(1)), containsInAnyOrder(listOf(listOf(1), listOf(4, 2, 1))))
+        assertThat(listOf(listOf(1, 2, 3), listOf(1)), containsAll(listOf(listOf(1), listOf(3, 2, 1))))
+        assertThat(listOf(listOf(1, 2, 4), listOf(1)), containsAll(listOf(listOf(1), listOf(4, 2, 1))))
     }
 }
 
