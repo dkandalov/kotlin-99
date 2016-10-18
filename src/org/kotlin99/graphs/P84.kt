@@ -22,19 +22,19 @@ fun <T, U: Comparable<U>> Graph<T, U>.minSpanningTree(): Graph<T, U> {
         else e1.label?.compareTo(e2.label!!)!!
     }
 
-    fun spanningTrees(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>): Graph<T, U> {
+    fun minSpanningTree(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>): Graph<T, U> {
         if (graphNodes.isEmpty()) {
             return Graph.labeledTerms(TermForm(nodes.keys, (edges - graphEdges).map { it.toTerm() }))
         } else {
             val edge = graphEdges.filter{ it.connectsTo(graphNodes) }.minWith(comparator)!!
-            return spanningTrees(
+            return minSpanningTree(
                 graphEdges.filterNot{ it == edge },
                 graphNodes.filterNot{ edge.contains(it) }
             )
         }
     }
 
-    return spanningTrees(edges, nodes.values.drop(1))
+    return minSpanningTree(edges, nodes.values.drop(1))
 }
 
 class P84Test {
