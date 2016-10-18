@@ -48,7 +48,8 @@ class Graph<T, U> {
     }
 
     override fun equals(other: Any?): Boolean {
-        if (this === other || other?.javaClass != javaClass) return false
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
         other as Graph<*, *>
         return nodes == other.nodes && edges == other.edges
     }
