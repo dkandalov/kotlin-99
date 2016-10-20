@@ -1070,7 +1070,7 @@ Find minimum spanning tree for the graph below:
 "[a-b/5, a-d/3, b-c/2, b-e/4, c-e/6, d-e/7, d-f/4, d-g/3, e-h/5, f-g/4, g-h/1]".toLabeledGraph()
 ```
 
-### [P85][] (**) [Graph isomorphism](https://en.wikipedia.org/wiki/Graph_isomorphism_problem.
+### [P85][] (**) [Graph isomorphism](https://en.wikipedia.org/wiki/Graph_isomorphism_problem).
 Two graphs ``G1(N1,E1)`` and ``G2(N2,E2)`` are [isomorphic](https://en.wikipedia.org/wiki/Graph_isomorphism) 
 if there is a [bijection](https://en.wikipedia.org/wiki/Bijection) ``f: N1 → N2`` 
 such that for any nodes ``X``,``Y`` of ``N1``, ``X`` and ``Y`` are adjacent if and only if ``f(X)`` and ``f(Y)`` are adjacent. 
@@ -1078,6 +1078,10 @@ such that for any nodes ``X``,``Y`` of ``N1``, ``X`` and ``Y`` are adjacent if a
 Write a method that determines whether two graphs are isomorphic.
 ``` kotlin
 > "[a-b]".toGraph().isIsomorphicTo("[5-7]".toGraph())
+true
+> "[a-b, b-c]".toGraph().isIsomorphicTo("[1-2, 3]".toGraph())
+false
+> "[a-b, b-c, c-d, d-a]".toGraph().isIsomorphicTo("[1-2, 2-3, 3-4, 4-1]".toGraph()
 true
 ```
 

@@ -2,7 +2,7 @@ package org.kotlin99.graphs
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
-import org.junit.Assert.assertNull
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.kotlin99.common.containsAll
@@ -43,7 +43,7 @@ class P85Test {
                 Pair("a", "1"),
                 Pair("b", "2")
         )))
-        assertNull("[a-b]".toGraph().isomorphicMappingTo("[1]".toGraph()))
+        assertFalse("[a-b]".toGraph().isIsomorphicTo("[1]".toGraph()))
 
         assertThat("[a-b, b-c]".toGraph().isomorphicMappingTo("[1-2, 2-3]".toGraph())!!, containsAll(listOf(
                 Pair("a", "1"),
@@ -55,7 +55,7 @@ class P85Test {
                 Pair("b", "1"),
                 Pair("c", "3")
         )))
-        assertNull("[a-b, b-c]".toGraph().isomorphicMappingTo("[1-2, 3]".toGraph()))
+        assertFalse("[a-b, b-c]".toGraph().isIsomorphicTo("[1-2, 3]".toGraph()))
 
         assertThat("[a-b, b-c, c-d, d-a]".toGraph().isomorphicMappingTo("[1-2, 2-3, 3-4, 4-1]".toGraph())!!, containsAll(listOf(
                 Pair("a", "1"),
@@ -64,7 +64,7 @@ class P85Test {
                 Pair("d", "4")
         )))
         assertTrue("[a-b, b-c, c-d, d-a]".toGraph().isIsomorphicTo("[1-2, 2-3, 3-4, 4-1]".toGraph()))
-        assertNull("[a-b, b-c, c-d, d-a]".toGraph().isomorphicMappingTo("[1-2, 2-3, 3-4, 4-2]".toGraph()))
+        assertFalse("[a-b, b-c, c-d, d-a]".toGraph().isIsomorphicTo("[1-2, 2-3, 3-4, 4-2]".toGraph()))
     }
 
     @Test fun `combinations of collection`() {
