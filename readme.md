@@ -48,22 +48,22 @@ is that there is no vendor lock-in and no hidden agenda pursued by the website o
 Example:
 ``` kotlin
 > last(listOf(1, 1, 2, 3, 5, 8))
-> 8
+8
 ```
 
 ### [P02][] (*) Find the last but one element of a list.
 Example:
 ``` kotlin
 > penultimate(listOf(1, 1, 2, 3, 5, 8))
-> 5
+5
 ```
 
 ### [P03][] (*) Find the Nth element of a list.
-By convention, the first element in the list is element 0.
+By convention, the first element in the list is element ``0``.
 Example:
 ``` kotlin
 > nth(2, listOf(1, 1, 2, 3, 5, 8))
-> 2
+2
 ```
 
 ### [P04][] (*) Find the number of elements of a list.
@@ -497,7 +497,7 @@ Node('a',
 A tree with only a root node would be ``Node('a')`` and an empty tree would be ``End``.
 
 
-### [P54][] Omitted; our tree representation will only allow well-formed trees.
+### P54 Omitted; our tree representation will only allow well-formed trees.
 Score one for static typing.
 
 ### [P55][] (*) Construct completely balanced binary trees.
@@ -1070,12 +1070,14 @@ Find minimum spanning tree for the graph below:
 "[a-b/5, a-d/3, b-c/2, b-e/4, c-e/6, d-e/7, d-f/4, d-g/3, e-h/5, f-g/4, g-h/1]".toLabeledGraph()
 ```
 
-### [P85][] (**) Graph isomorphism.
+### [P85][] (**) [Graph isomorphism](https://en.wikipedia.org/wiki/Graph_isomorphism_problem.
 Two graphs ``G1(N1,E1)`` and ``G2(N2,E2)`` are [isomorphic](https://en.wikipedia.org/wiki/Graph_isomorphism) 
-if there is a bijection f: N1 â†’ N2 such that for any nodes X,Y of N1, X and Y are adjacent if and only if f(X) and f(Y) are adjacent.
+if there is a [bijection](https://en.wikipedia.org/wiki/Bijection) ``f: N1 → N2`` 
+such that for any nodes ``X``,``Y`` of ``N1``, ``X`` and ``Y`` are adjacent if and only if ``f(X)`` and ``f(Y)`` are adjacent. 
+
 Write a method that determines whether two graphs are isomorphic.
 ``` kotlin
-> "[a-b]".toGraph().isIsomorphicTo(Graph.fromString("[5-7]"))
+> "[a-b]".toGraph().isIsomorphicTo("[5-7]".toGraph())
 true
 ```
 
