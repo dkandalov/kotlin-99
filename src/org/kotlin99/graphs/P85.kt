@@ -18,7 +18,7 @@ fun <T1, T2> Graph<T1, *>.isomorphicMappingTo(graph: Graph<T2, *>): List<Pair<T1
     return allMappings.find { mapping ->
         mapping.all {
             val mappedNeighbors = it.first.neighbors().map { node -> mapping.find{ it.first == node }!!.second }
-            mappedNeighbors == it.second.neighbors()
+            mappedNeighbors.toSet() == it.second.neighbors().toSet()
         }
     }?.map{
         Pair(it.first.value, it.second.value)
@@ -58,10 +58,10 @@ class P85Test {
         assertFalse("[a-b, b-c]".toGraph().isIsomorphicTo("[1-2, 3]".toGraph()))
 
         assertThat("[a-b, b-c, c-d, d-a]".toGraph().isomorphicMappingTo("[1-2, 2-3, 3-4, 4-1]".toGraph())!!, containsAll(listOf(
-                Pair("a", "1"),
-                Pair("b", "2"),
-                Pair("c", "3"),
-                Pair("d", "4")
+                Pair("a", "4"),
+                Pair("b", "3"),
+                Pair("c", "2"),
+                Pair("d", "1")
         )))
         assertTrue("[a-b, b-c, c-d, d-a]".toGraph().isIsomorphicTo("[1-2, 2-3, 3-4, 4-1]".toGraph()))
         assertFalse("[a-b, b-c, c-d, d-a]".toGraph().isIsomorphicTo("[1-2, 2-3, 3-4, 4-2]".toGraph()))
