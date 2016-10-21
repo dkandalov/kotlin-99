@@ -3,8 +3,8 @@ package org.kotlin99.graphs
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.graphs.Graph.*
-import org.kotlin99.graphs.Graph.TermForm.Term
+import org.kotlin99.graphs.Graph.Edge
+import org.kotlin99.graphs.Graph.Node
 import org.kotlin99.graphs.P80Test.Companion.equivalentTo
 import java.util.*
 
@@ -12,7 +12,6 @@ import java.util.*
 fun <T, U: Comparable<U>> Graph<T, U>.minSpanningTree(): Graph<T, U> {
     fun Edge<T, U>.contains(node: Node<T, U>) = n1 == node || n2 == node
     fun Edge<T, U>.connectsTo(nodes: List<Node<T, U>>) = nodes.contains(n1) != nodes.contains(n2)
-    fun Edge<T, U>.toTerm() = Term(n1.value, n2.value, label)
 
     // Comparator is only required for tree without labels (i.e. with null label values).
     val comparator = Comparator<Edge<T, U>> { e1, e2 ->
@@ -24,7 +23,7 @@ fun <T, U: Comparable<U>> Graph<T, U>.minSpanningTree(): Graph<T, U> {
 
     fun minSpanningTree(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>): Graph<T, U> {
         if (graphNodes.isEmpty()) {
-            return Graph.labeledTerms(TermForm(nodes.keys, (edges - graphEdges).map { it.toTerm() }))
+            return Graph(nodes.values, edges - graphEdges)
         } else {
             val edge = graphEdges.filter{ it.connectsTo(graphNodes) }.minWith(comparator)!!
             return minSpanningTree(

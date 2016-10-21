@@ -12,16 +12,21 @@ import java.util.*
 
 
 class Graph<T, U> {
-    val nodes: MutableMap<T, Node<T, U>> = HashMap()
-    val edges: MutableList<Edge<T, U>> = ArrayList()
+    val nodes: MutableMap<T, Node<T, U>>
+    val edges: MutableList<Edge<T, U>>
 
-    fun addNode(value: T): Node<T, U> {
+    constructor(nodes: Collection<Node<T, U>> = ArrayList(), edges: Collection<Edge<T, U>> = ArrayList()) {
+        this.nodes = nodes.groupBy{ it.value }.map{ Pair(it.key, it.value.first()) }.toMap(HashMap())
+        this.edges = ArrayList(edges)
+    }
+
+    private fun addNode(value: T): Node<T, U> {
         val node = Node<T, U>(value)
         nodes.put(value, node)
         return node
     }
 
-    fun addUndirectedEdge(n1: T, n2: T, label: U?) {
+    private fun addUndirectedEdge(n1: T, n2: T, label: U?) {
         if (!nodes.contains(n1) || !nodes.contains(n2)) {
             throw IllegalStateException("Expected '$n1' and '$n2' nodes to exist in graph")
         }
@@ -33,7 +38,7 @@ class Graph<T, U> {
         }
     }
 
-    fun addDirectedEdge(source: T, dest: T, label: U?) {
+    private fun addDirectedEdge(source: T, dest: T, label: U?) {
         val edge = DirectedEdge(nodes[source]!!, nodes[dest]!!, label)
         if (!edges.contains(edge)) {
             edges.add(edge)
