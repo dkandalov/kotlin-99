@@ -38,17 +38,3 @@ class P26Test {
         assertThat(combinations(3, "abcdefghijkl".toList()).size, equalTo(220))
     }
 }
-
-class SameElementsMatcherTest {
-    @Test fun `nested lists`() {
-        assertThat(listOf(emptyList<Int>()), containsAll(listOf(emptyList<Int>())))
-        assertThat(listOf(listOf(1)), containsAll(listOf(listOf(1))))
-
-        assertThat(listOf(listOf(1, 1)), !containsAll(listOf(listOf(1))))
-        assertThat(listOf(listOf(1, 2)), containsAll(listOf(listOf(2, 1))))
-
-        assertThat(listOf(listOf(1, 2, 3), listOf(1)), containsAll(listOf(listOf(1), listOf(3, 2, 1))))
-        assertThat(listOf(listOf(1, 2, 4), listOf(1)), containsAll(listOf(listOf(1), listOf(4, 2, 1))))
-    }
-}
-
