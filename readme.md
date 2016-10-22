@@ -1086,18 +1086,15 @@ true
 ```
 
 ### [P86][] (**) Node degree and graph coloration.
-a) Write a method ``Node.degree`` that determines the degree of a given node.
+a) Write a method ``Node.degree`` that determines the [degree](https://en.wikipedia.org/wiki/Degree_(graph_theory)) 
+of a given node in undirected graph.
 ``` kotlin
-> "[a-b, b-c, a-c, a-d]".toGraph().nodes("a").degree()
+> "[a-b, b-c, a-c, a-d]".toGraph().nodes["a"].degree()
 3
 ```
-b) Write a method ``nodesByDegree`` that lists all nodes of a graph sorted according to decreasing degree.
-``` kotlin
-> "[a-b, b-c, a-c, a-d]".toGraph().nodesByDegree()
-[a, c, b, d]
-```
-c) Use Welsh-Powell's algorithm to paint the nodes of a graph in such a way that adjacent nodes have different colors. 
-Make a method colorNodes that returns a list of tuples, each of which contains a node and an integer representing its color.
+b) Use [Welsh-Powell's](http://graphstream-project.org/doc/Algorithms/Welsh-Powell_1.0/) algorithm 
+to paint the nodes of an undirected graph in such a way that adjacent nodes have different colors. 
+Make a method ``colorNodes`` that returns a list of tuples, each of which contains a node and an integer representing its color.
 ``` kotlin
 > "[a-b, b-c, a-c, a-d]".toGraph().colorNodes()
 [(Node(a),1), (Node(b),2), (Node(c), 3), (Node(d), 2)]
