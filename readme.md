@@ -1101,12 +1101,17 @@ Write a method ``colorNodes`` that returns a list of tuples, each of which conta
 ```
 
 ### [P87][] (**) Depth-first order graph traversal.
-Write a method that generates a depth-first order graph traversal sequence. 
+a) Write a method that generates a depth-first order graph traversal sequence. 
 The starting point should be specified, and the output should be a list of nodes 
 that are reachable from this starting point (in depth-first order).
 ``` kotlin
-> "[a-b, b-c, e, a-c, a-d]".toGraph().nodesByDepthFrom("d")
-[c, b, a, d]
+> "[a-b, b-c, c-d, d-e]".toGraph().nodesByDepthFrom("c")
+[c, b, a, d, e]
+```
+b) Write similar method for breadth-first graph traversal.
+``` kotlin
+> "[a-b, b-c, c-d, d-e]".toGraph().nodesByBreadthFrom("c")
+[c, b, d, a, e]
 ```
 
 ### [P88][] (**) Connected components.
