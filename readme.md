@@ -1094,10 +1094,10 @@ of a given node in undirected graph.
 ```
 b) Use [Welsh-Powell's](http://graphstream-project.org/doc/Algorithms/Welsh-Powell_1.0/) algorithm 
 to paint the nodes of an undirected graph in such a way that adjacent nodes have different colors. 
-Make a method ``colorNodes`` that returns a list of tuples, each of which contains a node and an integer representing its color.
+Write a method ``colorNodes`` that returns a list of tuples, each of which contains a node and an integer representing its color.
 ``` kotlin
 > "[a-b, b-c, a-c, a-d]".toGraph().colorNodes()
-[(Node(a),1), (Node(b),2), (Node(c), 3), (Node(d), 2)]
+[(a,1), (b,2), (c,3), (d,2)]
 ```
 
 ### [P87][] (**) Depth-first order graph traversal.
