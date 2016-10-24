@@ -1015,13 +1015,17 @@ AdjacencyList(Entry("q"), Entry("p", listOf(Link("q", 9), Link("m", 5))), Entry(
 ```
 
 ### [P81][] (*) Path between nodes.
-Write a method named ``findPaths`` to find acyclic paths from one node to another in a graph. 
+a) Write method ``findAllPaths`` to find acyclic paths from one node to another in a graph. 
 The method should return all paths.
 ``` kotlin
-> "[p>q/9, m>q/7, k, p>m/5]".toLabeledGraph().findPaths("p", "q")
+> "[p>q/9, m>q/7, k, p>m/5]".toLabeledGraph().findAllPaths("p", "q")
 [[p, q], [p, m, q]]
-> "[p>q/9, m>q/7, k, p>m/5]".toLabeledGraph().findPaths("p", "k")
+> "[p>q/9, m>q/7, k, p>m/5]".toLabeledGraph().findAllPaths("p", "k")
 []
+```
+b) Write method ``findShortestPath`` to find shortest path between two nodes.
+``` kotlin
+TODO
 ```
 
 ### [P82][] (*) Cycles from a node.
@@ -1122,7 +1126,7 @@ Write a function that splits a graph into its connected components.
 ```
 
 ### [P89][] (**) Bipartite graphs.
-Write a function that determines whether a given graph is bipartite.
+Write a function that determines whether a given graph is [bipartite](http://en.wikipedia.org/wiki/Bipartite_graph).
 ``` kotlin
 > "[a>b, c>a, d>b]".toGraph().isBipartite()
 true
@@ -1140,11 +1144,13 @@ false
 
 
 ### [P90][] (**) Eight queens problem
-This is a classical problem in computer science. The objective is to place eight queens on a chessboard 
-so that no two queens are attacking each other; i.e., no two queens are in the same row, the same column, or on the same diagonal.
-Hint: Represent the positions of the queens as a list of numbers 1..N. 
-Example: List(4, 2, 7, 3, 6, 8, 5, 1) means that the queen in the first column is in row 4, the queen in the second column is in row 2, etc. 
-Use the generate-and-test paradigm.
+This is a classical problem in computer science. 
+The objective is to place eight queens on a chessboard so that no two queens are attacking each other; 
+i.e., no two queens are in the same row, the same column, or on the same diagonal.
+Hint: it might be easier to represent positions of the queens as a list of numbers ``1..N``
+(for example ``listOf(4, 2, 7, 3, 6, 8, 5, 1)`` means that the queen in the first column is in row 4, 
+the queen in the second column is in row 2). 
+
 
 ### [P91][] (**) Knight's tour.
 Another famous problem is this one: How can a knight jump on an NÃ—N chessboard in such a way that it visits every square exactly once?
