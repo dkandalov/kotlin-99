@@ -1114,11 +1114,11 @@ b) Write similar method for breadth-first graph traversal.
 [c, b, d, a, e]
 ```
 
-### [P88][] (**) Connected components.
+### [P88][] (*) Connected components.
 Write a function that splits a graph into its connected components.
 ``` kotlin
-> "[a-b, c]".toGraph().splitGraph()
-[[a-b], [c]]
+> "[a-b, c-d]".toGraph().components()
+[[a-b], [c-d]]
 ```
 
 ### [P89][] (**) Bipartite graphs.
