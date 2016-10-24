@@ -1014,7 +1014,7 @@ TermForm(nodes=[f, g, d, b, c, k, h], edges=[Term(b, c), Term(b, f), Term(c, f),
 AdjacencyList(Entry("q"), Entry("p", listOf(Link("q", 9), Link("m", 5))), Entry("m", listOf(Link("q", 7))), Entry("k"))
 ```
 
-### [P81][] (*) Path between nodes.
+### [P81][] (***) Path between nodes.
 a) Write method ``findAllPaths`` to find acyclic paths from one node to another in a graph. 
 The method should return all paths.
 ``` kotlin
@@ -1023,9 +1023,11 @@ The method should return all paths.
 > "[p>q/9, m>q/7, k, p>m/5]".toLabeledGraph().findAllPaths("p", "k")
 []
 ```
-b) Write method ``findShortestPath`` to find shortest path between two nodes.
+b) Write method ``findShortestPath`` to find [shortest path](https://en.wikipedia.org/wiki/Shortest_path_problem) between two nodes.
+Hint: use [Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) or [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm).
 ``` kotlin
-TODO
+"[a-b/1, b-c/1, a-c/3]".toLabeledGraph().findShortestPath("a", "c")
+[a, b, c]
 ```
 
 ### [P82][] (*) Cycles from a node.
@@ -1119,7 +1121,7 @@ b) Write similar method for breadth-first graph traversal.
 ```
 
 ### [P88][] (*) Connected components.
-Write a function that splits a graph into its connected components.
+Write a function that splits a graph into its [connected components](https://en.wikipedia.org/wiki/Connected_component_(graph_theory)).
 ``` kotlin
 > "[a-b, c-d]".toGraph().components()
 [[a-b], [c-d]]
