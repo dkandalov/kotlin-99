@@ -10,7 +10,7 @@ fun <T> Graph.Node<T, *>.degree(): Int = this.edges.size
 
 fun <T> Graph<T, *>.colorNodes(): List<Pair<T, Int>> {
     val colorByNode = LinkedHashMap<T, Int>()
-    val nodeList = nodes.values.sortedBy{ it.degree() }.toMutableList()
+    val nodeList = nodes.values.sortedBy{ -it.degree() }.toMutableList()
     var color = 1
 
     while (nodeList.isNotEmpty()) {
@@ -54,7 +54,8 @@ class P86Test {
     @Test fun `color nodes of undirected graph (so that adjacent nodes have different color)`() {
         assertThat("[a]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 1))))
         assertThat("[a-b]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 2), Pair("b", 1))))
-        assertThat("[a-b, a-c]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 2), Pair("b", 1), Pair("c", 1))))
+        assertThat("[a-b, a-c]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 1), Pair("b", 2), Pair("c", 2))))
+        assertThat("[a-b, b-c, c-d]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 2), Pair("b", 1), Pair("c", 2), Pair("d", 1))))
 
         assertThat("[a-b, a-c, b-c]".toGraph().colorNodes(), containsAll(listOf(
                 Pair("a", 3),
@@ -63,10 +64,10 @@ class P86Test {
         )))
 
         assertThat("[a-b, b-c, a-c, a-d]".toGraph().colorNodes(), containsAll(listOf(
-                Pair("a", 3),
-                Pair("b", 1),
-                Pair("c", 2),
-                Pair("d", 1)
+                Pair("a", 1),
+                Pair("b", 2),
+                Pair("c", 3),
+                Pair("d", 2)
         )))
     }
 }

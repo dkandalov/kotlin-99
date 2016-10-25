@@ -1130,7 +1130,7 @@ Write a function that splits a graph into its [connected components](https://en.
 ### [P89][] (**) Bipartite graphs.
 Write a function that determines whether a given graph is [bipartite](http://en.wikipedia.org/wiki/Bipartite_graph).
 ``` kotlin
-> "[a>b, c>a, d>b]".toGraph().isBipartite()
+> "[a-b, b-c]".toGraph().isBipartite()
 true
 > "[a-b, b-c, c-a]".toGraph().isBipartite()
 false
@@ -1138,6 +1138,8 @@ false
 true
 > "[a-b, b-c, d, e-f, f-g, g-e, h]".toGraph().isBipartite()
 false
+> "[a>b, c>a, d>b]".toGraph().isBipartite()
+true
 ```
 
 
@@ -1145,7 +1147,7 @@ false
 ## Miscellaneous
 
 
-### [P90][] (**) Eight queens problem
+### [P90][] (**) [Eight queens](https://en.wikipedia.org/wiki/Eight_queens_puzzle).
 This is a classical problem in computer science. 
 The objective is to place eight queens on a chessboard so that no two queens are attacking each other; 
 i.e., no two queens are in the same row, the same column, or on the same diagonal.
@@ -1154,8 +1156,9 @@ Hint: it might be easier to represent positions of the queens as a list of numbe
 the queen in the second column is in row 2). 
 
 
-### [P91][] (**) Knight's tour.
-Another famous problem is this one: How can a knight jump on an NÃ—N chessboard in such a way that it visits every square exactly once?
+### [P91][] (**) [Knight's tour](https://en.wikipedia.org/wiki/Knight%27s_tour).
+This is another classical problem in computer science. 
+How can a knight jump on an NÃ—N chessboard in such a way that it visits every square exactly once?
 Hints: Represent the squares by pairs of their coordinates of the form (X, Y), where both X and Y are integers between 1 and N. 
 (Alternatively, define a Point class for the same purpose.) 
 Write a function jumps(N, (X, Y)) to list the squares that a knight can jump to from (X, Y) on a NÃ—N chessboard. 
