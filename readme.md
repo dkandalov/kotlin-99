@@ -18,12 +18,14 @@
 This an adaptation of [Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/) by Phil Gold 
 which itself is an adaptation of the [Ninety-Nine Prolog Problems](https://sites.google.com/site/prologsite/prolog-problems) 
 written by Werner Hett at the Berne University of Applied Sciences in Berne, Switzerland. 
-The problems have been altered to be more amenable to programming in Kotlin. 
+The problems have been altered to be more amenable to programming in [Kotlin](http://kotlinlang.org). 
 
 You might want to do these problems if you want to learn Kotlin, are interested in the problems described below, or both.
+The main reason to prefer this to using websites like hackerrank.com and codewars.com
+is that there is no vendor lock-in and no hidden agenda pursued by the website owner.
 
-Suggested workflow is to solve a problem yourself and then compare your solution to the existing one provided.  
-Solutions are available by clicking on the link at the beginning of the problem description (you can use maven to build all solutions).
+Suggested workflow is to solve a problem yourself and then compare solution to the one provided.  
+Solutions are available by clicking on the link at the beginning of the problem description.
 Your goal should be to find the most elegant solution to the given problems. 
 Efficiency is important, but clarity is even more crucial. 
 Some of the (easy) problems can be trivially solved using built-in functions. 
@@ -32,14 +34,11 @@ However, in these cases, you can learn more if you try to find your own solution
 The problems have different levels of difficulty. 
 Those marked with a single asterisk (\*) are easy. 
 If you have successfully solved the preceeding problems, you might be able to solve them within a few (say 15) minutes. 
-Problems marked with two asterisks (\*\*) are of intermediate difficulty and might take you about 30-90 minutes to solve them. 
+Problems marked with two asterisks (\*\*) are of intermediate difficulty and might take about 30-90 minutes to solve. 
 Problems marked with three asterisks (\*\*\*) are more difficult. You may need more time (i.e. a few hours or more) to find a good solution.
+Plese note that levels of difficulty is just a guess.   
 
 This is work-in-progress. All contributions are welcome (including new solutions for problems which already have a solution).
-
-The main reason to do these exercises instead of using websites like hackerrank.com and codewars.com
-is that there is no vendor lock-in and no hidden agenda pursued by the website owner.
-
 
 
 ## Lists
@@ -459,7 +458,7 @@ this is a sentence
 
 A binary tree is either empty or it is composed of a root element and two successors, which are binary trees themselves.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif">
+![binary tree](binary tree)
 
 We will use the following classes to represent binary trees (see [Tree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/Tree.kt)). 
 An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two descendant trees. 
@@ -641,7 +640,7 @@ As a preparation for drawing a tree, a layout algorithm is required to determine
 Several layout methods are conceivable, one of them is shown in the illustration below.
 This tree can be constructed with ``"nkmcahgeupsq".toList().toTree()``.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p64.gif">
+![P64][P64 layout]
 
 In this layout strategy, the position of a node ``v`` is obtained by the following two rules:
 - ``x(v)`` is equal to the position of the node ``v`` in the in-order sequence
@@ -668,7 +667,7 @@ An alternative layout method is depicted in the illustration below
 (note that it is not the same tree as in the previous problem).
 This tree can be constructed with ``"nkmcaedgupq".toList().toTree()``.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p65.gif">
+![P65][P65 layout]
 
 Find out the rules and write the corresponding method. 
 Hint: On a given level, the horizontal distance between neighboring nodes is constant.
@@ -683,7 +682,7 @@ T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
 Yet another layout strategy is shown in the illustration below. 
 This tree can be constructed with ``"nkmcaedgupq".toList().toTree()``.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p66.gif">
+![P66][P66 layout]
 
 The method yields a very compact layout while maintaining a certain symmetry in every node. 
 Find out the rules and write the corresponding method. 
@@ -1369,3 +1368,9 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P97]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P97.kt
 [P98]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P98.kt
 [P99]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P99.kt
+
+
+[binary tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif "Binary tree"
+[P64 layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p64.gif
+[P65 layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p65.gif
+[P66 layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p66.gif
