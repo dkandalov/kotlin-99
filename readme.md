@@ -458,7 +458,7 @@ this is a sentence
 
 A binary tree is either empty or it is composed of a root element and two successors, which are binary trees themselves.
 
-![binary tree](binary-tree)
+![binary tree][binary-tree]
 
 We will use the following classes to represent binary trees (see [Tree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/Tree.kt)). 
 An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two descendant trees. 
@@ -682,7 +682,7 @@ T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
 Yet another layout strategy is shown in the illustration below. 
 This tree can be constructed with ``"nkmcaedgupq".toList().toTree()``.
 
-![P66][P66-layout]
+![P66][P660layout]
 
 The method yields a very compact layout while maintaining a certain symmetry in every node. 
 Find out the rules and write the corresponding method. 
@@ -699,8 +699,8 @@ Which layout do you like most?
 ### [P67][] (**) A string representation of binary trees.
 Binary trees can be represented as strings of the following type:
 ``a(b(d,e),c(,f(g,)))``.
-    
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif">
+
+![P67][P67-tree]
 
 Write a method which generates this string representation given tree as ``Node``s and ``End``s. 
 And a method which does this inverse, i.e. given the string representation, construct the tree in the usual form.
@@ -753,7 +753,7 @@ A [multiway tree](https://en.wikipedia.org/wiki/List_of_data_structures#Multiway
 is composed of a root element and a (possibly empty) set of successors which are multiway trees themselves. 
 A multiway tree is never empty. The set of successor trees is sometimes called a forest.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p70.gif">
+![Multiway tree][multiway-tree]
 
 The code to represent these is somewhat simpler than the code for binary trees, partly because we don't separate classes 
 for nodes and terminators, and partly because we don't need the restriction that the value type be ordered.
@@ -793,7 +793,7 @@ Suppose that the nodes of a multiway tree contain single characters. In the dept
 a special character ``^`` has been inserted whenever, during the tree traversal, the move is a backtrack to the previous level.
 By this rule, the tree in the following figure is represented as: ``afg^^c^bd^e^^^``.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p70.gif">
+![Multiway tree][multiway-tree]
 
 Define the syntax of the string and write a function ``convertToMTree`` to construct an ``MTree`` from a ``String``. 
 Write the reverse ``convertToString`` function.
@@ -824,7 +824,7 @@ The result should be a ``List``.
 In Lisp almost everything is a list. Our example tree would be represented in Lisp as ``(a (f g) c (b d e))``. 
 The following pictures give some more examples.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p73.png">
+![P73][P73-s-expr]
 
 Note that in the Lisp notation a node with successors (children) in the tree is always the first element in a list, followed by its children. 
 The "lispy" representation of a multiway tree is a sequence of atoms and parentheses ``(`` and ``)``, with the atoms separated by spaces. 
@@ -854,7 +854,7 @@ but a pure functional data structure would make things much, much more complicat
 Pure functional graphs with cycles require laziness; Kotlin can probably handle it, 
 but I think that would add too much of a barrier to the following questions.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph1.gif">
+![graph][undirected-graph]
 
 Our graphs use an incidence list internally. Each has a list of nodes and a list of edges. 
 Each node also has a list of edges that connect it to other nodes. 
@@ -955,7 +955,7 @@ and may even contain the same edge multiple times. Notice the isolated node ``d`
 To represent a directed graph, the forms discussed above are slightly modified. 
 The example graph is represented as follows:
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph2.gif">
+![graph][directed-graph]
 
 In graph-term form:
 ``` kotlin
@@ -979,7 +979,7 @@ Human-friendly form:
 ```
 Finally, graphs with additional information attached to edges are called labeled graphs.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph3.gif">
+![graph][directed-labeled-graph]
 
 Graph-term form:
 ``` kotlin
@@ -1054,7 +1054,7 @@ true
 ``` 
 Find out how many spanning trees there are for the graph depicted below.
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p83.gif">
+![graph][P83-graph]
 
 ``` kotlin
 "[a-b, a-d, b-c, b-e, c-e, d-e, d-f, d-g, e-h, f-g, g-h]".toGraph()
@@ -1069,7 +1069,7 @@ of a given labeled graph. Hint: Use [Prim's Algorithm](https://en.wikipedia.org/
 ``` 
 Find minimum spanning tree for the graph below:
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p84.gif">
+![graph][P84-graph]
 
 ``` kotlin
 "[a-b/5, a-d/3, b-c/2, b-e/4, c-e/6, d-e/7, d-f/4, d-g/3, e-h/5, f-g/4, g-h/1]".toLabeledGraph()
@@ -1173,19 +1173,19 @@ Several years ago I met a mathematician who was intrigued by a problem for which
 His name was Von Koch, and I don't know whether the problem has been solved since. 
 (The "I" here refers to the author of the Prolog problems.) 
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92a.gif">
-
 Anyway the puzzle goes like this: Given a tree with ``N`` nodes (and hence ``N-1`` edges), 
 find a way to enumerate the nodes from ``1`` to ``N`` and, accordingly, the edges from ``1`` to ``N-1`` in such a way, 
 that for each edge ``K`` the difference of its node numbers is equal to ``K``. 
 The conjecture is that this is always possible.
+
+![tree][P92-tree1]
 
 For small trees the problem is easy to solve by hand. However, for larger trees, and 14 is already very large, it is extremely difficult 
 to find a solution. And remember, we don't know for sure whether there is always a solution!
 
 Write a function that calculates a numbering scheme for a given tree. What is the solution for the larger tree pictured below?
 
-<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92b.gif">
+![tree][P92-tree2]
 
 
 ### [P93][] (***) An arithmetic puzzle.
@@ -1374,3 +1374,13 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P64-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p64.gif
 [P65-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p65.gif
 [P66-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p66.gif
+[P67-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif
+[multiway-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p70.gif
+[P73-s-expr]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p73.gif
+[undirected-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph1.gif
+[directed-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph2.gif
+[directed-labeled-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph3.gif
+[P83-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p83.gif
+[P84-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p84.gif
+[P92-tree1]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92a.gif
+[P92-tree2]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92b.gif
