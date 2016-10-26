@@ -1159,11 +1159,12 @@ the queen in the second column is in row 2, etc. Otherwise, feel free to use a d
 
 ### [P91][] (**) [Knight's tour](https://en.wikipedia.org/wiki/Knight%27s_tour).
 This is another classical problem in computer science. 
-How can a knight jump on an NÃ—N chessboard in such a way that it visits every square exactly once?
-Hints: Represent the squares by pairs of their coordinates of the form (X, Y), where both X and Y are integers between 1 and N. 
-(Alternatively, define a Point class for the same purpose.) 
-Write a function jumps(N, (X, Y)) to list the squares that a knight can jump to from (X, Y) on a NÃ—N chessboard. 
-And finally, represent the solution of our problem as a list of knight positions (the knight's tour).
+How can a knight jump on an ``N×N`` chessboard in such a way that it visits every square exactly once?
+Hints: Represent the squares by pairs of their coordinates of the form ``(X, Y)``, 
+where both ``X`` and ``Y`` are integers between ``1`` and ``N``. 
+(Alternatively, define a ``Point`` data class for the same purpose.) 
+Write a function ``knightsTour(N, (X, Y))`` to list the squares that a knight can jump to from ``(X, Y)`` on a ``N×N`` chessboard. 
+And finally, represent the solution of the problem as a list of knight positions (the knight's tour).
 
 It might be nice to find more than one tour, but a computer will take a long time trying to find them all at once. 
 Can you make a lazy list that only calculates the tours as needed?
@@ -1176,14 +1177,20 @@ Several years ago I met a mathematician who was intrigued by a problem for which
 His name was Von Koch, and I don't know whether the problem has been solved since. 
 (The "I" here refers to the author of the Prolog problems.) 
 
-Anyway the puzzle goes like this: Given a tree with N nodes (and hence N-1 edges), find a way to enumerate the nodes from 1 to N and, 
-accordingly, the edges from 1 to N-1 in such a way, that for each edge K the difference of its node numbers is equal to K. 
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92a.gif">
+
+Anyway the puzzle goes like this: Given a tree with ``N`` nodes (and hence ``N-1`` edges), 
+find a way to enumerate the nodes from ``1`` to ``N`` and, accordingly, the edges from ``1`` to ``N-1`` in such a way, 
+that for each edge ``K`` the difference of its node numbers is equal to ``K``. 
 The conjecture is that this is always possible.
 
 For small trees the problem is easy to solve by hand. However, for larger trees, and 14 is already very large, it is extremely difficult 
 to find a solution. And remember, we don't know for sure whether there is always a solution!
 
 Write a function that calculates a numbering scheme for a given tree. What is the solution for the larger tree pictured below?
+
+<img style="float: center;" src="https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92b.gif">
+
 
 ### [P93][] (***) An arithmetic puzzle.
 Given a list of integer numbers, find a correct way of inserting arithmetic signs (operators) such that the result is a correct equation. 
