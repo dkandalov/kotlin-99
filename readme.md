@@ -1160,19 +1160,16 @@ the queen in the second column is in row 2, etc. Otherwise, feel free to use a d
 ### [P91][] (**) [Knight's tour](https://en.wikipedia.org/wiki/Knight%27s_tour).
 This is another classical problem in computer science. 
 How can a knight jump on an ``N×N`` chessboard in such a way that it visits every square exactly once?
-Hints: Represent the squares by pairs of their coordinates of the form ``(X, Y)``, 
-where both ``X`` and ``Y`` are integers between ``1`` and ``N``. 
-(Alternatively, define a ``Point`` data class for the same purpose.) 
-Write a function ``knightsTour(N, (X, Y))`` to list the squares that a knight can jump to from ``(X, Y)`` on a ``N×N`` chessboard. 
-And finally, represent the solution of the problem as a list of knight positions (the knight's tour).
 
-It might be nice to find more than one tour, but a computer will take a long time trying to find them all at once. 
-Can you make a lazy list that only calculates the tours as needed?
+Write a function ``knightsTours(N, (X, Y))`` to list all knight tours that be made from ``(X, Y)`` on a ``N×N`` chessboard. 
+Hints: It might help to represent squares by pairs of their coordinates of the form ``Pair(X, Y)``, 
+where ``X`` and ``Y`` are integers between ``0`` and ``N-1``. Alternatively, define a ``Point`` data class for this purpose. 
 
 Can you find only "closed tours", where the knight can jump from its final position back to its starting position?
+Can you make a lazy list that only calculates the tours as needed?
 
 
-### [P92][] (***) Von Koch's conjecture.
+### [P92][] (***) Von Koch's conjecture (aka [graceful labeling](https://en.wikipedia.org/wiki/Graceful_labeling)).
 Several years ago I met a mathematician who was intrigued by a problem for which he didn't know a solution. 
 His name was Von Koch, and I don't know whether the problem has been solved since. 
 (The "I" here refers to the author of the Prolog problems.) 
