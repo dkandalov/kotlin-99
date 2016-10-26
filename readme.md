@@ -458,7 +458,7 @@ this is a sentence
 
 A binary tree is either empty or it is composed of a root element and two successors, which are binary trees themselves.
 
-![binary tree](binary tree)
+![binary tree](binary-tree)
 
 We will use the following classes to represent binary trees (see [Tree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/Tree.kt)). 
 An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two descendant trees. 
@@ -640,7 +640,7 @@ As a preparation for drawing a tree, a layout algorithm is required to determine
 Several layout methods are conceivable, one of them is shown in the illustration below.
 This tree can be constructed with ``"nkmcahgeupsq".toList().toTree()``.
 
-![P64][P64 layout]
+![P64][P64-layout]
 
 In this layout strategy, the position of a node ``v`` is obtained by the following two rules:
 - ``x(v)`` is equal to the position of the node ``v`` in the in-order sequence
@@ -667,7 +667,7 @@ An alternative layout method is depicted in the illustration below
 (note that it is not the same tree as in the previous problem).
 This tree can be constructed with ``"nkmcaedgupq".toList().toTree()``.
 
-![P65][P65 layout]
+![P65][P65-layout]
 
 Find out the rules and write the corresponding method. 
 Hint: On a given level, the horizontal distance between neighboring nodes is constant.
@@ -682,7 +682,7 @@ T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
 Yet another layout strategy is shown in the illustration below. 
 This tree can be constructed with ``"nkmcaedgupq".toList().toTree()``.
 
-![P66][P66 layout]
+![P66][P66-layout]
 
 The method yields a very compact layout while maintaining a certain symmetry in every node. 
 Find out the rules and write the corresponding method. 
@@ -1370,7 +1370,7 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P99]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P99.kt
 
 
-[binary tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif "Binary tree"
-[P64 layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p64.gif
-[P65 layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p65.gif
-[P66 layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p66.gif
+[binary-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif "Binary tree"
+[P64-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p64.gif
+[P65-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p65.gif
+[P66-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p66.gif
