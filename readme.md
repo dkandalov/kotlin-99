@@ -17,10 +17,11 @@
 
 This an adaptation of [Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/) by Phil Gold 
 which itself is an adaptation of the [Ninety-Nine Prolog Problems](https://sites.google.com/site/prologsite/prolog-problems) 
-written by Werner Hett at the Berne University of Applied Sciences in Berne, Switzerland. 
-The problems have been altered to be more amenable to programming in [Kotlin](http://kotlinlang.org). 
+written by Werner Hett at the Berne University of Applied Sciences in Berne, Switzerland.
+(See also [Ninety-Nine Haskell Problems](https://wiki.haskell.org/H-99:_Ninety-Nine_Haskell_Problems).)
+The problems have been altered to be more amenable to programming in [Kotlin][]. 
 
-You might want to do these problems if you want to learn Kotlin, are interested in the problems described below, or both.
+You might want to do these problems if you want to learn [Kotlin][], are interested in the problems described below, or both.
 The main reason to prefer this to using websites like hackerrank.com and codewars.com
 is that there is no vendor lock-in and no hidden agenda pursued by the website owner.
 
@@ -1190,7 +1191,7 @@ Write a function that calculates a numbering scheme for a given tree. What is th
 
 ### [P93][] (***) An arithmetic puzzle.
 Given a list of integer numbers, find a correct way of inserting arithmetic signs (operators) such that the result is a correct equation. 
-Example: With the list of numbers List(2,3,5,7,11) we can form the equations 2-3+5+7 = 11 or 2 = (3*5+7)/11 (and ten others!).
+Example: With the list of numbers ``2,3,5,7,11`` we can form the equations ``2-3+5+7 = 11`` or ``2 = (3*5+7)/11`` (and ten others!).
 
 ### [P94][] (***) Generate K-regular simple graphs with N nodes.
 In a K-regular graph all nodes have a degree of K; i.e. the number of edges incident in each node is K. 
@@ -1317,7 +1318,7 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P37]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P37.kt
 [P38]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P38.kt
 [P39]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P39.kt
-[P30]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P40.kt
+[P40]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P40.kt
 [P41]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/arithmetic/P41.kt
 
 [P46]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/logic/P46.kt
@@ -1376,7 +1377,7 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P66-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p66.gif
 [P67-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif
 [multiway-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p70.gif
-[P73-s-expr]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p73.gif
+[P73-s-expr]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p73.png
 [undirected-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph1.gif
 [directed-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph2.gif
 [directed-labeled-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph3.gif
@@ -1384,3 +1385,5 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P84-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p84.gif
 [P92-tree1]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92a.gif
 [P92-tree2]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92b.gif
+
+[Kotlin]: http://kotlinlang.org
