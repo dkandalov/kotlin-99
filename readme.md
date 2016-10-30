@@ -1169,7 +1169,7 @@ Can you find only "closed tours", where the knight can jump from its final posit
 Can you make a lazy list that only calculates the tours as needed?
 
 
-### [P92][] (***) Von Koch's conjecture (aka [graceful labeling](https://en.wikipedia.org/wiki/Graceful_labeling)).
+### [P92][] (***) Von Koch's conjecture (see [graceful labeling](https://en.wikipedia.org/wiki/Graceful_labeling)).
 Several years ago I met a mathematician who was intrigued by a problem for which he didn't know a solution. 
 His name was Von Koch, and I don't know whether the problem has been solved since. 
 (The "I" here refers to the author of the Prolog problems.) 
