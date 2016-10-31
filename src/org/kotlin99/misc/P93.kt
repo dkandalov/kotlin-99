@@ -11,10 +11,10 @@ fun List<Int>.findValidEquations(): Sequence<Equal> {
     if (size <= 1) return emptySequence()
     val operators = sequenceOf(::Add, ::Subtract, ::Multiply, ::Divide)
     return allSplits().flatMap { pair ->
-        val (left, right) = pair
-        left.operatorCombinations(operators).flatMap { leftExpr ->
+            val (left, right) = pair
+            left.operatorCombinations(operators).flatMap { leftExpr ->
                 right.operatorCombinations(operators).map { rightExpr ->
-                    Equal(leftExpr, rightExpr)
+                        Equal(leftExpr, rightExpr)
                 }
             }
         }
@@ -24,7 +24,7 @@ fun List<Int>.findValidEquations(): Sequence<Equal> {
 private fun List<Int>.operatorCombinations(operators: Sequence<(Expr<Int>, Expr<Int>) -> Expr<Int>>): Sequence<Expr<Int>> {
     if (size == 0) return emptySequence()
     if (size == 1) return sequenceOf(Number(first()))
-    return allSplits().flatMap { pair ->
+    return allSplits().flatMap{ pair ->
         val (left, right) = pair
         left.operatorCombinations(operators).flatMap { leftExpr ->
             right.operatorCombinations(operators).flatMap { rightExpr ->
