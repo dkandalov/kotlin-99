@@ -17,7 +17,6 @@ fun <T> Graph<T, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
     return 1.rangeTo(nodes.size).toList().combinationsSeq()
         .map{ nodes.keys.zip(it).toMap() }
         .filter{ mapping ->
-            println(i++)
             val diffs = edges.mapTo(HashSet()) { edge ->
                 Math.abs(mapping[edge.n1.value]!! - mapping[edge.n2.value]!!)
             }
@@ -36,7 +35,7 @@ fun <T> Graph<T, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
 fun <T> List<T>.combinationsSeq(): Sequence<List<T>> {
     if (size <= 1) return sequenceOf(this)
     val head = first()
-    return drop(1).combinationsSeq().flatMapSeq{ subCombination ->
+    return drop(1).combinationsSeq().flatMap{ subCombination ->
         (0..subCombination.size).asSequence().map { i ->
             LinkedList(subCombination).apply{ add(i, head) }
         }
