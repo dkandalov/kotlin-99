@@ -12,7 +12,6 @@ import org.kotlin99.graphs.toTermForm
 import java.util.*
 
 fun <T> Graph<T, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
-    var i = 0
     val edgeLabels = 1.rangeTo(edges.size).toHashSet()
     return 1.rangeTo(nodes.size).toList().combinationsSeq()
         .map{ nodes.keys.zip(it).toMap() }
