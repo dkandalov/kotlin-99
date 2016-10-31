@@ -1169,7 +1169,7 @@ Can you find only "closed tours", where the knight can jump from its final posit
 Can you make a lazy list that only calculates the tours as needed?
 
 
-### [P92][] (***) Von Koch's conjecture (see [graceful labeling](https://en.wikipedia.org/wiki/Graceful_labeling)).
+### [P92][] (***) Von Koch's conjecture (see also [graceful labeling](https://en.wikipedia.org/wiki/Graceful_labeling)).
 Several years ago I met a mathematician who was intrigued by a problem for which he didn't know a solution. 
 His name was Von Koch, and I don't know whether the problem has been solved since. 
 (The "I" here refers to the author of the Prolog problems.) 
@@ -1190,24 +1190,25 @@ Write a function that calculates a numbering scheme for a given tree. What is th
 
 
 ### [P93][] (***) An arithmetic puzzle.
-Given a list of integer numbers, find a correct way of inserting arithmetic signs (operators) such that the result is a correct equation. 
-Example: With the list of numbers ``2,3,5,7,11`` we can form the equations ``2-3+5+7 = 11`` or ``2 = (3*5+7)/11`` (and ten others!).
+Given a list of integer numbers, find a correct way of inserting arithmetic operators ``+-*/()`` such that the result is a correct equation. 
+Example: With the list of numbers ``2, 3, 5, 7, 11`` we can form the equations ``2 - 3 + 5 + 7 = 11``, ``2 = (3 * 5 + 7) / 11`` and others.
 
 ### [P94][] (***) Generate K-regular simple graphs with N nodes.
-In a K-regular graph all nodes have a degree of K; i.e. the number of edges incident in each node is K. 
+In a K-regular graph all nodes have a degree of ``K``; i.e. the number of edges incident in each node is ``K``. 
 How many (non-isomorphic!) 3-regular graphs with 6 nodes are there? 
 See also a table of results and a Java applet that can represent graphs geometrically.
 
 ### [P95][] (**) English number words.
 On financial documents, like checks, numbers must sometimes be written in full words. 
-Example: 175 must be written as one-seven-five. Write a function fullWords(num: Int) to print (non-negative) integer numbers in full words.
+For example, ``175`` will be written as ``one hundred seven-five``. 
+Write a function ``Int.toWords()`` to print (non-negative) integer numbers in full words.
 
 ### [P96][] (**) Syntax checker.
 In a certain programming language (Ada) identifiers are defined by the syntax diagram (railroad chart) opposite. 
 Transform the syntax diagram into a system of syntax diagrams which do not contain loops; i.e. which are purely recursive. 
 Using these modified diagrams, write a function isIdentifier that can check whether or not a given string is a legal identifier.
 
-### [P97][] (**) Sudoku. (alternate solution)
+### [P97][] (**) [Sudoku](https://en.wikipedia.org/wiki/Sudoku). (alternate solution)
 Sudoku puzzles go like this:
 ```
    Problem statement                 Solution
@@ -1230,18 +1231,18 @@ Sudoku puzzles go like this:
             |         |                      |         |
     2  4  . | .  .  1 | 5  .  .      2  4  6 | 3  9  1 | 5  7  8
 ```
-Every spot in the puzzle belongs to a (horizontal) row and a (vertical) column, as well as to one single 3Ã—3 square 
-(which we call "square" for short). At the beginning, some of the spots carry a single-digit number between 1 and 9. 
-The problem is to fill the missing spots with digits in such a way that every number between 1 and 9 appears exactly once in each row, 
+Every spot in the puzzle belongs to a (horizontal) row and a (vertical) column, as well as to one single ``3×3`` square 
+(which we call "square" for short). At the beginning, some of the spots carry a single-digit number between ``1`` and ``9``. 
+The problem is to fill the missing spots with digits in such a way that every number between ``1`` and ``9`` appears exactly once in each row, 
 in each column, and in each square.
 
-### [P98][] (***) Nonograms.
+### [P98][] (***) [Nonograms](https://en.wikipedia.org/wiki/Nonogram).
 Around 1994, a certain kind of puzzles was very popular in England. The "Sunday Telegraph" newspaper wrote: 
 "Nonograms are puzzles from Japan and are currently published each week only in The Sunday Telegraph. 
 Simply use your logic and skill to complete the grid and reveal a picture or diagram." 
-As a programmer, you are in a better situation: you can have your computer do the work! Just write a little program ;-).
+As a programmer, you are in a better situation: you can have your computer do the work! Just write a little program ;-)
 
-The puzzle goes like this: Essentially, each row and column of a rectangular bitmap is annotated with the respective lengths 
+Each row and column of a rectangular bitmap is annotated with the respective lengths 
 of its distinct strings of occupied cells. The person who solves the puzzle must complete the bitmap given only these lengths.
 ```
           Problem statement:          Solution:
@@ -1260,7 +1261,7 @@ of its distinct strings of occupied cells. The person who solves the puzzle must
 ```
 For the example above, the problem can be stated as the two lists ``[[3],[2,1],[3,2],[2,2],[6],[1,5],[6],[1],[2]]`` and 
 ``[[1,2],[3,1],[1,5],[7,1],[5],[3],[4],[3]]`` which give the "solid" lengths of the rows and columns, top-to-bottom and left-to-right, 
-respectively. Published puzzles are larger than this example, e.g. 25Ã—20, and apparently always have unique solutions.
+respectively. Published puzzles are larger than this example, e.g. ``25×20``, and always have unique solutions.
 
 ### [P99][] (***) Crossword puzzle.
 Given an empty (or almost empty) framework of a crossword puzzle and a set of words. The problem is to place the words into the framework.
