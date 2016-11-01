@@ -1193,10 +1193,9 @@ Write a function that calculates a numbering scheme for a given tree. What is th
 Given a list of integer numbers, find a correct way of inserting arithmetic operators ``+-*/()`` such that the result is a correct equation. 
 Example: With the list of numbers ``2, 3, 5, 7, 11`` we can form the equations ``2 - 3 + 5 + 7 = 11``, ``2 = (3 * 5 + 7) / 11`` and others.
 
-### [P94][] (***) Generate K-regular simple graphs with N nodes.
-In a K-regular graph all nodes have a degree of ``K``; i.e. the number of edges incident in each node is ``K``. 
+### [P94][] (***) [Regular graphs](https://en.wikipedia.org/wiki/Regular_graph) with N nodes.
+In a K-regular graph all nodes have a degree of ``K``, i.e. the number of edges incident in each node is ``K``. 
 How many (non-isomorphic!) 3-regular graphs with 6 nodes are there? 
-See also a table of results and a Java applet that can represent graphs geometrically.
 
 ### [P95][] (**) English number words.
 On financial documents, like checks, numbers must sometimes be written in full words. 
@@ -1204,9 +1203,8 @@ For example, ``175`` will be written as ``one hundred seven-five``.
 Write a function ``Int.toWords()`` to print (non-negative) integer numbers in full words.
 
 ### [P96][] (**) Syntax checker.
-In a certain programming language (Ada) identifiers are defined by the syntax diagram (railroad chart) opposite. 
-Transform the syntax diagram into a system of syntax diagrams which do not contain loops; i.e. which are purely recursive. 
-Using these modified diagrams, write a function isIdentifier that can check whether or not a given string is a legal identifier.
+TODO replace with Conway's Game of Life.
+
 
 ### [P97][] (**) [Sudoku](https://en.wikipedia.org/wiki/Sudoku). (alternate solution)
 Sudoku puzzles go like this:
