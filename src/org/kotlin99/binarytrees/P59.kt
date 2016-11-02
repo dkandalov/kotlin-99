@@ -11,6 +11,7 @@ import org.kotlin99.binarytrees.P55Test.Companion.nodeList
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 import org.kotlin99.common.containsAll
+import org.kotlin99.common.tail
 
 fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
     if (height < 1) listOf(End)
@@ -69,7 +70,7 @@ class P59Test {
     }
 
     fun <T> containsElements(vararg matchers: Matcher<T>) : Matcher<Iterable<T>> {
-        return matchers.drop(1).fold(anyElement(matchers.first())){ result, matcher ->
+        return matchers.tail().fold(anyElement(matchers.first())){ result, matcher ->
             result.and(anyElement(matcher))
         }
     }

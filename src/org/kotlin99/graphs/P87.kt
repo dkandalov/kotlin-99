@@ -3,6 +3,7 @@ package org.kotlin99.graphs
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.common.tail
 
 
 fun <T> Graph<T, *>.nodesByDepthFrom(nodeValue: T): List<T> {
@@ -11,7 +12,7 @@ fun <T> Graph<T, *>.nodesByDepthFrom(nodeValue: T): List<T> {
             return emptyList()
         } else {
             val head = nodeValues.first()
-            val tail = nodeValues.drop(1)
+            val tail = nodeValues.tail()
             return if (visited.contains(head)) nodesByDepth(tail, visited)
             else listOf(head) + nodesByDepth(neighbourValues(head) + tail, visited + head)
         }
@@ -25,7 +26,7 @@ fun <T> Graph<T, *>.nodesByBreadthFrom(nodeValue: T): List<T> {
             return emptyList()
         } else {
             val head = nodeValues.first()
-            val tail = nodeValues.drop(1)
+            val tail = nodeValues.tail()
             return if (visited.contains(head)) nodesByBreadth(tail, visited)
             else listOf(head) + nodesByBreadth(tail + neighbourValues(head), visited + head)
         }

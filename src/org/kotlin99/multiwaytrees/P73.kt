@@ -3,6 +3,7 @@ package org.kotlin99.multiwaytrees
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.common.tail
 import org.kotlin99.multiwaytrees.MTree
 import java.util.*
 
@@ -96,7 +97,7 @@ private class SequenceParser(val tokenParsers: List<TokenParser>) : TokenParser 
             val token = parsers.first().parse(rest) ?: return null
             tokens.add(token)
             rest = rest.drop(token.length())
-            parsers = parsers.drop(1)
+            parsers = parsers.tail()
         }
         return Seq(tokens)
     }

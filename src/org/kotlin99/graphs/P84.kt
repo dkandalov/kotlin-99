@@ -3,6 +3,7 @@ package org.kotlin99.graphs
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.common.tail
 import org.kotlin99.graphs.Graph.Edge
 import org.kotlin99.graphs.Graph.Node
 import org.kotlin99.graphs.P80Test.Companion.equivalentTo
@@ -33,7 +34,7 @@ fun <T, U: Comparable<U>> Graph<T, U>.minSpanningTree(): Graph<T, U> {
         }
     }
 
-    return minSpanningTree(edges, nodes.values.drop(1))
+    return minSpanningTree(edges, nodes.values.tail())
 }
 
 class P84Test {

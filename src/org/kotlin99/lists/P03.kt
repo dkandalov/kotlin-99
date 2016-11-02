@@ -3,11 +3,12 @@ package org.kotlin99.lists
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.common.tail
 import java.util.*
 
 tailrec fun <T> nth(n: Int, list: List<T>): T {
     if (n < 0) throw IllegalArgumentException()
-    return if (n == 0) list.first() else nth(n - 1, list.drop(1))
+    return if (n == 0) list.first() else nth(n - 1, list.tail())
 }
 
 class P03Test {

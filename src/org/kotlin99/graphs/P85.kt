@@ -6,6 +6,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.kotlin99.common.containsAll
+import org.kotlin99.common.tail
 import java.util.*
 
 fun <T1, T2> Graph<T1, *>.isIsomorphicTo(graph: Graph<T2, *>): Boolean {
@@ -28,7 +29,7 @@ fun <T1, T2> Graph<T1, *>.isomorphicMappingTo(graph: Graph<T2, *>): List<Pair<T1
 private fun <T> List<T>.combinations(): List<List<T>> {
     if (size <= 1) return listOf(this)
     val head = first()
-    return drop(1).combinations().flatMap{ subCombination ->
+    return tail().combinations().flatMap{ subCombination ->
         (0..subCombination.size).map { i ->
             LinkedList(subCombination).apply{ add(i, head) }
         }

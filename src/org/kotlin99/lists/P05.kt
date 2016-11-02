@@ -3,10 +3,11 @@ package org.kotlin99.lists
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.common.tail
 
 fun <T> reverse(list: List<T>): List<T> {
     if (list.size <= 1) return list
-    else return reverse(list.drop(1)) + list.first()
+    else return reverse(list.tail()) + list.first()
 }
 
 class P05Test {

@@ -4,6 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.containsAll
+import org.kotlin99.common.tail
 import org.kotlin99.graphs.Graph
 import org.kotlin99.graphs.Graph.TermForm
 import org.kotlin99.graphs.Graph.TermForm.Term
@@ -34,7 +35,7 @@ fun <T> Graph<T, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
 fun <T> List<T>.combinationsSeq(): Sequence<List<T>> {
     if (size <= 1) return sequenceOf(this)
     val head = first()
-    return drop(1).combinationsSeq().flatMap{ subCombination ->
+    return tail().combinationsSeq().flatMap{ subCombination ->
         (0..subCombination.size).asSequence().map { i ->
             LinkedList(subCombination).apply{ add(i, head) }
         }

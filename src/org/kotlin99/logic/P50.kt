@@ -3,6 +3,7 @@ package org.kotlin99.logic
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.common.tail
 
 
 fun String.createEncoding(): HuffmanEncoding =
@@ -17,7 +18,7 @@ fun String.decode(encoding: HuffmanEncoding): String {
     var node = encoding.tree
     while (chars.isNotEmpty()) {
         node = node.followCode(chars.first())!!
-        chars = chars.drop(1)
+        chars = chars.tail()
         if (node.char != null) {
             result += node.char
             node = encoding.tree

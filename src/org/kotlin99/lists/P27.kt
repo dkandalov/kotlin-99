@@ -5,6 +5,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.containsAll
+import org.kotlin99.common.tail
 
 fun <T> group3(list: List<T>): List<List<List<T>>> =
     combinations(2, list).flatMap { listOfTwo ->
@@ -19,7 +20,7 @@ fun <T> group(sizes: List<Int>, list: List<T>): List<List<List<T>>> =
     if (sizes.isEmpty()) listOf(emptyList())
     else combinations(sizes.first(), list).flatMap { combination ->
             val filteredList = list.filterNot { combination.contains(it) }
-            group(sizes.drop(1), filteredList).map{ it + listOf(combination) }
+            group(sizes.tail(), filteredList).map{ it + listOf(combination) }
          }
 
 

@@ -4,16 +4,17 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.containsAll
+import org.kotlin99.common.tail
 
 fun <T> combinations(n: Int, list: List<T>): List<List<T>> =
         if (n == 0) listOf(emptyList())
         else list.flatMapTails { subList ->
-            combinations(n - 1, subList.drop(1)).map{ (it + subList.first()) }
+            combinations(n - 1, subList.tail()).map{ (it + subList.first()) }
         }
 
 private fun <T> List<T>.flatMapTails(f: (List<T>) -> (List<List<T>>)): List<List<T>> =
         if (isEmpty()) emptyList()
-        else f(this) + this.drop(1).flatMapTails(f)
+        else f(this) + this.tail().flatMapTails(f)
 
 
 class P26Test {

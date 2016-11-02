@@ -5,6 +5,7 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.kotlin99.common.containsAll
+import org.kotlin99.common.tail
 import org.kotlin99.graphs.Graph.*
 import org.kotlin99.graphs.Graph.TermForm.Term
 import org.kotlin99.graphs.P80Test.Companion.equivalentTo
@@ -30,12 +31,12 @@ fun <T, U> Graph<T, U>.spanningTrees(): List<Graph<T, U>> {
             )
         }
 
-    return spanningTrees(edges, nodes.values.drop(1)).removeEquivalentGraphs()
+    return spanningTrees(edges, nodes.values.tail()).removeEquivalentGraphs()
 }
 
 fun Graph<*, *>.isTree(): Boolean = spanningTrees().size == 1
 
-fun Graph<*, *>.isConnected(): Boolean = spanningTrees().size > 0
+fun Graph<*, *>.isConnected(): Boolean = spanningTrees().isNotEmpty()
 
 
 class P83Test {

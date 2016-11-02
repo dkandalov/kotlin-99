@@ -4,12 +4,13 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.containsAll
+import org.kotlin99.common.tail
 
 fun <T> Graph<T, *>.findCycles(node: T): List<List<T>> {
     fun findCycles(path: List<T>): List<List<T>> {
         if (path.size > 3 && path.first() == path.last()) return listOf(path)
         return nodes[path.last()]!!.neighbors()
-                .filterNot{ path.drop(1).contains(it.value) }
+                .filterNot{ path.tail().contains(it.value) }
                 .flatMap{ findCycles(path + it.value) }
     }
     return findCycles(listOf(node))
