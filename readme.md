@@ -1195,7 +1195,7 @@ Example: With the list of numbers ``2, 3, 5, 7, 11`` we can form the equations `
 
 ### [P94][] (***) [Regular graphs](https://en.wikipedia.org/wiki/Regular_graph) with N nodes.
 In a K-regular graph all nodes have a degree of ``K``, i.e. the number of edges incident in each node is ``K``. 
-How many (non-isomorphic!) 3-regular graphs with 6 nodes are there? 
+Write a function to find all non-isomorphic 3-regular graphs with 6 nodes. 
 
 ### [P95][] (**) English number words.
 On financial documents, like checks, numbers must sometimes be written in full words. 
