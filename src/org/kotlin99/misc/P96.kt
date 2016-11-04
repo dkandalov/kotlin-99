@@ -35,10 +35,10 @@ class GameOfLife {
                 val survivedCells = cells.filter{ cell ->
                     liveNeighboursOf(cell).let{ it == 2 || it == 3 }
                 }
-                val newBornCells = cells.flatMap{ cell ->
+                val newbornCells = cells.flatMap{ cell ->
                     cell.neighbours().filter{ liveNeighboursOf(it) == 3 }
                 }
-                return Board((survivedCells + newBornCells).toSet())
+                return Board((survivedCells + newbornCells).toSet())
             }
 
             private fun liveNeighboursOf(cell: Cell): Int {

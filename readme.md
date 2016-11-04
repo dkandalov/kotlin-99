@@ -1213,12 +1213,10 @@ or diagonally adjacent. At each step in time, the following transitions occur:
 - Any live cell with more than three live neighbours dies, as if by over-population.
 - Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
-Write a program to simulate evolution of cells in The Game of Life.
-
-![glider][P96-glider]
-
-Note that there are certain patterns of cells which remain stable and modify but never disappear over time.
+Note that there are certain patterns which can keep cells alive forever.
 See [examples of patterns](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Examples_of_patterns) on Wikipedia.
+
+Write a program to simulate evolution of cells in The Game of Life.
 
 
 ### [P97][] (**) [Sudoku](https://en.wikipedia.org/wiki/Sudoku).
