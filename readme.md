@@ -1202,11 +1202,26 @@ On financial documents, like checks, numbers must sometimes be written in full w
 For example, ``175`` will be written as ``one hundred seventy five``. 
 Write a function ``Int.toWords()`` to convert (non-negative) integer numbers to words.
 
-### [P96][] (**) Syntax checker.
-TODO replace with Conway's Game of Life.
+### [P96][] (**) [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life).
+The Game of Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970.
+
+The game is represented by a 2-dimensional grid populated with cells.
+Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically, 
+or diagonally adjacent. At each step in time, the following transitions occur:
+- Any live cell with fewer than two live neighbours dies, as if caused by under-population.
+- Any live cell with two or three live neighbours lives on to the next generation.
+- Any live cell with more than three live neighbours dies, as if by over-population.
+- Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+
+Write a program to simulate evolution of cells in The Game of Life.
+
+![glider][P96-glider]
+
+Note that there are certain patterns of cells which remain stable and modify but never disappear over time.
+See [examples of patterns](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Examples_of_patterns) on Wikipedia.
 
 
-### [P97][] (**) [Sudoku](https://en.wikipedia.org/wiki/Sudoku). (alternate solution)
+### [P97][] (**) [Sudoku](https://en.wikipedia.org/wiki/Sudoku).
 Sudoku puzzles go like this:
 ```
    Problem statement                 Solution
@@ -1384,5 +1399,6 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P84-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p84.gif
 [P92-tree1]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92a.gif
 [P92-tree2]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92b.gif
+[P96-glider]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p96.gif
 
 [Kotlin]: http://kotlinlang.org
