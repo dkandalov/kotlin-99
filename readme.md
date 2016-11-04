@@ -1199,8 +1199,8 @@ Write a function to find all non-isomorphic 3-regular graphs with 6 nodes.
 
 ### [P95][] (**) English number words.
 On financial documents, like checks, numbers must sometimes be written in full words. 
-For example, ``175`` will be written as ``one hundred seven-five``. 
-Write a function ``Int.toWords()`` to print (non-negative) integer numbers in full words.
+For example, ``175`` will be written as ``one hundred seventy five``. 
+Write a function ``Int.toWords()`` to convert (non-negative) integer numbers to words.
 
 ### [P96][] (**) Syntax checker.
 TODO replace with Conway's Game of Life.
