@@ -56,32 +56,36 @@ class P96Test {
     }
 
     @Test fun `cells with enough neighbours stay alive`() {
-        // **-
-        // *--
-        assertTrue(Board(Cell(0, 0), Cell(1, 0), Cell(0, 1)).evolve().cells.containsAll(listOf(
-                Cell(0, 0), Cell(1, 0), Cell(0, 1)
+        assertTrue(parseBoard(
+            "**-",
+            "*--"
+        ).evolve().cells.containsAll(listOf(
+            Cell(0, 0), Cell(1, 0), Cell(0, 1)
         )))
-        // **-
-        // **-
-        assertTrue(Board(Cell(0, 0), Cell(1, 0), Cell(0, 1), Cell(1, 1)).cells.containsAll(listOf(
-                Cell(0, 0), Cell(0, 1), Cell(1, 0), Cell(1, 1)
+        assertTrue(parseBoard(
+            "**-",
+            "**-"
+        ).evolve().cells.containsAll(listOf(
+            Cell(0, 0), Cell(0, 1), Cell(1, 0), Cell(1, 1)
         )))
     }
 
     @Test fun `overpopulated cells die`() {
-        // **-
-        // **-
-        // *--
-        assertFalse(Board(Cell(0, 0), Cell(1, 0), Cell(0, 1), Cell(1, 1), Cell(0, 2)).evolve().cells.containsAll(listOf(
-                Cell(0, 1), Cell(1, 1)
+        assertFalse(parseBoard(
+            "**-",
+            "**-",
+            "*--"
+        ).evolve().cells.containsAll(listOf(
+            Cell(0, 1), Cell(1, 1)
         )))
     }
 
     @Test fun `dead cell with three neighbours becomes alive`() {
-        // **-
-        // *--
-        assertTrue(Board(Cell(0, 0), Cell(1, 0), Cell(0, 1)).evolve().cells.containsAll(listOf(
-                Cell(1, 1)
+        assertTrue(parseBoard(
+            "**",
+            "*-"
+        ).evolve().cells.containsAll(listOf(
+            Cell(1, 1)
         )))
     }
 
