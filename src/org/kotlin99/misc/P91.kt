@@ -5,6 +5,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.containsAll
+import org.kotlin99.common.toSeq
 
 fun knightsToursLazy(boardSize: Int, point: Point, tour: Tour = Tour(point)): Sequence<Tour> {
     if (tour.size == boardSize * boardSize) return sequenceOf(tour)
@@ -51,16 +52,6 @@ data class Tour(val points: Collection<Point>) {
 fun Tour.isClosed(boardSize: Int): Boolean {
     return if (size <= 1) false
     else points.last().knightMoves(boardSize).contains(points.first())
-}
-
-
-private fun <T> Iterable<T>.toSeq(): Sequence<T> {
-    val iterator = this.iterator()
-    return object: Sequence<T> {
-        override fun iterator(): Iterator<T> {
-            return iterator
-        }
-    }
 }
 
 private fun Int.within(from: Int, until: Int) = this >= from && this < until
