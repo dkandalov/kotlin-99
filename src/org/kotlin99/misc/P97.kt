@@ -13,6 +13,9 @@ import java.util.*
 @Suppress("unused")
 class Sudoku {
     data class Board(val cells: ArrayList<Cell> = ArrayList<Cell>().fill(size * size, Cell())) {
+        private val positionedCells: List<PositionedCell>
+            get() = cells.mapIndexed { i, cell -> PositionedCell(Point(i % size, i / size), cell) }
+
         operator fun get(x: Int, y: Int): Cell {
             return cells[x + y * size]
         }
@@ -28,101 +31,44 @@ class Sudoku {
             if (!isValid()) return emptySequence()
             if (cells.all{ it.isFilled() }) return sequenceOf(this)
 
-            return cells.zip(0.rangeTo((cells.size) - 1)).toSeq()
-                .flatMap { pair ->
-                    val (cell, i) = pair
-                    if (cell.isEmpty()) {
-                        cell.guesses.toSeq().flatMap{ guess ->
-                            val x = i % size
-                            val y = i / size
-                            this.copy().set(x, y, Cell(guess)).solve()
-                        }
-                    } else {
-                        emptySequence<Board>()
+            return positionedCells
+                .filter { it.cell.isEmpty() }.toSeq()
+                .flatMap {
+                    it.cell.guesses.toSeq().flatMap{ guess ->
+                        this.copy().set(it.point.x, it.point.y, Cell(guess)).solve()
                     }
                 }
         }
 
         fun isValid(): Boolean {
-            fun isFilledCell(x: Int, y: Int, value: Int): Boolean {
-                return this[x, y].let { it.isFilled() && it.value == value }
-            }
-            fun isValidRow(y: Int, value: Int): Boolean {
-                return 0.rangeTo(size - 1).count { x -> isFilledCell(x, y, value) } <= 1
-            }
-            fun isValidColumn(x: Int, value: Int): Boolean {
-                return 0.rangeTo(size - 1).count { y -> isFilledCell(x, y, value) } <= 1
-            }
-
-            fun isValidSquare(x: Int, y: Int, value: Int): Boolean {
-                fun squareRange(coordinate: Int): IntRange {
-                    val squareSize = size / 3
-                    val squareCoordinate = coordinate / squareSize
-                    return (squareCoordinate * squareSize).rangeTo(((squareCoordinate + 1) * squareSize) - 1)
+            fun List<Point>.isValidFor(value: Int) = count{ get(it).guesses.contains(value) } <= 1
+            return positionedCells
+                .filter{ it.cell.isFilled() }
+                .all {
+                    it.point.row().isValidFor(it.cell.value!!) &&
+                    it.point.column().isValidFor(it.cell.value) &&
+                    it.point.square().isValidFor(it.cell.value)
                 }
-                return squareRange(y).sumBy { cellY ->
-                    squareRange(x).count { cellX ->
-                        isFilledCell(cellX, cellY, value)
-                    }
-                } <= 1
-            }
-            cells.forEachIndexed { i, cell ->
-                if (cell.isFilled()) {
-                    val x = i % size
-                    val y = i / size
-                    if (!isValidRow(y, cell.value!!) || !isValidColumn(x, cell.value) || !isValidSquare(x, y, cell.value)) {
-                        return false
-                    }
-                }
-            }
-            return true
         }
 
         fun optimize(): Board {
-            fun removeGuess(x: Int, y: Int, value: Int) {
-                val cell = this[x, y]
-                if (cell.isEmpty()) {
-                    this[x, y] = cell.copy(guesses = cell.guesses - value)
-                }
-            }
-            fun removeRowGuesses(y: Int, value: Int) {
-                0.rangeTo(size - 1).forEach { x -> removeGuess(x, y, value) }
-            }
-            fun removeColumnGuesses(x: Int, value: Int) {
-                0.rangeTo(size - 1).forEach { y -> removeGuess(x, y, value) }
-            }
-            fun removeSquareGuesses(x: Int, y: Int, value: Int) {
-                fun squareRange(coordinate: Int): IntRange {
-                    val squareCoordinate = coordinate / squareSize
-                    return (squareCoordinate * squareSize).rangeTo(((squareCoordinate + 1) * squareSize) - 1)
-                }
-                for (cellY in squareRange(y)) {
-                    for (cellX in squareRange(x)) {
-                        removeGuess(cellX, cellY, value)
-                    }
-                }
+            fun List<Point>.removeGuesses(value: Int) = forEach {
+                set(it.x, it.y, get(it).removeGuess(value))
             }
 
-            cells.forEachIndexed { i, cell ->
-                if (cell.isFilled()) {
-                    val x = i % size
-                    val y = i / size
-                    removeRowGuesses(y, cell.value!!)
-                    removeColumnGuesses(x, cell.value)
-                    removeSquareGuesses(x, y, cell.value)
+            positionedCells
+                .filter{ it.cell.isFilled() }
+                .forEach{
+                    it.point.row().removeGuesses(it.cell.value!!)
+                    it.point.column().removeGuesses(it.cell.value)
+                    it.point.square().removeGuesses(it.cell.value)
                 }
-            }
 
-            var hadFilledCells = false
-            cells.forEachIndexed { i, cell ->
-                if (cell.isEmpty() && cell.guesses.size == 1) {
-                    val x = i % size
-                    val y = i / size
-                    this[x, y] = Cell(cell.guesses.first())
-                    hadFilledCells = true
-                }
+            val cellsToFill = positionedCells.filter { it.cell.isEmpty() && it.cell.guesses.size == 1 }
+            cellsToFill.forEach {
+                this[it.point.x, it.point.y] = Cell(it.cell.guesses.first())
             }
-            if (hadFilledCells) {
+            if (cellsToFill.isNotEmpty()) {
                 optimize()
             }
             return this
@@ -134,22 +80,43 @@ class Sudoku {
 
         override fun toString(): String {
             var s = ""
-            cells.forEachIndexed { i, cell ->
-                val cellValue =
-                    if (cell.isFilled()) cell.value.toString()
-                    else if (cell.isEmpty()) "."
-                    else " "
+            positionedCells.forEach {
+                s += if (it.cell.isFilled()) it.cell.value.toString() else "."
 
-                s += cellValue
-
-                if ((i + 1) != size * size) {
-                    if ((i + 1) % (size * 3) == 0) s += "\n---+---+---\n"
-                    else if ((i + 1) % size == 0) s += "\n"
-                    else if ((i + 1) % (size / 3) == 0) s += "|"
+                val x1 = it.point.x + 1
+                val y1 = it.point.y + 1
+                if (x1 < size || y1 < size) {
+                    if (x1 == size && y1 % squareSize == 0) s += "\n---+---+---\n"
+                    else if (x1 % size == 0) s += "\n"
+                    else if (x1 % squareSize == 0) s += "|"
                 }
             }
             return s
         }
+
+        private operator fun get(point: Point): Cell {
+            return this[point.x, point.y]
+        }
+
+        private data class Point(val x: Int, val y: Int) {
+            fun row() = 0.rangeTo(size - 1).map{ Point(it, y) }
+
+            fun column() = 0.rangeTo(size - 1).map{ Point(x, it) }
+
+            fun square(): List<Point> {
+                fun rangeOfSquare(coordinate: Int): IntRange {
+                    val squareCoordinate = coordinate / squareSize
+                    return (squareCoordinate * squareSize).rangeTo(((squareCoordinate + 1) * squareSize) - 1)
+                }
+                return rangeOfSquare(y).flatMap { cellY ->
+                    rangeOfSquare(x).map { cellX ->
+                        Point(cellX, cellY)
+                    }
+                }
+            }
+        }
+
+        private data class PositionedCell(val point: Point, val cell: Cell)
 
         companion object {
             val size = 9
@@ -163,13 +130,13 @@ class Sudoku {
 
         fun isFilled() = value != null
         fun isEmpty() = !isFilled()
+        fun removeGuess(value: Int) = if (guesses.isEmpty()) this else copy(guesses = guesses - value)
     }
 
     companion object {
         fun String.toBoard(): Board {
-            val cells = ArrayList<Cell>()
-            replace(Regex("[|\\-+\n]"), "").forEach { c ->
-                cells.add(if (c == '.') Cell() else Cell(c.toString().toInt()))
+            val cells = replace(Regex("[|\\-+\n]"), "").mapTo(ArrayList()) { c ->
+                if (c == '.') Cell() else Cell(c.toString().toInt())
             }
             return Board(cells)
         }
