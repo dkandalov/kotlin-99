@@ -4,14 +4,15 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.toSeq
-import org.kotlin99.misc.Sudoku.*
+import org.kotlin99.misc.Sudoku.Board
 import org.kotlin99.misc.Sudoku.Board.Companion.size
+import org.kotlin99.misc.Sudoku.Cell
 import org.kotlin99.misc.Sudoku.Companion.toBoard
 import java.util.*
 
 @Suppress("unused")
 class Sudoku {
-    data class Board(val cells: ArrayList<Cell> = ArrayList<Cell>().fill(size * size, EmptyCell())) {
+    data class Board(val cells: ArrayList<Cell> = ArrayList<Cell>().fill(size * size, Cell())) {
         operator fun get(x: Int, y: Int): Cell {
             return cells[x + y * size]
         }
@@ -25,16 +26,16 @@ class Sudoku {
             optimize()
 
             if (!isValid()) return emptySequence()
-            if (cells.all{ it is FilledCell }) return sequenceOf(this)
+            if (cells.all{ it.isFilled() }) return sequenceOf(this)
 
             return cells.zip(0.rangeTo((cells.size) - 1)).toSeq()
                 .flatMap { pair ->
                     val (cell, i) = pair
-                    if (cell is EmptyCell) {
+                    if (cell.isEmpty()) {
                         cell.guesses.toSeq().flatMap{ guess ->
                             val x = i % size
                             val y = i / size
-                            this.copy().set(x, y, FilledCell(guess)).solve()
+                            this.copy().set(x, y, Cell(guess)).solve()
                         }
                     } else {
                         emptySequence<Board>()
@@ -44,7 +45,7 @@ class Sudoku {
 
         fun isValid(): Boolean {
             fun isFilledCell(x: Int, y: Int, value: Int): Boolean {
-                return this[x, y].let { it is FilledCell && it.value == value }
+                return this[x, y].let { it.isFilled() && it.value == value }
             }
             fun isValidRow(y: Int, value: Int): Boolean {
                 return 0.rangeTo(size - 1).count { x -> isFilledCell(x, y, value) } <= 1
@@ -66,13 +67,11 @@ class Sudoku {
                 } <= 1
             }
             cells.forEachIndexed { i, cell ->
-                if (cell is FilledCell) {
+                if (cell.isFilled()) {
                     val x = i % size
                     val y = i / size
-                    if (cell is FilledCell) {
-                        if (!isValidRow(y, cell.value) || !isValidColumn(x, cell.value) || !isValidSquare(x, y, cell.value)) {
-                            return false
-                        }
+                    if (!isValidRow(y, cell.value!!) || !isValidColumn(x, cell.value) || !isValidSquare(x, y, cell.value)) {
+                        return false
                     }
                 }
             }
@@ -82,8 +81,8 @@ class Sudoku {
         fun optimize(): Board {
             fun removeGuess(x: Int, y: Int, value: Int) {
                 val cell = this[x, y]
-                if (cell is EmptyCell) {
-                    this[x, y] = cell.copy(cell.guesses - value)
+                if (cell.isEmpty()) {
+                    this[x, y] = cell.copy(guesses = cell.guesses - value)
                 }
             }
             fun removeRowGuesses(y: Int, value: Int) {
@@ -94,7 +93,6 @@ class Sudoku {
             }
             fun removeSquareGuesses(x: Int, y: Int, value: Int) {
                 fun squareRange(coordinate: Int): IntRange {
-                    val squareSize = size / 3
                     val squareCoordinate = coordinate / squareSize
                     return (squareCoordinate * squareSize).rangeTo(((squareCoordinate + 1) * squareSize) - 1)
                 }
@@ -106,10 +104,10 @@ class Sudoku {
             }
 
             cells.forEachIndexed { i, cell ->
-                if (cell is FilledCell) {
+                if (cell.isFilled()) {
                     val x = i % size
                     val y = i / size
-                    removeRowGuesses(y, cell.value)
+                    removeRowGuesses(y, cell.value!!)
                     removeColumnGuesses(x, cell.value)
                     removeSquareGuesses(x, y, cell.value)
                 }
@@ -117,10 +115,10 @@ class Sudoku {
 
             var hadFilledCells = false
             cells.forEachIndexed { i, cell ->
-                if (cell is EmptyCell && cell.guesses.size == 1) {
+                if (cell.isEmpty() && cell.guesses.size == 1) {
                     val x = i % size
                     val y = i / size
-                    this[x, y] = FilledCell(cell.guesses.first())
+                    this[x, y] = Cell(cell.guesses.first())
                     hadFilledCells = true
                 }
             }
@@ -138,8 +136,8 @@ class Sudoku {
             var s = ""
             cells.forEachIndexed { i, cell ->
                 val cellValue =
-                    if (cell is FilledCell) cell.value.toString()
-                    else if (cell is EmptyCell) "."
+                    if (cell.isFilled()) cell.value.toString()
+                    else if (cell.isEmpty()) "."
                     else " "
 
                 s += cellValue
@@ -155,18 +153,23 @@ class Sudoku {
 
         companion object {
             val size = 9
+            val squareSize = size / 3
         }
     }
 
-    interface Cell
-    data class FilledCell(val value: Int) : Cell
-    data class EmptyCell(val guesses: List<Int> = 1.rangeTo(Board.size).toList()) : Cell
+    data class Cell(val value: Int?, val guesses: List<Int>) {
+        constructor(): this(null, 1.rangeTo(Board.size).toList())
+        constructor(value: Int): this(value, emptyList())
+
+        fun isFilled() = value != null
+        fun isEmpty() = !isFilled()
+    }
 
     companion object {
         fun String.toBoard(): Board {
             val cells = ArrayList<Cell>()
             replace(Regex("[|\\-+\n]"), "").forEach { c ->
-                cells.add(if (c == '.') EmptyCell() else FilledCell(c.toString().toInt()))
+                cells.add(if (c == '.') Cell() else Cell(c.toString().toInt()))
             }
             return Board(cells)
         }
@@ -225,24 +228,24 @@ class P97Test {
         """.trimMargin().toBoard()
 
         board.apply {
-            assertThat(this[0, 0], equalTo<Cell>(EmptyCell()))
-            assertThat(this[2, 0], equalTo<Cell>(FilledCell(4)))
-            assertThat(this[0, 2], equalTo<Cell>(FilledCell(5)))
-            assertThat(this[8, 7], equalTo<Cell>(FilledCell(1)))
+            assertThat(this[0, 0], equalTo(Cell()))
+            assertThat(this[2, 0], equalTo(Cell(4)))
+            assertThat(this[0, 2], equalTo(Cell(5)))
+            assertThat(this[8, 7], equalTo(Cell(1)))
         }
     }
 
     @Test fun `convert board to string`() {
         val board = Board().apply{
-            set(0, 0, FilledCell(9))
-            set(4, 0, FilledCell(8))
-            set(8, 0, FilledCell(7))
-            set(0, 4, FilledCell(6))
-            set(4, 4, FilledCell(5))
-            set(8, 4, FilledCell(4))
-            set(0, 8, FilledCell(3))
-            set(4, 8, FilledCell(2))
-            set(8, 8, FilledCell(1))
+            set(0, 0, Cell(9))
+            set(4, 0, Cell(8))
+            set(8, 0, Cell(7))
+            set(0, 4, Cell(6))
+            set(4, 4, Cell(5))
+            set(8, 4, Cell(4))
+            set(0, 8, Cell(3))
+            set(4, 8, Cell(2))
+            set(8, 8, Cell(1))
         }
         assertThat(board.toString(), equalTo("""
             |9..|.8.|..7
