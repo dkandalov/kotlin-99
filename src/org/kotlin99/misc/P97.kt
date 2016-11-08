@@ -2,12 +2,14 @@ package org.kotlin99.misc
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
+import org.junit.Ignore
 import org.junit.Test
 import org.kotlin99.common.toSeq
-import org.kotlin99.misc.Sudoku.Board
+import org.kotlin99.misc.Sudoku.*
 import org.kotlin99.misc.Sudoku.Board.Companion.size
-import org.kotlin99.misc.Sudoku.Cell
+import org.kotlin99.misc.Sudoku.Board.Companion.squareSize
 import org.kotlin99.misc.Sudoku.Companion.toBoard
+import org.kotlin99.misc.Sudoku.Point
 import java.util.*
 
 @Suppress("unused")
@@ -15,15 +17,6 @@ class Sudoku {
     data class Board(val cells: ArrayList<Cell> = ArrayList<Cell>().fill(size * size, Cell())) {
         private val positionedCells: List<PositionedCell>
             get() = cells.mapIndexed { i, cell -> PositionedCell(Point(i % size, i / size), cell) }
-
-        operator fun get(x: Int, y: Int): Cell {
-            return cells[x + y * size]
-        }
-
-        operator fun set(x: Int, y: Int, cell: Cell): Board {
-            cells[x + y * size] = cell
-            return this
-        }
 
         fun solve(): Sequence<Board> {
             optimize()
@@ -41,7 +34,7 @@ class Sudoku {
         }
 
         fun isValid(): Boolean {
-            fun List<Point>.isValidFor(value: Int) = count{ get(it).guesses.contains(value) } <= 1
+            fun List<Point>.isValidFor(value: Int) = count{ get(it).value == value || get(it).guesses.contains(value) } <= 1
             return positionedCells
                 .filter{ it.cell.isFilled() }
                 .all {
@@ -51,7 +44,7 @@ class Sudoku {
                 }
         }
 
-        fun optimize(): Board {
+        fun optimize() {
             fun List<Point>.removeGuesses(value: Int) = forEach {
                 set(it.x, it.y, get(it).removeGuess(value))
             }
@@ -71,6 +64,14 @@ class Sudoku {
             if (cellsToFill.isNotEmpty()) {
                 optimize()
             }
+        }
+
+        operator fun get(x: Int, y: Int): Cell {
+            return cells[x + y * size]
+        }
+
+        operator fun set(x: Int, y: Int, cell: Cell): Board {
+            cells[x + y * size] = cell
             return this
         }
 
@@ -98,34 +99,34 @@ class Sudoku {
             return this[point.x, point.y]
         }
 
-        private data class Point(val x: Int, val y: Int) {
-            fun row() = 0.rangeTo(size - 1).map{ Point(it, y) }
-
-            fun column() = 0.rangeTo(size - 1).map{ Point(x, it) }
-
-            fun square(): List<Point> {
-                fun rangeOfSquare(coordinate: Int): IntRange {
-                    val squareCoordinate = coordinate / squareSize
-                    return (squareCoordinate * squareSize).rangeTo(((squareCoordinate + 1) * squareSize) - 1)
-                }
-                return rangeOfSquare(y).flatMap { cellY ->
-                    rangeOfSquare(x).map { cellX ->
-                        Point(cellX, cellY)
-                    }
-                }
-            }
-        }
-
-        private data class PositionedCell(val point: Point, val cell: Cell)
-
         companion object {
             val size = 9
             val squareSize = size / 3
         }
     }
 
+    private data class PositionedCell(val point: Point, val cell: Cell)
+
+    data class Point(val x: Int, val y: Int) {
+        fun row() = 0.rangeTo(size - 1).map{ Point(it, y) }
+
+        fun column() = 0.rangeTo(size - 1).map{ Point(x, it) }
+
+        fun square(): List<Point> {
+            fun rangeOfSquare(coordinate: Int): IntRange {
+                val squareCoordinate = coordinate / squareSize
+                return (squareCoordinate * squareSize).rangeTo(((squareCoordinate + 1) * squareSize) - 1)
+            }
+            return rangeOfSquare(y).flatMap { cellY ->
+                rangeOfSquare(x).map { cellX ->
+                    Point(cellX, cellY)
+                }
+            }
+        }
+    }
+
     data class Cell(val value: Int?, val guesses: List<Int>) {
-        constructor(): this(null, 1.rangeTo(Board.size).toList())
+        constructor(): this(null, 1.rangeTo(size).toList())
         constructor(value: Int): this(value, emptyList())
 
         fun isFilled() = value != null
@@ -177,6 +178,87 @@ class P97Test {
             |853|476|291
             |246|391|578
         """.trimMargin().toBoard()))
+    }
+
+    @Test fun `solve easy sudoku from dailysudoku-dot-com`() {
+        // http://dailysudoku.com/sudoku/archive/2016/11/2016-11-8_solution.shtml
+        val board = """
+            |..3|...|..9
+            |945|..7|.38
+            |8..|3.1|4.5
+            |---+---+---
+            |...|6.3|294
+            |62.|.5.|.87
+            |398|4.2|...
+            |---+---+---
+            |4.9|8.6|..3
+            |53.|9..|876
+            |1..|...|9..
+        """.trimMargin().toBoard()
+
+        assertThat(board.solve().first(), equalTo("""
+            |213|548|769
+            |945|267|138
+            |867|391|425
+            |---+---+---
+            |751|683|294
+            |624|159|387
+            |398|472|651
+            |---+---+---
+            |479|826|513
+            |532|914|876
+            |186|735|942
+        """.trimMargin().toBoard()))
+    }
+
+    @Ignore // Because algorithm is too slow.
+    @Test fun `solve medium sudoku from dailysudoku-dot-com`() {
+        // http://dailysudoku.com/sudoku/archive/2016/11/2016-11-6_solution.shtml
+        val board = """
+            |6..|...|2.3
+            |...|4.3|8..
+            |.3.|7..|..9
+            |---+---+---
+            |...|.2.|1..
+            |49.|...|.65
+            |..6|.9.|...
+            |---+---+---
+            |1..|..5|.8.
+            |..9|6..|...
+            |8.4|...|..2
+        """.trimMargin().toBoard()
+
+        assertThat(board.solve().first(), equalTo("""
+            |213|548|769
+            |945|267|138
+            |867|391|425
+            |---+---+---
+            |751|683|294
+            |624|159|387
+            |398|472|651
+            |---+---+---
+            |479|826|513
+            |532|914|876
+            |186|735|942
+        """.trimMargin().toBoard()))
+    }
+
+    @Test fun `square coordinates of a point`() {
+        assertThat(Point(1, 2).square(), equalTo(listOf(
+                Point(0, 0), Point(1, 0), Point(2, 0),
+                Point(0, 1), Point(1, 1), Point(2, 1),
+                Point(0, 2), Point(1, 2), Point(2, 2)
+        )))
+        assertThat(Point(0, 8).square(), equalTo(listOf(
+                Point(0, 6), Point(1, 6), Point(2, 6),
+                Point(0, 7), Point(1, 7), Point(2, 7),
+                Point(0, 8), Point(1, 8), Point(2, 8)
+        )))
+        assertThat(Point(7, 7).square(), equalTo(listOf(
+                Point(6, 6), Point(7, 6), Point(8, 6),
+                Point(6, 7), Point(7, 7), Point(8, 7),
+                Point(6, 8), Point(7, 8), Point(8, 8)
+        )))
     }
 
     @Test fun `convert string to board`() {
