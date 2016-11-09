@@ -155,37 +155,6 @@ class P97Test {
         """.trimMargin().toBoard()))
     }
 
-    @Test fun `solve easy sudoku from dailysudoku-dot-com`() {
-        // http://dailysudoku.com/sudoku/archive/2016/11/2016-11-8_solution.shtml
-        val board = """
-            |..3|...|..9
-            |945|..7|.38
-            |8..|3.1|4.5
-            |---+---+---
-            |...|6.3|294
-            |62.|.5.|.87
-            |398|4.2|...
-            |---+---+---
-            |4.9|8.6|..3
-            |53.|9..|876
-            |1..|...|9..
-        """.trimMargin().toBoard()
-
-        assertThat(board.solve().first(), equalTo("""
-            |213|548|769
-            |945|267|138
-            |867|391|425
-            |---+---+---
-            |751|683|294
-            |624|159|387
-            |398|472|651
-            |---+---+---
-            |479|826|513
-            |532|914|876
-            |186|735|942
-        """.trimMargin().toBoard()))
-    }
-
     @Test fun `solve medium sudoku from dailysudoku-dot-com`() {
         // http://dailysudoku.com/sudoku/archive/2016/11/2016-11-6_solution.shtml
         val board = """
@@ -214,6 +183,37 @@ class P97Test {
             |163|245|987
             |279|638|541
             |854|971|632
+        """.trimMargin().toBoard()))
+    }
+
+    @Test fun `solve very hard sudoku from dailysudoku-dot-com`() {
+        // http://dailysudoku.com/sudoku/archive/2016/11/2016-11-7_solution.shtml
+        val board = """
+            |.1.|...|..4
+            |7.9|..1|..5
+            |..5|9.7|..6
+            |---+---+---
+            |3.4|...|.2.
+            |...|3.2|...
+            |.7.|...|9.3
+            |---+---+---
+            |9..|8.6|4..
+            |2..|5..|3.1
+            |1..|...|.6.
+        """.trimMargin().toBoard()
+
+        assertThat(board.solve().first(), equalTo("""
+            |816|235|794
+            |729|461|835
+            |435|987|216
+            |---+---+---
+            |384|659|127
+            |591|372|648
+            |672|148|953
+            |---+---+---
+            |953|816|472
+            |267|594|381
+            |148|723|569
         """.trimMargin().toBoard()))
     }
 
