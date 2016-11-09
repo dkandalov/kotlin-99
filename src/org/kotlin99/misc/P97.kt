@@ -2,7 +2,6 @@ package org.kotlin99.misc
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
-import org.junit.Ignore
 import org.junit.Test
 import org.kotlin99.common.toSeq
 import org.kotlin99.misc.Sudoku.*
@@ -19,32 +18,19 @@ class Sudoku {
             get() = cells.mapIndexed { i, cell -> PositionedCell(Point(i % size, i / size), cell) }
 
         fun solve(): Sequence<Board> {
-            optimize()
+            optimizeGuesses()
 
-            if (!isValid()) return emptySequence()
+            if (cells.any{ it.isEmpty() && it.guesses.isEmpty() }) return emptySequence()
             if (cells.all{ it.isFilled() }) return sequenceOf(this)
 
-            return positionedCells
-                .filter { it.cell.isEmpty() }.toSeq()
-                .flatMap {
-                    it.cell.guesses.toSeq().flatMap{ guess ->
-                        this.copy().set(it.point.x, it.point.y, Cell(guess)).solve()
+            return positionedCells.find{ it.cell.isEmpty() }!!.let{
+                    it.cell.guesses.toSeq().flatMap { guess ->
+                        Board(ArrayList(cells)).set(it.point.x, it.point.y, Cell(guess)).solve()
                     }
                 }
         }
 
-        fun isValid(): Boolean {
-            fun List<Point>.isValidFor(value: Int) = count{ get(it).value == value || get(it).guesses.contains(value) } <= 1
-            return positionedCells
-                .filter{ it.cell.isFilled() }
-                .all {
-                    it.point.row().isValidFor(it.cell.value!!) &&
-                    it.point.column().isValidFor(it.cell.value) &&
-                    it.point.square().isValidFor(it.cell.value)
-                }
-        }
-
-        fun optimize() {
+        private fun optimizeGuesses() {
             fun List<Point>.removeGuesses(value: Int) = forEach {
                 set(it.x, it.y, get(it).removeGuess(value))
             }
@@ -56,14 +42,6 @@ class Sudoku {
                     it.point.column().removeGuesses(it.cell.value)
                     it.point.square().removeGuesses(it.cell.value)
                 }
-
-            val cellsToFill = positionedCells.filter { it.cell.isEmpty() && it.cell.guesses.size == 1 }
-            cellsToFill.forEach {
-                this[it.point.x, it.point.y] = Cell(it.cell.guesses.first())
-            }
-            if (cellsToFill.isNotEmpty()) {
-                optimize()
-            }
         }
 
         operator fun get(x: Int, y: Int): Cell {
@@ -73,10 +51,6 @@ class Sudoku {
         operator fun set(x: Int, y: Int, cell: Cell): Board {
             cells[x + y * size] = cell
             return this
-        }
-
-        fun copy(): Board {
-            return Board(ArrayList(cells))
         }
 
         override fun toString(): String {
@@ -114,8 +88,9 @@ class Sudoku {
 
         fun square(): List<Point> {
             fun rangeOfSquare(coordinate: Int): IntRange {
-                val squareCoordinate = coordinate / squareSize
-                return (squareCoordinate * squareSize).rangeTo(((squareCoordinate + 1) * squareSize) - 1)
+                return (coordinate / squareSize).let {
+                    (it * squareSize).rangeTo(((it + 1) * squareSize) - 1)
+                }
             }
             return rangeOfSquare(y).flatMap { cellY ->
                 rangeOfSquare(x).map { cellX ->
@@ -211,7 +186,6 @@ class P97Test {
         """.trimMargin().toBoard()))
     }
 
-    @Ignore // Because algorithm is too slow.
     @Test fun `solve medium sudoku from dailysudoku-dot-com`() {
         // http://dailysudoku.com/sudoku/archive/2016/11/2016-11-6_solution.shtml
         val board = """
@@ -229,17 +203,17 @@ class P97Test {
         """.trimMargin().toBoard()
 
         assertThat(board.solve().first(), equalTo("""
-            |213|548|769
-            |945|267|138
-            |867|391|425
+            |641|859|273
+            |927|413|856
+            |538|762|419
             |---+---+---
-            |751|683|294
-            |624|159|387
-            |398|472|651
+            |785|326|194
+            |492|187|365
+            |316|594|728
             |---+---+---
-            |479|826|513
-            |532|914|876
-            |186|735|942
+            |163|245|987
+            |279|638|541
+            |854|971|632
         """.trimMargin().toBoard()))
     }
 
