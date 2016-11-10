@@ -54,19 +54,22 @@ class Sudoku {
         }
 
         override fun toString(): String {
-            var s = ""
-            positionedCells.forEach {
-                s += if (it.cell.isFilled()) it.cell.value.toString() else "."
+            fun <T> List<T>.slicedBy(sliceSize: Int): List<List<T>> =
+                if (size <= sliceSize) listOf(this)
+                else listOf(take(sliceSize)) + drop(sliceSize).slicedBy(sliceSize)
 
-                val x1 = it.point.x + 1
-                val y1 = it.point.y + 1
-                if (x1 < size || y1 < size) {
-                    if (x1 == size && y1 % squareSize == 0) s += "\n---+---+---\n"
-                    else if (x1 % size == 0) s += "\n"
-                    else if (x1 % squareSize == 0) s += "|"
+            fun <T> List<T>.mapJoin(separator: String, f: (T) -> String) =
+                map{ f(it) }.joinToString(separator)
+
+            return positionedCells.slicedBy(27).mapJoin("\n---+---+---\n") { section ->
+                section.slicedBy(9).mapJoin("\n") { row ->
+                    row.slicedBy(3).mapJoin("|") { slice ->
+                        slice.mapJoin("") {
+                            if (it.cell.isFilled()) it.cell.value.toString() else "."
+                        }
+                    }
                 }
             }
-            return s
         }
 
         private operator fun get(point: Point): Cell {
