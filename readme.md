@@ -1236,9 +1236,9 @@ Problem          Solution
 ...|..6|.91	     853|476|291
 24.|..1|5..      246|391|578
 ```
-Every spot in the puzzle belongs to a (horizontal) row and a (vertical) column, as well as to one single ``3×3`` square 
-(which we call "square" for short). At the beginning, some of the spots carry a single-digit number between ``1`` and ``9``. 
-The problem is to fill the missing spots with digits in such a way that every number between ``1`` and ``9`` appears exactly once in each row, 
+Every cell in the puzzle belongs to a (horizontal) row and a (vertical) column, as well as to one single ``3×3`` square. 
+At the beginning, some of the cells carry a single-digit number between ``1`` and ``9``. 
+The problem is to fill the missing cells with digits in such a way that every number between ``1`` and ``9`` appears exactly once in each row, 
 in each column, and in each square.
 
 ### [P98][] (***) [Nonograms](https://en.wikipedia.org/wiki/Nonogram).
