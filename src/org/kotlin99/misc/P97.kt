@@ -20,20 +20,22 @@ class Sudoku {
         fun solve(): Sequence<Board> {
             optimizeGuesses()
 
-            if (cells.any{ it.isEmpty() && it.guesses.isEmpty() }) return emptySequence()
+            if (cells.any{ it.isNotFilled() && it.guesses.isEmpty() }) return emptySequence()
             if (cells.all{ it.isFilled() }) return sequenceOf(this)
 
-            return positionedCells.find{ it.cell.isEmpty() }!!.let{
+            return positionedCells.find{ it.cell.isNotFilled() }!!.let{
                     it.cell.guesses.toSeq().flatMap { guess ->
-                        Board(ArrayList(cells)).set(it.point.x, it.point.y, Cell(guess)).solve()
+                        copy().set(it.point.x, it.point.y, Cell(guess)).solve()
                     }
                 }
         }
 
         private fun optimizeGuesses() {
-            fun List<Point>.removeGuesses(value: Int) = forEach {
-                set(it.x, it.y, get(it).removeGuess(value))
-            }
+            fun cell(point: Point) = this[point.x, point.y]
+
+            fun List<Point>.removeGuesses(value: Int) =
+                filter{ cell(it).isNotFilled() }.
+                forEach { set(it.x, it.y, cell(it).removeGuess(value)) }
 
             positionedCells
                 .filter{ it.cell.isFilled() }
@@ -42,6 +44,10 @@ class Sudoku {
                     it.point.column().removeGuesses(it.cell.value)
                     it.point.square().removeGuesses(it.cell.value)
                 }
+        }
+
+        fun copy(): Board {
+            return Board(ArrayList(cells))
         }
 
         operator fun get(x: Int, y: Int): Cell {
@@ -70,10 +76,6 @@ class Sudoku {
                     }
                 }
             }
-        }
-
-        private operator fun get(point: Point): Cell {
-            return this[point.x, point.y]
         }
 
         companion object {
@@ -108,7 +110,7 @@ class Sudoku {
         constructor(value: Int): this(value, emptyList())
 
         fun isFilled() = value != null
-        fun isEmpty() = !isFilled()
+        fun isNotFilled() = !isFilled()
         fun removeGuess(value: Int) = if (guesses.isEmpty()) this else copy(guesses = guesses - value)
     }
 
