@@ -2,7 +2,6 @@ package org.kotlin99.misc
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
-import org.junit.Ignore
 import org.junit.Test
 import org.kotlin99.common.tail
 import java.util.*
@@ -15,6 +14,7 @@ class DLMatrix(matrix: List<List<Int>>) {
         val height = matrix.size
 
         h = Node("h")
+        h.joinDown(h)
         val headers = 0.rangeTo(width - 1).map{ Node("$it") }
         headers.forEach { it.joinDown(it) }
         headers.pairs().forEach { it.first.joinRight(it.second) }
@@ -25,7 +25,7 @@ class DLMatrix(matrix: List<List<Int>>) {
             var prevNode: Node? = null
             0.rangeTo(width - 1).forEach { column ->
                 if (matrix[row][column] == 1) {
-                    val node = Node("$row,$column")
+                    val node = Node("$column,$row")
                     val headerNode = headers[column]
 
                     node.header = headerNode
@@ -87,14 +87,39 @@ class DLMatrix(matrix: List<List<Int>>) {
     }
 
     override fun toString(): String {
-        fun Node.toList(): List<Node> {
+        fun Node.toList(direction: (Node) -> (Node?)): List<Node> {
             val result = ArrayList<Node>()
-            each(Node::down){ result.add(it) }
+            each(direction){ result.add(it) }
             return result
         }
+        fun Node.toListRight(): List<Node> = toList(Node::right)
+        fun Node.toListDown(): List<Node> = toList(Node::down)
+        fun Node.distanceToHeader(): Int {
+            return header!!.toListDown().indexOf(this) - 1
+        }
 
-        val headerStacks = h.map(Node::right, Node::toList).tail()
-        return headerStacks.toString()
+        val lines = ArrayList<String>()
+
+        val headers = h.toListRight().tail()
+        lines.add(headers.joinToString(""){ it.label.toString() })
+
+        var nodeStacks = headers.map{ it.toListDown().tail() }
+        while (!nodeStacks.all{ it.isEmpty() }) {
+            val node = nodeStacks
+                .filter{ it.isNotEmpty() }
+                .minBy { it.first().toListRight().sumBy(Node::distanceToHeader) }!!.first()
+
+            val nodesInRow = node.toListRight()
+            val line = nodeStacks.map { stack ->
+                    if (stack.isNotEmpty() && nodesInRow.contains(stack.first())) "1" else "0"
+                }.joinToString("")
+            lines.add(line)
+
+            nodeStacks = nodeStacks.map{ stack ->
+                stack.filter{ !nodesInRow.contains(it) }
+            }
+        }
+        return lines.joinToString("\n")
     }
 
     private fun <T> List<T>.pairs(): List<Pair<T, T>> {
@@ -129,17 +154,21 @@ class Node(val label: String? = null) {
     }
 
     fun each(direction: (Node) -> (Node?), f: (Node) -> Unit) {
-        var next: Node? = this
-        do {
-            next = direction(next!!)
-            f(next!!)
-        } while (next != this)
+        f(this)
+        var next = direction(this)
+        while (next != this && next != null) {
+            f(next)
+            next = direction(next)
+        }
+    }
+
+    override fun toString(): String {
+        return label ?: "*"
     }
 }
 
 
 class DancingLinksTest {
-    @Ignore
     @Test fun `create dancing links matrix`() {
         val dlMatrix = DLMatrix(listOf(
             listOf(0, 0, 1, 0, 1, 1, 0),
@@ -150,11 +179,11 @@ class DancingLinksTest {
             listOf(0, 0, 0, 1, 1, 0, 1)
         ))
         assertThat(dlMatrix.toString(), equalTo("""
-            |0123456h
-            |0010110
+            |0123456
             |1001001
-            |0110010
+            |0010110
             |1001000
+            |0110010
             |0100001
             |0001101
         """.trimMargin()))
