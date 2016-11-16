@@ -97,7 +97,7 @@ class DLMatrix(matrix: List<List<Int>>) {
 
             val nodesInRow = node.toListRight()
             val line = nodeStacks.map { stack ->
-                    if (stack.isNotEmpty() && nodesInRow.contains(stack.first())) "1" else "0"
+                    if (stack.any{ nodesInRow.contains(it) }) "1" else "0"
                 }.joinToString("")
             lines.add(line)
 
@@ -222,6 +222,28 @@ class DancingLinksTest {
             |0110010
             |0100001
             |0001101
+        """.trimMargin()))
+    }
+
+    @Test fun `cover first column in matrix`() {
+        val matrix = DLMatrix(listOf(
+                listOf(0, 0, 1, 0, 1, 1, 0),
+                listOf(1, 0, 0, 1, 0, 0, 1),
+                listOf(0, 1, 1, 0, 0, 1, 0),
+                listOf(1, 0, 0, 1, 0, 0, 0),
+                listOf(0, 1, 0, 0, 0, 0, 1),
+                listOf(0, 0, 0, 1, 1, 0, 1)
+        ))
+
+        matrix.h.right.coverColumn()
+
+        assertLinkedInAllDirections(matrix.h)
+        assertThat(matrix.toString(), equalTo("""
+            |123456
+            |010110
+            |100001
+            |110010
+            |001101
         """.trimMargin()))
     }
 
