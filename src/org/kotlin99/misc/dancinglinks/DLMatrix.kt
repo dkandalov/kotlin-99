@@ -7,8 +7,14 @@ import org.junit.Test
 import org.kotlin99.common.tail
 import java.util.*
 
+/**
+ * Based on [Dancing Links](https://arxiv.org/pdf/cs/0011047v1.pdf) paper by Donald E. Knuth.
+ * This is not exact translation of the code from the paper,
+ * but in general the goal was to match the paper when possible.
+ */
 class DLMatrix(matrix: List<List<Int>>) {
     val h: Node
+    val answer: ArrayList<Node> = ArrayList()
 
     init {
         val width = matrix.first().size
@@ -42,8 +48,6 @@ class DLMatrix(matrix: List<List<Int>>) {
             }
         }
     }
-
-    val answer: ArrayList<Node> = ArrayList()
 
     fun search(): List<Node> {
         if (h.right == h) return answer
