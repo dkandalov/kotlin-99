@@ -1,5 +1,8 @@
 package org.kotlin99.misc.dancinglinks
 
+import com.natpryce.hamkrest.assertion.assertThat
+import com.natpryce.hamkrest.equalTo
+import org.junit.Test
 import java.util.*
 
 class Node(val label: String? = null) {
@@ -21,8 +24,10 @@ class Node(val label: String? = null) {
         return other
     }
 
-    fun toListRight(): List<Node> = toList(Node::right)
+    fun toListUp(): List<Node> = toList(Node::up)
     fun toListDown(): List<Node> = toList(Node::down)
+    fun toListLeft(): List<Node> = toList(Node::left)
+    fun toListRight(): List<Node> = toList(Node::right)
     fun toList(direction: (Node) -> Node): List<Node> {
         val result = ArrayList<Node>()
         result.add(this)
@@ -71,5 +76,36 @@ class Node(val label: String? = null) {
 
     companion object {
         val none = Node()
+    }
+}
+
+class NodeTest {
+    @Test fun `node conversion to list`() {
+        val a = Node("a")
+        val b = Node("b")
+        val c = Node("c")
+        a.linkRight(b).linkRight(c).linkRight(a)
+
+        assertThat(a.toListRight().map(Node::label), equalTo(listOf<String?>("a", "b", "c")))
+        assertThat(a.toListLeft().map(Node::label), equalTo(listOf<String?>("a", "c", "b")))
+
+        assertThat(b.toListRight().map(Node::label), equalTo(listOf<String?>("b", "c", "a")))
+        assertThat(b.toListLeft().map(Node::label), equalTo(listOf<String?>("b", "a", "c")))
+    }
+
+    @Test fun `node iteration doesn't include node itself`() {
+        val a = Node("a")
+        val b = Node("b")
+        val c = Node("c")
+        a.linkRight(b).linkRight(c).linkRight(a)
+
+        ArrayList<String>().apply {
+            a.eachRight { this.add(it.label!!) }
+            assertThat(this, equalTo(listOf("b", "c")))
+        }
+        ArrayList<String>().apply {
+            a.eachLeft { this.add(it.label!!) }
+            assertThat(this, equalTo(listOf("c", "b")))
+        }
     }
 }

@@ -109,7 +109,7 @@ class DLMatrix(matrix: List<List<Int>>) {
 }
 
 
-class DancingLinksTest {
+class DLMatrixTest {
     @Test fun `creating new dancing links matrix`() {
         val matrix = DLMatrix(listOf(
             listOf(0, 0, 1, 0, 1, 1, 0),
