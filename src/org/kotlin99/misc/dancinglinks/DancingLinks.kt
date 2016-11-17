@@ -1,9 +1,8 @@
-package org.kotlin99.misc
+package org.kotlin99.misc.dancinglinks
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertTrue
-import org.junit.Ignore
 import org.junit.Test
 import org.kotlin99.common.tail
 import java.util.*
@@ -16,11 +15,11 @@ class DLMatrix(matrix: List<List<Int>>) {
         val height = matrix.size
 
         h = Node("h")
-        h.joinDown(h)
+        h.linkDown(h)
         val headers = 0.rangeTo(width - 1).map{ Node("$it") }
-        headers.forEach { it.joinDown(it) }
-        headers.pairs().forEach { it.first.joinRight(it.second) }
-        headers.last().joinRight(h).joinRight(headers.first())
+        headers.forEach { it.linkDown(it) }
+        headers.pairs().forEach { it.first.linkRight(it.second) }
+        headers.last().linkRight(h).linkRight(headers.first())
 
         0.rangeTo(height - 1).forEach { row ->
             var firstNode: Node? = null
@@ -31,12 +30,12 @@ class DLMatrix(matrix: List<List<Int>>) {
                     val headerNode = headers[column]
 
                     node.header = headerNode
-                    headerNode.up.joinDown(node).joinDown(headerNode)
+                    headerNode.up.linkDown(node).linkDown(headerNode)
                     if (prevNode == null) {
                         firstNode = node
                         prevNode = node
                     }
-                    prevNode!!.joinRight(node).joinRight(firstNode!!)
+                    prevNode!!.linkRight(node).linkRight(firstNode!!)
 
                     prevNode = node
                 }
@@ -44,7 +43,9 @@ class DLMatrix(matrix: List<List<Int>>) {
         }
     }
 
-    fun search(k: Int = 0, answer: ArrayList<Node> = ArrayList()): List<Node> {
+    val answer: ArrayList<Node> = ArrayList()
+
+    fun search(): List<Node> {
         if (h.right == h) return answer
 
         var column = chooseColumn()
@@ -55,7 +56,8 @@ class DLMatrix(matrix: List<List<Int>>) {
             answer.add(row)
             row.eachRight { it.header.coverColumn() }
 
-            search(k + 1, answer)
+            val result = search()
+            if (result.isNotEmpty()) return result
 
             row = answer.removeAt(answer.size - 1)
             column = row.header
@@ -66,20 +68,12 @@ class DLMatrix(matrix: List<List<Int>>) {
 
         column.uncoverColumn()
         
-        return answer
+        return emptyList()
     }
 
     private fun chooseColumn() = h.right
 
     override fun toString(): String {
-        fun Node.toList(direction: (Node) -> (Node?)): List<Node> {
-            val result = ArrayList<Node>()
-            result.add(this)
-            each(direction){ result.add(it) }
-            return result
-        }
-        fun Node.toListRight(): List<Node> = toList(Node::right)
-        fun Node.toListDown(): List<Node> = toList(Node::down)
         fun Node.distanceToHeader(): Int {
             return header.toListDown().indexOf(this) - 1
         }
@@ -111,75 +105,6 @@ class DLMatrix(matrix: List<List<Int>>) {
     private fun <T> List<T>.pairs(): List<Pair<T, T>> {
         return if (size <= 1) emptyList()
         else listOf(Pair(this[0], this[1])) + tail().pairs()
-    }
-}
-
-class Node(val label: String? = null) {
-    var left: Node = none
-    var right: Node = none
-    var up: Node = none
-    var down: Node = none
-    var header: Node = none
-
-    fun joinRight(other: Node): Node {
-        right = other
-        other.left = this
-        return other
-    }
-
-    fun joinDown(other: Node): Node {
-        down = other
-        other.up = this
-        return other
-    }
-
-    fun <T> map(direction: (Node) -> (Node?), f: (Node) -> T): List<T> {
-        val result = ArrayList<T>()
-        each(direction) { result.add(f(it)) }
-        return result
-    }
-
-    fun eachUp(f: (Node) -> Unit) = each(Node::up, f)
-    fun eachDown(f: (Node) -> Unit) = each(Node::down, f)
-    fun eachLeft(f: (Node) -> Unit) = each(Node::left, f)
-    fun eachRight(f: (Node) -> Unit) = each(Node::right, f)
-
-    fun each(direction: (Node) -> (Node?), f: (Node) -> Unit) {
-        var next = direction(this)
-        while (next != this && next != null) {
-            f(next)
-            next = direction(next)
-        }
-    }
-
-    fun coverColumn() {
-        right.left = left
-        left.right = right
-        eachDown { i ->
-            i.eachRight { j ->
-                j.down.up = j.up
-                j.up.down = j.down
-            }
-        }
-    }
-
-    fun uncoverColumn() {
-        eachUp { i ->
-            i.eachLeft { j ->
-                j.down.up = j
-                j.up.down = j
-            }
-        }
-        right.left = this
-        left.right = this
-    }
-
-    override fun toString(): String {
-        return label ?: "*"
-    }
-
-    companion object {
-        val none = Node()
     }
 }
 
@@ -247,7 +172,6 @@ class DancingLinksTest {
         """.trimMargin()))
     }
 
-    @Ignore // TODO failing
     @Test fun `find solution for cover problem from dancing links paper`() {
         val matrix = DLMatrix(listOf(
                 listOf(0, 0, 1, 0, 1, 1, 0),
@@ -257,8 +181,11 @@ class DancingLinksTest {
                 listOf(0, 1, 0, 0, 0, 0, 1),
                 listOf(0, 0, 0, 1, 1, 0, 1)
         ))
-        println(matrix.search())
-        assertThat(matrix.search().size, equalTo(1))
+        assertThat(matrix.search().map{ it.toListRight().map{ it.header.label }.joinToString() }, equalTo(listOf(
+                "0, 3",
+                "1, 6",
+                "2, 4, 5"
+        )))
     }
 
     private fun assertLinkedInAllDirections(node: Node, visited: HashSet<Node> = HashSet()) {
