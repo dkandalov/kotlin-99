@@ -75,7 +75,17 @@ class DLMatrix(matrix: List<List<Int>>) {
         return emptyList()
     }
 
-    private fun chooseColumn() = h.right
+    private fun chooseColumn(): Node {
+        var size = Int.MAX_VALUE
+        var column: Node = Node.none
+        h.eachRight { node ->
+            if (node.sizeDown() < size) {
+                column = node
+                size = node.sizeDown()
+            }
+        }
+        return column
+    }
 
     override fun toString(): String {
         fun Node.distanceToHeader(): Int {
@@ -187,8 +197,8 @@ class DLMatrixTest {
         ))
         assertThat(matrix.search().map{ it.toListRight().map{ it.header.label }.joinToString() }, equalTo(listOf(
                 "0, 3",
-                "1, 6",
-                "2, 4, 5"
+                "4, 5, 2",
+                "1, 6"
         )))
     }
 

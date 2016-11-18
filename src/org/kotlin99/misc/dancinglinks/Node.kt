@@ -5,7 +5,7 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import java.util.*
 
-class Node(val label: String? = null) {
+open class Node(val label: String? = null) {
     var left: Node = none
     var right: Node = none
     var up: Node = none
@@ -24,10 +24,10 @@ class Node(val label: String? = null) {
         return other
     }
 
-    fun toListUp(): List<Node> = toList(Node::up)
-    fun toListDown(): List<Node> = toList(Node::down)
-    fun toListLeft(): List<Node> = toList(Node::left)
-    fun toListRight(): List<Node> = toList(Node::right)
+    fun toListUp() = toList(Node::up)
+    fun toListDown() = toList(Node::down)
+    fun toListLeft() = toList(Node::left)
+    fun toListRight() = toList(Node::right)
     fun toList(direction: (Node) -> Node): List<Node> {
         val result = ArrayList<Node>()
         result.add(this)
@@ -39,7 +39,6 @@ class Node(val label: String? = null) {
     fun eachDown(f: (Node) -> Unit) = each(Node::down, f)
     fun eachLeft(f: (Node) -> Unit) = each(Node::left, f)
     fun eachRight(f: (Node) -> Unit) = each(Node::right, f)
-
     fun each(direction: (Node) -> Node, f: (Node) -> Unit) {
         var next = direction(this)
         while (next != this && next != none) {
@@ -70,6 +69,12 @@ class Node(val label: String? = null) {
         left.right = this
     }
 
+    fun sizeDown(): Int {
+        var size = 1
+        eachDown{ size ++ }
+        return size
+    }
+
     override fun toString(): String {
         return label ?: "*"
     }
@@ -80,32 +85,34 @@ class Node(val label: String? = null) {
 }
 
 class NodeTest {
+    val a = Node("a")
+    val b = Node("b")
+    val c = Node("c")
+
+    init {
+        a.linkDown(b).linkDown(c).linkDown(a)
+    }
+
     @Test fun `node conversion to list`() {
-        val a = Node("a")
-        val b = Node("b")
-        val c = Node("c")
-        a.linkRight(b).linkRight(c).linkRight(a)
+        assertThat(a.toListDown().map(Node::label), equalTo(listOf<String?>("a", "b", "c")))
+        assertThat(a.toListUp().map(Node::label), equalTo(listOf<String?>("a", "c", "b")))
 
-        assertThat(a.toListRight().map(Node::label), equalTo(listOf<String?>("a", "b", "c")))
-        assertThat(a.toListLeft().map(Node::label), equalTo(listOf<String?>("a", "c", "b")))
-
-        assertThat(b.toListRight().map(Node::label), equalTo(listOf<String?>("b", "c", "a")))
-        assertThat(b.toListLeft().map(Node::label), equalTo(listOf<String?>("b", "a", "c")))
+        assertThat(b.toListDown().map(Node::label), equalTo(listOf<String?>("b", "c", "a")))
+        assertThat(b.toListUp().map(Node::label), equalTo(listOf<String?>("b", "a", "c")))
     }
 
     @Test fun `node iteration doesn't include node itself`() {
-        val a = Node("a")
-        val b = Node("b")
-        val c = Node("c")
-        a.linkRight(b).linkRight(c).linkRight(a)
-
         ArrayList<String>().apply {
-            a.eachRight { this.add(it.label!!) }
+            a.eachDown { this.add(it.label!!) }
             assertThat(this, equalTo(listOf("b", "c")))
         }
         ArrayList<String>().apply {
-            a.eachLeft { this.add(it.label!!) }
+            a.eachUp { this.add(it.label!!) }
             assertThat(this, equalTo(listOf("c", "b")))
         }
+    }
+
+    @Test fun `node links size`() {
+        assertThat(a.sizeDown(), equalTo(3))
     }
 }
