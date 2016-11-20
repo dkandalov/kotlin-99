@@ -191,6 +191,37 @@ class P97Test {
         """.trimMargin().toBoard()))
     }
 
+    @Test fun `solve hard sudoku from dailysudoku-dot-com`() {
+        // http://dailysudoku.com/sudoku/archive/2016/11/2016-11-5_solution.shtml
+        val board = """
+            |.7.|..1|...
+            |19.|6.5|...
+            |84.|.7.|.9.
+            |---+---+---
+            |9..|..8|5..
+            |5.7|...|8.1
+            |..1|5..|..2
+            |---+---+---
+            |.5.|.2.|.19
+            |...|9.4|.86
+            |...|1..|.5.
+        """.trimMargin().toBoard()
+
+        assertThat(board.solve().first(), equalTo("""
+            |275|891|634
+            |193|645|728
+            |846|372|195
+            |---+---+---
+            |964|218|573
+            |527|439|861
+            |381|567|942
+            |---+---+---
+            |658|723|419
+            |712|954|386
+            |439|186|257
+        """.trimMargin().toBoard()))
+    }
+
     @Test fun `solve very hard sudoku from dailysudoku-dot-com`() {
         // http://dailysudoku.com/sudoku/archive/2016/11/2016-11-7_solution.shtml
         val board = """
