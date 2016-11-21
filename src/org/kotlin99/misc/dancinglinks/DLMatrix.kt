@@ -124,7 +124,7 @@ class DLMatrix(matrix: List<List<Int>>) {
 
 
 class DLMatrixTest {
-    @Test fun `creating new dancing links matrix`() {
+    @Test fun `create new instance`() {
         val matrix = DLMatrix(listOf(
             listOf(0, 0, 1, 0, 1, 1, 0),
             listOf(1, 0, 0, 1, 0, 0, 1),
@@ -143,7 +143,7 @@ class DLMatrixTest {
         assertThat(matrix.h.left.down.label!!, equalTo("6,1"))
     }
 
-    @Test fun `dancing links matrix conversion to string`() {
+    @Test fun `convert to string`() {
         val matrix = DLMatrix(listOf(
             listOf(0, 0, 1, 0, 1, 1, 0),
             listOf(1, 0, 0, 1, 0, 0, 1),
@@ -164,7 +164,7 @@ class DLMatrixTest {
         """.trimMargin()))
     }
 
-    @Test fun `cover first column in matrix`() {
+    @Test fun `cover first column`() {
         val matrix = DLMatrix(listOf(
                 listOf(0, 0, 1, 0, 1, 1, 0),
                 listOf(1, 0, 0, 1, 0, 0, 1),

@@ -3,6 +3,7 @@ package org.kotlin99.misc
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.common.fill
 import org.kotlin99.common.toSeq
 import org.kotlin99.misc.Sudoku.*
 import org.kotlin99.misc.Sudoku.Board.Companion.size
@@ -120,11 +121,6 @@ class Sudoku {
                 if (c == '.') Cell() else Cell(c.toString().toInt())
             }
             return Board(cells)
-        }
-
-        fun <T> ArrayList<T>.fill(n: Int, value: T): ArrayList<T> {
-            1.rangeTo(n).forEach { add(value) }
-            return this
         }
     }
 }
