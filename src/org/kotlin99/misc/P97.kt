@@ -12,8 +12,9 @@ import org.kotlin99.misc.Sudoku.Companion.toBoard
 import org.kotlin99.misc.Sudoku.Point
 import java.util.*
 
-@Suppress("unused")
+@Suppress("unused") // Because this class is a "namespace".
 class Sudoku {
+
     data class Board(val cells: ArrayList<Cell> = ArrayList<Cell>().fill(size * size, Cell())) {
         private val positionedCells: List<PositionedCell>
             get() = cells.mapIndexed { i, cell -> PositionedCell(Point(i % size, i / size), cell) }
@@ -68,9 +69,9 @@ class Sudoku {
             fun <T> List<T>.mapJoin(separator: String, f: (T) -> String) =
                 map{ f(it) }.joinToString(separator)
 
-            return positionedCells.slicedBy(27).mapJoin("\n---+---+---\n") { section ->
-                section.slicedBy(9).mapJoin("\n") { row ->
-                    row.slicedBy(3).mapJoin("|") { slice ->
+            return positionedCells.slicedBy(size * squareSize).mapJoin("\n---+---+---\n") { section ->
+                section.slicedBy(size).mapJoin("\n") { row ->
+                    row.slicedBy(squareSize).mapJoin("|") { slice ->
                         slice.mapJoin("") {
                             if (it.cell.isFilled()) it.cell.value.toString() else "."
                         }
