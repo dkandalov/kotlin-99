@@ -25,11 +25,11 @@ class Sudoku {
             if (cells.any{ it.isNotFilled() && it.guesses.isEmpty() }) return emptySequence()
             if (cells.all{ it.isFilled() }) return sequenceOf(this)
 
-            return positionedCells.find{ it.cell.isNotFilled() }!!.let{
-                    it.cell.guesses.toSeq().flatMap { guess ->
-                        copy().set(it.point.x, it.point.y, Cell(guess)).solve()
-                    }
+            return positionedCells.find { it.cell.isNotFilled() }!!.let {
+                it.cell.guesses.toSeq().flatMap { guess ->
+                    copy().set(it.point.x, it.point.y, Cell(guess)).solve()
                 }
+            }
         }
 
         private fun optimizeGuesses() {
