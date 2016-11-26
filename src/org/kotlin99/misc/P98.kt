@@ -65,9 +65,9 @@ class Nonogram {
         }
 
         fun apply(boxes: List<Box>, rowIndex: Int): Board {
-            boxes.forEach { (index, width) ->
-                0.rangeTo(width - 1).forEach {
-                    cells[rowIndex][index + it] = true
+            boxes.forEach { box ->
+                0.rangeTo(box.width - 1).forEach {
+                    cells[rowIndex][box.index + it] = true
                 }
             }
             return this
