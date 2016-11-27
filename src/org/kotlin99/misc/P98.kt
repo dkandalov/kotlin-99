@@ -22,7 +22,8 @@ class Nonogram {
             if (hasContradiction()) return emptySequence()
             if (rowIndex == height) return sequenceOf(this)
 
-            return rowConstrains.toList()[rowIndex].possibleBoxes(width)
+            return rowConstrains.toList()[rowIndex]
+                .possibleBoxes(width)
                 .flatMap { rowBoxes ->
                     this.copy().apply(rowBoxes, rowIndex).solve(rowIndex + 1)
                 }
@@ -38,9 +39,7 @@ class Nonogram {
             }
 
             val boxHeights = 0.rangeTo(width - 1).map{ columnBoxHeights(it) }
-            return !columnConstraints.zip(boxHeights).all {
-                it.first.match(it.second)
-            }
+            return !columnConstraints.zip(boxHeights).all { it.first.match(it.second) }
         }
 
         fun columnBoxHeights(column: Int): List<Int> {
@@ -79,11 +78,16 @@ class Nonogram {
 
         override fun toString(): String {
             val max = columnConstraints.map{ it.boxes.size }.max()!!
-            return cells.mapIndexed { i, row ->
-                "|" + row.map { if (it) "X" else "_" }.joinToString("|") + "| " + rowConstrains[i].boxes.joinToString(" ")
-            }.joinToString("\n") + "\n" + 0.rangeTo(max - 1).map { i ->
-                " " + 0.rangeTo(width - 1).map{ if (i < columnConstraints[it].boxes.size) columnConstraints[it].boxes[i].toString() else " "}.joinToString(" ").trim()
-            }.joinToString("\n")
+
+            val rows = cells.mapIndexed { i, row ->
+                "|" + row.map { if (it) "X" else "_" }.joinToString("|") + "|"
+            }
+            val constraints = 0.rangeTo(max - 1).map { i ->
+                " " + 0.rangeTo(width - 1)
+                    .map { columnConstraints[it] }
+                    .map { if (i < it.boxes.size) it.boxes[i].toString() else " " }.joinToString(" ").trim()
+            }
+            return (rows.zip(rowConstrains).map{ it.first + " " + it.second.boxes.joinToString(" ") } + constraints).joinToString("\n")
         }
     }
 
@@ -204,86 +208,23 @@ class P98Test {
         assertThat(nonogram.columnBoxHeights(3), equalTo(listOf(7, 1)))
     }
 
-    @Test fun `parse string as nonogram`() {
-        val nonogram = """
-            *|_|_|_|_|_|_|_|_| 3
-            *|_|_|_|_|_|_|_|_| 2 1
-            *|_|_|_|_|_|_|_|_| 3 2
-            *|_|_|_|_|_|_|_|_| 2 2
-            *|_|_|_|_|_|_|_|_| 6
-            *|_|_|_|_|_|_|_|_| 1 5
-            *|_|_|_|_|_|_|_|_| 6
-            *|_|_|_|_|_|_|_|_| 1
-            *|_|_|_|_|_|_|_|_| 2
+    @Test fun `parse and convert back to string`() {
+        val s = """
+            *|_|X|X|X|_|_|_|_| 3
+            *|X|X|_|X|_|_|_|_| 2 1
+            *|_|X|X|X|_|_|X|X| 3 2
+            *|_|_|X|X|_|_|X|X| 2 2
+            *|_|_|X|X|X|X|X|X| 6
+            *|X|_|X|X|X|X|X|_| 1 5
+            *|X|X|X|X|X|X|_|_| 6
+            *|_|_|_|_|X|_|_|_| 1
+            *|_|_|_|X|X|_|_|_| 2
             * 1 3 1 7 5 3 4 3
             * 2 1 5 1
-        """.trimMargin("*").parse()
+        """
+        val nonogram = s.trimMargin("*").parse()
 
-        assertThat(nonogram, equalTo(Nonogram.Board(
-            8, 9,
-            listOf(
-                Constraint(3),
-                Constraint(2, 1),
-                Constraint(3, 2),
-                Constraint(2, 2),
-                Constraint(6),
-                Constraint(1, 5),
-                Constraint(6),
-                Constraint(1),
-                Constraint(2)
-            ),
-            listOf(
-                Constraint(1, 2),
-                Constraint(3, 1),
-                Constraint(1, 5),
-                Constraint(7, 1),
-                Constraint(5),
-                Constraint(3),
-                Constraint(4),
-                Constraint(3)
-            )
-        )))
-    }
-
-    @Test fun `convert nonogram to string`() {
-        val nonogram = Nonogram.Board(
-            8, 9,
-            listOf(
-                Constraint(3),
-                Constraint(2, 1),
-                Constraint(3, 2),
-                Constraint(2, 2),
-                Constraint(6),
-                Constraint(1, 5),
-                Constraint(6),
-                Constraint(1),
-                Constraint(2)
-            ),
-            listOf(
-                Constraint(1, 2),
-                Constraint(3, 1),
-                Constraint(1, 5),
-                Constraint(7, 1),
-                Constraint(5),
-                Constraint(3),
-                Constraint(4),
-                Constraint(3)
-            )
-        )
-
-        assertThat(nonogram.toString(), equalTo("""
-            *|_|_|_|_|_|_|_|_| 3
-            *|_|_|_|_|_|_|_|_| 2 1
-            *|_|_|_|_|_|_|_|_| 3 2
-            *|_|_|_|_|_|_|_|_| 2 2
-            *|_|_|_|_|_|_|_|_| 6
-            *|_|_|_|_|_|_|_|_| 1 5
-            *|_|_|_|_|_|_|_|_| 6
-            *|_|_|_|_|_|_|_|_| 1
-            *|_|_|_|_|_|_|_|_| 2
-            * 1 3 1 7 5 3 4 3
-            * 2 1 5 1
-        """.trimMargin("*")))
+        assertThat(nonogram.toString(), equalTo(s.trimMargin("*")))
     }
 
     @Test fun `solve nonogram from readme`() {
