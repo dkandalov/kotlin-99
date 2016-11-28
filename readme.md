@@ -1219,7 +1219,7 @@ See [examples of patterns](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
 Write a program to simulate evolution of cells in The Game of Life.
 
 
-### [P97][] (**) [Sudoku](https://en.wikipedia.org/wiki/Sudoku).
+### [P97][] (***) [Sudoku](https://en.wikipedia.org/wiki/Sudoku).
 Sudoku puzzles go like this:
 ```
 Problem          Solution
