@@ -1273,11 +1273,12 @@ Given an empty (or almost empty) framework of a crossword puzzle and a set of wo
 The particular crossword puzzle is specified in a text file which first lists the words (one word per line) in an arbitrary order. 
 Then, after an empty line, the crossword framework is defined. In this framework specification, an empty character location is represented 
 by a dot `.`. In order to make the solution easier, character locations can also contain predefined character values. 
-The crossword showed below is defined in the file [p99a.dat][]), other examples are [p99b.dat][] and [p99d.dat][]. 
+The crossword showed below is defined in the file [p99a.dat][], other examples are [p99b.dat][] and [p99d.dat][]. 
 There is also an example of a puzzle ([p99c.dat][]) which does not have a solution.
 
 ![crossword][P99-crossword]
 
+Content of p99a.dat:
 ```
 LINUX
 PROLOG
@@ -1303,9 +1304,9 @@ Words are strings of at least two characters. A horizontal or vertical sequence 
 framework is called a site. Our problem is to find a compatible way of placing words onto sites.
 
 Hints: 
- 1) The problem is not easy. You will need some time to thoroughly understand it. So, don't give up too early! 
+ 1. The problem is not easy. You will need some time to thoroughly understand it. So, don't give up too early! 
 And remember that the objective is a clean solution, not just a quick-and-dirty hack!
- 2) For efficiency reasons it is important, at least for larger puzzles, to sort the words and the sites in a particular order. 
+ 2. For efficiency reasons it is important, at least for larger puzzles, to sort the words and the sites in a particular order. 
 For this part of the problem, the solution of P28 may be very helpful.
 
 
