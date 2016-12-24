@@ -449,10 +449,10 @@ b) Write ``encode`` and ``decode`` functions for conversion between ``String`` a
 For example:
 ``` kotlin
 "this is a sentence".encode(encoding)
-00110000101011100101011101001110101111011001111011000111
+"00110000101011100101011101001110101111011001111011000111"
 
 "00110000101011100101011101001110101111011001111011000111".decode(encoding)
-this is a sentence
+"this is a sentence"
 ```
 
 ## Binary Trees
@@ -683,7 +683,7 @@ T[3,1]('a T[1,2]('b . T[2,3]('c . .)) T[5,2]('d . .))
 Yet another layout strategy is shown in the illustration below. 
 This tree can be constructed with ``"nkmcaedgupq".toList().toTree()``.
 
-![P66][P660layout]
+![P66][P66-layout]
 
 The method yields a very compact layout while maintaining a certain symmetry in every node. 
 Find out the rules and write the corresponding method. 
