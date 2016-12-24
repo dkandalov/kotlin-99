@@ -1269,20 +1269,43 @@ For the example above, the problem can be stated as the two lists ``[[3],[2,1],[
 respectively. Published puzzles are larger than this example, e.g. ``25×20``, and always have unique solutions.
 
 ### [P99][] (***) Crossword puzzle.
-Given an empty (or almost empty) framework of a crossword puzzle and a set of words. The problem is to place the words into the framework.
+Given an empty (or almost empty) framework of a crossword puzzle and a set of words the problem is to place the words into the framework.
 The particular crossword puzzle is specified in a text file which first lists the words (one word per line) in an arbitrary order. 
 Then, after an empty line, the crossword framework is defined. In this framework specification, an empty character location is represented 
-by a dot (.). In order to make the solution easier, character locations can also contain predefined character values. 
-The puzzle opposite is defined in the file p99a.dat, other examples are p99b.dat and p99d.dat. 
-There is also an example of a puzzle (p99c.dat) which does not have a solution.
+by a dot `.`. In order to make the solution easier, character locations can also contain predefined character values. 
+The crossword showed below is defined in the file [p99a.dat][]), other examples are [p99b.dat][] and [p99d.dat][]. 
+There is also an example of a puzzle ([p99c.dat][]) which does not have a solution.
+
+![crossword][P99-crossword]
+
+```
+LINUX
+PROLOG
+PERL
+ONLINE
+GNU
+XML
+NFS
+SQL
+EMACS
+WEB
+MAC
+
+......  .
+. .  .  .
+. ..... .
+. . . ...
+  . ... .
+ ...
+```
 
 Words are strings of at least two characters. A horizontal or vertical sequence of character places in the crossword puzzle 
 framework is called a site. Our problem is to find a compatible way of placing words onto sites.
 
 Hints: 
-(1) The problem is not easy. You will need some time to thoroughly understand it. So, don't give up too early! 
+ 1) The problem is not easy. You will need some time to thoroughly understand it. So, don't give up too early! 
 And remember that the objective is a clean solution, not just a quick-and-dirty hack!
-(2) For efficiency reasons it is important, at least for larger puzzles, to sort the words and the sites in a particular order. 
+ 2) For efficiency reasons it is important, at least for larger puzzles, to sort the words and the sites in a particular order. 
 For this part of the problem, the solution of P28 may be very helpful.
 
 
@@ -1391,6 +1414,10 @@ For this part of the problem, the solution of P28 may be very helpful.
 [P84-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p84.gif
 [P92-tree1]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92a.gif
 [P92-tree2]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92b.gif
-[P96-glider]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p96.gif
+[P99-crossword]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p99.gif
+[P99a.dat]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/data/p99a.dat
+[P99b.dat]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/data/p99b.dat
+[P99c.dat]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/data/p99c.dat
+[P99d.dat]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/data/p99d.dat
 
 [Kotlin]: http://kotlinlang.org
