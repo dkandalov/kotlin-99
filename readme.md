@@ -37,7 +37,14 @@ If you have successfully solved the preceding problems, you might be able to sol
 Problems marked with two asterisks `**` are of intermediate difficulty and might take about 30-90 minutes to solve. 
 Problems marked with three asterisks `***` are more difficult. You may need more time (i.e. a few hours or more) to find a good solution.
 Please note that levels of difficulty is just a guess and assumes you are somewhat familiar with the problem domain.
-It is perfectly ok if some of them take longer. Overall, the goal is to learn, not finish "on time".
+It is perfectly ok if some of them take longer. Overall, the goal is to learn, not to finish "on time".
+
+You might notice that there are less than 99 problems.
+This is because numbering of original problems was wrong. 
+It was kept here for consistency with 99 problems in other programming languages.
+
+The first 50 or so problems are easy. 
+If this is boring for you, feel free to jump to [Binary Trees](#binary-trees). 
 
 All contributions are welcome (including alternative solutions for problems which already have a solution).
 
@@ -1305,6 +1312,8 @@ MAC
 Words are strings of at least two characters. A horizontal or vertical sequence of character places in the crossword puzzle 
 framework is called a site. Our problem is to find a compatible way of placing words onto sites.
 
+### [P100][] (***) Fix a bug in Kotlin.
+E.g. this one [KT-15286](https://youtrack.jetbrains.com/issue/KT-15286) :smile: 
 
 
 [P01]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P01.kt
