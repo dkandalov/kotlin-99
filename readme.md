@@ -18,8 +18,7 @@
 This an adaptation of [Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/) by Phil Gold 
 which itself is an adaptation of the [Ninety-Nine Prolog Problems](https://sites.google.com/site/prologsite/prolog-problems) 
 written by Werner Hett at the Berne University of Applied Sciences in Berne, Switzerland.
-(See also [Ninety-Nine Haskell Problems](https://wiki.haskell.org/H-99:_Ninety-Nine_Haskell_Problems).)
-The problems have been altered to be more amenable to programming in [Kotlin][]. 
+Some problems have been altered to be more amenable to programming in [Kotlin][]. 
 
 You might want to do these problems if you want to learn [Kotlin][], are interested in the problems described below, or both.
 The main reason to prefer this to using websites like hackerrank.com and codewars.com
@@ -33,13 +32,14 @@ Some of the (easy) problems can be trivially solved using built-in functions.
 However, in these cases, you can learn more if you try to find your own solution.
 
 The problems have different levels of difficulty. 
-Those marked with a single asterisk (\*) are easy. 
-If you have successfully solved the preceeding problems, you might be able to solve them within a few (say 15) minutes. 
-Problems marked with two asterisks (\*\*) are of intermediate difficulty and might take about 30-90 minutes to solve. 
-Problems marked with three asterisks (\*\*\*) are more difficult. You may need more time (i.e. a few hours or more) to find a good solution.
-Plese note that levels of difficulty is just a guess.   
+Those marked with a single asterisk `*` are easy.
+If you have successfully solved the preceding problems, you might be able to solve them within a few (say 15) minutes. 
+Problems marked with two asterisks `**` are of intermediate difficulty and might take about 30-90 minutes to solve. 
+Problems marked with three asterisks `***` are more difficult. You may need more time (i.e. a few hours or more) to find a good solution.
+Please note that levels of difficulty is just a guess and assumes you are somewhat familiar with the problem domain.
+It is perfectly ok if some of them take longer. Overall, the goal is to learn, not finish "on time".
 
-This is work-in-progress. All contributions are welcome (including new solutions for problems which already have a solution).
+All contributions are welcome (including alternative solutions for problems which already have a solution).
 
 [![Build Status](https://travis-ci.org/dkandalov/kotlin-99.svg?branch=master)](https://travis-ci.org/dkandalov/kotlin-99)
 
@@ -1305,11 +1305,6 @@ MAC
 Words are strings of at least two characters. A horizontal or vertical sequence of character places in the crossword puzzle 
 framework is called a site. Our problem is to find a compatible way of placing words onto sites.
 
-Hints: 
- 1. The problem is not easy. You will need some time to thoroughly understand it. So, don't give up too early! 
-And remember that the objective is a clean solution, not just a quick-and-dirty hack!
- 2. For efficiency reasons it is important, at least for larger puzzles, to sort the words and the sites in a particular order. 
-For this part of the problem, the solution of P28 may be very helpful.
 
 
 [P01]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P01.kt
