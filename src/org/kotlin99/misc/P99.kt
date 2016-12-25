@@ -4,11 +4,12 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Ignore
 import org.junit.Test
-import org.kotlin99.common.tail
 import org.kotlin99.common.toSeq
 import org.kotlin99.common.transpose
 import org.kotlin99.misc.Crossword.Cell
+import org.kotlin99.misc.Crossword.Cell.Companion.vacant
 import org.kotlin99.misc.Crossword.Site
 import java.io.File
 
@@ -23,28 +24,25 @@ class CrosswordFileReader(val filePath: String) {
 }
 
 data class Crossword(val sites: List<Site>) {
-    fun solveUsing(words: List<String>, allWords: Set<String> = words.toSet()): Sequence<Crossword> {
-        if (sites.all{ it.isFilled() }) {
-            return if (sites.all{ allWords.contains(it.word) }) sequenceOf(this) else emptySequence()
-        }
-        if (words.isEmpty()) return emptySequence()
+    fun solve(words: List<String>, i: Int = 0): Sequence<Crossword> {
+        if (sites.any{ it.isFilled() && !words.contains(it.word) }) return emptySequence()
+        if (sites.all{ it.isFilled() }) return sequenceOf(this)
+        if (i == words.size) return emptySequence()
 
-        return words.toSeq().flatMap{ word ->
-            sites.toSeq().flatMap { site ->
-                if (!site.fits(word)) emptySequence()
-                else this.copy().let { crossword ->
-                    crossword.sites.find{ it == site }!!.fill(word)
-                    crossword.solveUsing(words.tail(), allWords)
-                }
+        val word = words[i]
+        return sites.filter{ !it.isFilled() && it.fits(word) }.toSeq().flatMap { site ->
+            copy().let { crossword ->
+                crossword.sites.find{ it == site }!!.fill(word)
+                crossword.solve(words, i + 1)
             }
-        }
+        } + solve(words, i + 1)
     }
 
     fun copy(): Crossword {
         val cells = sites.flatMap{ it.cells }.distinct()
-        val cellsCopy = cells.map{ it.copy() }
+        val copyByCell = cells.associate { Pair(it, it.copy()) }
         return Crossword(sites.map {
-            Site(it.cells.map{ cellsCopy[cells.indexOf(it)] })
+            Site(it.cells.map{ copyByCell[it]!! })
         })
     }
 
@@ -94,10 +92,8 @@ data class Crossword(val sites: List<Site>) {
 
         fun fits(word: String): Boolean {
             if (cells.size != word.length) return false
-            return cells.zip(word.toCharArray().toList()).all {
-                val (cell, char) = it
-                cell.c == '.' || cell.c == char
-                
+            return (0 until cells.size).all { i ->
+                cells[i].c == vacant || cells[i].c == word[i]
             }
         }
 
@@ -106,7 +102,7 @@ data class Crossword(val sites: List<Site>) {
         }
 
         fun isFilled(): Boolean {
-            return cells.all{ it.c != '.' }
+            return cells.all{ it.c != vacant }
         }
 
         override fun toString(): String {
@@ -124,6 +120,7 @@ data class Crossword(val sites: List<Site>) {
 
         companion object {
             val none = Cell(-1, -1, ' ')
+            val vacant = '.'
         }
     }
 }
@@ -203,7 +200,7 @@ class P99Test {
 
     @Test fun `solve one-word crossword`() {
         val crossword = parseCrossword("ab.")
-        val solvedCrossword = crossword.solveUsing(listOf("ab", "Abc", "abcd", "abc")).first()
+        val solvedCrossword = crossword.solve(listOf("ab", "Abc", "abcd", "abc")).first()
         assertThat(solvedCrossword.toString(), equalTo("abc"))
     }
 
@@ -213,7 +210,7 @@ class P99Test {
             |.
         """)
 
-        val solvedCrossword = crossword.solveUsing(listOf("ab", "Abc", "abcd", "abc")).first()
+        val solvedCrossword = crossword.solve(listOf("ab", "Abc", "abcd", "abc")).first()
 
         assertThat(solvedCrossword.toString(), equalTo("""
             |abc
@@ -228,7 +225,7 @@ class P99Test {
             |...
             |h
         """)
-        val solvedCrossword = crossword.solveUsing(listOf("abc", "efg", "adeh")).first()
+        val solvedCrossword = crossword.solve(listOf("abc", "efg", "adeh")).first()
         assertThat(solvedCrossword.toString(), equalTo("""
             |abc
             |d
@@ -239,7 +236,44 @@ class P99Test {
 
     @Test fun `solve crossword from p99a file`() {
         val reader = CrosswordFileReader("data/p99a.dat")
-        val crossword = reader.readCrossword().solveUsing(reader.readWords()).first()
+        val crossword = reader.readCrossword().solve(reader.readWords()).first()
+
+        assertThat(crossword.toString(), equalTo("""
+            |PROLOG  E
+            |E N  N  M
+            |R LINUX A
+            |L I F MAC
+            |  N SQL S
+            | WEB
+        """.trimMargin()))
+    }
+
+    @Ignore
+    @Test fun `solve crossword from p99b file`() {
+        val reader = CrosswordFileReader("data/p99b.dat")
+        val crossword = reader.readCrossword().solve(reader.readWords()).first()
+
+        assertThat(crossword.toString(), equalTo("""
+            |PROLOG  E
+            |E N  N  M
+            |R LINUX A
+            |L I F MAC
+            |  N SQL S
+            | WEB
+        """.trimMargin()))
+    }
+
+    @Ignore
+    @Test fun `solve crossword from p99c file`() {
+        val reader = CrosswordFileReader("data/p99c.dat")
+        val solution = reader.readCrossword().solve(reader.readWords())
+        assertThat(solution.toList(), equalTo(emptyList<Crossword>()))
+    }
+
+    @Ignore
+    @Test fun `solve crossword from p99d file`() {
+        val reader = CrosswordFileReader("data/p99d.dat")
+        val crossword = reader.readCrossword().solve(reader.readWords()).first()
 
         assertThat(crossword.toString(), equalTo("""
             |PROLOG  E
