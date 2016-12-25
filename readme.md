@@ -41,6 +41,8 @@ Plese note that levels of difficulty is just a guess.
 
 This is work-in-progress. All contributions are welcome (including new solutions for problems which already have a solution).
 
+[![Build Status](https://travis-ci.org/dkandalov/kotlin-99.svg?branch=master)](https://travis-ci.org/dkandalov/kotlin-99)
+
 
 ## Lists
 
