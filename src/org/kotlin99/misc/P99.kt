@@ -94,7 +94,8 @@ data class Crossword(val sites: List<Site>) {
 
         fun fits(word: String): Boolean {
             if (cells.size != word.length) return false
-            return cells.zip(word.toCharArray().toList()).all { (cell, char) ->
+            return cells.zip(word.toCharArray().toList()).all {
+                val (cell, char) = it
                 cell.c == '.' || cell.c == char
                 
             }
