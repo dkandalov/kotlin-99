@@ -4,7 +4,6 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
-import org.junit.Ignore
 import org.junit.Test
 import org.kotlin99.common.toSeq
 import org.kotlin99.common.transpose
@@ -25,18 +24,23 @@ class CrosswordFileReader(val filePath: String) {
 
 data class Crossword(val sites: List<Site>) {
     fun solve(words: List<String>, i: Int = 0): Sequence<Crossword> {
-        if (sites.any{ it.isFilled() && !words.contains(it.word) }) return emptySequence()
-        if (sites.all{ it.isFilled() }) return sequenceOf(this)
-        if (i == words.size) return emptySequence()
+        if (isInvalidFor(words)) return emptySequence()
+        if (siteToFill().isEmpty()) return sequenceOf(this)
+        if (i == words.size || words.size - i < siteToFill().size) return emptySequence()
 
-        val word = words[i]
-        return sites.filter{ !it.isFilled() && it.fits(word) }.toSeq().flatMap { site ->
+        return siteToFill().filter{ it.fits(words[i]) }.toSeq().flatMap { site ->
             copy().let { crossword ->
-                crossword.sites.find{ it == site }!!.fill(word)
+                crossword.sites.find{ it == site }!!.fill(words[i])
                 crossword.solve(words, i + 1)
             }
         } + solve(words, i + 1)
     }
+
+    private fun siteToFill() = sites.filter { !it.filled }
+
+    private fun isInvalidFor(words: List<String>) =
+            sites.any { it.filled && !words.contains(it.word) } ||
+            sites.any { !it.filled && words.none { word -> it.fits(word) } }
 
     fun copy(): Crossword {
         val cells = sites.flatMap{ it.cells }.distinct()
@@ -88,6 +92,9 @@ data class Crossword(val sites: List<Site>) {
         val word: String
             get() = cells.map{ it.c }.joinToString("")
 
+        val filled: Boolean
+            get() = cells.all{ it.c != vacant }
+
         fun add(cell: Cell) = Site(cells + cell)
 
         fun fits(word: String): Boolean {
@@ -99,10 +106,6 @@ data class Crossword(val sites: List<Site>) {
 
         fun fill(word: String) {
             word.forEachIndexed { i, c -> cells[i].c = c }
-        }
-
-        fun isFilled(): Boolean {
-            return cells.all{ it.c != vacant }
         }
 
         override fun toString(): String {
@@ -248,40 +251,75 @@ class P99Test {
         """.trimMargin()))
     }
 
-    @Ignore
     @Test fun `solve crossword from p99b file`() {
         val reader = CrosswordFileReader("data/p99b.dat")
         val crossword = reader.readCrossword().solve(reader.readWords()).first()
 
         assertThat(crossword.toString(), equalTo("""
-            |PROLOG  E
-            |E N  N  M
-            |R LINUX A
-            |L I F MAC
-            |  N SQL S
-            | WEB
+            |P TUEBINGEN TRAUBENZUCKER
+            |R A       E A         R I
+            |O TEMPERAMENT   FORTUNA V
+            |T T       F       E   N I
+            |EGERIA ZEUS T SAMPAN  K E
+            |K R         E T   U   E R
+            |T S WALZER  LIANE MADONNA
+            |O A A  A  TAL N   U   K
+            |RELIGION  R   N   R TIARA
+            |A L G  K  U   I S   I S
+            |T   O     E STOIKER L S
+            | GRANAT   F   L E  OSTEN
+            |  E     S F     L   I   C
+            |  G  TURKMENEN VENDETTA H
+            |  I B N R L     T     T R
+            | ISEL T U  H STETTIN  T O
+            |S T A E P  I   T    DER N
+            |E E S R E BRIEFTAUBE  A O
+            |KARRE T L  T   A    I K G
+            |U     A    E AAL M  T T R
+            |N ALLENSTEIN  N  I  A I A
+            |D L    T      K  S  L O P
+            |EOSIN  USAMBARA SERBIEN H
+            |  E    H      R  R  E   I
+            |HANNIBAL   MELASSE  NONNE
         """.trimMargin()))
     }
 
-    @Ignore
     @Test fun `solve crossword from p99c file`() {
         val reader = CrosswordFileReader("data/p99c.dat")
         val solution = reader.readCrossword().solve(reader.readWords())
         assertThat(solution.toList(), equalTo(emptyList<Crossword>()))
     }
 
-    @Ignore
     @Test fun `solve crossword from p99d file`() {
         val reader = CrosswordFileReader("data/p99d.dat")
         val crossword = reader.readCrossword().solve(reader.readWords()).first()
 
         assertThat(crossword.toString(), equalTo("""
-            |PROLOG  E
-            |E N  N  M
-            |R LINUX A
-            |L I F MAC
-            |  N SQL S
-            | WEB
+            |BARKASSE REAKTION SIDERIT
+            |E   N    I   R    I E   A
+            |T F A AUSTRALIEN  G K   U
+            |ERRATEN  T   A A BEDANKEN
+            |I A O G  E A N T  L D R U
+            |L G M O TRANIG A    E A S
+            |I M I L    P ERLASSEN W
+            |G E EKARTE A L I O  T A U
+            |E N  A  E  S   T M    T N
+            |NATTER  NESSEL A M AZETAT
+            |     O  T  E E E E R  E E
+            |GELEISE A  N U TERRIER  R
+            |A    S  K    M     E    S
+            |R S  ERREGER UEBERALL   T
+            |A A     L    N    G     A
+            |NENNER A HAENDEL VERGEBEN
+            |T T    L A        N A   D
+            |I A BULLAUGEN   M T S
+            |E N    E S  E   E U SESAM
+            |  D    N  OSTEREI R E   A
+            |OBERHAUSEN  Z   S    I  N
+            |R R    T  L  BESTELLEN  A
+            |A  VERBERGEN A  E    N  G
+            |D      I  N  N  R    E  E
+            |EINLADEN  AFRIKANER ANKER
         """.trimMargin()))
     }
 
