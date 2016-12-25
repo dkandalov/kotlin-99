@@ -12,7 +12,7 @@ import org.junit.Test
 
 
 fun <T> containsAll(vararg itemMatchers: Matcher<T>): Matcher<Iterable<T>> {
-    return containsAll(itemMatchers.toList())
+    return containsAll(itemMatchers.asList())
 }
 
 fun <T> containsAll(vararg items: T): Matcher<Iterable<T>> {

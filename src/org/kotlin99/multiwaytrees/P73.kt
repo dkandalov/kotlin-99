@@ -4,7 +4,6 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.tail
-import org.kotlin99.multiwaytrees.MTree
 import java.util.*
 
 fun MTree<*>.toLispString(): String =
@@ -56,7 +55,7 @@ private data class Atom(val value: String): Token {
     override fun toString() = "'$value'"
 }
 private data class Seq(val tokens: List<Token>): Token {
-    constructor (vararg tokens: Token) : this(tokens.toList())
+    constructor (vararg tokens: Token) : this(tokens.asList())
     override fun trim(): Token? =
         if (tokens.isEmpty()) null
         else {
@@ -87,7 +86,7 @@ private object AtomParser : TokenParser {
 }
 
 private class SequenceParser(val tokenParsers: List<TokenParser>) : TokenParser {
-    constructor(vararg tokenParsers: TokenParser) : this(tokenParsers.toList())
+    constructor(vararg tokenParsers: TokenParser) : this(tokenParsers.asList())
 
     override fun parse(s: String): Token? {
         val tokens = ArrayList<Token>()

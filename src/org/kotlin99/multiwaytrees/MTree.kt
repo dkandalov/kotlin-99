@@ -6,7 +6,7 @@ import org.junit.Test
 
 data class MTree<out T>(val value: T, val children: List<MTree<T>> = emptyList()) {
 
-    constructor(value: T, vararg children: MTree<T>): this(value, children.toList())
+    constructor(value: T, vararg children: MTree<T>): this(value, children.asList())
 
     override fun toString(): String =
         if (children.isEmpty()) value.toString()

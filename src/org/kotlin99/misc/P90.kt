@@ -23,7 +23,7 @@ class EightQueens {
 
         data class Board(val size: Int, val queens: List<Queen>) {
 
-            constructor(vararg queens: Queen): this(maxPosition(queens), queens.toList())
+            constructor(vararg queens: Queen): this(maxPosition(queens), queens.asList())
 
             fun nextMoves(): List<Board> {
                 val nextColumn = (queens.map{ it.column }.max() ?: -1) + 1

@@ -99,11 +99,11 @@ class Graph<T, U> {
     }
 
     data class AdjacencyList<T, out U>(val entries: List<Entry<T, U>>) {
-        constructor(vararg entries: Entry<T, U>): this(entries.toList())
+        constructor(vararg entries: Entry<T, U>): this(entries.asList())
         override fun toString() = "AdjacencyList(${entries.joinToString()})"
 
         data class Entry<out T, out U>(val node: T, val links: List<Link<T, U>> = emptyList<Nothing>()) {
-            constructor(node: T, vararg links: Link<T, U>): this(node, links.toList())
+            constructor(node: T, vararg links: Link<T, U>): this(node, links.asList())
             override fun toString() = "Entry($node, links[${links.joinToString()}])"
 
             companion object {

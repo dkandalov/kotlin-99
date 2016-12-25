@@ -43,7 +43,7 @@ data class Point(val x: Int, val y: Int) {
 }
 
 data class Tour(val points: Collection<Point>) {
-    constructor (vararg points: Point): this(points.toList())
+    constructor (vararg points: Point): this(points.asList())
     val size: Int get() = points.size
     fun contains(point: Point) = points.contains(point)
     infix operator fun plus(point: Point) = Tour(points + point)

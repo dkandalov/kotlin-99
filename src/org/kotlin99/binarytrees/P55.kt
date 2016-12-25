@@ -40,6 +40,6 @@ class P55Test {
     }
 
     companion object {
-        fun nodeList(vararg nodes: Node<String>): Iterable<Tree<String>> = nodes.toList()
+        fun nodeList(vararg nodes: Node<String>): Iterable<Tree<String>> = nodes.asList()
     }
 }
