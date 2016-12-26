@@ -23,7 +23,7 @@ class Nonogram {
             if (hasContradiction()) return emptySequence()
             if (rowIndex == height) return sequenceOf(this)
 
-            return rowConstrains[rowIndex]
+            return rowConstrains.toList()[rowIndex]
                 .possibleBoxes(width)
                 .flatMap { rowBoxes ->
                     this.copy().apply(rowBoxes, rowIndex).solve(rowIndex + 1)

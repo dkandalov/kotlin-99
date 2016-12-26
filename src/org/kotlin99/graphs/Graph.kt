@@ -11,14 +11,14 @@ import org.kotlin99.graphs.Graph.TermForm.Term
 import java.util.*
 
 
-class Graph<T, U>(nodes: Collection<Node<T, U>> = ArrayList(), edges: Collection<Edge<T, U>> = ArrayList()) {
+class Graph<T, U> {
     val nodes: MutableMap<T, Node<T, U>>
     val edges: MutableList<Edge<T, U>>
 
-    init {
+    constructor(nodes: Collection<Node<T, U>> = ArrayList(), edges: Collection<Edge<T, U>> = ArrayList()) {
         this.nodes = nodes.groupBy{ it.value }
-                .map{ Pair(it.key, it.value.first()) }
-                .toMap(LinkedHashMap()) // Use linked map to make operations on graph more deterministic.
+                          .map{ Pair(it.key, it.value.first()) }
+                          .toMap(LinkedHashMap()) // Use linked map to make operations on graph more deterministic.
         this.edges = ArrayList(edges)
     }
 

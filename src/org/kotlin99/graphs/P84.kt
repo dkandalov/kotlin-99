@@ -7,6 +7,7 @@ import org.kotlin99.common.tail
 import org.kotlin99.graphs.Graph.Edge
 import org.kotlin99.graphs.Graph.Node
 import org.kotlin99.graphs.P80Test.Companion.equivalentTo
+import java.util.*
 
 
 fun <T, U: Comparable<U>> Graph<T, U>.minSpanningTree(): Graph<T, U> {
