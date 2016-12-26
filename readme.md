@@ -1312,8 +1312,8 @@ MAC
 Words are strings of at least two characters. A horizontal or vertical sequence of character places in the crossword puzzle 
 framework is called a site. Our problem is to find a compatible way of placing words onto sites.
 
-### [P100][] (***) Write a [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) for [SAT](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem) solvers.
-E.g. like [Sentient Language](http://sentient-lang.org/) :smile: 
+### [P100][] (***) Write a high-level language or at least [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) for [SAT](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem) solvers.
+E.g. something like [Sentient Language](http://sentient-lang.org/) :smile: 
 
 
 [P01]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P01.kt
