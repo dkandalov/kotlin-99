@@ -25,6 +25,27 @@ fun <T> ArrayList<T>.fill(n: Int, value: T): ArrayList<T> {
     return this
 }
 
+fun <T> List<T>.combinations(): List<List<T>> {
+    if (size <= 1) return listOf(this)
+    val head = first()
+    return tail().combinations().flatMap{ subCombination ->
+        (0..subCombination.size).map { i ->
+            LinkedList(subCombination).apply{ add(i, head) }
+        }
+    }
+}
+
+fun <T> List<T>.combinationsSeq(): Sequence<List<T>> {
+    if (size <= 1) return sequenceOf(this)
+    val head = first()
+    return tail().combinationsSeq().flatMap{ subCombination ->
+        (0..subCombination.size).asSequence().map { i ->
+            LinkedList(subCombination).apply{ add(i, head) }
+        }
+    }
+}
+
+
 fun <E> List<List<E>>.transpose(): List<List<E>> {
     if (isEmpty()) return this
 
@@ -40,6 +61,34 @@ fun <E> List<List<E>>.transpose(): List<List<E>> {
 
 
 class CollectionsTest {
+    @Test fun `combinations of collection`() {
+        assertThat(emptyList<Int>().combinations(), equalTo(listOf(emptyList<Int>())))
+        assertThat(listOf(1).combinations(), equalTo(listOf(listOf(1))))
+        assertThat(listOf(1).combinations(), equalTo(listOf(listOf(1))))
+
+        assertThat(listOf(1, 2).combinations(), containsAll(listOf(listOf(1, 2), listOf(2, 1))))
+        assertThat(listOf(1, 2).combinations(), containsAll(listOf(listOf(1, 2), listOf(2, 1))))
+        assertThat(listOf(1, 2, 3).combinations(), containsAll(listOf(
+                listOf(1, 2, 3),
+                listOf(1, 3, 2),
+                listOf(2, 1, 3),
+                listOf(2, 3, 1),
+                listOf(3, 1, 2),
+                listOf(3, 2, 1)
+        )))
+    }
+
+    @Test fun `combinations sequence`() {
+        assertThat(listOf(1, 2, 3).combinationsSeq().toList(), containsAll(listOf(
+                listOf(1, 2, 3),
+                listOf(1, 3, 2),
+                listOf(2, 1, 3),
+                listOf(2, 3, 1),
+                listOf(3, 1, 2),
+                listOf(3, 2, 1)
+        )))
+    }
+
     @Test fun `transpose lists`() {
         assertThat(emptyList<List<Int>>().transpose(), equalTo(emptyList<List<Int>>()))
         assertThat(listOf(emptyList<Int>()).transpose(), equalTo(emptyList<List<Int>>()))

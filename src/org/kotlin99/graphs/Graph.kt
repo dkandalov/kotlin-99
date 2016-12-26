@@ -16,7 +16,9 @@ class Graph<T, U> {
     val edges: MutableList<Edge<T, U>>
 
     constructor(nodes: Collection<Node<T, U>> = ArrayList(), edges: Collection<Edge<T, U>> = ArrayList()) {
-        this.nodes = nodes.groupBy{ it.value }.map{ Pair(it.key, it.value.first()) }.toMap(HashMap())
+        this.nodes = nodes.groupBy{ it.value }
+                          .map{ Pair(it.key, it.value.first()) }
+                          .toMap(LinkedHashMap()) // Use linked map to make operations on graph more deterministic.
         this.edges = ArrayList(edges)
     }
 

@@ -4,8 +4,8 @@ import com.natpryce.hamkrest.anyElement
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
+import org.kotlin99.common.combinationsSeq
 import org.kotlin99.common.containsAll
-import org.kotlin99.common.tail
 import org.kotlin99.graphs.Graph
 import org.kotlin99.graphs.Graph.TermForm
 import org.kotlin99.graphs.Graph.TermForm.Term
@@ -34,15 +34,6 @@ fun <T> Graph<T, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
         }
 }
 
-fun <T> List<T>.combinationsSeq(): Sequence<List<T>> {
-    if (size <= 1) return sequenceOf(this)
-    val head = first()
-    return tail().combinationsSeq().flatMap{ subCombination ->
-        (0..subCombination.size).asSequence().map { i ->
-            LinkedList(subCombination).apply{ add(i, head) }
-        }
-    }
-}
 
 class P92Test {
     @Test fun `basic graceful labeling`() {
@@ -65,16 +56,5 @@ class P92Test {
 //        assertThat("[a-i, a-h, a-g, a-b, a-c, c-f, c-d, d-k, c-e, e-g, g-m, g-n, n-p]".toGraph().gracefulLabeling().first(), equalTo(
 //                "[7-2, 7-1, 7-3, 3-6, 3-5, 5-4]".toGraph()
 //        ))
-    }
-
-    @Test fun `combinations sequence`() {
-        assertThat(listOf(1, 2, 3).combinationsSeq().toList(), containsAll(listOf(
-                listOf(1, 2, 3),
-                listOf(1, 3, 2),
-                listOf(2, 1, 3),
-                listOf(2, 3, 1),
-                listOf(3, 1, 2),
-                listOf(3, 2, 1)
-        )))
     }
 }

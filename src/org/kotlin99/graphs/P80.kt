@@ -51,7 +51,7 @@ fun String.toLabeledGraph(): Graph<String, Int> {
 }
 
 fun <T, U> Graph<T, U>.toTermForm(): TermForm<T, U> {
-    val nodeValues = nodes.values.map { it.value }
+    val nodeValues = nodes.values.map{ it.value }
     val terms = edges.map { Term(it.n1.value, it.n2.value, it.label) }
     return TermForm(nodeValues, terms)
 }
@@ -87,7 +87,7 @@ class P80Test {
 
     @Test fun `convert graph to term form`() {
         assertThat("[b-c, b-f, c-f, f-k, g-h, d]".toGraph().toTermForm(), equalTo(TermForm(
-                listOf("f", "g", "d", "b", "c", "k", "h"),
+                listOf("b", "c", "f", "k", "g", "h", "d"),
                 listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h"))
         )))
     }

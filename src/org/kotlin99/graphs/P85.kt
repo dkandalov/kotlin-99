@@ -5,9 +5,8 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.kotlin99.common.combinations
 import org.kotlin99.common.containsAll
-import org.kotlin99.common.tail
-import java.util.*
 
 fun <T1, T2> Graph<T1, *>.isIsomorphicTo(graph: Graph<T2, *>): Boolean {
     return this.isomorphicMappingTo(graph) != null
@@ -15,6 +14,7 @@ fun <T1, T2> Graph<T1, *>.isIsomorphicTo(graph: Graph<T2, *>): Boolean {
 
 fun <T1, T2> Graph<T1, *>.isomorphicMappingTo(graph: Graph<T2, *>): List<Pair<T1, T2>>? {
     if (nodes.size != graph.nodes.size) return null
+    
     val allMappings = nodes.values.toList().combinations().map { it zip graph.nodes.values }
     return allMappings.find { mapping ->
         mapping.all {
@@ -26,15 +26,6 @@ fun <T1, T2> Graph<T1, *>.isomorphicMappingTo(graph: Graph<T2, *>): List<Pair<T1
     }
 }
 
-private fun <T> List<T>.combinations(): List<List<T>> {
-    if (size <= 1) return listOf(this)
-    val head = first()
-    return tail().combinations().flatMap{ subCombination ->
-        (0..subCombination.size).map { i ->
-            LinkedList(subCombination).apply{ add(i, head) }
-        }
-    }
-}
 
 class P85Test {
     @Test fun `graph isomorphism`() {
@@ -59,29 +50,12 @@ class P85Test {
         assertFalse("[a-b, b-c]".toGraph().isIsomorphicTo("[1-2, 3]".toGraph()))
 
         assertThat("[a-b, b-c, c-d, d-a]".toGraph().isomorphicMappingTo("[1-2, 2-3, 3-4, 4-1]".toGraph())!!, containsAll(listOf(
-                Pair("a", "4"),
-                Pair("b", "3"),
-                Pair("c", "2"),
-                Pair("d", "1")
+                Pair("a", "1"),
+                Pair("b", "2"),
+                Pair("c", "3"),
+                Pair("d", "4")
         )))
         assertTrue("[a-b, b-c, c-d, d-a]".toGraph().isIsomorphicTo("[1-2, 2-3, 3-4, 4-1]".toGraph()))
         assertFalse("[a-b, b-c, c-d, d-a]".toGraph().isIsomorphicTo("[1-2, 2-3, 3-4, 4-2]".toGraph()))
-    }
-
-    @Test fun `combinations of collection`() {
-        assertThat(emptyList<Int>().combinations(), equalTo(listOf(emptyList<Int>())))
-        assertThat(listOf(1).combinations(), equalTo(listOf(listOf(1))))
-        assertThat(listOf(1).combinations(), equalTo(listOf(listOf(1))))
-
-        assertThat(listOf(1, 2).combinations(), containsAll(listOf(listOf(1, 2), listOf(2, 1))))
-        assertThat(listOf(1, 2).combinations(), containsAll(listOf(listOf(1, 2), listOf(2, 1))))
-        assertThat(listOf(1, 2, 3).combinations(), containsAll(listOf(
-                listOf(1, 2, 3),
-                listOf(1, 3, 2),
-                listOf(2, 1, 3),
-                listOf(2, 3, 1),
-                listOf(3, 1, 2),
-                listOf(3, 2, 1)
-        )))
     }
 }
