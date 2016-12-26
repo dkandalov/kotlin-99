@@ -1,5 +1,6 @@
 package org.kotlin99.misc
 
+import com.natpryce.hamkrest.anyElement
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
@@ -14,8 +15,9 @@ import java.util.*
 
 fun <T> Graph<T, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
     val edgeLabels = 1.rangeTo(edges.size).toHashSet()
-    return 1.rangeTo(nodes.size).toList().combinationsSeq()
-        .map{ nodes.keys.zip(it).toMap() }
+    return 1.rangeTo(nodes.size).toList()
+        .combinationsSeq()
+        .map{ nodeLabels -> nodes.keys.zip(nodeLabels).toMap() }
         .filter{ mapping ->
             val diffs = edges.mapTo(HashSet()) { edge ->
                 Math.abs(mapping[edge.n1.value]!! - mapping[edge.n2.value]!!)
@@ -45,14 +47,19 @@ fun <T> List<T>.combinationsSeq(): Sequence<List<T>> {
 class P92Test {
     @Test fun `basic graceful labeling`() {
         assertThat("[a]".toGraph().gracefulLabeling().first(), equalTo("[1]".toGraph()))
-        assertThat("[a-b]".toGraph().gracefulLabeling().first(), equalTo("[2-1]".toGraph()))
-        assertThat("[a-b, a-c]".toGraph().gracefulLabeling().first(), equalTo("[3-1, 3-2]".toGraph()))
+
+        assertThat("[a-b]".toGraph().gracefulLabeling().toList(), containsAll("[1-2]".toGraph(), "[2-1]".toGraph()))
+
+        assertThat("[a-b, a-c]".toGraph().gracefulLabeling().toList(), containsAll(
+                "[1-2, 1-3]".toGraph(), "[1-3, 1-2]".toGraph(),
+                "[3-1, 3-2]".toGraph(), "[3-2, 3-1]".toGraph()
+        ))
     }
 
     @Test fun `graceful labeling of examples in readme`() {
-        assertThat("[a-d, a-g, a-b, b-c, b-e, e-f]".toGraph().gracefulLabeling().first(), equalTo(
+        assertThat("[a-d, a-g, a-b, b-c, b-e, e-f]".toGraph().gracefulLabeling().toList(), anyElement(equalTo(
                 "[7-2, 7-1, 7-3, 3-6, 3-5, 5-4]".toGraph()
-        ))
+        )))
 
         // TODO too slow
 //        assertThat("[a-i, a-h, a-g, a-b, a-c, c-f, c-d, d-k, c-e, e-g, g-m, g-n, n-p]".toGraph().gracefulLabeling().first(), equalTo(
