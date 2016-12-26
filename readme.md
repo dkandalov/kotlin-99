@@ -470,7 +470,7 @@ A binary tree is either empty or it is composed of a root element and two succes
 
 ![binary tree][binary-tree]
 
-We will use the following classes to represent binary trees (see [Tree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/Tree.kt)). 
+We will use the following classes to represent binary trees (see [Tree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/Tree.kt)). 
 An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two descendant trees. 
 The ``toString()`` functions are relatively arbitrary and were written to produce minimal readable output.
 Note the usage of [variance annotation](https://kotlinlang.org/docs/reference/generics.html#declaration-site-variance) 
@@ -788,7 +788,7 @@ MTree("a",
 ))
 
 ```
-The starting code for this section is in [MTree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/MTree.kt).
+The starting code for this section is in [MTree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/multiwaytrees/MTree.kt).
 
 
 ### [P70A][] (*) Count the nodes of a multiway tree.
@@ -1312,8 +1312,8 @@ MAC
 Words are strings of at least two characters. A horizontal or vertical sequence of character places in the crossword puzzle 
 framework is called a site. Our problem is to find a compatible way of placing words onto sites.
 
-### [P100][] (***) Fix a bug in Kotlin.
-E.g. this one [KT-15286](https://youtrack.jetbrains.com/issue/KT-15286) :smile: 
+### [P100][] (***) Write a [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) for [SAT](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem) solvers.
+E.g. like [Sentient Language](http://sentient-lang.org/) :smile: 
 
 
 [P01]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/lists/P01.kt
@@ -1405,6 +1405,7 @@ E.g. this one [KT-15286](https://youtrack.jetbrains.com/issue/KT-15286) :smile:
 [P97]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P97.kt
 [P98]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P98.kt
 [P99]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P99.kt
+[P100]: https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/misc/P100.kt
 
 
 [binary-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif "Binary tree"
