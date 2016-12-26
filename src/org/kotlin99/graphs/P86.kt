@@ -53,14 +53,14 @@ class P86Test {
 
     @Test fun `color nodes of undirected graph (so that adjacent nodes have different color)`() {
         assertThat("[a]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 1))))
-        assertThat("[a-b]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 2), Pair("b", 1))))
+        assertThat("[a-b]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 1), Pair("b", 2))))
         assertThat("[a-b, a-c]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 1), Pair("b", 2), Pair("c", 2))))
         assertThat("[a-b, b-c, c-d]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 2), Pair("b", 1), Pair("c", 2), Pair("d", 1))))
 
         assertThat("[a-b, a-c, b-c]".toGraph().colorNodes(), containsAll(listOf(
-                Pair("a", 3),
-                Pair("b", 1),
-                Pair("c", 2)
+                Pair("a", 1),
+                Pair("b", 2),
+                Pair("c", 3)
         )))
 
         assertThat("[a-b, b-c, a-c, a-d]".toGraph().colorNodes(), containsAll(listOf(

@@ -1312,7 +1312,7 @@ MAC
 Words are strings of at least two characters. A horizontal or vertical sequence of character places in the crossword puzzle 
 framework is called a site. Our problem is to find a compatible way of placing words onto sites.
 
-### [P100][] (***) Write a high-level language or at least [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) for [SAT](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem) solvers.
+### [P100][] (*****) Write a high-level language or at least [DSL](https://en.wikipedia.org/wiki/Domain-specific_language) for [SAT](https://en.wikipedia.org/wiki/Boolean_satisfiability_problem) solvers.
 E.g. something like [Sentient Language](http://sentient-lang.org/) :smile: 
 
 
