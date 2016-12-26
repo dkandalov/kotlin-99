@@ -2,7 +2,6 @@ package org.kotlin99.binarytrees
 
 import com.natpryce.hamkrest.assertion.assertThat
 import org.junit.Test
-import org.kotlin99.binarytrees.Tree
 import org.kotlin99.binarytrees.P57Test.Companion.equalToTree
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node

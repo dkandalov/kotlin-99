@@ -6,7 +6,6 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.kotlin99.binarytrees.Tree
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 

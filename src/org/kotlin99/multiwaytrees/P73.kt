@@ -47,7 +47,7 @@ private interface Token {
 private data class Text(val value: String) : Token {
     override fun trim() = null
     override fun length() = value.length
-    override fun toString() = "$value"
+    override fun toString() = value
 }
 private data class Atom(val value: String): Token {
     override fun trim() = this

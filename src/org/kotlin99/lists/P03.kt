@@ -18,6 +18,6 @@ class P03Test {
 
     @Test(expected = NoSuchElementException::class)
     fun `Nth element outside of list size`() {
-        nth(100, listOf<Int>(1, 1, 2, 3, 5, 8))
+        nth(100, listOf(1, 1, 2, 3, 5, 8))
     }
 }

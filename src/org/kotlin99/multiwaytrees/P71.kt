@@ -3,7 +3,6 @@ package org.kotlin99.multiwaytrees
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.multiwaytrees.MTree
 
 fun MTree<*>.internalPathLength(): Int =
         children.sumBy{ it.nodeCount() + it.internalPathLength() }
