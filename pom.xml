@@ -10,7 +10,7 @@
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <kotlin.version>1.0.5-2</kotlin.version>
+        <kotlin.version>1.0.6</kotlin.version>
         <!--<kotlin.version>1.1-M03</kotlin.version>-->
     </properties>
 
