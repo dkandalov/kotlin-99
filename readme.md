@@ -214,7 +214,7 @@ Example:
 ### [P21][] (*) Insert an element at a given position into a list.
 Example:
 ``` kotlin
-> insertAt('new, 1, "abcd".toList())
+> insertAt('X', 1, "abcd".toList())
 [a, X, b, d]
 ```
 
