@@ -18,6 +18,5 @@ class P09Test {
         assertThat(pack("aaaabccaadeeee".toList()), equalTo(listOf(
                 "aaaa".toList(), "b".toList(), "cc".toList(), "aa".toList(), "d".toList(), "eeee".toList()
         )))
-
     }
 }

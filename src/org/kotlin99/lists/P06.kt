@@ -9,6 +9,8 @@ tailrec fun <T> isPalindrome(list: List<T>): Boolean =
     else if (list.first() != list.last()) false
     else isPalindrome(list.drop(1).dropLast(1))
 
+fun <T> isPalindrome_(list: List<T>) = list == list.asReversed()
+
 class P06Test {
     @Test fun `find out whether a list is a palindrome`() {
         assertThat(isPalindrome(listOf<Int>()), equalTo(true))

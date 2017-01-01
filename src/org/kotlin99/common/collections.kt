@@ -27,10 +27,9 @@ fun <T> ArrayList<T>.fill(n: Int, value: T): ArrayList<T> {
 
 fun <T> List<T>.combinations(): List<List<T>> {
     if (size <= 1) return listOf(this)
-    val head = first()
-    return tail().combinations().flatMap{ subCombination ->
-        (0..subCombination.size).map { i ->
-            LinkedList(subCombination).apply{ add(i, head) }
+    return tail().combinations().flatMap{ tailCombination ->
+        (0..tailCombination.size).map { i ->
+            LinkedList(tailCombination).apply{ add(i, this.first()) }
         }
     }
 }
