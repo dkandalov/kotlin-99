@@ -252,7 +252,7 @@ Example:
 
 ### [P26][] (**) Generate the combinations of K distinct objects chosen from the N elements of a list.
 In how many ways can a committee of 3 be chosen from a group of 12 people? 
-There are ``C(12,3) = 220`` possibilities, where ``C(N,K)`` denotes [binomial coefficient](https://en.wikipedia.org/wiki/Binomial_coefficient)). 
+There are ``C(12,3) = 220`` possibilities, where ``C(N,K)`` denotes [binomial coefficient](https://en.wikipedia.org/wiki/Binomial_coefficient). 
 For pure mathematicians, this result may be great. But we want to really generate all the possibilities.
 Example:
 ``` kotlin
