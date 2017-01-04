@@ -61,7 +61,7 @@ fun <E> List<List<E>>.transpose(): List<List<E>> {
 
 
 class CollectionsTest {
-    @Test fun `combinations of collection`() {
+    @Test fun `permutations of collection`() {
         assertThat(emptyList<Int>().permutations(), equalTo(listOf(emptyList<Int>())))
         assertThat(listOf(1).permutations(), equalTo(listOf(listOf(1))))
         assertThat(listOf(1).permutations(), equalTo(listOf(listOf(1))))
@@ -78,7 +78,7 @@ class CollectionsTest {
         )))
     }
 
-    @Test fun `combinations sequence`() {
+    @Test fun `permutations sequence`() {
         assertThat(listOf(1, 2, 3).permutationsSeq().toList(), containsAll(listOf(
                 listOf(1, 2, 3),
                 listOf(1, 3, 2),
