@@ -4,7 +4,7 @@ import com.natpryce.hamkrest.anyElement
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.common.combinationsSeq
+import org.kotlin99.common.permutationsSeq
 import org.kotlin99.common.containsAll
 import org.kotlin99.graphs.Graph
 import org.kotlin99.graphs.Graph.TermForm
@@ -16,7 +16,7 @@ import java.util.*
 fun <T> Graph<T, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
     val edgeLabels = 1.rangeTo(edges.size).toHashSet()
     return 1.rangeTo(nodes.size).toList()
-        .combinationsSeq()
+        .permutationsSeq()
         .map{ nodeLabels -> nodes.keys.zip(nodeLabels).toMap() }
         .filter{ mapping ->
             val diffs = edges.mapTo(HashSet()) { edge ->

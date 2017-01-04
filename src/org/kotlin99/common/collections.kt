@@ -25,22 +25,22 @@ fun <T> ArrayList<T>.fill(n: Int, value: T): ArrayList<T> {
     return this
 }
 
-fun <T> List<T>.combinations(): List<List<T>> {
+fun <T> List<T>.permutations(): List<List<T>> {
     if (size <= 1) return listOf(this)
     val head = first()
-    return tail().combinations().flatMap{ tailCombination ->
-        (0..tailCombination.size).map { i ->
-            LinkedList(tailCombination).apply{ add(i, head) }
+    return tail().permutations().flatMap{ tailPermutations ->
+        (0..tailPermutations.size).map { i ->
+            LinkedList(tailPermutations).apply{ add(i, head) }
         }
     }
 }
 
-fun <T> List<T>.combinationsSeq(): Sequence<List<T>> {
+fun <T> List<T>.permutationsSeq(): Sequence<List<T>> {
     if (size <= 1) return sequenceOf(this)
     val head = first()
-    return tail().combinationsSeq().flatMap{ subCombination ->
-        (0..subCombination.size).asSequence().map { i ->
-            LinkedList(subCombination).apply{ add(i, head) }
+    return tail().permutationsSeq().flatMap{ tailPermutations ->
+        (0..tailPermutations.size).asSequence().map { i ->
+            LinkedList(tailPermutations).apply{ add(i, head) }
         }
     }
 }
@@ -62,13 +62,13 @@ fun <E> List<List<E>>.transpose(): List<List<E>> {
 
 class CollectionsTest {
     @Test fun `combinations of collection`() {
-        assertThat(emptyList<Int>().combinations(), equalTo(listOf(emptyList<Int>())))
-        assertThat(listOf(1).combinations(), equalTo(listOf(listOf(1))))
-        assertThat(listOf(1).combinations(), equalTo(listOf(listOf(1))))
+        assertThat(emptyList<Int>().permutations(), equalTo(listOf(emptyList<Int>())))
+        assertThat(listOf(1).permutations(), equalTo(listOf(listOf(1))))
+        assertThat(listOf(1).permutations(), equalTo(listOf(listOf(1))))
 
-        assertThat(listOf(1, 2).combinations(), containsAll(listOf(listOf(1, 2), listOf(2, 1))))
-        assertThat(listOf(1, 2).combinations(), containsAll(listOf(listOf(1, 2), listOf(2, 1))))
-        assertThat(listOf(1, 2, 3).combinations(), containsAll(listOf(
+        assertThat(listOf(1, 2).permutations(), containsAll(listOf(listOf(1, 2), listOf(2, 1))))
+        assertThat(listOf(1, 2).permutations(), containsAll(listOf(listOf(1, 2), listOf(2, 1))))
+        assertThat(listOf(1, 2, 3).permutations(), containsAll(listOf(
                 listOf(1, 2, 3),
                 listOf(1, 3, 2),
                 listOf(2, 1, 3),
@@ -79,7 +79,7 @@ class CollectionsTest {
     }
 
     @Test fun `combinations sequence`() {
-        assertThat(listOf(1, 2, 3).combinationsSeq().toList(), containsAll(listOf(
+        assertThat(listOf(1, 2, 3).permutationsSeq().toList(), containsAll(listOf(
                 listOf(1, 2, 3),
                 listOf(1, 3, 2),
                 listOf(2, 1, 3),

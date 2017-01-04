@@ -5,7 +5,7 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.kotlin99.common.combinations
+import org.kotlin99.common.permutations
 import org.kotlin99.common.containsAll
 
 fun <T1, T2> Graph<T1, *>.isIsomorphicTo(graph: Graph<T2, *>): Boolean {
@@ -15,7 +15,7 @@ fun <T1, T2> Graph<T1, *>.isIsomorphicTo(graph: Graph<T2, *>): Boolean {
 fun <T1, T2> Graph<T1, *>.isomorphicMappingTo(graph: Graph<T2, *>): List<Pair<T1, T2>>? {
     if (nodes.size != graph.nodes.size) return null
     
-    val allMappings = nodes.values.toList().combinations().map { it zip graph.nodes.values }
+    val allMappings = nodes.values.toList().permutations().map { it zip graph.nodes.values }
     return allMappings.find { mapping ->
         mapping.all {
             val mappedNeighbors = it.first.neighbors().map { node -> mapping.find{ it.first == node }!!.second }
