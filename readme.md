@@ -1,5 +1,7 @@
 # Ninety-Nine Kotlin Problems
 
+[![Build Status](https://travis-ci.org/dkandalov/kotlin-99.svg?branch=master)](https://travis-ci.org/dkandalov/kotlin-99)
+[![Discord chat](https://img.shields.io/badge/discord-join%20chat%20%E2%86%92-brightgreen.svg?style=flat)](https://discord.gg/s9Q6ySX)
 
 ## Table of Contents
 
@@ -48,7 +50,6 @@ If this is boring for you, feel free to jump to [Binary Trees](#binary-trees).
 
 All contributions are welcome (including alternative solutions for problems which already have a solution).
 
-[![Build Status](https://travis-ci.org/dkandalov/kotlin-99.svg?branch=master)](https://travis-ci.org/dkandalov/kotlin-99)
 
 
 ## Lists
