@@ -4,7 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.tail
-import java.util.*
+import java.util.NoSuchElementException
 
 tailrec fun <T> nth(n: Int, list: List<T>): T {
     if (n < 0) throw IllegalArgumentException()
@@ -18,6 +18,6 @@ class P03Test {
 
     @Test(expected = NoSuchElementException::class)
     fun `Nth element outside of list size`() {
-        nth(100, listOf<Int>(1, 1, 2, 3, 5, 8))
+        nth(100, listOf(1, 1, 2, 3, 5, 8))
     }
 }

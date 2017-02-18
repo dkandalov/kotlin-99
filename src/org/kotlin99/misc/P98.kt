@@ -129,9 +129,7 @@ class Nonogram {
             val cells = lines
                 .takeWhile{ it.startsWith("|") }
                 .map { it.replace(Regex("[|]"), "").replace(Regex(" .*"), "") }
-                .map { it.toCharArray().mapTo(ArrayList()) {
-                    if (it == '_') false else true
-                }}
+                .map { it.toCharArray().mapTo(ArrayList()) { it != '_' } }
 
             val rowConstraints = lines
                 .takeWhile{ it.startsWith("|") }

@@ -28,9 +28,9 @@ fun <T> ArrayList<T>.fill(n: Int, value: T): ArrayList<T> {
 fun <T> List<T>.permutations(): List<List<T>> {
     if (size <= 1) return listOf(this)
     val head = first()
-    return tail().permutations().flatMap{ tailPermutations ->
-        (0..tailPermutations.size).map { i ->
-            LinkedList(tailPermutations).apply{ add(i, head) }
+    return tail().permutations().flatMap{ tailPermutation ->
+        (0..tailPermutation.size).map { i ->
+            LinkedList(tailPermutation).apply{ add(i, head) }
         }
     }
 }
@@ -38,9 +38,9 @@ fun <T> List<T>.permutations(): List<List<T>> {
 fun <T> List<T>.permutationsSeq(): Sequence<List<T>> {
     if (size <= 1) return sequenceOf(this)
     val head = first()
-    return tail().permutationsSeq().flatMap{ tailPermutations ->
-        (0..tailPermutations.size).asSequence().map { i ->
-            LinkedList(tailPermutations).apply{ add(i, head) }
+    return tail().permutationsSeq().flatMap{ tailPermutation ->
+        (0..tailPermutation.size).asSequence().map { i ->
+            LinkedList(tailPermutation).apply{ add(i, head) }
         }
     }
 }

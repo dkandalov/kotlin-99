@@ -13,6 +13,6 @@ class P02Test {
 
     @Test(expected = IndexOutOfBoundsException::class)
     fun `penultimate element in list smaller than 2`() {
-        penultimate(listOf<Int>(1))
+        penultimate(listOf(1))
     }
 }

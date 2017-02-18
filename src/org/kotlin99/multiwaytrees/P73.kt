@@ -4,7 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.tail
-import java.util.*
+import java.util.ArrayList
 
 fun MTree<*>.toLispString(): String =
         if (children.isEmpty()) value.toString()
@@ -47,7 +47,7 @@ private interface Token {
 private data class Text(val value: String) : Token {
     override fun trim() = null
     override fun length() = value.length
-    override fun toString() = "$value"
+    override fun toString() = value
 }
 private data class Atom(val value: String): Token {
     override fun trim() = this

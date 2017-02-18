@@ -13,7 +13,7 @@ fun Int.toWords(): String {
     fun convertHundreds(n: Int) = (n / 100).toWords().postfix(" hundred")
     fun convertTensAndOnes(n: Int): String {
         return if (n < 10) ones[n]
-        else if (n >= 10 && n < 20) teens[n - 10]
+        else if (n in 10..19) teens[n - 10]
         else listOf(tens[n / 10], ones[n % 10]).joinNonEmpty()
     }
 
