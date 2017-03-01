@@ -2,15 +2,11 @@ package org.kotlin99.misc
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
-import org.junit.Ignore
-import org.junit.Test
-import org.kotlin99.common.fill
-import org.kotlin99.common.tail
-import org.kotlin99.common.toSeq
-import org.kotlin99.misc.Nonogram.Box
+import org.junit.*
+import org.kotlin99.common.*
+import org.kotlin99.misc.Nonogram.*
 import org.kotlin99.misc.Nonogram.Companion.parse
-import org.kotlin99.misc.Nonogram.Constraint
-import java.util.*
+import java.util.ArrayList
 
 @Suppress("unused") // Because this class is a "namespace".
 class Nonogram {
@@ -65,9 +61,9 @@ class Nonogram {
         }
 
         fun apply(boxes: List<Box>, rowIndex: Int): Board {
-            boxes.forEach { box ->
-                0.rangeTo(box.width - 1).forEach {
-                    cells[rowIndex][box.index + it] = true
+            boxes.forEach { (index, width) ->
+                0.rangeTo(width - 1).forEach {
+                    cells[rowIndex][index + it] = true
                 }
             }
             return this
@@ -80,7 +76,7 @@ class Nonogram {
         override fun toString(): String {
             val max = columnConstraints.map{ it.boxes.size }.max()!!
 
-            val rows = cells.mapIndexed { i, row ->
+            val rows = cells.mapIndexed { _, row ->
                 "|" + row.map { if (it) "X" else "_" }.joinToString("|") + "|"
             }
             val constraints = 0.rangeTo(max - 1).map { i ->

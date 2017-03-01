@@ -1,14 +1,9 @@
 package org.kotlin99.common
 
-import com.natpryce.hamkrest.MatchResult
-import com.natpryce.hamkrest.Matcher
-import com.natpryce.hamkrest.anyElement
+import com.natpryce.hamkrest.*
 import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.equalTo
-import org.junit.Assert
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.*
+import org.junit.Assert.*
 
 
 fun <T> containsAll(vararg itemMatchers: Matcher<T>): Matcher<Iterable<T>> {
@@ -36,13 +31,10 @@ class ContainsAll<in T>(private val matchers: Iterable<Matcher<T>>) : Matcher<It
 
     override fun invoke(actual: Iterable<T>): MatchResult {
         val matching = Matching(matchers)
-        for (item in actual) {
-            val matchResult = matching.matches(item)
-            if (matchResult != MatchResult.Match) {
-                return matchResult
-            }
-        }
-        return matching.isFinished(actual)
+        return actual.asSequence()
+            .map { matching.matches(it) }
+            .firstOrNull { it != MatchResult.Match }
+            ?: matching.isFinished(actual)
     }
 
     override val description: String

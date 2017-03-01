@@ -1,17 +1,12 @@
 package org.kotlin99.binarytrees
 
-import com.natpryce.hamkrest.Matcher
-import com.natpryce.hamkrest.and
-import com.natpryce.hamkrest.anyElement
+import com.natpryce.hamkrest.*
 import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.kotlin99.binarytrees.P55Test.Companion.nodeList
-import org.kotlin99.binarytrees.Tree.End
-import org.kotlin99.binarytrees.Tree.Node
-import org.kotlin99.common.containsAll
-import org.kotlin99.common.tail
+import org.kotlin99.binarytrees.Tree.*
+import org.kotlin99.common.*
 
 fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
     if (height < 1) listOf(End)
@@ -69,8 +64,8 @@ class P59Test {
         }
     }
 
-    fun <T> containsElements(vararg matchers: Matcher<T>) : Matcher<Iterable<T>> {
-        return matchers.tail().fold(anyElement(matchers.first())){ result, matcher ->
+    private fun <T> containsElements(vararg matchers: Matcher<T>) : Matcher<Iterable<T>> {
+        return matchers.tail().fold(anyElement(matchers.first())){ result: Matcher<Iterable<T>>, matcher ->
             result.and(anyElement(matcher))
         }
     }

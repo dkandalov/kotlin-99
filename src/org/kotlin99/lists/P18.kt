@@ -10,6 +10,7 @@ fun <T> slice(from: Int, to: Int, list: List<T>): List<T> =
         else if (to > 0) listOf(list.first()) + slice(from, to - 1, list.tail())
         else emptyList()
 
+@Suppress("unused")
 fun <T> slice_(from: Int, to: Int, list: List<T>) = list.subList(from, to)
 
 class P18Test {

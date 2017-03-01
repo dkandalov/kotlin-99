@@ -10,8 +10,7 @@
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
-        <kotlin.version>1.0.6</kotlin.version>
-        <!--<kotlin.version>1.1-M03</kotlin.version>-->
+        <kotlin.version>1.1.0</kotlin.version>
     </properties>
 
     <repositories>
@@ -33,11 +32,16 @@
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.natpryce</groupId>
             <artifactId>hamkrest</artifactId>
-            <version>1.2.1.0</version>
+            <version>1.2.3.0</version>
         </dependency>
 
         <dependency>
