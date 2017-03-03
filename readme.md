@@ -1,7 +1,7 @@
 # Ninety-Nine Kotlin Problems
 
 [![Build Status](https://travis-ci.org/dkandalov/kotlin-99.svg?branch=master)](https://travis-ci.org/dkandalov/kotlin-99)
-[![Discord chat](https://img.shields.io/badge/discord-join%20chat%20%E2%86%92-brightgreen.svg?style=flat)](https://discord.gg/s9Q6ySX)
+[![Gitter chat](https://gitter.im/kotlin-99/Lobby)](https://badges.gitter.im/kotlin-99/chat.svg)
 
 ## Table of Contents
 
