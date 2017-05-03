@@ -10,6 +10,8 @@
     <properties>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
+        <!-- Note that latest pre-release versions of Kotlin might not work in TravisCI
+             because TravisCI only searches for dependencies in central maven repository and ignores all other repositories. -->
         <kotlin.version>1.1.2</kotlin.version>
     </properties>
 
@@ -23,6 +25,7 @@
             <url>http://dl.bintray.com/kotlin/kotlin-eap-1.1</url>
         </repository>
     </repositories>
+    
     <pluginRepositories>
         <pluginRepository>
             <id>kotlin-eap</id>
