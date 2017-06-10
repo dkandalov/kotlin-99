@@ -414,7 +414,7 @@ false
 Write a function called ``printTruthTable`` which prints the truth table of a given logical expression.
 ``` kotlin
 > printTruthTable{ a, b -> a.and_(a.or_(b.not_())) }
-a	    b	    result
+a	b	result
 true	true	true
 true	false	true
 false	true	false
@@ -1234,17 +1234,17 @@ Sudoku puzzles go like this:
 ```
 Problem          Solution
 
-..4|8..|.17	     934|825|617	     
-67.|9..|...	     672|914|853
-5.8|.3.|..4      518|637|924
----+---+---      ---+---+---
-3..|74.|1..      325|748|169
-.69|...|78.      469|153|782
-..1|.69|..5      781|269|435
----+---+---      ---+---+---
-1..|.8.|3.6	     197|582|346
-...|..6|.91	     853|476|291
-24.|..1|5..      246|391|578
+..4|8..|.17	 934|825|617
+67.|9..|...	 672|914|853
+5.8|.3.|..4	 518|637|924
+---+---+---	 ---+---+---
+3..|74.|1..	 325|748|169
+.69|...|78.	 469|153|782
+..1|.69|..5	 781|269|435
+---+---+---	 ---+---+---
+1..|.8.|3.6	 197|582|346
+...|..6|.91	 853|476|291
+24.|..1|5..	 246|391|578
 ```
 Every cell in the puzzle belongs to a (horizontal) row and a (vertical) column, as well as to one single ``3×3`` square. 
 At the beginning, some of the cells carry a single-digit number between ``1`` and ``9``. 
