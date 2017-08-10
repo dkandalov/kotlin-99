@@ -10,19 +10,19 @@ import org.kotlin99.graphs.Graph.AdjacencyList.Link
 fun <T> Graph<T, *>.findAllPaths(from: T, to: T, path: List<T> = emptyList()): List<List<T>> {
     if (from == to) return listOf(path + to)
     return nodes[from]!!.neighbors()
-            .filter{ !path.contains(it.value) }
-            .flatMap{ findAllPaths(it.value, to, path + from) }
+        .filter { !path.contains(it.value) }
+        .flatMap { findAllPaths(it.value, to, path + from) }
 }
 
 fun <T> Graph<T, Int>.findShortestPath(from: T, to: T): List<T> {
     fun distanceBetween(n1: T, n2: T): Int =
-            nodes[n1]!!.edges.find{ it.n1.value == n2 || it.n2.value == n2 }!!.label!!
+        nodes[n1]!!.edges.find { it.n1.value == n2 || it.n2.value == n2 }!!.label!!
 
     fun pathAsList(path: MutableMap<T, T>, current: T): List<T> =
-            if (!path.containsKey(current)) listOf(current)
-            else pathAsList(path, path[current]!!) + current
+        if (!path.containsKey(current)) listOf(current)
+        else pathAsList(path, path[current]!!) + current
 
-    fun neighborsOf(nodeValue: T): List<T> = nodes[nodeValue]!!.neighbors().map{ it.value }
+    fun neighborsOf(nodeValue: T): List<T> = nodes[nodeValue]!!.neighbors().map { it.value }
 
     val visited = mutableSetOf<T>()
     val queue = mutableSetOf(from)
@@ -30,14 +30,14 @@ fun <T> Graph<T, Int>.findShortestPath(from: T, to: T): List<T> {
     val scoreByNode = mutableMapOf(from to 0)
 
     while (queue.isNotEmpty()) {
-        val node = queue.minBy{ scoreByNode[it]!! }!!
+        val node = queue.minBy { scoreByNode[it]!! }!!
         if (node == to) {
             return pathAsList(path, node)
         }
         queue.remove(node)
         visited.add(node)
 
-        neighborsOf(node).filterNot{ visited.contains(it) }.forEach { neighbor ->
+        neighborsOf(node).filterNot { visited.contains(it) }.forEach { neighbor ->
             val score = scoreByNode[node]!! + distanceBetween(node, neighbor)
             val isNew = queue.add(neighbor)
             if (isNew || score < scoreByNode[neighbor]!!) {
@@ -52,7 +52,7 @@ fun <T> Graph<T, Int>.findShortestPath(from: T, to: T): List<T> {
 fun <T, U> Graph<T, U>.findShortestPath(from: T, to: T, labelToInt: (U?) -> Int): List<T> {
     fun Graph<T, U>.toIntGraph(): Graph<T, Int> {
         return Graph.labeledAdjacent(AdjacencyList(this.toAdjacencyList().entries.map {
-            Entry(it.node, it.links.map{ Link(it.node, labelToInt(it.label)) })
+            Entry(it.node, it.links.map { Link(it.node, labelToInt(it.label)) })
         }))
     }
     return toIntGraph().findShortestPath(from, to)
@@ -62,7 +62,7 @@ fun <T, U> Graph<T, U>.findShortestPath(from: T, to: T, labelToInt: (U?) -> Int)
 fun <T> Graph<T, Nothing>.findShortestPath(from: T, to: T): List<T> {
     fun Graph<T, Nothing>.toIntGraph(): Graph<T, Int> {
         return Graph.labeledAdjacent(AdjacencyList(this.toAdjacencyList().entries.map {
-            Entry(it.node, it.links.map{ Link(it.node, 1) })
+            Entry(it.node, it.links.map { Link(it.node, 1) })
         }))
     }
     return toIntGraph().findShortestPath(from, to)

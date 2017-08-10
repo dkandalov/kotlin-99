@@ -15,20 +15,19 @@ import org.kotlin99.lists.combinations
 
 fun findAllRegularGraphs(degree: Int, nodeAmount: Int): List<Graph<Int, Nothing>> {
     if (degree >= nodeAmount) return emptyList()
-    val nodes = 0.rangeTo(nodeAmount - 1).toList()
+    val nodes = 0.until(nodeAmount).toList()
     return edgeCombinations(nodes, degree)
-            .map { edges ->
-                edges.toGraph()
-            }
-            .fold(emptyList()) { list, graph ->
-                if (list.none { it.isIsomorphicTo(graph) }) list + graph else list
-            }
+        .map { edges ->
+            edges.toGraph()
+        }
+        .fold(emptyList()) { list, graph ->
+            if (list.none { it.isIsomorphicTo(graph) }) list + graph else list
+        }
 }
 
 private fun edgeCombinations(nodes: List<Int>, degree: Int, result: List<Pair<Int, Int>> = emptyList()): List<List<Pair<Int, Int>>> {
-    fun List<Pair<Int, Int>>.degreeOf(node: Int): Int {
-        return count{ it.first == node || it.second == node }
-    }
+    fun List<Pair<Int, Int>>.degreeOf(node: Int) = count { it.first == node || it.second == node }
+
     if (nodes.isEmpty() || degree == 0) return emptyList()
     if (nodes.size == 1) {
         return if (result.degreeOf(nodes.first()) == degree) listOf(result) else emptyList()
@@ -37,28 +36,26 @@ private fun edgeCombinations(nodes: List<Int>, degree: Int, result: List<Pair<In
     val remainingDegree = degree - result.degreeOf(nodes.first())
 
     return combinations(remainingDegree, nodes.tail())
-            .map { combination ->
-                combination.map{ Pair(nodes.first(), it) }
-            }.flatMap { edges ->
-                edgeCombinations(nodes.tail(), degree, edges + result)
-            }
+        .map { combination ->
+            combination.map { Pair(nodes.first(), it) }
+        }.flatMap { edges ->
+        edgeCombinations(nodes.tail(), degree, edges + result)
+    }
 }
 
 private fun <T> List<Pair<T, T>>.toGraph(): Graph<T, Nothing> {
-    val nodes = flatMap{ it.toList() }
-    val edges = map{ Term<T, Nothing>(it.first, it.second) }
+    val nodes = flatMap { it.toList() }
+    val edges = map { Term<T, Nothing>(it.first, it.second) }
     return Graph.terms(TermForm(nodes, edges))
 }
 
 private fun <T1, T2, U> Graph<T1, U>.mapValue(f: (T1) -> T2): Graph<T2, U> {
-    val nodes = nodes.keys.map{ f(it) }
-    val edges = edges.map{ Term(f(it.n1.value), f(it.n2.value), it.label) }
+    val nodes = nodes.keys.map { f(it) }
+    val edges = edges.map { Term(f(it.n1.value), f(it.n2.value), it.label) }
     return Graph.labeledTerms(TermForm(nodes, edges))
 }
 
-private fun Graph<*, *>.isRegular(degree: Int): Boolean {
-    return nodes.values.all { it.edges.size == degree }
-}
+private fun Graph<*, *>.isRegular(degree: Int) = nodes.values.all { it.edges.size == degree }
 
 
 class P94Test {
@@ -74,17 +71,17 @@ class P94Test {
 
     @Test fun `regular graphs for 4 nodes`() {
         assertThat(findAllRegularGraphs(degree = 2, nodeAmount = 4), equalTo(intGraphs(
-                "[2-3, 1-3, 0-2, 0-1]"
+            "[2-3, 1-3, 0-2, 0-1]"
         )))
         assertThat(findAllRegularGraphs(degree = 3, nodeAmount = 4), equalTo(intGraphs(
-                "[2-3, 1-3, 1-2, 0-3, 0-2, 0-1]"
+            "[2-3, 1-3, 1-2, 0-3, 0-2, 0-1]"
         )))
     }
 
     @Test fun `non-isomorphic 3-regular graphs with 6 nodes`() {
         assertThat(findAllRegularGraphs(degree = 3, nodeAmount = 6), equalTo(intGraphs(
-                "[4-5, 3-5, 3-4, 2-5, 1-4, 1-2, 0-3, 0-2, 0-1]",
-                "[3-5, 3-4, 2-5, 2-4, 1-5, 1-4, 0-3, 0-2, 0-1]"
+            "[4-5, 3-5, 3-4, 2-5, 1-4, 1-2, 0-3, 0-2, 0-1]",
+            "[3-5, 3-4, 2-5, 2-4, 1-5, 1-4, 0-3, 0-2, 0-1]"
         )))
     }
 
@@ -94,7 +91,6 @@ class P94Test {
         }
     }
 
-    private fun intGraphs(vararg graphs: String): List<Graph<Int, Nothing>> {
-        return graphs.map{ it.toGraph().mapValue(String::toInt)}
-    }
+    private fun intGraphs(vararg graphs: String): List<Graph<Int, Nothing>> =
+        graphs.map { it.toGraph().mapValue(String::toInt) }
 }

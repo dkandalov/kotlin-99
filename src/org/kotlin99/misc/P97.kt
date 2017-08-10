@@ -22,8 +22,8 @@ class Sudoku {
         fun solve(): Sequence<Board> {
             optimizeGuesses()
 
-            if (cells.any{ it.isNotFilled() && it.guesses.isEmpty() }) return emptySequence()
-            if (cells.all{ it.isFilled() }) return sequenceOf(this)
+            if (cells.any { it.isNotFilled() && it.guesses.isEmpty() }) return emptySequence()
+            if (cells.all { it.isFilled() }) return sequenceOf(this)
 
             return positionedCells.find { it.cell.isNotFilled() }!!.let {
                 it.cell.guesses.toSeq().flatMap { guess ->
@@ -36,25 +36,21 @@ class Sudoku {
             fun cell(point: Point) = this[point.x, point.y]
 
             fun List<Point>.removeGuesses(value: Int) =
-                filter{ cell(it).isNotFilled() }.
-                forEach { set(it.x, it.y, cell(it).removeGuess(value)) }
+                filter { cell(it).isNotFilled() }
+                    .forEach { set(it.x, it.y, cell(it).removeGuess(value)) }
 
             positionedCells
-                .filter{ it.cell.isFilled() }
-                .forEach{
+                .filter { it.cell.isFilled() }
+                .forEach {
                     it.point.row().removeGuesses(it.cell.value!!)
                     it.point.column().removeGuesses(it.cell.value)
                     it.point.square().removeGuesses(it.cell.value)
                 }
         }
 
-        fun copy(): Board {
-            return Board(ArrayList(cells))
-        }
+        fun copy(): Board = Board(ArrayList(cells))
 
-        operator fun get(x: Int, y: Int): Cell {
-            return cells[x + y * size]
-        }
+        operator fun get(x: Int, y: Int): Cell = cells[x + y * size]
 
         operator fun set(x: Int, y: Int, cell: Cell): Board {
             cells[x + y * size] = cell
@@ -67,7 +63,7 @@ class Sudoku {
                 else listOf(take(sliceSize)) + drop(sliceSize).slicedBy(sliceSize)
 
             fun <T> List<T>.mapJoin(separator: String, f: (T) -> String) =
-                map{ f(it) }.joinToString(separator)
+                map { f(it) }.joinToString(separator)
 
             return positionedCells.slicedBy(size * squareSize).mapJoin("\n---+---+---\n") { section ->
                 section.slicedBy(size).mapJoin("\n") { row ->
@@ -89,14 +85,14 @@ class Sudoku {
     private data class PositionedCell(val point: Point, val cell: Cell)
 
     data class Point(val x: Int, val y: Int) {
-        fun row() = 0.rangeTo(size - 1).map{ Point(it, y) }
+        fun row() = 0.until(size).map { Point(it, y) }
 
-        fun column() = 0.rangeTo(size - 1).map{ Point(x, it) }
+        fun column() = 0.until(size).map { Point(x, it) }
 
         fun square(): List<Point> {
             fun rangeOfSquare(coordinate: Int): IntRange {
                 return (coordinate / squareSize).let {
-                    (it * squareSize).rangeTo(((it + 1) * squareSize) - 1)
+                    (it * squareSize).until((it + 1) * squareSize)
                 }
             }
             return rangeOfSquare(y).flatMap { cellY ->
@@ -252,19 +248,19 @@ class P97Test {
 
     @Test fun `square coordinates of a point`() {
         assertThat(Point(1, 2).square(), equalTo(listOf(
-                Point(0, 0), Point(1, 0), Point(2, 0),
-                Point(0, 1), Point(1, 1), Point(2, 1),
-                Point(0, 2), Point(1, 2), Point(2, 2)
+            Point(0, 0), Point(1, 0), Point(2, 0),
+            Point(0, 1), Point(1, 1), Point(2, 1),
+            Point(0, 2), Point(1, 2), Point(2, 2)
         )))
         assertThat(Point(0, 8).square(), equalTo(listOf(
-                Point(0, 6), Point(1, 6), Point(2, 6),
-                Point(0, 7), Point(1, 7), Point(2, 7),
-                Point(0, 8), Point(1, 8), Point(2, 8)
+            Point(0, 6), Point(1, 6), Point(2, 6),
+            Point(0, 7), Point(1, 7), Point(2, 7),
+            Point(0, 8), Point(1, 8), Point(2, 8)
         )))
         assertThat(Point(7, 7).square(), equalTo(listOf(
-                Point(6, 6), Point(7, 6), Point(8, 6),
-                Point(6, 7), Point(7, 7), Point(8, 7),
-                Point(6, 8), Point(7, 8), Point(8, 8)
+            Point(6, 6), Point(7, 6), Point(8, 6),
+            Point(6, 7), Point(7, 7), Point(8, 7),
+            Point(6, 8), Point(7, 8), Point(8, 8)
         )))
     }
 
@@ -292,7 +288,7 @@ class P97Test {
     }
 
     @Test fun `convert board to string`() {
-        val board = Board().apply{
+        val board = Board().apply {
             set(0, 0, Cell(9))
             set(4, 0, Cell(8))
             set(8, 0, Cell(7))

@@ -10,10 +10,10 @@ import org.kotlin99.binarytrees.Tree.Node
 data class Point(val x: Int, val y: Int)
 
 data class Positioned<out T>(val value: T, val point: Point) {
-    constructor (value: T, x: Int, y: Int) : this(value, Point(x, y))
+    constructor (value: T, x: Int, y: Int): this(value, Point(x, y))
 
     override fun toString(): String =
-            "[" + point.x.toString() + "," + point.y.toString() + "] " + value.toString()
+        "[" + point.x.toString() + "," + point.y.toString() + "] " + value.toString()
 }
 
 
@@ -23,24 +23,24 @@ data class Positioned<out T>(val value: T, val point: Point) {
  * - Y is depth of current node (root node has depth 1)
  */
 fun <T> Tree<T>.layout(xShift: Int = 0, y: Int = 1): Tree<Positioned<T>> =
-        if (this == End) {
-            End
-        } else if (this is Node<T>) {
-            val x = xShift + left.nodeCount() + 1
-            Node(value = Positioned(value, Point(x, y)),
-                 left = left.layout(xShift, y + 1),
-                 right = right.layout(x, y + 1))
-        } else {
-            this.throwUnknownImplementation()
-        }
+    if (this == End) {
+        End
+    } else if (this is Node<T>) {
+        val x = xShift + left.nodeCount() + 1
+        Node(value = Positioned(value, Point(x, y)),
+             left = left.layout(xShift, y + 1),
+             right = right.layout(x, y + 1))
+    } else {
+        this.throwUnknownImplementation()
+    }
 
 
 class P64Test {
 
     @Test fun `positioned nodes pretty print`() {
         assertThat(
-                Node(Positioned("a", 1, 1)).toPrettyString(),
-                equalTo("""
+            Node(Positioned("a", 1, 1)).toPrettyString(),
+            equalTo("""
                 | 012
                 |0···
                 |1·a·
@@ -48,10 +48,10 @@ class P64Test {
             """.trimMargin()))
 
         assertThat(
-                Node(Positioned("a", 2, 1),
-                     Node(Positioned("b", 1, 2)),
-                     Node(Positioned("c", 3, 2))).toPrettyString(),
-                equalTo("""
+            Node(Positioned("a", 2, 1),
+                 Node(Positioned("b", 1, 2)),
+                 Node(Positioned("c", 3, 2))).toPrettyString(),
+            equalTo("""
                 | 01234
                 |0·····
                 |1··a··
@@ -62,8 +62,8 @@ class P64Test {
 
     @Test fun `layout binary tree (1)`() {
         assertThat(
-                Node("a").layout().toPrettyString(),
-                equalTo("""
+            Node("a").layout().toPrettyString(),
+            equalTo("""
                 | 012
                 |0···
                 |1·a·
@@ -71,8 +71,8 @@ class P64Test {
             """.trimMargin()))
 
         assertThat(
-                Node("a", Node("b")).layout().toPrettyString(),
-                equalTo("""
+            Node("a", Node("b")).layout().toPrettyString(),
+            equalTo("""
                 | 0123
                 |0····
                 |1··a·
@@ -81,8 +81,8 @@ class P64Test {
             """.trimMargin()))
 
         assertThat(
-                Node("a", Node("b", Node("c"))).layout().toPrettyString(),
-                equalTo("""
+            Node("a", Node("b", Node("c"))).layout().toPrettyString(),
+            equalTo("""
                 | 01234
                 |0·····
                 |1···a·
@@ -92,8 +92,8 @@ class P64Test {
                 """.trimMargin()))
 
         assertThat(
-                Node("a", Node("b"), Node("c")).layout().toPrettyString(),
-                equalTo("""
+            Node("a", Node("b"), Node("c")).layout().toPrettyString(),
+            equalTo("""
                 | 01234
                 |0·····
                 |1··a··
@@ -102,8 +102,8 @@ class P64Test {
             """.trimMargin()))
 
         assertThat(
-                Node("a", Node("b", End, Node("c")), Node("d")).layout().toPrettyString(),
-                equalTo("""
+            Node("a", Node("b", End, Node("c")), Node("d")).layout().toPrettyString(),
+            equalTo("""
                 | 012345
                 |0······
                 |1···a··
@@ -113,8 +113,8 @@ class P64Test {
             """.trimMargin()))
 
         assertThat(
-                Node("a", Node("b", Node("d"), Node("e")), Node("c", Node("f"), Node("g"))).layout().toPrettyString(),
-                equalTo("""
+            Node("a", Node("b", Node("d"), Node("e")), Node("c", Node("f"), Node("g"))).layout().toPrettyString(),
+            equalTo("""
                 | 012345678
                 |0·········
                 |1····a····
@@ -126,8 +126,8 @@ class P64Test {
 
     @Test fun `P64 illustration example`() {
         assertThat(
-                "nkmcahgeupsq".toList().toTree().layout().toPrettyString(),
-                equalTo("""
+            "nkmcahgeupsq".toList().toTree().layout().toPrettyString(),
+            equalTo("""
                 | 01234567890123
                 |0··············
                 |1········n·····

@@ -8,22 +8,22 @@ import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
 fun <T> Tree<T>.convertToString(): String =
-        if (this == End) {
-            ""
-        } else if (this is Node<T>) {
-            value.toString() + if (left != End || right != End) {
-                "(" + left.convertToString() + "," + right.convertToString() + ")"
-            } else {
-                ""
-            }
+    if (this == End) {
+        ""
+    } else if (this is Node<T>) {
+        value.toString() + if (left != End || right != End) {
+            "(" + left.convertToString() + "," + right.convertToString() + ")"
         } else {
-            this.throwUnknownImplementation()
+            ""
         }
+    } else {
+        this.throwUnknownImplementation()
+    }
 
 fun String.convertToTree(): Tree<String> {
     fun String.drop(prefix: String): String =
-            if (!startsWith(prefix)) throw IllegalStateException("Expected '$this' to start with '$prefix'")
-            else drop(prefix.length)
+        if (!startsWith(prefix)) throw IllegalStateException("Expected '$this' to start with '$prefix'")
+        else drop(prefix.length)
 
     fun String.parse(): Pair<Tree<String>, Int> {
         val value = takeWhile { it != '(' && it != ',' && it != ')' }
@@ -52,7 +52,7 @@ class P67Test {
         assertThat(Node("a").convertToString(), equalTo("a"))
         assertThat(Node("a", Node("b"), Node("c")).convertToString(), equalTo("a(b,c)"))
         assertThat(Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End))).convertToString(), equalTo(
-                "a(b(d,e),c(,f(g,)))"
+            "a(b(d,e),c(,f(g,)))"
         ))
     }
 
@@ -61,7 +61,7 @@ class P67Test {
         assertThat("a".convertToTree(), equalToTree(Node("a")))
         assertThat("a(b,c)".convertToTree(), equalToTree(Node("a", Node("b"), Node("c"))))
         assertThat("a(b(d,e),c(,f(g,)))".convertToTree(), equalToTree(
-                Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End)))
+            Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End)))
         ))
     }
 }

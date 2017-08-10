@@ -13,13 +13,11 @@ import org.kotlin99.misc.Crossword.Site
 import java.io.File
 
 class CrosswordFileReader(val filePath: String) {
-    fun readWords(): List<String> {
-        return File(filePath).readLines().takeWhile{ it != "" }
-    }
+    fun readWords(): List<String> =
+        File(filePath).readLines().takeWhile { it != "" }
 
-    fun readCrossword(): Crossword {
-        return Crossword.parse(File(filePath).readLines().dropWhile{ it != "" }.drop(1))
-    }
+    fun readCrossword(): Crossword =
+        Crossword.parse(File(filePath).readLines().dropWhile { it != "" }.drop(1))
 }
 
 data class Crossword(val sites: List<Site>) {
@@ -28,9 +26,9 @@ data class Crossword(val sites: List<Site>) {
         if (siteToFill().isEmpty()) return sequenceOf(this)
         if (i == words.size || words.size - i < siteToFill().size) return emptySequence()
 
-        return siteToFill().filter{ it.fits(words[i]) }.toSeq().flatMap { site ->
+        return siteToFill().filter { it.fits(words[i]) }.toSeq().flatMap { site ->
             copy().let { crossword ->
-                crossword.sites.find{ it == site }!!.fill(words[i])
+                crossword.sites.find { it == site }!!.fill(words[i])
                 crossword.solve(words, i + 1)
             }
         } + solve(words, i + 1)
@@ -39,24 +37,24 @@ data class Crossword(val sites: List<Site>) {
     private fun siteToFill() = sites.filter { !it.filled }
 
     private fun isInvalidFor(words: List<String>) =
-            sites.any { it.filled && !words.contains(it.word) } ||
-            sites.any { !it.filled && words.none { word -> it.fits(word) } }
+        sites.any { it.filled && !words.contains(it.word) } ||
+        sites.any { !it.filled && words.none { word -> it.fits(word) } }
 
     fun copy(): Crossword {
-        val cells = sites.flatMap{ it.cells }.distinct()
+        val cells = sites.flatMap { it.cells }.distinct()
         val copyByCell = cells.associate { Pair(it, it.copy()) }
         return Crossword(sites.map {
-            Site(it.cells.map{ copyByCell[it]!! })
+            Site(it.cells.map { copyByCell[it]!! })
         })
     }
 
     override fun toString(): String {
-        val cells = sites.flatMap{ it.cells }
-        val maxX = cells.map{ it.x }.max()!!
-        val maxY = cells.map{ it.y }.max()!!
+        val cells = sites.flatMap { it.cells }
+        val maxX = cells.map { it.x }.max()!!
+        val maxY = cells.map { it.y }.max()!!
 
         return (0..maxY).map { y ->
-            (0..maxX).map { x -> cells.find{ it.x == x && it.y == y } }
+            (0..maxX).map { x -> cells.find { it.x == x && it.y == y } }
                 .map { it?.c ?: Cell.none.c }
                 .joinToString("").trimEnd()
         }.joinToString("\n")
@@ -64,8 +62,8 @@ data class Crossword(val sites: List<Site>) {
 
     companion object {
         fun parse(lines: List<String>): Crossword {
-            val maxWidth = lines.map{ it.length }.max()!!
-            val paddedLines = lines.map{ it.padEnd(maxWidth + 1, ' ') } + "".padEnd(maxWidth + 1, ' ')
+            val maxWidth = lines.map { it.length }.max()!!
+            val paddedLines = lines.map { it.padEnd(maxWidth + 1, ' ') } + "".padEnd(maxWidth + 1, ' ')
             val cells = paddedLines.mapIndexed { row: Int, line: String ->
                 line.mapIndexed { col: Int, c: Char ->
                     if (c != ' ') Cell(col, row, c) else Cell.none
@@ -73,16 +71,16 @@ data class Crossword(val sites: List<Site>) {
             }
             val horizontalSites = consumeSites(cells.flatten())
             val verticalSites = consumeSites(cells.transpose().flatten())
-            val sites = (horizontalSites + verticalSites).filter{ it.cells.size >= 2 }
+            val sites = (horizontalSites + verticalSites).filter { it.cells.size >= 2 }
 
             return Crossword(sites)
         }
 
         private fun consumeSites(cells: List<Cell>): List<Site> {
             if (cells.isEmpty()) return emptyList()
-            if (cells.first() == Cell.none) return consumeSites(cells.dropWhile{ it == Cell.none })
-            val site = Site(cells.takeWhile{ it != Cell.none })
-            return listOf(site) + consumeSites(cells.dropWhile{ it != Cell.none })
+            if (cells.first() == Cell.none) return consumeSites(cells.dropWhile { it == Cell.none })
+            val site = Site(cells.takeWhile { it != Cell.none })
+            return listOf(site) + consumeSites(cells.dropWhile { it != Cell.none })
         }
     }
 
@@ -90,10 +88,10 @@ data class Crossword(val sites: List<Site>) {
         constructor(vararg cells: Cell): this(cells.toList())
 
         val word: String
-            get() = cells.map{ it.c }.joinToString("")
+            get() = cells.map { it.c }.joinToString("")
 
         val filled: Boolean
-            get() = cells.all{ it.c != vacant }
+            get() = cells.all { it.c != vacant }
 
         fun add(cell: Cell) = Site(cells + cell)
 
@@ -111,15 +109,13 @@ data class Crossword(val sites: List<Site>) {
         override fun toString(): String {
             val x = cells.first().x
             val y = cells.first().y
-            val word = cells.map{ it.c }.joinToString("")
+            val word = cells.map { it.c }.joinToString("")
             return "Site($x,$y,$word)"
         }
     }
 
     data class Cell(val x: Int, val y: Int, var c: Char) {
-        override fun toString(): String {
-            return "($x,$y,$c)"
-        }
+        override fun toString() = "($x,$y,$c)"
 
         companion object {
             val none = Cell(-1, -1, ' ')
@@ -136,7 +132,7 @@ class P99Test {
         val crossword = reader.readCrossword()
 
         assertThat(words, equalTo(listOf(
-                "LINUX", "PROLOG", "PERL", "ONLINE", "GNU", "XML", "NFS", "SQL", "EMACS", "WEB", "MAC"
+            "LINUX", "PROLOG", "PERL", "ONLINE", "GNU", "XML", "NFS", "SQL", "EMACS", "WEB", "MAC"
         )))
         assertThat(crossword.toString(), equalTo("""
             |......  .
@@ -154,8 +150,8 @@ class P99Test {
             |.
         """)
         assertThat(crossword.sites, equalTo(listOf(
-                Site(Cell(0, 0, '.'), Cell(1, 0, '.')),
-                Site(Cell(0, 0, '.'), Cell(0, 1, '.'))
+            Site(Cell(0, 0, '.'), Cell(1, 0, '.')),
+            Site(Cell(0, 0, '.'), Cell(0, 1, '.'))
         )))
     }
 
@@ -169,8 +165,8 @@ class P99Test {
             it.cells[1].c = 'b'
         }
         assertThat(crossword.sites, equalTo(listOf(
-                Site(Cell(0, 0, 'a'), Cell(1, 0, 'b')),
-                Site(Cell(0, 0, 'a'), Cell(0, 1, '.'))
+            Site(Cell(0, 0, 'a'), Cell(1, 0, 'b')),
+            Site(Cell(0, 0, 'a'), Cell(0, 1, '.'))
         )))
     }
 
@@ -185,8 +181,8 @@ class P99Test {
             it.cells[1].c = 'b'
         }
         assertThat(crossword.sites, equalTo(listOf(
-                Site(Cell(0, 0, 'a'), Cell(1, 0, 'b')),
-                Site(Cell(0, 0, 'a'), Cell(0, 1, '.'))
+            Site(Cell(0, 0, 'a'), Cell(1, 0, 'b')),
+            Site(Cell(0, 0, 'a'), Cell(0, 1, '.'))
         )))
     }
 
@@ -287,7 +283,7 @@ class P99Test {
     @Test fun `solve crossword from p99c file`() {
         val reader = CrosswordFileReader("data/p99c.dat")
         val solution = reader.readCrossword().solve(reader.readWords())
-        assertThat(solution.toList(), equalTo(emptyList<Crossword>()))
+        assertThat(solution.toList(), equalTo(emptyList()))
     }
 
     @Test fun `solve crossword from p99d file`() {

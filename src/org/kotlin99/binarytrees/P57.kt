@@ -9,22 +9,20 @@ import org.junit.Test
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
-fun <T : Comparable<T>> List<T>.toTree(): Tree<T> =
+fun <T: Comparable<T>> List<T>.toTree(): Tree<T> =
     fold(End as Tree<T>) { tree, value ->
         tree.add(value)
     }
 
-fun <T : Comparable<T>> Tree<T>.add(value: T): Tree<T> =
-        if (this == End) {
-            Node(value)
-        } else if (this is Node<T>) {
-            if (this.value < value) copy(right = right.add(value))
-            else copy(left = left.add(value))
-        } else {
-            this.throwUnknownImplementation()
-        }
-
-
+fun <T: Comparable<T>> Tree<T>.add(value: T): Tree<T> =
+    if (this == End) {
+        Node(value)
+    } else if (this is Node<T>) {
+        if (this.value < value) copy(right = right.add(value))
+        else copy(left = left.add(value))
+    } else {
+        this.throwUnknownImplementation()
+    }
 
 
 class P57Test {

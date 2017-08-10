@@ -8,14 +8,14 @@ import org.kotlin99.common.containsAll
 
 
 fun <T> Tree<T>.valuesAtLevel(n: Int): List<T> =
-        if (this == End) {
-            emptyList()
-        } else if (this is Node<T>) {
-            if (n == 1) listOf(this.value)
-            else left.valuesAtLevel(n - 1) + right.valuesAtLevel(n - 1)
-        } else {
-            this.throwUnknownImplementation()
-        }
+    if (this == End) {
+        emptyList()
+    } else if (this is Node<T>) {
+        if (n == 1) listOf(this.value)
+        else left.valuesAtLevel(n - 1) + right.valuesAtLevel(n - 1)
+    } else {
+        this.throwUnknownImplementation()
+    }
 
 
 class P62Test {

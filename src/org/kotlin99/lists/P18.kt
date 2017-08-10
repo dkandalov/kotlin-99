@@ -6,9 +6,9 @@ import org.junit.Test
 import org.kotlin99.common.tail
 
 fun <T> slice(from: Int, to: Int, list: List<T>): List<T> =
-        if (from > 0) slice(from - 1, to - 1, list.tail())
-        else if (to > 0) listOf(list.first()) + slice(from, to - 1, list.tail())
-        else emptyList()
+    if (from > 0) slice(from - 1, to - 1, list.tail())
+    else if (to > 0) listOf(list.first()) + slice(from, to - 1, list.tail())
+    else emptyList()
 
 @Suppress("unused")
 fun <T> slice_(from: Int, to: Int, list: List<T>) = list.subList(from, to)

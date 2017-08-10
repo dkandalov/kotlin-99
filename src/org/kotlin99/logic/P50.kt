@@ -7,10 +7,10 @@ import org.kotlin99.common.tail
 
 
 fun String.createEncoding(): HuffmanEncoding =
-        createEncoding(charAndFrequency())
+    createEncoding(charAndFrequency())
 
 fun String.encode(encoding: HuffmanEncoding) =
-        map { char -> encoding.codeByChar[char] }.joinToString("")
+    map { char -> encoding.codeByChar[char] }.joinToString("")
 
 fun String.decode(encoding: HuffmanEncoding): String {
     var result = ""
@@ -28,10 +28,10 @@ fun String.decode(encoding: HuffmanEncoding): String {
 }
 
 fun String.charAndFrequency(): Map<Char, Int> =
-        toCharArray().groupBy{ it }.map{ Pair(it.key, it.value.size) }.toMap()
+    toCharArray().groupBy { it }.map { Pair(it.key, it.value.size) }.toMap()
 
 fun createEncoding(frequencyByChar: Map<Char, Int>): HuffmanEncoding {
-    val tree = buildTree(frequencyByChar.map{ Node(it.value, it.key) })
+    val tree = buildTree(frequencyByChar.map { Node(it.value, it.key) })
     val codeByChar = tree.leavesWithPath().toMap()
     return HuffmanEncoding(tree, codeByChar)
 }
@@ -40,7 +40,7 @@ fun buildTree(nodes: List<Node>): Node {
     if (nodes.size == 1) {
         return nodes.first()
     } else {
-        val sortedNodes = nodes.sortedBy{ it.weight }
+        val sortedNodes = nodes.sortedBy { it.weight }
         val node = Node(sortedNodes[0].weight + sortedNodes[1].weight, null, sortedNodes[0], sortedNodes[1])
         return buildTree(sortedNodes.drop(2) + node)
     }
@@ -52,14 +52,14 @@ data class HuffmanEncoding(val tree: Node, val codeByChar: Map<Char, String>)
 
 data class Node(val weight: Int, val char: Char?, val left: Node? = null, val right: Node? = null) {
     fun leavesWithPath(): List<Pair<Char, String>> =
-            if (left == null && right == null) listOf(Pair(char!!, ""))
-            else (left?.leavesWithPath()?.map { Pair(it.first, "0" + it.second) } ?: emptyList()) +
-                 (right?.leavesWithPath()?.map { Pair(it.first, "1" + it.second) } ?: emptyList())
+        if (left == null && right == null) listOf(Pair(char!!, ""))
+        else (left?.leavesWithPath()?.map { Pair(it.first, "0" + it.second) } ?: emptyList()) +
+            (right?.leavesWithPath()?.map { Pair(it.first, "1" + it.second) } ?: emptyList())
 
     fun followCode(code: Char): Node? =
-            if (code == '0') left
-            else if (code == '1') right
-            else throw IllegalStateException("Unexpected code '$code'")
+        if (code == '0') left
+        else if (code == '1') right
+        else throw IllegalStateException("Unexpected code '$code'")
 
     override fun toString(): String {
         var s = "Node($weight"
@@ -73,10 +73,10 @@ data class Node(val weight: Int, val char: Char?, val left: Node? = null, val ri
 class P50Test {
     @Test fun `letter to code mapping`() {
         assertThat(
-                createEncoding(linkedMapOf(
+            createEncoding(linkedMapOf(
                 Pair('a', 25), Pair('b', 21), Pair('c', 18), Pair('d', 14), Pair('e', 9), Pair('f', 7), Pair('g', 6)
             )).codeByChar,
-                equalTo<Map<Char, String>>(linkedMapOf(
+            equalTo<Map<Char, String>>(linkedMapOf(
                 Pair('a', "10"), Pair('b', "00"), Pair('c', "111"), Pair('d', "110"), Pair('e', "010"), Pair('f', "0111"), Pair('g', "0110")
             ))
         )

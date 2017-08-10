@@ -14,9 +14,7 @@ fun <T> Iterable<T>.tail(): List<T> = drop(1)
 fun <T> Iterable<T>.toSeq(): Sequence<T> {
     val iterator = this.iterator()
     return object: Sequence<T> {
-        override fun iterator(): Iterator<T> {
-            return iterator
-        }
+        override fun iterator() = iterator
     }
 }
 
@@ -62,7 +60,7 @@ fun <E> List<List<E>>.transpose(): List<List<E>> {
 
 class CollectionsTest {
     @Test fun `permutations of collection`() {
-        assertThat(emptyList<Int>().permutations(), equalTo(listOf(emptyList<Int>())))
+        assertThat(emptyList<Int>().permutations(), equalTo(listOf(emptyList())))
         assertThat(listOf(1).permutations(), equalTo(listOf(listOf(1))))
         assertThat(listOf(1).permutations(), equalTo(listOf(listOf(1))))
 
@@ -90,8 +88,8 @@ class CollectionsTest {
     }
 
     @Test fun `transpose lists`() {
-        assertThat(emptyList<List<Int>>().transpose(), equalTo(emptyList<List<Int>>()))
-        assertThat(listOf(emptyList<Int>()).transpose(), equalTo(emptyList<List<Int>>()))
+        assertThat(emptyList<List<Int>>().transpose(), equalTo(emptyList()))
+        assertThat(listOf(emptyList<Int>()).transpose(), equalTo(emptyList()))
 
         assertThat(listOf(listOf(1)).transpose(), equalTo(listOf(listOf(1))))
 

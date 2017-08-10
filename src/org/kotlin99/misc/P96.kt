@@ -41,9 +41,7 @@ class GameOfLife {
                 return Board((survivedCells + newbornCells).toSet())
             }
 
-            private fun liveNeighboursOf(cell: Cell): Int {
-                return cell.neighbours().count{ cells.contains(it) }
-            }
+            private fun liveNeighboursOf(cell: Cell): Int = cell.neighbours().count{ cells.contains(it) }
         }
     }
 }
@@ -194,9 +192,7 @@ class P96Test {
         ))
     }
 
-    private fun parseBoard(s: String): Board {
-        return parseBoard(*s.split(Regex("\n")).toTypedArray())
-    }
+    private fun parseBoard(s: String): Board = parseBoard(*s.split(Regex("\n")).toTypedArray())
 
     private fun parseBoard(vararg lines: String): Board {
         val cells = lines.mapIndexed { y, line ->

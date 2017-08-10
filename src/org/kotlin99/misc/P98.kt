@@ -2,18 +2,26 @@ package org.kotlin99.misc
 
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
-import org.junit.*
-import org.kotlin99.common.*
-import org.kotlin99.misc.Nonogram.*
+import org.junit.Ignore
+import org.junit.Test
+import org.kotlin99.common.fill
+import org.kotlin99.common.tail
+import org.kotlin99.common.toSeq
+import org.kotlin99.misc.Nonogram.Box
 import org.kotlin99.misc.Nonogram.Companion.parse
-import java.util.ArrayList
+import org.kotlin99.misc.Nonogram.Constraint
+import java.util.*
 
 @Suppress("unused") // Because this class is a "namespace".
 class Nonogram {
 
-    data class Board(val width: Int, val height: Int,
-                     val rowConstrains: List<Constraint>, val columnConstraints: List<Constraint>,
-                     private val cells: List<ArrayList<Boolean>> = 1.rangeTo(height).map{ ArrayList<Boolean>().fill(width, false)}) {
+    data class Board(
+        val width: Int,
+        val height: Int,
+        val rowConstrains: List<Constraint>,
+        val columnConstraints: List<Constraint>,
+        val cells: List<ArrayList<Boolean>> = 1.rangeTo(height).map { ArrayList<Boolean>().fill(width, false) }
+    ) {
 
         fun solve(rowIndex: Int = 0): Sequence<Board> {
             if (hasContradiction()) return emptySequence()
@@ -35,12 +43,12 @@ class Nonogram {
                 return false
             }
 
-            val boxHeights = 0.rangeTo(width - 1).map{ columnBoxHeights(it) }
+            val boxHeights = 0.until(width).map { columnBoxHeights(it) }
             return !columnConstraints.zip(boxHeights).all { it.first.match(it.second) }
         }
 
         fun columnBoxHeights(column: Int): List<Int> {
-            val columnCells = 0.rangeTo(height - 1).map{ cells[it][column] }
+            val columnCells = 0.until(height).map { cells[it][column] }
 
             val result = ArrayList<Int>()
             var lastCell = false
@@ -62,29 +70,27 @@ class Nonogram {
 
         fun apply(boxes: List<Box>, rowIndex: Int): Board {
             boxes.forEach { (index, width) ->
-                0.rangeTo(width - 1).forEach {
+                0.until(width).forEach {
                     cells[rowIndex][index + it] = true
                 }
             }
             return this
         }
 
-        fun copy(): Board {
-            return Board(width, height, rowConstrains, columnConstraints, cells.map { ArrayList(it) })
-        }
+        fun copy(): Board = Board(width, height, rowConstrains, columnConstraints, cells.map { ArrayList(it) })
 
         override fun toString(): String {
-            val max = columnConstraints.map{ it.boxes.size }.max()!!
+            val max = columnConstraints.map { it.boxes.size }.max()!!
 
             val rows = cells.mapIndexed { _, row ->
                 "|" + row.map { if (it) "X" else "_" }.joinToString("|") + "|"
             }
-            val constraints = 0.rangeTo(max - 1).map { i ->
-                " " + 0.rangeTo(width - 1)
+            val constraints = 0.until(max).map { i ->
+                " " + 0.until(width)
                     .map { columnConstraints[it] }
                     .map { if (i < it.boxes.size) it.boxes[i].toString() else " " }.joinToString(" ").trim()
             }
-            return (rows.zip(rowConstrains).map{ it.first + " " + it.second.boxes.joinToString(" ") } + constraints).joinToString("\n")
+            return (rows.zip(rowConstrains).map { it.first + " " + it.second.boxes.joinToString(" ") } + constraints).joinToString("\n")
         }
     }
 
@@ -110,9 +116,9 @@ class Nonogram {
     companion object {
         fun String.parse(): Board {
             fun List<List<Int>>.transpose(): List<List<Int>> {
-                val max = maxBy{ it.size }!!.size
+                val max = maxBy { it.size }!!.size
                 val result = ArrayList<List<Int>>()
-                0.rangeTo(max - 1).forEach { i ->
+                0.until(max).forEach { i ->
                     result.add(mapNotNull { list ->
                         if (i < list.size) list[i] else null
                     })
@@ -123,24 +129,24 @@ class Nonogram {
             val lines = split("\n")
 
             val cells = lines
-                .takeWhile{ it.startsWith("|") }
+                .takeWhile { it.startsWith("|") }
                 .map { it.replace(Regex("[|]"), "").replace(Regex(" .*"), "") }
                 .map { it.toCharArray().mapTo(ArrayList()) { it != '_' } }
 
             val rowConstraints = lines
-                .takeWhile{ it.startsWith("|") }
+                .takeWhile { it.startsWith("|") }
                 .map { it.replace(Regex("[|_X]"), "") }
                 .map { it.trim().split(" ").map(String::toInt) }
                 .map(::Constraint)
 
             val columnConstraints = lines
-                .dropWhile{ it.startsWith("|") }
+                .dropWhile { it.startsWith("|") }
                 .map {
                     it.mapIndexedNotNull { i, c -> if (i % 2 == 1) c else null }
-                      .map { if (it == ' ') 0 else it.toString().toInt() }
+                        .map { if (it == ' ') 0 else it.toString().toInt() }
                 }
                 .transpose()
-                .map { it.dropLastWhile{ it == 0 } }
+                .map { it.dropLastWhile { it == 0 } }
                 .map(::Constraint)
 
             val width = columnConstraints.size
@@ -156,32 +162,32 @@ class P98Test {
         Constraint(3).apply {
             assertThat(this.possibleBoxes(width = 2).toList(), equalTo(emptyList()))
             assertThat(this.possibleBoxes(width = 3).toList(), equalTo(listOf(
-                    listOf(Box(0, 3))
+                listOf(Box(0, 3))
             )))
             assertThat(this.possibleBoxes(width = 5).toList(), equalTo(listOf(
-                    listOf(Box(0, 3)), listOf(Box(1, 3)), listOf(Box(2, 3))
+                listOf(Box(0, 3)), listOf(Box(1, 3)), listOf(Box(2, 3))
             )))
         }
 
         Constraint(2, 1).apply {
             assertThat(this.possibleBoxes(width = 4).toList(), equalTo(listOf(
-                    listOf(Box(0, 2), Box(3, 1))
+                listOf(Box(0, 2), Box(3, 1))
             )))
             assertThat(this.possibleBoxes(width = 6).toList(), equalTo(listOf(
-                    listOf(Box(0, 2), Box(3, 1)),
-                    listOf(Box(0, 2), Box(4, 1)),
-                    listOf(Box(0, 2), Box(5, 1)),
-                    listOf(Box(1, 2), Box(4, 1)),
-                    listOf(Box(1, 2), Box(5, 1)),
-                    listOf(Box(2, 2), Box(5, 1))
+                listOf(Box(0, 2), Box(3, 1)),
+                listOf(Box(0, 2), Box(4, 1)),
+                listOf(Box(0, 2), Box(5, 1)),
+                listOf(Box(1, 2), Box(4, 1)),
+                listOf(Box(1, 2), Box(5, 1)),
+                listOf(Box(2, 2), Box(5, 1))
             )))
         }
 
         Constraint(3, 2).apply {
             assertThat(this.possibleBoxes(width = 7).toList(), equalTo(listOf(
-                    listOf(Box(0, 3), Box(4, 2)),
-                    listOf(Box(0, 3), Box(5, 2)),
-                    listOf(Box(1, 3), Box(5, 2))
+                listOf(Box(0, 3), Box(4, 2)),
+                listOf(Box(0, 3), Box(5, 2)),
+                listOf(Box(1, 3), Box(5, 2))
             )))
         }
     }

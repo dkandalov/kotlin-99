@@ -23,13 +23,13 @@ fun <T, U: Comparable<U>> Graph<T, U>.minSpanningTree(): Graph<T, U> {
     }
 
     fun minSpanningTree(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>): Graph<T, U> {
-        if (graphNodes.isEmpty()) {
-            return Graph(nodes.values, edges - graphEdges)
+        return if (graphNodes.isEmpty()) {
+            Graph(nodes.values, edges - graphEdges)
         } else {
-            val edge = graphEdges.filter{ it.connectsTo(graphNodes) }.minWith(comparator)!!
-            return minSpanningTree(
-                graphEdges.filterNot{ it == edge },
-                graphNodes.filterNot{ edge.contains(it) }
+            val edge = graphEdges.filter { it.connectsTo(graphNodes) }.minWith(comparator)!!
+            minSpanningTree(
+                graphEdges.filterNot { it == edge },
+                graphNodes.filterNot { edge.contains(it) }
             )
         }
     }

@@ -7,7 +7,7 @@ import org.junit.Test
 fun Int.goldbach(): Pair<Int, Int> {
     if (this == 2) return Pair(1, 1)
     if (this == 3) return Pair(1, 2)
-    val prime = listPrimesInRange(2..this - 1).find { (this - it).isPrime() } ?: throw IllegalStateException()
+    val prime = listPrimesInRange(2 until this).find { (this - it).isPrime() } ?: throw IllegalStateException()
     return Pair(prime, this - prime)
 }
 

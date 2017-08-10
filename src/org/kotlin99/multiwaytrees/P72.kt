@@ -5,7 +5,7 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
 fun <T> MTree<T>.postorder(): List<T> =
-        children.flatMap{ it.postorder() } + value
+    children.flatMap { it.postorder() } + value
 
 
 class P72Test {

@@ -6,7 +6,7 @@ import org.junit.Test
 import java.util.*
 
 fun <T> randomPermute(list: List<T>, random: Random = Random()): List<T> =
-        randomSelect(list.size, list, random)
+    randomSelect(list.size, list, random)
 
 class P25Test {
     @Test fun `generate a random permutation of the elements of a list`() {

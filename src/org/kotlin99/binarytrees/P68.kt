@@ -8,25 +8,25 @@ import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
 fun <T> Tree<T>.preorder(): List<T> =
-        if (this == End) emptyList<T>()
-        else if (this is Node<T>) listOf(value) + left.preorder() + right.preorder()
-        else this.throwUnknownImplementation()
+    if (this == End) emptyList<T>()
+    else if (this is Node<T>) listOf(value) + left.preorder() + right.preorder()
+    else this.throwUnknownImplementation()
 
 fun <T> Tree<T>.inorder(): List<T> =
-        if (this == End) emptyList<T>()
-        else if (this is Node<T>) left.inorder() + listOf(value) + right.inorder()
-        else this.throwUnknownImplementation()
+    if (this == End) emptyList<T>()
+    else if (this is Node<T>) left.inorder() + listOf(value) + right.inorder()
+    else this.throwUnknownImplementation()
 
 fun <T> createTree(preorder: List<T>, inorder: List<T>): Tree<T> =
-        if (preorder.isEmpty()) End
-        else {
-            val (leftInorder, rightInorder) = inorder.spanAt { it == preorder.first() }
-            Node(
-                preorder.first(),
-                createTree(preorder.drop(1).take(leftInorder.size), leftInorder),
-                createTree(preorder.drop(leftInorder.size + 1), rightInorder)
-            )
-        }
+    if (preorder.isEmpty()) End
+    else {
+        val (leftInorder, rightInorder) = inorder.spanAt { it == preorder.first() }
+        Node(
+            preorder.first(),
+            createTree(preorder.drop(1).take(leftInorder.size), leftInorder),
+            createTree(preorder.drop(leftInorder.size + 1), rightInorder)
+        )
+    }
 
 private fun <T> List<T>.spanAt(p: (T) -> Boolean): Pair<List<T>, List<T>> {
     if (isEmpty()) return Pair(this, this)
@@ -73,10 +73,10 @@ class P68Test {
     }
 
     @Test fun `span list at element matching predicate (and drop matched element)`() {
-        assertThat(emptyList<Int>().spanAt{ it > 0 }, equalTo(Pair(emptyList(), emptyList())))
-        assertThat(listOf(0, 1, 2).spanAt{ it <= 0 }, equalTo(Pair(listOf(), listOf(1, 2))))
-        assertThat(listOf(0, 1, 2).spanAt{ it == 1 }, equalTo(Pair(listOf(0), listOf(2))))
-        assertThat(listOf(0, 1, 2).spanAt{ it >= 2 }, equalTo(Pair(listOf(0, 1), listOf())))
-        assertThat(listOf(0, 1, 2).spanAt{ it == 100 }, equalTo(Pair(listOf(0, 1, 2), listOf())))
+        assertThat(emptyList<Int>().spanAt { it > 0 }, equalTo(Pair(emptyList(), emptyList())))
+        assertThat(listOf(0, 1, 2).spanAt { it <= 0 }, equalTo(Pair(listOf(), listOf(1, 2))))
+        assertThat(listOf(0, 1, 2).spanAt { it == 1 }, equalTo(Pair(listOf(0), listOf(2))))
+        assertThat(listOf(0, 1, 2).spanAt { it >= 2 }, equalTo(Pair(listOf(0, 1), listOf())))
+        assertThat(listOf(0, 1, 2).spanAt { it == 100 }, equalTo(Pair(listOf(0, 1, 2), listOf())))
     }
 }

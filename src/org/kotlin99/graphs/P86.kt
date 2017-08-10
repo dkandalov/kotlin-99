@@ -10,21 +10,21 @@ fun <T> Graph.Node<T, *>.degree(): Int = this.edges.size
 
 fun <T> Graph<T, *>.colorNodes(): List<Pair<T, Int>> {
     val colorByNode = LinkedHashMap<T, Int>()
-    val nodeList = nodes.values.sortedBy{ -it.degree() }.toMutableList()
+    val nodeList = nodes.values.sortedBy { -it.degree() }.toMutableList()
     var color = 1
 
     while (nodeList.isNotEmpty()) {
         nodeList.forEach { node ->
-            val hasSameColorNeighbour = node.neighbors().any{ colorByNode[it.value] == color }
+            val hasSameColorNeighbour = node.neighbors().any { colorByNode[it.value] == color }
             if (!hasSameColorNeighbour) {
                 colorByNode[node.value] = color
             }
         }
-        nodeList.removeAll{ colorByNode.containsKey(it.value) }
+        nodeList.removeAll { colorByNode.containsKey(it.value) }
         color += 1
     }
 
-    return colorByNode.entries.map{ Pair(it.key, it.value) }
+    return colorByNode.entries.map { Pair(it.key, it.value) }
 }
 
 
@@ -58,16 +58,16 @@ class P86Test {
         assertThat("[a-b, b-c, c-d]".toGraph().colorNodes(), containsAll(listOf(Pair("a", 2), Pair("b", 1), Pair("c", 2), Pair("d", 1))))
 
         assertThat("[a-b, a-c, b-c]".toGraph().colorNodes(), containsAll(listOf(
-                Pair("a", 1),
-                Pair("b", 2),
-                Pair("c", 3)
+            Pair("a", 1),
+            Pair("b", 2),
+            Pair("c", 3)
         )))
 
         assertThat("[a-b, b-c, a-c, a-d]".toGraph().colorNodes(), containsAll(listOf(
-                Pair("a", 1),
-                Pair("b", 2),
-                Pair("c", 3),
-                Pair("d", 2)
+            Pair("a", 1),
+            Pair("b", 2),
+            Pair("c", 3),
+            Pair("d", 2)
         )))
     }
 }

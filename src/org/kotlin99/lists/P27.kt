@@ -12,16 +12,16 @@ fun <T> group3(list: List<T>): List<List<List<T>>> =
         val filteredList = list.filterNot { listOfTwo.contains(it) }
         combinations(3, filteredList).flatMap { listOfThree ->
             val filteredList2 = filteredList.filterNot { listOfThree.contains(it) }
-            combinations(4, filteredList2).map{ listOf(it, listOfThree, listOfTwo) }
+            combinations(4, filteredList2).map { listOf(it, listOfThree, listOfTwo) }
         }
     }
 
 fun <T> group(sizes: List<Int>, list: List<T>): List<List<List<T>>> =
     if (sizes.isEmpty()) listOf(emptyList())
     else combinations(sizes.first(), list).flatMap { combination ->
-            val filteredList = list.filterNot { combination.contains(it) }
-            group(sizes.tail(), filteredList).map{ it + listOf(combination) }
-         }
+        val filteredList = list.filterNot { combination.contains(it) }
+        group(sizes.tail(), filteredList).map { it + listOf(combination) }
+    }
 
 
 class P27Test {
@@ -29,7 +29,7 @@ class P27Test {
         val groups = group3(listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
         // groups.forEach { println(it) }
         assertThat(groups, anyElement(containsAll(
-                listOf(listOf("Aldo", "Beat"), listOf("Carla", "David", "Evi"), listOf("Flip", "Gary", "Hugo", "Ida"))
+            listOf(listOf("Aldo", "Beat"), listOf("Carla", "David", "Evi"), listOf("Flip", "Gary", "Hugo", "Ida"))
         )))
         assertThat(groups.size, equalTo(1260))
     }
@@ -38,7 +38,7 @@ class P27Test {
         val groups = group(listOf(2, 2, 5), listOf("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida"))
         // groups.forEach { println(it) }
         assertThat(groups, anyElement(containsAll(
-                listOf(listOf("Aldo", "Beat"), listOf("Carla", "David"), listOf("Evi", "Flip", "Gary", "Hugo", "Ida"))
+            listOf(listOf("Aldo", "Beat"), listOf("Carla", "David"), listOf("Evi", "Flip", "Gary", "Hugo", "Ida"))
         )))
         assertThat(groups.size, equalTo(756))
 

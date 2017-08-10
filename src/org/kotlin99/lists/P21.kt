@@ -5,7 +5,7 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
 fun <T> insertAt(value: T, n: Int, list: List<T>): List<T> =
-        list.take(n) + listOf(value) + list.drop(n)
+    list.take(n) + listOf(value) + list.drop(n)
 
 class P21Test {
     @Test fun `insert an element at a given position into a list`() {

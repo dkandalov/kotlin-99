@@ -11,12 +11,12 @@ import org.kotlin99.common.containsAll
 fun Tree<*>.leafCount(): Int = leafValues().size
 
 fun <T> Tree<T>.leafValues(): List<T> = nodes()
-        .filter { it.left == End && it.right == End }
-        .map { it.value }
+    .filter { it.left == End && it.right == End }
+    .map { it.value }
 
 fun <T> Tree<T>.internalValues(): List<T> = nodes()
-        .filter { it.left != End || it.right != End }
-        .map{ it.value }
+    .filter { it.left != End || it.right != End }
+    .map { it.value }
 
 
 class P61Test {

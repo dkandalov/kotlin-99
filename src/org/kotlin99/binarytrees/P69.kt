@@ -36,7 +36,7 @@ class P69Test {
         assertThat("".convertToTree().toDotString(), equalTo("."))
         assertThat("a".convertToTree().toDotString(), equalTo("a.."))
         assertThat("a(b(d,e),c(,f(g,)))".convertToTree().toDotString(), equalTo(
-                "abd..e..c.fg..."
+            "abd..e..c.fg..."
         ))
     }
 
@@ -44,7 +44,7 @@ class P69Test {
         assertThat(".".fromDotString(), equalToTree("".convertToTree()))
         assertThat("a..".fromDotString(), equalToTree("a".convertToTree()))
         assertThat("abd..e..c.fg...".fromDotString(), equalToTree(
-                "a(b(d,e),c(,f(g,)))".convertToTree()
+            "a(b(d,e),c(,f(g,)))".convertToTree()
         ))
     }
 }

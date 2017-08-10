@@ -1,12 +1,17 @@
 package org.kotlin99.binarytrees
 
-import com.natpryce.hamkrest.*
+import com.natpryce.hamkrest.Matcher
+import com.natpryce.hamkrest.and
+import com.natpryce.hamkrest.anyElement
 import com.natpryce.hamkrest.assertion.assertThat
+import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.kotlin99.binarytrees.P55Test.Companion.nodeList
-import org.kotlin99.binarytrees.Tree.*
-import org.kotlin99.common.*
+import org.kotlin99.binarytrees.Tree.End
+import org.kotlin99.binarytrees.Tree.Node
+import org.kotlin99.common.containsAll
+import org.kotlin99.common.tail
 
 fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
     if (height < 1) listOf(End)
@@ -16,7 +21,7 @@ fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
         val shortHeightTrees = heightBalancedTrees(height - 2, value)
 
         val nodes1 = fullHeightTrees.flatMap { tree1 ->
-            fullHeightTrees.map{ tree2 ->
+            fullHeightTrees.map { tree2 ->
                 Node(value, tree1, tree2)
             }
         }
@@ -30,9 +35,9 @@ fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
     }
 
 fun <T> Tree<T>.height(): Int =
-        if (this == End) 0
-        else if (this is Node<T>) 1 + Math.max(left.height(), right.height())
-        else this.throwUnknownImplementation()
+    if (this == End) 0
+    else if (this is Node<T>) 1 + Math.max(left.height(), right.height())
+    else this.throwUnknownImplementation()
 
 fun <T> Tree<T>.nodes(): List<Node<T>> = when {
     this is Node<T> -> left.nodes() + right.nodes() + this
@@ -59,13 +64,13 @@ class P59Test {
                      Node("x", End, Node("x"))))
         ))
 
-        heightBalancedTrees(3, "x").flatMap{ it.nodes() }.forEach { node ->
+        heightBalancedTrees(3, "x").flatMap { it.nodes() }.forEach { node ->
             assertTrue(node.left.height() - node.right.height() <= 1)
         }
     }
 
-    private fun <T> containsElements(vararg matchers: Matcher<T>) : Matcher<Iterable<T>> {
-        return matchers.tail().fold(anyElement(matchers.first())){ result: Matcher<Iterable<T>>, matcher ->
+    private fun <T> containsElements(vararg matchers: Matcher<T>): Matcher<Iterable<T>> {
+        return matchers.tail().fold(anyElement(matchers.first())) { result: Matcher<Iterable<T>>, matcher ->
             result.and(anyElement(matcher))
         }
     }

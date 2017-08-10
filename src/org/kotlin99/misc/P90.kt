@@ -16,7 +16,7 @@ class EightQueens {
 
         fun solutions(board: Board): List<Board> {
             return if (board.isComplete()) listOf(board)
-            else board.nextMoves().flatMap{ solutions(it) }
+            else board.nextMoves().flatMap { solutions(it) }
         }
 
         data class Queen(val row: Int, val column: Int)
@@ -26,11 +26,11 @@ class EightQueens {
             constructor(vararg queens: Queen): this(maxPosition(queens), queens.asList())
 
             fun nextMoves(): List<Board> {
-                val nextColumn = (queens.map{ it.column }.max() ?: -1) + 1
+                val nextColumn = (queens.map { it.column }.max() ?: -1) + 1
                 return 0.until(size)
-                        .map{ Queen(it, nextColumn) }
-                        .filter{ isValidMove(it) }
-                        .map{ Board(size, queens + it) }
+                    .map { Queen(it, nextColumn) }
+                    .filter { isValidMove(it) }
+                    .map { Board(size, queens + it) }
             }
 
             fun isComplete(): Boolean {
@@ -55,7 +55,7 @@ class EightQueens {
 
             companion object {
                 private fun maxPosition(queens: Array<out Queen>): Int {
-                    return (queens.flatMap{ listOf(it.row, it.column) }.max() ?: -1) + 1
+                    return (queens.flatMap { listOf(it.row, it.column) }.max() ?: -1) + 1
                 }
             }
         }
@@ -83,7 +83,7 @@ class P90Test {
             |*---
             |--*-
             """
-        ).map{it.trimMargin()}))
+        ).map { it.trimMargin() }))
 
         assertThat(solutions(boardSize = 8).size, equalTo(92))
     }

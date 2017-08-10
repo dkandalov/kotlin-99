@@ -15,8 +15,8 @@ class P07Test {
         assertThat(flatten(listOf(1)), equalTo(listOf<Any>(1)))
         assertThat(flatten(listOf(1, listOf(2))), equalTo(listOf<Any>(1, 2)))
         assertThat(
-                flatten(listOf(listOf(1, 1), 2, listOf(3, listOf(5, 8)))),
-                equalTo(listOf<Any>(1, 1, 2, 3, 5, 8))
+            flatten(listOf(listOf(1, 1), 2, listOf(3, listOf(5, 8)))),
+            equalTo(listOf<Any>(1, 1, 2, 3, 5, 8))
         )
     }
 }

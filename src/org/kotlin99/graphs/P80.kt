@@ -27,12 +27,12 @@ fun String.toGraph(): Graph<String, Nothing> {
         throw IllegalArgumentException("Expected string starting '[' and ending with ']' but it was '$this'")
     }
     val tokens = substring(1, length - 1).split(", ").map { it.split(graphTokenSeparators) }
-    val nodes = tokens.flatMap{ it }.toCollection(LinkedHashSet())
-    val edges = tokens.filter{ it.size == 2 }.map{ Term<String, Nothing>(it[0], it[1]) }
-    if (contains("-")) {
-        return Graph.terms(TermForm(nodes, edges))
+    val nodes = tokens.flatMap { it }.toCollection(LinkedHashSet())
+    val edges = tokens.filter { it.size == 2 }.map { Term<String, Nothing>(it[0], it[1]) }
+    return if (contains("-")) {
+        Graph.terms(TermForm(nodes, edges))
     } else {
-        return Graph.directedTerms(TermForm(nodes, edges))
+        Graph.directedTerms(TermForm(nodes, edges))
     }
 }
 
@@ -41,17 +41,17 @@ fun String.toLabeledGraph(): Graph<String, Int> {
         throw IllegalArgumentException("Expected string starting '[' and ending with ']' but it was '$")
     }
     val tokens = substring(1, length - 1).split(", ").map { it.split(graphTokenSeparators) }
-    val nodes = tokens.flatMap{ it.take(2) }.toCollection(LinkedHashSet())
-    val edges = tokens.filter{ it.size == 3 }.map{ Term(it[0], it[1], it[2].toInt()) }
-    if (contains("-")) {
-        return Graph.labeledTerms(TermForm(nodes, edges))
+    val nodes = tokens.flatMap { it.take(2) }.toCollection(LinkedHashSet())
+    val edges = tokens.filter { it.size == 3 }.map { Term(it[0], it[1], it[2].toInt()) }
+    return if (contains("-")) {
+        Graph.labeledTerms(TermForm(nodes, edges))
     } else {
-        return Graph.labeledDirectedTerms(TermForm(nodes, edges))
+        Graph.labeledDirectedTerms(TermForm(nodes, edges))
     }
 }
 
 fun <T, U> Graph<T, U>.toTermForm(): TermForm<T, U> {
-    val nodeValues = nodes.values.map{ it.value }
+    val nodeValues = nodes.values.map { it.value }
     val terms = edges.map { Term(it.n1.value, it.n2.value, it.label) }
     return TermForm(nodeValues, terms)
 }
@@ -87,47 +87,48 @@ class P80Test {
 
     @Test fun `convert graph to term form`() {
         assertThat("[b-c, b-f, c-f, f-k, g-h, d]".toGraph().toTermForm(), equalTo(TermForm(
-                listOf("b", "c", "f", "k", "g", "h", "d"),
-                listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h"))
+            listOf("b", "c", "f", "k", "g", "h", "d"),
+            listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h"))
         )))
     }
 
     @Test fun `convert graph to adjacency list`() {
         assertThat("[a-b, a-c]".toGraph().toAdjacencyList(), equalTo(AdjacencyList(
-                Entry("a", links("b", "c")),
-                Entry("b", links("a")),
-                Entry("c", links("a"))
+            Entry("a", links("b", "c")),
+            Entry("b", links("a")),
+            Entry("c", links("a"))
         )))
         assertThat("[b-c, b-f, c-f, f-k, g-h, d]".toGraph().toAdjacencyList(), equalTo(AdjacencyList(
-                Entry("b", links("c", "f")),
-                Entry("c", links("b", "f")),
-                Entry("d"),
-                Entry("f", links("b", "c", "k")),
-                Entry("g", links("h")),
-                Entry("h", links("g")),
-                Entry("k", links("f"))
+            Entry("b", links("c", "f")),
+            Entry("c", links("b", "f")),
+            Entry("d"),
+            Entry("f", links("b", "c", "k")),
+            Entry("g", links("h")),
+            Entry("h", links("g")),
+            Entry("k", links("f"))
         )))
         assertThat("[m-q/7, p-m/5, p-q/9, k]".toLabeledGraph().toAdjacencyList(), equalTo(AdjacencyList(
-                Entry("q", listOf(Link("m", 7), Link("p", 9))),
-                Entry("p", listOf(Link("m", 5), Link("q", 9))),
-                Entry("m", listOf(Link("q", 7), Link("p", 5))),
-                Entry("k")
+            Entry("q", listOf(Link("m", 7), Link("p", 9))),
+            Entry("p", listOf(Link("m", 5), Link("q", 9))),
+            Entry("m", listOf(Link("q", 7), Link("p", 5))),
+            Entry("k")
         )))
     }
 
-    private fun <T, U> equalTo(expected: AdjacencyList<T, U>) : Matcher<AdjacencyList<T, U>> {
-        return object : Matcher.Primitive<AdjacencyList<T, U>>() {
+    private fun <T, U> equalTo(expected: AdjacencyList<T, U>): Matcher<AdjacencyList<T, U>> {
+        return object: Matcher.Primitive<AdjacencyList<T, U>>() {
             override fun invoke(actual: AdjacencyList<T, U>) = containsAll(expected.entries).invoke(actual.entries)
             override val description: String get() = "has the same elements as ${describe(expected)}"
-            override val negatedDescription : String get() = "element are not the same as in ${describe(expected)}"
+            override val negatedDescription: String get() = "element are not the same as in ${describe(expected)}"
         }
     }
 
     companion object {
         fun <T, U> equivalentTo(expected: Graph<T, U>): Matcher<Graph<T, U>> =
-            object : Matcher<Graph<T, U>> {
+            object: Matcher<Graph<T, U>> {
                 override fun invoke(actual: Graph<T, U>): MatchResult =
-                        if (actual.equivalentTo(expected)) MatchResult.Match else MatchResult.Mismatch("was ${describe(actual)}")
+                    if (actual.equivalentTo(expected)) MatchResult.Match else MatchResult.Mismatch("was ${describe(actual)}")
+
                 override val description: String get() = "is equivalent to ${describe(expected)}"
                 override val negatedDescription: String get() = "is not equivalent to ${describe(expected)}"
             }

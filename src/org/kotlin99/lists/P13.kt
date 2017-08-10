@@ -17,7 +17,7 @@ fun <T> encodeDirect(list: List<T>): List<Pair<Int, T>> =
 class P13Test {
     @Test fun `run-length encoding of a list (direct solution)`() {
         assertThat(encodeDirect("aaaabccaadeeee".toList()), equalTo(listOf(
-                Pair(4, 'a'), Pair(1, 'b'), Pair(2, 'c'), Pair(2, 'a'), Pair(1, 'd'), Pair(4, 'e')
+            Pair(4, 'a'), Pair(1, 'b'), Pair(2, 'c'), Pair(2, 'a'), Pair(1, 'd'), Pair(4, 'e')
         )))
     }
 }

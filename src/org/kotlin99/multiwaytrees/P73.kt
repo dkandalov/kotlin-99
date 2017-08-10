@@ -4,38 +4,37 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.tail
-import java.util.ArrayList
+import java.util.*
 
 fun MTree<*>.toLispString(): String =
-        if (children.isEmpty()) value.toString()
-        else "(" + value.toString() + " " + children.joinToString(" "){ it.toLispString() } + ")"
+    if (children.isEmpty()) value.toString()
+    else "(" + value.toString() + " " + children.joinToString(" ") { it.toLispString() } + ")"
 
 fun String.fromLispString(): MTree<String> =
-        SExprParser.parse(this)!!.trim()!!.toMTree()
+    SExprParser.parse(this)!!.trim()!!.toMTree()
 
 
-private object SExprParser : TokenParser {
+private object SExprParser: TokenParser {
     override fun parse(s: String): Token? {
         val parser = OrParser(
-                SequenceParser(LParenParser, AtomParser, RepeatedParser(SequenceParser(SpaceParser, this)), RParenParser),
-                AtomParser
+            SequenceParser(LParenParser, AtomParser, RepeatedParser(SequenceParser(SpaceParser, this)), RParenParser),
+            AtomParser
         )
         return parser.parse(s)
     }
 }
 
 private fun Token.toMTree(): MTree<String> {
-    fun Token.toList(): List<Token> =
-        if (this is Atom) listOf(this)
-        else if (this is Seq) this.tokens
-        else throw IllegalStateException(this.toString())
+    fun Token.toList(): List<Token> = when {
+        this is Atom -> listOf(this)
+        this is Seq -> this.tokens
+        else -> throw IllegalStateException(this.toString())
+    }
 
-    return if (this is Seq) {
-        MTree((tokens[0] as Atom).value, tokens[1].toList().map { it.toMTree() })
-    } else if (this is Atom) {
-        MTree(value)
-    } else {
-        throw IllegalStateException(this.toString())
+    return when {
+        this is Seq -> MTree((tokens[0] as Atom).value, tokens[1].toList().map { it.toMTree() })
+        this is Atom -> MTree(value)
+        else -> throw IllegalStateException(this.toString())
     }
 }
 
@@ -44,25 +43,30 @@ private interface Token {
     fun length(): Int
     fun trim(): Token?
 }
-private data class Text(val value: String) : Token {
+
+private data class Text(val value: String): Token {
     override fun trim() = null
     override fun length() = value.length
     override fun toString() = value
 }
+
 private data class Atom(val value: String): Token {
     override fun trim() = this
     override fun length() = value.length
     override fun toString() = "'$value'"
 }
+
 private data class Seq(val tokens: List<Token>): Token {
-    constructor (vararg tokens: Token) : this(tokens.asList())
+    constructor (vararg tokens: Token): this(tokens.asList())
+
     override fun trim(): Token? =
         if (tokens.isEmpty()) null
         else {
-            val trimmed = tokens.map{ it.trim() }.filter{ it != null }.map{ it!! }
+            val trimmed = tokens.map { it.trim() }.filter { it != null }.map { it!! }
             if (trimmed.size == 1) trimmed.first() else Seq(trimmed)
         }
-    override fun length() = tokens.sumBy{ it.length() }
+
+    override fun length() = tokens.sumBy { it.length() }
     override fun toString() = "Seq[" + tokens.joinToString(" ") + "]"
 }
 
@@ -70,23 +74,25 @@ private data class Seq(val tokens: List<Token>): Token {
 private interface TokenParser {
     fun parse(s: String): Token?
 }
+
 private class TextParser(val value: String): TokenParser {
     override fun parse(s: String): Token? =
-            if (s.startsWith(value)) Text(value) else null
+        if (s.startsWith(value)) Text(value) else null
 }
+
 private val LParenParser = TextParser("(")
 private val RParenParser = TextParser(")")
 private val SpaceParser = TextParser(" ")
 
-private object AtomParser : TokenParser {
+private object AtomParser: TokenParser {
     override fun parse(s: String): Token? {
-        val atom = s.takeWhile{ it != '(' && it != ')' && it != ' ' }
+        val atom = s.takeWhile { it != '(' && it != ')' && it != ' ' }
         return if (atom.isEmpty()) null else Atom(atom)
     }
 }
 
-private class SequenceParser(val tokenParsers: List<TokenParser>) : TokenParser {
-    constructor(vararg tokenParsers: TokenParser) : this(tokenParsers.asList())
+private class SequenceParser(val tokenParsers: List<TokenParser>): TokenParser {
+    constructor(vararg tokenParsers: TokenParser): this(tokenParsers.asList())
 
     override fun parse(s: String): Token? {
         val tokens = ArrayList<Token>()
@@ -102,7 +108,7 @@ private class SequenceParser(val tokenParsers: List<TokenParser>) : TokenParser 
     }
 }
 
-private class RepeatedParser(val tokenParser: TokenParser) : TokenParser {
+private class RepeatedParser(val tokenParser: TokenParser): TokenParser {
     private fun Seq.prepend(token: Token): Seq = Seq(listOf(token) + tokens)
 
     override fun parse(s: String): Seq {
@@ -166,11 +172,11 @@ class P73Test {
         assertThat("(a b c)".fromLispString(), equalTo(MTree("a", MTree("b"), MTree("c"))))
         assertThat("(a b (c d))".fromLispString(), equalTo(MTree("a", MTree("b"), MTree("c", MTree("d")))))
         assertThat("(a (f g) c (b d e))".fromLispString(), equalTo(
-                MTree("a",
-                      MTree("f", MTree("g")),
-                      MTree("c"),
-                      MTree("b", MTree("d"), MTree("e"))
-                )
+            MTree("a",
+                  MTree("f", MTree("g")),
+                  MTree("c"),
+                  MTree("b", MTree("d"), MTree("e"))
+            )
         ))
     }
 }

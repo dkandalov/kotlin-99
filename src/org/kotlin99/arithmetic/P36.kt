@@ -6,7 +6,7 @@ import org.junit.Test
 
 fun Int.primeFactorMultiplicity(): List<Pair<Int, Int>> =
     this.primeFactors()
-        .groupBy{ it }
+        .groupBy { it }
         .map { Pair(it.key, it.value.size) }
 
 class P36Test {

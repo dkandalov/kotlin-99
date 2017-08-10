@@ -16,7 +16,7 @@ inline fun Boolean.equ_(other: Boolean) = this.xor_(other).not_()
 inline fun Boolean.impl_(other: Boolean) = this.or_(other.not_())
 
 fun truthTable(f: (Boolean, Boolean) -> Boolean): List<Row> =
-    listOf(Pair(true, true), Pair(true, false), Pair(false, true), Pair(false, false)).map{
+    listOf(Pair(true, true), Pair(true, false), Pair(false, true), Pair(false, false)).map {
         Row(it.first, it.second, f(it.first, it.second))
     }
 
@@ -38,30 +38,30 @@ class P46Test {
 
     @Test fun `truth tables for logical expressions`() {
         assertThat(truthTable(Boolean::and_), equalTo(listOf(
-                Row(true, true, true),
-                Row(true, false, false),
-                Row(false, true, false),
-                Row(false, false, false)
+            Row(true, true, true),
+            Row(true, false, false),
+            Row(false, true, false),
+            Row(false, false, false)
         )))
         assertThat(truthTable(Boolean::xor_), equalTo(listOf(
-                Row(true, true, false),
-                Row(true, false, true),
-                Row(false, true, true),
-                Row(false, false, false)
+            Row(true, true, false),
+            Row(true, false, true),
+            Row(false, true, true),
+            Row(false, false, false)
         )))
         assertThat(truthTable(Boolean::equ_), equalTo(listOf(
-                Row(true, true, true),
-                Row(true, false, false),
-                Row(false, true, false),
-                Row(false, false, true)
+            Row(true, true, true),
+            Row(true, false, false),
+            Row(false, true, false),
+            Row(false, false, true)
         )))
 
-        printTruthTable{ a, b -> a.and_(a.or_(b.not_())) }
-        assertThat(truthTable{ a, b -> a.and_(a.or_(b.not_())) }, equalTo(listOf(
-                Row(true, true, true),
-                Row(true, false, true),
-                Row(false, true, false),
-                Row(false, false, false)
+        printTruthTable { a, b -> a.and_(a.or_(b.not_())) }
+        assertThat(truthTable { a, b -> a.and_(a.or_(b.not_())) }, equalTo(listOf(
+            Row(true, true, true),
+            Row(true, false, true),
+            Row(false, true, false),
+            Row(false, false, false)
         )))
     }
 }

@@ -23,7 +23,7 @@ private fun String.convertToMTree(position: Int): Pair<MTree<Char>, Int> {
 }
 
 fun MTree<Char>.convertToString(): String =
-    value.toString() + children.joinToString(""){ it.convertToString() } + "^"
+    value.toString() + children.joinToString("") { it.convertToString() } + "^"
 
 
 class P70BTest {
@@ -43,12 +43,12 @@ class P70BTest {
         assertThat(MTree('a').convertToString(), equalTo("a^"))
         assertThat(MTree('a', MTree('b'), MTree('c')).convertToString(), equalTo("ab^c^^"))
         assertThat(
-                MTree('a',
-                      MTree('f', MTree('g')),
-                      MTree('c'),
-                      MTree('b', MTree('d'), MTree('e'))
+            MTree('a',
+                  MTree('f', MTree('g')),
+                  MTree('c'),
+                  MTree('b', MTree('d'), MTree('e'))
             ).convertToString(),
-                equalTo("afg^^c^bd^e^^^")
+            equalTo("afg^^c^bd^e^^^")
         )
     }
 }

@@ -10,18 +10,18 @@ data class MTree<out T>(val value: T, val children: List<MTree<T>> = emptyList()
 
     override fun toString(): String =
         if (children.isEmpty()) value.toString()
-        else value.toString() + " {" + children.joinToString(", "){ it.toString() } + "}"
+        else value.toString() + " {" + children.joinToString(", ") { it.toString() } + "}"
 }
 
 class P70Test {
     @Test fun `tree construction and string conversion`() {
         val tree =
             MTree("a",
-                MTree("f",
-                    MTree("g")),
-                MTree("c"),
-                MTree("b",
-                    MTree("d"), MTree("e")))
+                  MTree("f",
+                        MTree("g")),
+                  MTree("c"),
+                  MTree("b",
+                        MTree("d"), MTree("e")))
         assertThat(tree.toString(), equalTo("a {f {g}, c, b {d, e}}"))
     }
 }

@@ -32,11 +32,11 @@ class SudokuDancingLinks {
 
         override fun toString(): String {
             fun <T> List<T>.slicedBy(sliceSize: Int): List<List<T>> =
-                    if (size <= sliceSize) listOf(this)
-                    else listOf(take(sliceSize)) + drop(sliceSize).slicedBy(sliceSize)
+                if (size <= sliceSize) listOf(this)
+                else listOf(take(sliceSize)) + drop(sliceSize).slicedBy(sliceSize)
 
             fun <T> List<T>.mapJoin(separator: String, f: (T) -> String) =
-                    map{ f(it) }.joinToString(separator)
+                map { f(it) }.joinToString(separator)
 
             return cells.slicedBy(27).mapJoin("\n---+---+---\n") { section ->
                 section.slicedBy(9).mapJoin("\n") { row ->
@@ -78,10 +78,10 @@ class SudokuDancingLinks {
             fun List<Node>.toSudokuBoard(): Board {
                 val boardCells = ArrayList<Int>().fill(81, 0)
                 forEach { node ->
-                    val indices = node.toListRight().map{ it.header.toString().toInt() }.sorted()
-                    val row = indices[0] /  9
+                    val indices = node.toListRight().map { it.header.toString().toInt() }.sorted()
+                    val row = indices[0] / 9
                     val column = indices[0] % 9
-                    val number = (indices[1] - 9 * 9) %  9
+                    val number = (indices[1] - 9 * 9) % 9
                     boardCells[row * 9 + column] = number + 1
                 }
                 return Board(boardCells)
@@ -106,7 +106,7 @@ class SudokuDancingLinksTest {
             |24.|..1|5..
         """.trimMargin().toSudokuBoard().toExactCoverMatrix()
 
-        assertThat(matrix.value.take(27).map{it.joinToString("")}.joinToString("\n"), equalTo("""
+        assertThat(matrix.value.take(27).map { it.joinToString("") }.joinToString("\n"), equalTo("""
             |100000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000
             |100000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000
             |100000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000

@@ -17,18 +17,18 @@ fun <T> completeBinaryTree(nodeAmount: Int, value: T): Tree<T> {
 class P63Test {
     @Test fun `construct complete binary tree`() {
         assertThat(completeBinaryTree(1, "x"), equalToTree(
-                Node("x")
+            Node("x")
         ))
         assertThat(completeBinaryTree(2, "x"), equalToTree(
-                Node("x", Node("x"))
+            Node("x", Node("x"))
         ))
         assertThat(completeBinaryTree(3, "x"), equalToTree(
-                Node("x", Node("x"), Node("x"))
+            Node("x", Node("x"), Node("x"))
         ))
         assertThat(completeBinaryTree(6, "x"), equalToTree(
-                Node("x",
-                     Node("x", Node("x"), Node("x")),
-                     Node("x", Node("x"), End))
+            Node("x",
+                 Node("x", Node("x"), Node("x")),
+                 Node("x", Node("x"), End))
         ))
     }
 }
