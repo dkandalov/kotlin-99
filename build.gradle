@@ -1,0 +1,36 @@
+buildscript {
+	repositories {
+		jcenter()
+		mavenCentral()
+		maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+	}
+	dependencies {
+		classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.3'
+	}
+}
+
+apply plugin:'kotlin'
+
+repositories {
+	jcenter()
+	mavenCentral()
+	maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+}
+
+dependencies {
+	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.+'
+	compile 'org.jetbrains.kotlin:kotlin-reflect:1.1.+'
+	compile 'junit:junit:4.12'
+	compile 'com.natpryce:hamkrest:1.2.3.0'
+}
+
+sourceSets {
+	main.java.srcDirs += 'src'
+	test.java.srcDirs += 'src'
+}
+
+task wrapper(type:Wrapper) {
+	gradleVersion = '3.2.1'
+}
+
+defaultTasks 'classes'
