@@ -7,11 +7,10 @@ import org.junit.Test
 /**
  * Based on https://en.wikipedia.org/wiki/Bipartite_graph#Testing_bipartiteness
  */
-fun <T> Graph<T, *>.isBipartite(): Boolean {
-    return components().all { graph ->
+fun <T> Graph<T, *>.isBipartite() =
+    components().all { graph ->
         graph.colorNodes().all { it.second == 1 || it.second == 2 }
     }
-}
 
 class P89Test {
     @Test fun `linear graph are bipartite`() {
