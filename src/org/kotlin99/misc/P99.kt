@@ -12,7 +12,7 @@ import org.kotlin99.misc.Crossword.Cell.Companion.vacant
 import org.kotlin99.misc.Crossword.Site
 import java.io.File
 
-class CrosswordFileReader(val filePath: String) {
+class CrosswordFileReader(private val filePath: String) {
     fun readWords(): List<String> =
         File(filePath).readLines().takeWhile { it != "" }
 
@@ -40,7 +40,7 @@ data class Crossword(val sites: List<Site>) {
         sites.any { it.filled && !words.contains(it.word) } ||
         sites.any { !it.filled && words.none { word -> it.fits(word) } }
 
-    fun copy(): Crossword {
+    private fun copy(): Crossword {
         val cells = sites.flatMap { it.cells }.distinct()
         val copyByCell = cells.associate { Pair(it, it.copy()) }
         return Crossword(sites.map {

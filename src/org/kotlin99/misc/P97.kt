@@ -15,7 +15,7 @@ import java.util.*
 @Suppress("unused") // Because this class is a "namespace".
 class Sudoku {
 
-    data class Board(val cells: ArrayList<Cell> = ArrayList<Cell>().fill(size * size, Cell())) {
+    data class Board(private val cells: ArrayList<Cell> = ArrayList<Cell>().fill(size * size, Cell())) {
         private val positionedCells: List<PositionedCell>
             get() = cells.mapIndexed { i, cell -> PositionedCell(Point(i % size, i / size), cell) }
 

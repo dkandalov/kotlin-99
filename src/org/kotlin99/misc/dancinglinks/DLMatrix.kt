@@ -14,7 +14,7 @@ import java.util.*
  */
 class DLMatrix(matrix: List<List<Int>>) {
     val h: Node
-    val answer: ArrayList<Node> = ArrayList()
+    private val answer: ArrayList<Node> = ArrayList()
 
     init {
         val width = matrix.first().size
@@ -22,15 +22,15 @@ class DLMatrix(matrix: List<List<Int>>) {
 
         h = Node("h")
         h.linkDown(h)
-        val headers = 0.rangeTo(width - 1).map{ Node("$it") }
+        val headers = (0 until width).map{ Node("$it") }
         headers.forEach { it.linkDown(it) }
         headers.pairs().forEach { it.first.linkRight(it.second) }
         headers.last().linkRight(h).linkRight(headers.first())
 
-        0.rangeTo(height - 1).forEach { row ->
+        (0 until height).forEach { row ->
             var firstNode: Node? = null
             var prevNode: Node? = null
-            0.rangeTo(width - 1).forEach { column ->
+            (0 until width).forEach { column ->
                 if (matrix[row][column] == 1) {
                     val node = Node("$column,$row")
                     val headerNode = headers[column]

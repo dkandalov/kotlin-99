@@ -1,9 +1,14 @@
 package org.kotlin99.common
 
-import com.natpryce.hamkrest.*
+import com.natpryce.hamkrest.MatchResult
+import com.natpryce.hamkrest.Matcher
+import com.natpryce.hamkrest.anyElement
 import com.natpryce.hamkrest.assertion.assertThat
-import org.junit.*
-import org.junit.Assert.*
+import com.natpryce.hamkrest.equalTo
+import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Test
 
 
 fun <T> containsAll(vararg itemMatchers: Matcher<T>): Matcher<Iterable<T>> {
@@ -82,11 +87,11 @@ class ContainsAllTest {
         assertMismatchDescription("no item matches: [is equal to 1, is equal to 2] in []", containsAll(1, 2), emptyList())
     }
 
-    @Test fun `matches iterable out of order`() {
+    @Test fun `matches iterable out of order`() {
         assertMatches("Out of order", containsAll(1, 2), listOf(2, 1))
     }
 
-    @Test fun `matches iterable out of order with duplicates`() {
+    @Test fun `matches iterable out of order with duplicates`() {
         assertMatches("Out of order", containsAll(1, 2, 2), listOf(2, 2, 1))
     }
 

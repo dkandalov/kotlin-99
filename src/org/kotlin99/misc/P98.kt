@@ -16,11 +16,11 @@ import java.util.*
 class Nonogram {
 
     data class Board(
-        val width: Int,
-        val height: Int,
-        val rowConstrains: List<Constraint>,
-        val columnConstraints: List<Constraint>,
-        val cells: List<ArrayList<Boolean>> = 1.rangeTo(height).map { ArrayList<Boolean>().fill(width, false) }
+        private val width: Int,
+        private val height: Int,
+        private val rowConstrains: List<Constraint>,
+        private val columnConstraints: List<Constraint>,
+        private val cells: List<ArrayList<Boolean>> = 1.rangeTo(height).map { ArrayList<Boolean>().fill(width, false) }
     ) {
 
         fun solve(rowIndex: Int = 0): Sequence<Board> {
@@ -68,7 +68,7 @@ class Nonogram {
             return result
         }
 
-        fun apply(boxes: List<Box>, rowIndex: Int): Board {
+        private fun apply(boxes: List<Box>, rowIndex: Int): Board {
             boxes.forEach { (index, width) ->
                 0.until(width).forEach {
                     cells[rowIndex][index + it] = true
@@ -77,7 +77,7 @@ class Nonogram {
             return this
         }
 
-        fun copy(): Board = Board(width, height, rowConstrains, columnConstraints, cells.map { ArrayList(it) })
+        private fun copy(): Board = Board(width, height, rowConstrains, columnConstraints, cells.map { ArrayList(it) })
 
         override fun toString(): String {
             val max = columnConstraints.map { it.boxes.size }.max()!!

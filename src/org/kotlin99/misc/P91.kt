@@ -23,7 +23,7 @@ fun knightsTours(boardSize: Int, point: Point, tour: Tour = Tour(point)): List<T
         .flatMap { knightsTours(boardSize, it, tour + it) }
 }
 
-data class Point(val x: Int, val y: Int) {
+data class Point(private val x: Int, private val y: Int) {
     fun knightMoves(boardSize: Int): List<Point> =
         allShifts.map { this + it }.filter { it.x.within(0, boardSize) && it.y.within(0, boardSize) }
 

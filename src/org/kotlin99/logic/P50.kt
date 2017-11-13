@@ -37,12 +37,12 @@ fun createEncoding(frequencyByChar: Map<Char, Int>): HuffmanEncoding {
 }
 
 fun buildTree(nodes: List<Node>): Node {
-    if (nodes.size == 1) {
-        return nodes.first()
+    return if (nodes.size == 1) {
+        nodes.first()
     } else {
         val sortedNodes = nodes.sortedBy { it.weight }
         val node = Node(sortedNodes[0].weight + sortedNodes[1].weight, null, sortedNodes[0], sortedNodes[1])
-        return buildTree(sortedNodes.drop(2) + node)
+        buildTree(sortedNodes.drop(2) + node)
     }
 }
 
