@@ -12,7 +12,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <!-- Note that latest pre-release versions of Kotlin might not work in TravisCI
              because TravisCI only searches for dependencies in central maven repository and ignores all other repositories. -->
-        <kotlin.version>1.1.50</kotlin.version>
+        <kotlin.version>1.1.60</kotlin.version>
     </properties>
 
     <repositories>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>com.natpryce</groupId>
             <artifactId>hamkrest</artifactId>
-            <version>1.4.0.0</version>
+            <version>1.4.2.2</version>
         </dependency>
 
         <dependency>
