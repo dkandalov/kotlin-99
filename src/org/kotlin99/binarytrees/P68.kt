@@ -8,12 +8,12 @@ import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
 fun <T> Tree<T>.preorder(): List<T> =
-    if (this == End) emptyList<T>()
+    if (this == End) emptyList()
     else if (this is Node<T>) listOf(value) + left.preorder() + right.preorder()
     else this.throwUnknownImplementation()
 
 fun <T> Tree<T>.inorder(): List<T> =
-    if (this == End) emptyList<T>()
+    if (this == End) emptyList()
     else if (this is Node<T>) left.inorder() + listOf(value) + right.inorder()
     else this.throwUnknownImplementation()
 
@@ -32,11 +32,9 @@ private fun <T> List<T>.spanAt(p: (T) -> Boolean): Pair<List<T>, List<T>> {
     if (isEmpty()) return Pair(this, this)
     var i = 0
     while (i < size && !p(this[i])) i++
-    if (i >= size) {
-        return Pair(this, emptyList())
-    } else {
-        return Pair(subList(0, i), subList(i + 1, size))
-    }
+
+    return if (i >= size) Pair(this, emptyList())
+    else Pair(subList(0, i), subList(i + 1, size))
 }
 
 

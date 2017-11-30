@@ -104,9 +104,9 @@ class DLMatrix(matrix: List<List<Int>>) {
                 .minBy { it.first().toListRight().sumBy(Node::distanceToHeader) }!!.first()
 
             val nodesInRow = node.toListRight()
-            val line = nodeStacks.map { stack ->
-                    if (stack.any{ nodesInRow.contains(it) }) "1" else "0"
-                }.joinToString("")
+            val line = nodeStacks
+                .map { stack -> if (stack.any{ nodesInRow.contains(it) }) "1" else "0" }
+                .joinToString("")
             lines.add(line)
 
             nodeStacks = nodeStacks.map{ stack ->
