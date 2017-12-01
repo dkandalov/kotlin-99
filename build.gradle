@@ -18,8 +18,8 @@ repositories {
 }
 
 dependencies {
-	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.1.60'
-	compile 'org.jetbrains.kotlin:kotlin-reflect:1.1.60'
+	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.0'
+	compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.0'
 	compile 'junit:junit:4.12'
 	compile 'com.natpryce:hamkrest:1.4.2.2'
 }
