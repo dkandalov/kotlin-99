@@ -2,35 +2,38 @@ buildscript {
 	repositories {
 		jcenter()
 		mavenCentral()
-		maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+		maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
 	}
 	dependencies {
-		classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.3'
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.10"
 	}
 }
-
-apply plugin:'kotlin'
-
 repositories {
 	jcenter()
 	mavenCentral()
-	maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+	maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
+}
+apply plugin:"kotlin"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+compileKotlin {
+	kotlinOptions {
+		jvmTarget = "1.8"
+		apiVersion = "1.2"
+		languageVersion = "1.2"
+	}
 }
 
 dependencies {
-	compile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.0'
-	compile 'org.jetbrains.kotlin:kotlin-reflect:1.2.0'
-	compile 'junit:junit:4.12'
-	compile 'com.natpryce:hamkrest:1.4.2.2'
+	compile "org.jetbrains.kotlin:kotlin-stdlib:1.2.10"
+	compile "org.jetbrains.kotlin:kotlin-reflect:1.2.10"
+	compile "junit:junit:4.12"
+	compile "com.natpryce:hamkrest:1.4.2.2"
 }
 
 sourceSets {
-	main.java.srcDirs += 'src'
-	test.java.srcDirs += 'src'
+	main.java.srcDirs += "src"
+	test.java.srcDirs += "src"
 }
-
-task wrapper(type:Wrapper) {
-	gradleVersion = '3.2.1'
-}
-
-defaultTasks 'classes'
