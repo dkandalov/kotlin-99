@@ -16,7 +16,7 @@ class P09Test {
         assertThat(pack("a".toList()), equalTo(listOf("a".toList())))
         assertThat(pack("aaa".toList()), equalTo(listOf("aaa".toList())))
         assertThat(pack("aaaabccaadeeee".toList()), equalTo(listOf(
-                "aaaa".toList(), "b".toList(), "cc".toList(), "aa".toList(), "d".toList(), "eeee".toList()
+            "aaaa".toList(), "b".toList(), "cc".toList(), "aa".toList(), "d".toList(), "eeee".toList()
         )))
     }
 }

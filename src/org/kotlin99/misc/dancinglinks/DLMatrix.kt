@@ -22,7 +22,7 @@ class DLMatrix(matrix: List<List<Int>>) {
 
         h = Node("h")
         h.linkDown(h)
-        val headers = (0 until width).map{ Node("$it") }
+        val headers = (0 until width).map { Node("$it") }
         headers.forEach { it.linkDown(it) }
         headers.pairs().forEach { it.first.linkRight(it.second) }
         headers.last().linkRight(h).linkRight(headers.first())
@@ -71,7 +71,7 @@ class DLMatrix(matrix: List<List<Int>>) {
         }
 
         column.uncoverColumn()
-        
+
         return emptyList()
     }
 
@@ -95,22 +95,22 @@ class DLMatrix(matrix: List<List<Int>>) {
         val lines = ArrayList<String>()
 
         val headers = h.toListRight().tail()
-        lines.add(headers.joinToString(""){ it.label.toString() })
+        lines.add(headers.joinToString("") { it.label.toString() })
 
-        var nodeStacks = headers.map{ it.toListDown().tail() }
-        while (!nodeStacks.all{ it.isEmpty() }) {
+        var nodeStacks = headers.map { it.toListDown().tail() }
+        while (!nodeStacks.all { it.isEmpty() }) {
             val node = nodeStacks
-                .filter{ it.isNotEmpty() }
+                .filter { it.isNotEmpty() }
                 .minBy { it.first().toListRight().sumBy(Node::distanceToHeader) }!!.first()
 
             val nodesInRow = node.toListRight()
             val line = nodeStacks
-                .map { stack -> if (stack.any{ nodesInRow.contains(it) }) "1" else "0" }
+                .map { stack -> if (stack.any { nodesInRow.contains(it) }) "1" else "0" }
                 .joinToString("")
             lines.add(line)
 
-            nodeStacks = nodeStacks.map{ stack ->
-                stack.filter{ !nodesInRow.contains(it) }
+            nodeStacks = nodeStacks.map { stack ->
+                stack.filter { !nodesInRow.contains(it) }
             }
         }
         return lines.joinToString("\n")
@@ -166,12 +166,12 @@ class DLMatrixTest {
 
     @Test fun `cover first column`() {
         val matrix = DLMatrix(listOf(
-                listOf(0, 0, 1, 0, 1, 1, 0),
-                listOf(1, 0, 0, 1, 0, 0, 1),
-                listOf(0, 1, 1, 0, 0, 1, 0),
-                listOf(1, 0, 0, 1, 0, 0, 0),
-                listOf(0, 1, 0, 0, 0, 0, 1),
-                listOf(0, 0, 0, 1, 1, 0, 1)
+            listOf(0, 0, 1, 0, 1, 1, 0),
+            listOf(1, 0, 0, 1, 0, 0, 1),
+            listOf(0, 1, 1, 0, 0, 1, 0),
+            listOf(1, 0, 0, 1, 0, 0, 0),
+            listOf(0, 1, 0, 0, 0, 0, 1),
+            listOf(0, 0, 0, 1, 1, 0, 1)
         ))
 
         matrix.h.right.coverColumn()
@@ -188,17 +188,17 @@ class DLMatrixTest {
 
     @Test fun `find solution for cover problem from dancing links paper`() {
         val matrix = DLMatrix(listOf(
-                listOf(0, 0, 1, 0, 1, 1, 0),
-                listOf(1, 0, 0, 1, 0, 0, 1),
-                listOf(0, 1, 1, 0, 0, 1, 0),
-                listOf(1, 0, 0, 1, 0, 0, 0),
-                listOf(0, 1, 0, 0, 0, 0, 1),
-                listOf(0, 0, 0, 1, 1, 0, 1)
+            listOf(0, 0, 1, 0, 1, 1, 0),
+            listOf(1, 0, 0, 1, 0, 0, 1),
+            listOf(0, 1, 1, 0, 0, 1, 0),
+            listOf(1, 0, 0, 1, 0, 0, 0),
+            listOf(0, 1, 0, 0, 0, 0, 1),
+            listOf(0, 0, 0, 1, 1, 0, 1)
         ))
-        assertThat(matrix.search().map{ it.toListRight().map{ it.header.label }.joinToString() }, equalTo(listOf(
-                "0, 3",
-                "4, 5, 2",
-                "1, 6"
+        assertThat(matrix.search().map { it.toListRight().map { it.header.label }.joinToString() }, equalTo(listOf(
+            "0, 3",
+            "4, 5, 2",
+            "1, 6"
         )))
     }
 

@@ -26,9 +26,9 @@ fun <T> ArrayList<T>.fill(n: Int, value: T): ArrayList<T> {
 fun <T> List<T>.permutations(): List<List<T>> {
     if (size <= 1) return listOf(this)
     val head = first()
-    return tail().permutations().flatMap{ tailPermutation ->
+    return tail().permutations().flatMap { tailPermutation ->
         (0..tailPermutation.size).map { i ->
-            LinkedList(tailPermutation).apply{ add(i, head) }
+            LinkedList(tailPermutation).apply { add(i, head) }
         }
     }
 }
@@ -36,9 +36,9 @@ fun <T> List<T>.permutations(): List<List<T>> {
 fun <T> List<T>.permutationsSeq(): Sequence<List<T>> {
     if (size <= 1) return sequenceOf(this)
     val head = first()
-    return tail().permutationsSeq().flatMap{ tailPermutation ->
+    return tail().permutationsSeq().flatMap { tailPermutation ->
         (0..tailPermutation.size).asSequence().map { i ->
-            LinkedList(tailPermutation).apply{ add(i, head) }
+            LinkedList(tailPermutation).apply { add(i, head) }
         }
     }
 }
@@ -48,8 +48,8 @@ fun <E> List<List<E>>.transpose(): List<List<E>> {
     if (isEmpty()) return this
 
     val width = first().size
-    if (any{ it.size != width }) {
-        throw IllegalArgumentException("All nested lists must have the same size, but sizes were ${map{ it.size }}")
+    if (any { it.size != width }) {
+        throw IllegalArgumentException("All nested lists must have the same size, but sizes were ${map { it.size }}")
     }
 
     return (0 until width).map { col ->
@@ -67,23 +67,23 @@ class CollectionsTest {
         assertThat(listOf(1, 2).permutations(), containsAll(listOf(listOf(1, 2), listOf(2, 1))))
         assertThat(listOf(1, 2).permutations(), containsAll(listOf(listOf(1, 2), listOf(2, 1))))
         assertThat(listOf(1, 2, 3).permutations(), containsAll(listOf(
-                listOf(1, 2, 3),
-                listOf(1, 3, 2),
-                listOf(2, 1, 3),
-                listOf(2, 3, 1),
-                listOf(3, 1, 2),
-                listOf(3, 2, 1)
+            listOf(1, 2, 3),
+            listOf(1, 3, 2),
+            listOf(2, 1, 3),
+            listOf(2, 3, 1),
+            listOf(3, 1, 2),
+            listOf(3, 2, 1)
         )))
     }
 
     @Test fun `permutations sequence`() {
         assertThat(listOf(1, 2, 3).permutationsSeq().toList(), containsAll(listOf(
-                listOf(1, 2, 3),
-                listOf(1, 3, 2),
-                listOf(2, 1, 3),
-                listOf(2, 3, 1),
-                listOf(3, 1, 2),
-                listOf(3, 2, 1)
+            listOf(1, 2, 3),
+            listOf(1, 3, 2),
+            listOf(2, 1, 3),
+            listOf(2, 3, 1),
+            listOf(3, 1, 2),
+            listOf(3, 2, 1)
         )))
     }
 
@@ -96,7 +96,7 @@ class CollectionsTest {
         assertThat(listOf(listOf(1, 2, 3)).transpose(), equalTo(listOf(listOf(1), listOf(2), listOf(3))))
 
         assertThat(listOf(listOf(1, 2, 3), listOf(4, 5, 6)).transpose(), equalTo(listOf(
-                listOf(1, 4), listOf(2, 5), listOf(3, 6)
+            listOf(1, 4), listOf(2, 5), listOf(3, 6)
         )))
     }
 }

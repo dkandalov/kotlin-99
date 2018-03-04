@@ -5,16 +5,16 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
 fun goldbachList(range: IntRange) =
-        range.filter{ it % 2 == 0}.map{ it.goldbach() }
+    range.filter { it % 2 == 0 }.map { it.goldbach() }
 
 fun printGoldbachList(range: IntRange) =
-        goldbachList(range).forEach { println(it.toStringSum()) }
+    goldbachList(range).forEach { println(it.toStringSum()) }
 
 fun goldbachListLimited(range: IntRange, minPrime: Int) =
-        goldbachList(range).filter { it.first > minPrime && it.second > minPrime }
+    goldbachList(range).filter { it.first > minPrime && it.second > minPrime }
 
 fun printGoldbachListLimited(range: IntRange, minPrime: Int) =
-        goldbachListLimited(range, minPrime).forEach { println(it.toStringSum()) }
+    goldbachListLimited(range, minPrime).forEach { println(it.toStringSum()) }
 
 private fun Pair<Int, Int>.toStringSum() = "${first + second} = $first + $second"
 

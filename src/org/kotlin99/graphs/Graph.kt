@@ -16,9 +16,9 @@ class Graph<T, U> {
     val edges: MutableList<Edge<T, U>>
 
     constructor(nodes: Collection<Node<T, U>> = ArrayList(), edges: Collection<Edge<T, U>> = ArrayList()) {
-        this.nodes = nodes.groupBy{ it.value }
-                          .map{ Pair(it.key, it.value.first()) }
-                          .toMap(LinkedHashMap()) // Use linked map to make operations on graph more deterministic.
+        this.nodes = nodes.groupBy { it.value }
+            .map { Pair(it.key, it.value.first()) }
+            .toMap(LinkedHashMap()) // Use linked map to make operations on graph more deterministic.
         this.edges = ArrayList(edges)
     }
 
@@ -33,7 +33,7 @@ class Graph<T, U> {
             throw IllegalStateException("Expected '$n1' and '$n2' nodes to exist in graph")
         }
         val edge = UndirectedEdge(nodes[n1]!!, nodes[n2]!!, label)
-        if (edges.none{ it.equivalentTo(edge) }) {
+        if (edges.none { it.equivalentTo(edge) }) {
             edges.add(edge)
             nodes[n1]!!.edges.add(edge)
             nodes[n2]!!.edges.add(edge)
@@ -49,8 +49,8 @@ class Graph<T, U> {
     }
 
     override fun toString(): String {
-        val standaloneNodes = nodes.values.filter{ node -> edges.all { it.n1 != node && it.n2 != node } }
-        val s = (edges.map{ it.toString() } + standaloneNodes.map{ it.toString() }).joinToString()
+        val standaloneNodes = nodes.values.filter { node -> edges.all { it.n1 != node && it.n2 != node } }
+        val s = (edges.map { it.toString() } + standaloneNodes.map { it.toString() }).joinToString()
         return "[$s]"
     }
 
@@ -64,13 +64,13 @@ class Graph<T, U> {
     override fun hashCode() = 31 * nodes.hashCode() + edges.hashCode()
 
     fun equivalentTo(other: Graph<T, U>): Boolean {
-        return nodes == other.nodes && edges.all { edge -> other.edges.any{ it.equivalentTo(edge) } }
+        return nodes == other.nodes && edges.all { edge -> other.edges.any { it.equivalentTo(edge) } }
     }
 
 
     data class Node<T, U>(val value: T) {
         val edges: MutableList<Edge<T, U>> = ArrayList()
-        fun neighbors(): List<Node<T, U>> = edges.map{ edge -> edge.target(this)!! }
+        fun neighbors(): List<Node<T, U>> = edges.map { edge -> edge.target(this)!! }
         override fun toString() = value.toString()
     }
 
@@ -80,15 +80,15 @@ class Graph<T, U> {
         val label: U?
         fun target(node: Node<T, U>): Node<T, U>?
         fun equivalentTo(other: Edge<T, U>) =
-                (n1 == other.n1 && n2 == other.n2) || (n1 == other.n2 && n2 == other.n1)
+            (n1 == other.n1 && n2 == other.n2) || (n1 == other.n2 && n2 == other.n1)
     }
 
-    data class UndirectedEdge<T, U>(override val n1: Node<T, U>, override val n2: Node<T, U>, override val label: U?) : Edge<T, U> {
+    data class UndirectedEdge<T, U>(override val n1: Node<T, U>, override val n2: Node<T, U>, override val label: U?): Edge<T, U> {
         override fun target(node: Node<T, U>) = if (n1 == node) n2 else if (n2 == node) n1 else null
         override fun toString() = n1.toString() + "-" + n2 + (if (label == null) "" else "/" + label.toString())
     }
 
-    data class DirectedEdge<T, U>(override val n1: Node<T, U>, override val n2: Node<T, U>, override val label: U?) : Edge<T, U> {
+    data class DirectedEdge<T, U>(override val n1: Node<T, U>, override val n2: Node<T, U>, override val label: U?): Edge<T, U> {
         override fun target(node: Node<T, U>) = if (n1 == node) n2 else null
         override fun toString() = n1.toString() + ">" + n2 + (if (label == null) "" else "/" + label.toString())
     }
@@ -168,9 +168,9 @@ class Graph<T, U> {
                                              addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
             val graph = Graph<T, U>()
             adjacencyList.entries.forEach { graph.addNode(it.node) }
-            adjacencyList.entries.forEach{
+            adjacencyList.entries.forEach {
                 val (node, links) = it
-                links.forEach{ addFunction(graph, node, it.node, it.label) }
+                links.forEach { addFunction(graph, node, it.node, it.label) }
             }
             return graph
         }
@@ -193,44 +193,44 @@ class GraphTest {
 
     @Test fun `create graph from list of nodes and edges`() {
         val graph = Graph.terms(TermForm(
-                nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
-                edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h"))))
+            nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
+            edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h"))))
         graph.assertPropertiesOfUndirectedGraphExample()
     }
 
     @Test fun `create graph from adjacency list`() {
         val graph = Graph.adjacent(AdjacencyList(
-                Entry("b", links("c", "f")),
-                Entry("c", links("b", "f")),
-                Entry("d"),
-                Entry("f", links("b", "c", "k")),
-                Entry("g", links("h")),
-                Entry("h", links("g")),
-                Entry("k", links("f"))))
+            Entry("b", links("c", "f")),
+            Entry("c", links("b", "f")),
+            Entry("d"),
+            Entry("f", links("b", "c", "k")),
+            Entry("g", links("h")),
+            Entry("h", links("g")),
+            Entry("k", links("f"))))
         graph.assertPropertiesOfUndirectedGraphExample()
     }
 
     @Test fun `create directed graph from list of nodes and edges`() {
         val graph = Graph.directedTerms(TermForm(
-                            listOf("r", "s", "t", "u", "v"),
-                            listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u"))))
+            listOf("r", "s", "t", "u", "v"),
+            listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u"))))
         graph.assertPropertiesOfDirectedGraphExample()
     }
 
     @Test fun `create directed graph from adjacency list`() {
         val graph = Graph.directedAdjacent(AdjacencyList(
-                Entry("r"),
-                Entry("s", links("r", "u")),
-                Entry("t"),
-                Entry("u", links("r", "s")),
-                Entry("v", links("u"))))
+            Entry("r"),
+            Entry("s", links("r", "u")),
+            Entry("t"),
+            Entry("u", links("r", "s")),
+            Entry("v", links("u"))))
         graph.assertPropertiesOfDirectedGraphExample()
     }
 
     @Test fun `create labeled undirected graph`() {
         val graph = Graph.labeledTerms(TermForm(
-                listOf("k", "m", "p", "q"),
-                listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9))))
+            listOf("k", "m", "p", "q"),
+            listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9))))
         graph.assertPropertiesOfUndirectedLabeledGraphExample()
     }
 
@@ -241,19 +241,19 @@ class GraphTest {
 
     @Test fun `create labeled undirected graph from adjacency list`() {
         val graph = Graph.labeledAdjacent(AdjacencyList(
-                Entry("k"),
-                Entry("m", Link("q", 7)),
-                Entry("p", Link("m", 5), Link("q", 9)),
-                Entry("q")))
+            Entry("k"),
+            Entry("m", Link("q", 7)),
+            Entry("p", Link("m", 5), Link("q", 9)),
+            Entry("q")))
         graph.assertPropertiesOfUndirectedLabeledGraphExample()
     }
 
     @Test fun `create labeled directed graph from adjacency list`() {
         val graph = Graph.labeledDirectedAdjacent(AdjacencyList(
-                Entry("k"),
-                Entry("m", Link("q", 7)),
-                Entry("p", Link("m", 5), Link("q", 9)),
-                Entry("q")))
+            Entry("k"),
+            Entry("m", Link("q", 7)),
+            Entry("p", Link("m", 5), Link("q", 9)),
+            Entry("q")))
         graph.assertPropertiesOfDirectedLabeledGraphExample()
     }
 

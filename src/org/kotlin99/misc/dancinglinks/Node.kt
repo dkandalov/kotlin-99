@@ -31,7 +31,7 @@ open class Node(val label: String? = null) {
     fun toList(direction: (Node) -> Node): List<Node> {
         val result = ArrayList<Node>()
         result.add(this)
-        each(direction){ result.add(it) }
+        each(direction) { result.add(it) }
         return result
     }
 
@@ -71,7 +71,7 @@ open class Node(val label: String? = null) {
 
     fun sizeDown(): Int {
         var size = 1
-        eachDown{ size ++ }
+        eachDown { size++ }
         return size
     }
 

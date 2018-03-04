@@ -32,16 +32,16 @@ class GameOfLife {
             constructor(vararg cells: Cell): this(cells.toSet())
 
             fun evolve(): Board {
-                val survivedCells = cells.filter{ cell ->
-                    liveNeighboursOf(cell).let{ it == 2 || it == 3 }
+                val survivedCells = cells.filter { cell ->
+                    liveNeighboursOf(cell).let { it == 2 || it == 3 }
                 }
-                val newbornCells = cells.flatMap{ cell ->
-                    cell.neighbours().filter{ liveNeighboursOf(it) == 3 }
+                val newbornCells = cells.flatMap { cell ->
+                    cell.neighbours().filter { liveNeighboursOf(it) == 3 }
                 }
                 return Board((survivedCells + newbornCells).toSet())
             }
 
-            private fun liveNeighboursOf(cell: Cell): Int = cell.neighbours().count{ cells.contains(it) }
+            private fun liveNeighboursOf(cell: Cell): Int = cell.neighbours().count { cells.contains(it) }
         }
     }
 }
@@ -204,12 +204,12 @@ class P96Test {
     }
 
     private fun Board.toPrettyString(): String {
-        val xMax = cells.map{ it.x }.max()!!
-        val yMax = cells.map{ it.y }.max()!!
+        val xMax = cells.map { it.x }.max()!!
+        val yMax = cells.map { it.y }.max()!!
 
         return 0.rangeTo(yMax).map { y ->
             0.rangeTo(xMax).map { x ->
-                if (cells.any{ it.x == x && it.y == y}) "*" else "-"
+                if (cells.any { it.x == x && it.y == y }) "*" else "-"
             }.joinToString("")
         }.joinToString("\n")
     }

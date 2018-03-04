@@ -16,14 +16,14 @@ fun <T> containsAll(vararg itemMatchers: Matcher<T>): Matcher<Iterable<T>> {
 }
 
 fun <T> containsAll(vararg items: T): Matcher<Iterable<T>> {
-    return containsAll(items.map{ equalTo(it) })
+    return containsAll(items.map { equalTo(it) })
 }
 
 @Suppress("UNCHECKED_CAST")
 @JvmName("containsInAnyOrderEqualTo")
 fun <T> containsAll(items: Iterable<T>, leafMatcher: (T) -> Matcher<T> = { equalTo(it) }): Matcher<Iterable<T>> {
     val matchers = if (items.count() > 0 && items.first() is Iterable<*>)
-        items.map{ containsAll(it as Iterable<*>) as Matcher<T> } else items.map { leafMatcher(it) }
+        items.map { containsAll(it as Iterable<*>) as Matcher<T> } else items.map { leafMatcher(it) }
     return containsAll(matchers)
 }
 
@@ -32,7 +32,7 @@ fun <T> containsAll(itemMatchers: Iterable<Matcher<T>>): Matcher<Iterable<T>> {
 }
 
 
-class ContainsAll<in T>(private val matchers: Iterable<Matcher<T>>) : Matcher<Iterable<T>> {
+class ContainsAll<in T>(private val matchers: Iterable<Matcher<T>>): Matcher<Iterable<T>> {
 
     override fun invoke(actual: Iterable<T>): MatchResult {
         val matching = Matching(matchers)
@@ -43,7 +43,7 @@ class ContainsAll<in T>(private val matchers: Iterable<Matcher<T>>) : Matcher<It
     }
 
     override val description: String
-        get() = "iterable with items [${matchers.joinToString{ it.description }}] in any order"
+        get() = "iterable with items [${matchers.joinToString { it.description }}] in any order"
 
 
     private class Matching<in S>(matchers: Iterable<Matcher<S>>) {
@@ -66,7 +66,7 @@ class ContainsAll<in T>(private val matchers: Iterable<Matcher<T>>) : Matcher<It
             if (matchers.isEmpty()) {
                 return MatchResult.Match
             }
-            return MatchResult.Mismatch("no item matches: [${matchers.joinToString{ it.description }}] in [${items.joinToString()}]")
+            return MatchResult.Mismatch("no item matches: [${matchers.joinToString { it.description }}] in [${items.joinToString()}]")
         }
     }
 }

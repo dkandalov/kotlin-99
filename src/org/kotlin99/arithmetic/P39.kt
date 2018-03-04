@@ -4,7 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
-fun listPrimesInRange(range: IntRange): List<Int> = range.filter{ it.isPrime() }
+fun listPrimesInRange(range: IntRange): List<Int> = range.filter { it.isPrime() }
 
 class P39Test {
     @Test fun `list of prime numbers`() {
