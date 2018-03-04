@@ -15,7 +15,6 @@ class Graph<T, U>(nodes: Collection<Node<T, U>> = emptyList(), edges: Collection
     val nodes: MutableMap<T, Node<T, U>> = nodes
         .map { Pair(it.value, it) }
         .toMap(LinkedHashMap()) // Use linked map to make operations on graph more deterministic.
-
     val edges: MutableList<Edge<T, U>> = edges.toMutableList()
 
     private fun addNode(value: T): Node<T, U> {
@@ -103,7 +102,6 @@ class Graph<T, U>(nodes: Collection<Node<T, U>> = emptyList(), edges: Collection
         data class Entry<out T, out U>(val node: T, val links: List<Link<T, U>> = emptyList<Nothing>()) {
             constructor(node: T, vararg links: Link<T, U>): this(node, links.asList())
             override fun toString() = "Entry($node, links[${links.joinToString()}])"
-
             companion object {
                 fun <T> links(vararg linkValues: T): List<Link<T, Nothing>> = linkValues.map { Link(it, null) }
             }
@@ -115,43 +113,35 @@ class Graph<T, U>(nodes: Collection<Node<T, U>> = emptyList(), edges: Collection
     }
 
     companion object {
-        fun <T> terms(termForm: TermForm<T, Nothing>): Graph<T, Nothing> {
-            return createFromTerms(termForm) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
-        }
+        fun <T> terms(termForm: TermForm<T, Nothing>): Graph<T, Nothing> =
+            createFromTerms(termForm) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
 
-        fun <T> directedTerms(termForm: TermForm<T, Nothing>): Graph<T, Nothing> {
-            return createFromTerms(termForm) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
-        }
+        fun <T> directedTerms(termForm: TermForm<T, Nothing>): Graph<T, Nothing> =
+            createFromTerms(termForm) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
 
-        fun <T, U> labeledTerms(termForm: TermForm<T, U>): Graph<T, U> {
-            return createFromTerms(termForm) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
-        }
+        fun <T, U> labeledTerms(termForm: TermForm<T, U>): Graph<T, U> =
+            createFromTerms(termForm) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
 
-        fun <T, U> labeledDirectedTerms(termForm: TermForm<T, U>): Graph<T, U> {
-            return createFromTerms(termForm) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
-        }
+        fun <T, U> labeledDirectedTerms(termForm: TermForm<T, U>): Graph<T, U> =
+            createFromTerms(termForm) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
 
-        fun <T> adjacent(adjacencyList: AdjacencyList<T, Nothing>): Graph<T, *> {
-            return fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
+        fun <T> adjacent(adjacencyList: AdjacencyList<T, Nothing>): Graph<T, *> =
+            fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
                 graph.addUndirectedEdge(n1, n2, value)
             }
-        }
 
-        fun <T> directedAdjacent(adjacencyList: AdjacencyList<T, Nothing>): Graph<T, *> {
-            return fromAdjacencyList(adjacencyList) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
-        }
+        fun <T> directedAdjacent(adjacencyList: AdjacencyList<T, Nothing>): Graph<T, *> =
+            fromAdjacencyList(adjacencyList) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
 
-        fun <T, U> labeledAdjacent(adjacencyList: AdjacencyList<T, U>): Graph<T, U> {
-            return fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
+        fun <T, U> labeledAdjacent(adjacencyList: AdjacencyList<T, U>): Graph<T, U> =
+            fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
                 graph.addUndirectedEdge(n1, n2, value)
             }
-        }
 
-        fun <T, U> labeledDirectedAdjacent(adjacencyList: AdjacencyList<T, U>): Graph<T, U> {
-            return fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
+        fun <T, U> labeledDirectedAdjacent(adjacencyList: AdjacencyList<T, U>): Graph<T, U> =
+            fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
                 graph.addDirectedEdge(n1, n2, value)
             }
-        }
 
         private fun <T, U> createFromTerms(termForm: TermForm<T, U>, addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
             val graph = Graph<T, U>()
@@ -160,8 +150,7 @@ class Graph<T, U>(nodes: Collection<Node<T, U>> = emptyList(), edges: Collection
             return graph
         }
 
-        private fun <T, U> fromAdjacencyList(adjacencyList: AdjacencyList<T, U>,
-                                             addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
+        private fun <T, U> fromAdjacencyList(adjacencyList: AdjacencyList<T, U>, addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
             val graph = Graph<T, U>()
             adjacencyList.entries.forEach { graph.addNode(it.node) }
             adjacencyList.entries.forEach {
@@ -190,7 +179,8 @@ class GraphTest {
     @Test fun `create graph from list of nodes and edges`() {
         val graph = Graph.terms(TermForm(
             nodes = listOf("b", "c", "d", "f", "g", "h", "k"),
-            edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h"))))
+            edges = listOf(Term("b", "c"), Term("b", "f"), Term("c", "f"), Term("f", "k"), Term("g", "h"))
+        ))
         graph.assertPropertiesOfUndirectedGraphExample()
     }
 
@@ -202,14 +192,16 @@ class GraphTest {
             Entry("f", links("b", "c", "k")),
             Entry("g", links("h")),
             Entry("h", links("g")),
-            Entry("k", links("f"))))
+            Entry("k", links("f"))
+        ))
         graph.assertPropertiesOfUndirectedGraphExample()
     }
 
     @Test fun `create directed graph from list of nodes and edges`() {
         val graph = Graph.directedTerms(TermForm(
             listOf("r", "s", "t", "u", "v"),
-            listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u"))))
+            listOf(Term("s", "r"), Term("s", "u"), Term("u", "r"), Term("u", "s"), Term("v", "u"))
+        ))
         graph.assertPropertiesOfDirectedGraphExample()
     }
 
@@ -219,14 +211,16 @@ class GraphTest {
             Entry("s", links("r", "u")),
             Entry("t"),
             Entry("u", links("r", "s")),
-            Entry("v", links("u"))))
+            Entry("v", links("u"))
+        ))
         graph.assertPropertiesOfDirectedGraphExample()
     }
 
     @Test fun `create labeled undirected graph`() {
         val graph = Graph.labeledTerms(TermForm(
             listOf("k", "m", "p", "q"),
-            listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9))))
+            listOf(Term("m", "q", 7), Term("p", "m", 5), Term("p", "q", 9))
+        ))
         graph.assertPropertiesOfUndirectedLabeledGraphExample()
     }
 
@@ -240,7 +234,8 @@ class GraphTest {
             Entry("k"),
             Entry("m", Link("q", 7)),
             Entry("p", Link("m", 5), Link("q", 9)),
-            Entry("q")))
+            Entry("q")
+        ))
         graph.assertPropertiesOfUndirectedLabeledGraphExample()
     }
 
@@ -249,7 +244,8 @@ class GraphTest {
             Entry("k"),
             Entry("m", Link("q", 7)),
             Entry("p", Link("m", 5), Link("q", 9)),
-            Entry("q")))
+            Entry("q")
+        ))
         graph.assertPropertiesOfDirectedLabeledGraphExample()
     }
 
