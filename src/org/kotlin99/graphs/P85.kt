@@ -8,9 +8,9 @@ import org.junit.Test
 import org.kotlin99.common.containsAll
 import org.kotlin99.common.permutations
 
-fun <T1, T2> Graph<T1, *>.isIsomorphicTo(graph: Graph<T2, *>) = this.isomorphicMappingTo(graph) != null
+fun <V1, V2> Graph<V1, *>.isIsomorphicTo(graph: Graph<V2, *>) = this.isomorphicMappingTo(graph) != null
 
-fun <T1, T2> Graph<T1, *>.isomorphicMappingTo(graph: Graph<T2, *>): List<Pair<T1, T2>>? {
+fun <V1, V2> Graph<V1, *>.isomorphicMappingTo(graph: Graph<V2, *>): List<Pair<V1, V2>>? {
     if (nodes.size != graph.nodes.size) return null
 
     val allMappings = nodes.values.toList().permutations().map { it zip graph.nodes.values }

@@ -6,8 +6,8 @@ import org.junit.Test
 import org.kotlin99.common.tail
 
 
-fun <T> Graph<T, *>.nodesByDepthFrom(nodeValue: T): List<T> {
-    fun nodesByDepth(nodeValues: List<T>, visited: List<T>): List<T> =
+fun <V> Graph<V, *>.nodesByDepthFrom(nodeValue: V): List<V> {
+    fun nodesByDepth(nodeValues: List<V>, visited: List<V>): List<V> =
         if (nodeValues.isEmpty()) emptyList()
         else {
             val head = nodeValues.first()
@@ -18,8 +18,8 @@ fun <T> Graph<T, *>.nodesByDepthFrom(nodeValue: T): List<T> {
     return nodesByDepth(listOf(nodeValue), emptyList())
 }
 
-fun <T> Graph<T, *>.nodesByBreadthFrom(nodeValue: T): List<T> {
-    fun nodesByBreadth(nodeValues: List<T>, visited: List<T>): List<T> =
+fun <V> Graph<V, *>.nodesByBreadthFrom(nodeValue: V): List<V> {
+    fun nodesByBreadth(nodeValues: List<V>, visited: List<V>): List<V> =
         if (nodeValues.isEmpty()) emptyList()
         else {
             val head = nodeValues.first()
@@ -30,7 +30,7 @@ fun <T> Graph<T, *>.nodesByBreadthFrom(nodeValue: T): List<T> {
     return nodesByBreadth(listOf(nodeValue), emptyList())
 }
 
-private fun <T> Graph<T, *>.neighbourValues(head: T) = nodes[head]!!.neighbors().map { it.value }
+private fun <V> Graph<V, *>.neighbourValues(head: V) = nodes[head]!!.neighbors().map { it.value }
 
 
 class P87Test {

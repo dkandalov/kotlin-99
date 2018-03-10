@@ -11,19 +11,23 @@ import org.kotlin99.graphs.Graph.TermForm.Term
 import java.util.*
 
 
-class Graph<T, U>(nodes: Collection<Node<T, U>> = emptyList(), edges: Collection<Edge<T, U>> = emptyList()) {
-    val nodes: MutableMap<T, Node<T, U>> = nodes
+/**
+ * [V] - type of node value
+ * [L] - type of edge label
+ */
+class Graph<V, L>(nodes: Collection<Node<V, L>> = emptyList(), edges: Collection<Edge<V, L>> = emptyList()) {
+    val nodes: MutableMap<V, Node<V, L>> = nodes
         .map { Pair(it.value, it) }
         .toMap(LinkedHashMap()) // Use linked map to make operations on graph more deterministic.
-    val edges: MutableList<Edge<T, U>> = edges.toMutableList()
+    val edges: MutableList<Edge<V, L>> = edges.toMutableList()
 
-    private fun addNode(value: T): Node<T, U> {
-        val node = Node<T, U>(value)
+    private fun addNode(value: V): Node<V, L> {
+        val node = Node<V, L>(value)
         nodes.put(value, node)
         return node
     }
 
-    private fun addUndirectedEdge(n1: T, n2: T, label: U?) {
+    private fun addUndirectedEdge(n1: V, n2: V, label: L?) {
         if (!nodes.contains(n1) || !nodes.contains(n2)) {
             throw IllegalStateException("Expected '$n1' and '$n2' nodes to exist in graph")
         }
@@ -35,7 +39,7 @@ class Graph<T, U>(nodes: Collection<Node<T, U>> = emptyList(), edges: Collection
         }
     }
 
-    private fun addDirectedEdge(source: T, dest: T, label: U?) {
+    private fun addDirectedEdge(source: V, dest: V, label: L?) {
         val edge = DirectedEdge(nodes[source]!!, nodes[dest]!!, label)
         if (!edges.contains(edge)) {
             edges.add(edge)
@@ -58,100 +62,100 @@ class Graph<T, U>(nodes: Collection<Node<T, U>> = emptyList(), edges: Collection
 
     override fun hashCode() = 31 * nodes.hashCode() + edges.hashCode()
 
-    fun equivalentTo(other: Graph<T, U>): Boolean {
+    fun equivalentTo(other: Graph<V, L>): Boolean {
         return nodes == other.nodes && edges.all { edge -> other.edges.any { it.equivalentTo(edge) } }
     }
 
 
-    data class Node<T, U>(val value: T) {
-        val edges: MutableList<Edge<T, U>> = ArrayList()
-        fun neighbors(): List<Node<T, U>> = edges.map { edge -> edge.target(this)!! }
+    data class Node<V, L>(val value: V) {
+        val edges: MutableList<Edge<V, L>> = ArrayList()
+        fun neighbors(): List<Node<V, L>> = edges.map { edge -> edge.target(this)!! }
         override fun toString() = value.toString()
     }
 
-    interface Edge<T, U> {
-        val n1: Node<T, U>
-        val n2: Node<T, U>
-        val label: U?
-        fun target(node: Node<T, U>): Node<T, U>?
-        fun equivalentTo(other: Edge<T, U>) =
+    interface Edge<V, L> {
+        val n1: Node<V, L>
+        val n2: Node<V, L>
+        val label: L?
+        fun target(node: Node<V, L>): Node<V, L>?
+        fun equivalentTo(other: Edge<V, L>) =
             (n1 == other.n1 && n2 == other.n2) || (n1 == other.n2 && n2 == other.n1)
     }
 
-    data class UndirectedEdge<T, U>(override val n1: Node<T, U>, override val n2: Node<T, U>, override val label: U?): Edge<T, U> {
-        override fun target(node: Node<T, U>) = if (n1 == node) n2 else if (n2 == node) n1 else null
+    data class UndirectedEdge<V, L>(override val n1: Node<V, L>, override val n2: Node<V, L>, override val label: L?): Edge<V, L> {
+        override fun target(node: Node<V, L>) = if (n1 == node) n2 else if (n2 == node) n1 else null
         override fun toString() = n1.toString() + "-" + n2 + (if (label == null) "" else "/" + label.toString())
     }
 
-    data class DirectedEdge<T, U>(override val n1: Node<T, U>, override val n2: Node<T, U>, override val label: U?): Edge<T, U> {
-        override fun target(node: Node<T, U>) = if (n1 == node) n2 else null
+    data class DirectedEdge<V, L>(override val n1: Node<V, L>, override val n2: Node<V, L>, override val label: L?): Edge<V, L> {
+        override fun target(node: Node<V, L>) = if (n1 == node) n2 else null
         override fun toString() = n1.toString() + ">" + n2 + (if (label == null) "" else "/" + label.toString())
     }
 
 
-    data class TermForm<out T, out U>(val nodes: Collection<T>, val edges: List<Term<T, U>>) {
-        data class Term<out T, out U>(val n1: T, val n2: T, val label: U? = null) {
+    data class TermForm<out V, out L>(val nodes: Collection<V>, val edges: List<Term<V, L>>) {
+        data class Term<out V, out L>(val n1: V, val n2: V, val label: L? = null) {
             override fun toString() = if (label == null) "Term($n1, $n2)" else "Term($n1, $n2, $label)"
         }
     }
 
-    data class AdjacencyList<T, out U>(val entries: List<Entry<T, U>>) {
-        constructor(vararg entries: Entry<T, U>): this(entries.asList())
+    data class AdjacencyList<V, out L>(val entries: List<Entry<V, L>>) {
+        constructor(vararg entries: Entry<V, L>): this(entries.asList())
         override fun toString() = "AdjacencyList(${entries.joinToString()})"
 
-        data class Entry<out T, out U>(val node: T, val links: List<Link<T, U>> = emptyList<Nothing>()) {
-            constructor(node: T, vararg links: Link<T, U>): this(node, links.asList())
+        data class Entry<out V, out L>(val node: V, val links: List<Link<V, L>> = emptyList<Nothing>()) {
+            constructor(node: V, vararg links: Link<V, L>): this(node, links.asList())
             override fun toString() = "Entry($node, links[${links.joinToString()}])"
             companion object {
-                fun <T> links(vararg linkValues: T): List<Link<T, Nothing>> = linkValues.map { Link(it, null) }
+                fun <V> links(vararg linkValues: V): List<Link<V, Nothing>> = linkValues.map { Link(it, null) }
             }
         }
 
-        data class Link<out T, out U>(val node: T, val label: U? = null) {
+        data class Link<out V, out L>(val node: V, val label: L? = null) {
             override fun toString() = if (label == null) "$node" else "$node/$label"
         }
     }
 
     companion object {
-        fun <T> terms(termForm: TermForm<T, Nothing>): Graph<T, Nothing> =
+        fun <V> terms(termForm: TermForm<V, Nothing>): Graph<V, Nothing> =
             createFromTerms(termForm) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
 
-        fun <T> directedTerms(termForm: TermForm<T, Nothing>): Graph<T, Nothing> =
+        fun <V> directedTerms(termForm: TermForm<V, Nothing>): Graph<V, Nothing> =
             createFromTerms(termForm) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
 
-        fun <T, U> labeledTerms(termForm: TermForm<T, U>): Graph<T, U> =
+        fun <V, L> labeledTerms(termForm: TermForm<V, L>): Graph<V, L> =
             createFromTerms(termForm) { graph, n1, n2, value -> graph.addUndirectedEdge(n1, n2, value) }
 
-        fun <T, U> labeledDirectedTerms(termForm: TermForm<T, U>): Graph<T, U> =
+        fun <V, L> labeledDirectedTerms(termForm: TermForm<V, L>): Graph<V, L> =
             createFromTerms(termForm) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
 
-        fun <T> adjacent(adjacencyList: AdjacencyList<T, Nothing>): Graph<T, *> =
+        fun <V> adjacent(adjacencyList: AdjacencyList<V, Nothing>): Graph<V, *> =
             fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
                 graph.addUndirectedEdge(n1, n2, value)
             }
 
-        fun <T> directedAdjacent(adjacencyList: AdjacencyList<T, Nothing>): Graph<T, *> =
+        fun <V> directedAdjacent(adjacencyList: AdjacencyList<V, Nothing>): Graph<V, *> =
             fromAdjacencyList(adjacencyList) { graph, n1, n2, value -> graph.addDirectedEdge(n1, n2, value) }
 
-        fun <T, U> labeledAdjacent(adjacencyList: AdjacencyList<T, U>): Graph<T, U> =
+        fun <V, L> labeledAdjacent(adjacencyList: AdjacencyList<V, L>): Graph<V, L> =
             fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
                 graph.addUndirectedEdge(n1, n2, value)
             }
 
-        fun <T, U> labeledDirectedAdjacent(adjacencyList: AdjacencyList<T, U>): Graph<T, U> =
+        fun <V, L> labeledDirectedAdjacent(adjacencyList: AdjacencyList<V, L>): Graph<V, L> =
             fromAdjacencyList(adjacencyList) { graph, n1, n2, value ->
                 graph.addDirectedEdge(n1, n2, value)
             }
 
-        private fun <T, U> createFromTerms(termForm: TermForm<T, U>, addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
-            val graph = Graph<T, U>()
+        private fun <V, L> createFromTerms(termForm: TermForm<V, L>, addFunction: (Graph<V, L>, V, V, L?) -> Unit): Graph<V, L> {
+            val graph = Graph<V, L>()
             termForm.nodes.forEach { graph.addNode(it) }
             termForm.edges.forEach { addFunction(graph, it.n1, it.n2, it.label) }
             return graph
         }
 
-        private fun <T, U> fromAdjacencyList(adjacencyList: AdjacencyList<T, U>, addFunction: (Graph<T, U>, T, T, U?) -> Unit): Graph<T, U> {
-            val graph = Graph<T, U>()
+        private fun <V, L> fromAdjacencyList(adjacencyList: AdjacencyList<V, L>, addFunction: (Graph<V, L>, V, V, L?) -> Unit): Graph<V, L> {
+            val graph = Graph<V, L>()
             adjacencyList.entries.forEach { graph.addNode(it.node) }
             adjacencyList.entries.forEach {
                 val (node, links) = it

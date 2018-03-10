@@ -6,10 +6,10 @@ import org.junit.Test
 import org.kotlin99.common.containsAll
 import java.util.*
 
-fun <T> Graph.Node<T, *>.degree(): Int = this.edges.size
+fun <V> Graph.Node<V, *>.degree(): Int = this.edges.size
 
-fun <T> Graph<T, *>.colorNodes(): List<Pair<T, Int>> {
-    val colorByNode = LinkedHashMap<T, Int>()
+fun <V> Graph<V, *>.colorNodes(): List<Pair<V, Int>> {
+    val colorByNode = LinkedHashMap<V, Int>()
     val nodeList = nodes.values.sortedBy { -it.degree() }.toMutableList()
     var color = 1
 

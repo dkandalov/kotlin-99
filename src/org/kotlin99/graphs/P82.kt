@@ -6,8 +6,8 @@ import org.junit.Test
 import org.kotlin99.common.containsAll
 import org.kotlin99.common.tail
 
-fun <T> Graph<T, *>.findCycles(node: T): List<List<T>> {
-    fun findCycles(path: List<T>): List<List<T>> {
+fun <V> Graph<V, *>.findCycles(node: V): List<List<V>> {
+    fun findCycles(path: List<V>): List<List<V>> {
         if (path.size > 3 && path.first() == path.last()) return listOf(path)
         return nodes[path.last()]!!.neighbors()
             .filterNot { path.tail().contains(it.value) }

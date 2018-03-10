@@ -7,7 +7,7 @@ import org.junit.Test
 /**
  * Based on https://en.wikipedia.org/wiki/Bipartite_graph#Testing_bipartiteness
  */
-fun <T> Graph<T, *>.isBipartite() =
+fun <V> Graph<V, *>.isBipartite() =
     components().all { graph ->
         graph.colorNodes().all { it.second == 1 || it.second == 2 }
     }

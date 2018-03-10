@@ -13,7 +13,7 @@ import org.kotlin99.graphs.toGraph
 import org.kotlin99.graphs.toTermForm
 import java.util.*
 
-fun <T> Graph<T, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
+fun <V> Graph<V, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
     val edgeLabels = 1.rangeTo(edges.size).toHashSet()
     return 1.rangeTo(nodes.size).toList()
         .permutationsSeq()

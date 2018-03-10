@@ -4,7 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import org.junit.Test
 import org.kotlin99.common.containsAll
 
-fun <T, U> Graph<T, U>.components(): List<Graph<T, U>> {
+fun <V, L> Graph<V, L>.components(): List<Graph<V, L>> {
     return nodes.keys.fold(emptyList()) { result, nodeValue ->
         if (result.any { it.nodes.contains(nodeValue) }) {
             result

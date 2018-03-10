@@ -10,19 +10,19 @@ import org.kotlin99.graphs.P80Test.Companion.equivalentTo
 import java.util.*
 
 
-fun <T, U: Comparable<U>> Graph<T, U>.minSpanningTree(): Graph<T, U> {
-    fun Edge<T, U>.contains(node: Node<T, U>) = n1 == node || n2 == node
-    fun Edge<T, U>.connectsTo(nodes: List<Node<T, U>>) = nodes.contains(n1) != nodes.contains(n2)
+fun <V, L: Comparable<L>> Graph<V, L>.minSpanningTree(): Graph<V, L> {
+    fun Edge<V, L>.contains(node: Node<V, L>) = n1 == node || n2 == node
+    fun Edge<V, L>.connectsTo(nodes: List<Node<V, L>>) = nodes.contains(n1) != nodes.contains(n2)
 
     // Comparator is only required for tree without labels (i.e. with null label values).
-    val comparator = Comparator<Edge<T, U>> { e1, e2 ->
+    val comparator = Comparator<Edge<V, L>> { e1, e2 ->
         if (e1.label == null && e2.label == null) 0
         else if (e1.label == null) -1
         else if (e2.label == null) 1
         else e1.label?.compareTo(e2.label!!)!!
     }
 
-    fun minSpanningTree(graphEdges: List<Edge<T, U>>, graphNodes: List<Node<T, U>>): Graph<T, U> {
+    fun minSpanningTree(graphEdges: List<Edge<V, L>>, graphNodes: List<Node<V, L>>): Graph<V, L> {
         return if (graphNodes.isEmpty()) {
             Graph(nodes.values, edges - graphEdges)
         } else {

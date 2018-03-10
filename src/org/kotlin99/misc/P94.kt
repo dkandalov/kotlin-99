@@ -43,13 +43,13 @@ private fun edgeCombinations(nodes: List<Int>, degree: Int, result: List<Pair<In
     }
 }
 
-private fun <T> List<Pair<T, T>>.toGraph(): Graph<T, Nothing> {
+private fun <V> List<Pair<V, V>>.toGraph(): Graph<V, Nothing> {
     val nodes = flatMap { it.toList() }
-    val edges = map { Term<T, Nothing>(it.first, it.second) }
+    val edges = map { Term<V, Nothing>(it.first, it.second) }
     return Graph.terms(TermForm(nodes, edges))
 }
 
-private fun <T1, T2, U> Graph<T1, U>.mapValue(f: (T1) -> T2): Graph<T2, U> {
+private fun <V1, V2, L> Graph<V1, L>.mapValue(f: (V1) -> V2): Graph<V2, L> {
     val nodes = nodes.keys.map { f(it) }
     val edges = edges.map { Term(f(it.n1.value), f(it.n2.value), it.label) }
     return Graph.labeledTerms(TermForm(nodes, edges))

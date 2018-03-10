@@ -50,13 +50,13 @@ fun String.toLabeledGraph(): Graph<String, Int> {
     }
 }
 
-fun <T, U> Graph<T, U>.toTermForm(): TermForm<T, U> {
+fun <V, L> Graph<V, L>.toTermForm(): TermForm<V, L> {
     val nodeValues = nodes.values.map { it.value }
     val terms = edges.map { Term(it.n1.value, it.n2.value, it.label) }
     return TermForm(nodeValues, terms)
 }
 
-fun <T, U> Graph<T, U>.toAdjacencyList(): AdjacencyList<T, U> {
+fun <V, L> Graph<V, L>.toAdjacencyList(): AdjacencyList<V, L> {
     val entries = nodes.values.map { node ->
         val links = node.edges.map { Link(it.target(node)!!.value, it.label) }
         Entry(node = node.value, links = links)
@@ -115,18 +115,18 @@ class P80Test {
         )))
     }
 
-    private fun <T, U> equalTo(expected: AdjacencyList<T, U>): Matcher<AdjacencyList<T, U>> {
-        return object: Matcher.Primitive<AdjacencyList<T, U>>() {
-            override fun invoke(actual: AdjacencyList<T, U>) = containsAll(expected.entries).invoke(actual.entries)
+    private fun <V, L> equalTo(expected: AdjacencyList<V, L>): Matcher<AdjacencyList<V, L>> {
+        return object: Matcher.Primitive<AdjacencyList<V, L>>() {
+            override fun invoke(actual: AdjacencyList<V, L>) = containsAll(expected.entries).invoke(actual.entries)
             override val description: String get() = "has the same elements as ${describe(expected)}"
             override val negatedDescription: String get() = "element are not the same as in ${describe(expected)}"
         }
     }
 
     companion object {
-        fun <T, U> equivalentTo(expected: Graph<T, U>): Matcher<Graph<T, U>> =
-            object: Matcher<Graph<T, U>> {
-                override fun invoke(actual: Graph<T, U>): MatchResult =
+        fun <V, L> equivalentTo(expected: Graph<V, L>): Matcher<Graph<V, L>> =
+            object: Matcher<Graph<V, L>> {
+                override fun invoke(actual: Graph<V, L>): MatchResult =
                     if (actual.equivalentTo(expected)) MatchResult.Match else MatchResult.Mismatch("was ${describe(actual)}")
 
                 override val description: String get() = "is equivalent to ${describe(expected)}"
