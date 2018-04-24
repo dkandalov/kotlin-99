@@ -5,7 +5,7 @@ buildscript {
 		maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.2" }
 	}
 	dependencies {
-		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.30"
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.40"
 	}
 }
 repositories {
@@ -27,8 +27,8 @@ compileKotlin {
 }
 
 dependencies {
-	compile "org.jetbrains.kotlin:kotlin-stdlib:1.2.30"
-	compile "org.jetbrains.kotlin:kotlin-reflect:1.2.30"
+	compile "org.jetbrains.kotlin:kotlin-stdlib:1.2.40"
+	compile "org.jetbrains.kotlin:kotlin-reflect:1.2.40"
 	compile "junit:junit:4.12"
 	compile "com.natpryce:hamkrest:1.4.2.2"
 }
