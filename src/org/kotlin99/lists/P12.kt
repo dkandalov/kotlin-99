@@ -3,12 +3,8 @@ package org.kotlin99.lists
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.common.tail
-import java.util.*
 
-fun <T> decode(list: List<Pair<Int, T>>): List<T> =
-    if (list.isEmpty()) emptyList()
-    else Collections.nCopies(list.first().first, list.first().second) + decode(list.tail())
+fun <T> decode(list: List<Pair<Int, T>>): List<T> = list.flatMap { (count, value) -> List(count, { value }) }
 
 class P12Test {
     @Test fun `decode a run-length encoded list`() {
