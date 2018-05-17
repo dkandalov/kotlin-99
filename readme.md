@@ -216,7 +216,7 @@ Example:
 Example:
 ``` kotlin
 > insertAt('X', 1, "abcd".toList())
-[a, X, b, d]
+[a, X, b, c, d]
 ```
 
 ### [P22][] (*) Create a list containing all integers within a given range.
