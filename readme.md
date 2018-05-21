@@ -238,7 +238,7 @@ Example:
 Make sure there is a way to produce deterministic results.
 Example:
 ``` kotlin
-> lotto(6, 49)
+> lotto(3, 49)
 [32, 28, 8]
 ```
 
