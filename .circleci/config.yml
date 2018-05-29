@@ -1,0 +1,10 @@
+version: 2
+jobs:
+  build:
+    docker: # See https://docs.docker.com/get-started/#docker-concepts if you are new to Docker.
+      - image: circleci/openjdk:8-jdk-browsers
+    steps:
+      - checkout
+      - run: gradle test
+      - store_test_results:
+                path: build/test-results/test
