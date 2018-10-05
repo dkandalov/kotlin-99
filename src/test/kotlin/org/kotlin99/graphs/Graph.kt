@@ -23,7 +23,7 @@ class Graph<V, L>(nodes: Collection<Node<V, L>> = emptyList(), edges: Collection
 
     private fun addNode(value: V): Node<V, L> {
         val node = Node<V, L>(value)
-        nodes.put(value, node)
+        nodes[value] = node
         return node
     }
 
@@ -157,8 +157,7 @@ class Graph<V, L>(nodes: Collection<Node<V, L>> = emptyList(), edges: Collection
         private fun <V, L> fromAdjacencyList(adjacencyList: AdjacencyList<V, L>, addFunction: (Graph<V, L>, V, V, L?) -> Unit): Graph<V, L> {
             val graph = Graph<V, L>()
             adjacencyList.entries.forEach { graph.addNode(it.node) }
-            adjacencyList.entries.forEach {
-                val (node, links) = it
+            adjacencyList.entries.forEach { (node, links) ->
                 links.forEach { addFunction(graph, node, it.node, it.label) }
             }
             return graph

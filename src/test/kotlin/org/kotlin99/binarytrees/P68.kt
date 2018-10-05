@@ -8,14 +8,18 @@ import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
 fun <T> Tree<T>.preorder(): List<T> =
-    if (this == End) emptyList()
-    else if (this is Node<T>) listOf(value) + left.preorder() + right.preorder()
-    else this.throwUnknownImplementation()
+    when {
+        this == End     -> emptyList()
+        this is Node<T> -> listOf(value) + left.preorder() + right.preorder()
+        else            -> throwUnknownImplementation()
+    }
 
 fun <T> Tree<T>.inorder(): List<T> =
-    if (this == End) emptyList()
-    else if (this is Node<T>) left.inorder() + listOf(value) + right.inorder()
-    else this.throwUnknownImplementation()
+    when {
+        this == End     -> emptyList()
+        this is Node<T> -> left.inorder() + listOf(value) + right.inorder()
+        else            -> throwUnknownImplementation()
+    }
 
 fun <T> createTree(preorder: List<T>, inorder: List<T>): Tree<T> =
     if (preorder.isEmpty()) End

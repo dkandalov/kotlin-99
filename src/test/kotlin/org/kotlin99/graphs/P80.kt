@@ -27,7 +27,7 @@ fun String.toGraph(): Graph<String, Nothing> {
         throw IllegalArgumentException("Expected string starting '[' and ending with ']' but it was '$this'")
     }
     val tokens = substring(1, length - 1).split(", ").map { it.split(graphTokenSeparators) }
-    val nodes = tokens.flatMap { it }.toCollection(LinkedHashSet())
+    val nodes = tokens.flatten().toCollection(LinkedHashSet())
     val edges = tokens.filter { it.size == 2 }.map { Term<String, Nothing>(it[0], it[1]) }
     return if (contains("-")) {
         Graph.terms(TermForm(nodes, edges))

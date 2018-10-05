@@ -7,29 +7,34 @@ import org.kotlin99.binarytrees.P64Test.Companion.toPrettyString
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
-fun <T> Tree<T>.layout2(x: Int = leftmostBranchXShift(), y: Int = 1,
-                        spaces: Spaces = Spaces(this)): Tree<Positioned<T>> =
-    if (this == End) {
-        End
-    } else if (this is Node<T>) {
-        Node(Positioned(value, x, y),
-             left.layout2(x - spaces.toInt(), y + 1, spaces.decrease()),
-             right.layout2(x + spaces.toInt(), y + 1, spaces.decrease()))
-    } else {
-        this.throwUnknownImplementation()
+fun <T> Tree<T>.layout2(
+    x: Int = leftmostBranchXShift(),
+    y: Int = 1,
+    spaces: Spaces = Spaces(this)
+): Tree<Positioned<T>> =
+    when {
+        this == End     -> End
+        this is Node<T> -> Node(
+            value = Positioned(value, x, y),
+            left = left.layout2(x - spaces.toInt(), y + 1, spaces.decrease()),
+            right = right.layout2(x + spaces.toInt(), y + 1, spaces.decrease())
+        )
+        else            -> throwUnknownImplementation()
     }
 
 data class Spaces(val value: Int) {
-    constructor(tree: Tree<*>): this(tree.height() - 2)
+    constructor(tree: Tree<*>) : this(tree.height() - 2)
     fun decrease() = Spaces(value - 1)
     fun toInt() = 2.pow(value)
 }
 
 private fun <T> Tree<T>.leftmostBranchXShift(): Int {
     fun leftmostBranchHeight(tree: Tree<T>): Int {
-        return if (tree == End) 0
-        else if (tree is Node<T>) leftmostBranchHeight(tree.left) + 1
-        else this.throwUnknownImplementation()
+        return when (tree) {
+            End        -> 0
+            is Node<T> -> leftmostBranchHeight(tree.left) + 1
+            else       -> throwUnknownImplementation()
+        }
     }
 
     val height = height() // Need the whole tree height here because leftmost branch might not be the tallest branch.

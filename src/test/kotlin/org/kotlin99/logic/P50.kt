@@ -57,15 +57,17 @@ data class Node(val weight: Int, val char: Char?, val left: Node? = null, val ri
             (right?.leavesWithPath()?.map { Pair(it.first, "1" + it.second) } ?: emptyList())
 
     fun followCode(code: Char): Node? =
-        if (code == '0') left
-        else if (code == '1') right
-        else throw IllegalStateException("Unexpected code '$code'")
+        when (code) {
+            '0'  -> left
+            '1'  -> right
+            else -> throw IllegalStateException("Unexpected code '$code'")
+        }
 
     override fun toString(): String {
         var s = "Node($weight"
         if (char != null) s += ", '$char'"
         if (left != null && right != null) s += ", $left, $right"
-        return s + ")"
+        return "$s)"
     }
 }
 

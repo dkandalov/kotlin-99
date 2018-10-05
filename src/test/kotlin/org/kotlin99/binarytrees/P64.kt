@@ -31,7 +31,7 @@ fun <T> Tree<T>.layout(xShift: Int = 0, y: Int = 1): Tree<Positioned<T>> =
              left = left.layout(xShift, y + 1),
              right = right.layout(x, y + 1))
     } else {
-        this.throwUnknownImplementation()
+        throwUnknownImplementation()
     }
 
 
@@ -159,7 +159,7 @@ class P64Test {
                 }
                 return xHeader + body.joinToString("\n")
             } else {
-                this.throwUnknownImplementation()
+                throwUnknownImplementation()
             }
         }
     }

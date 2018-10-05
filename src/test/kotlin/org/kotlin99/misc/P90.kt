@@ -46,11 +46,11 @@ class EightQueens {
             }
 
             fun toPrettyString(): String {
-                return 0.until(size).map { row ->
-                    0.until(size).map { column ->
+                return 0.until(size).joinToString("\n") { row ->
+                    0.until(size).joinToString("") { column ->
                         if (queens.contains(Queen(row, column))) "*" else "-"
-                    }.joinToString("")
-                }.joinToString("\n")
+                    }
+                }
             }
 
             companion object {

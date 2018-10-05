@@ -83,12 +83,13 @@ class Nonogram {
             val max = columnConstraints.map { it.boxes.size }.max()!!
 
             val rows = cells.mapIndexed { _, row ->
-                "|" + row.map { if (it) "X" else "_" }.joinToString("|") + "|"
+                "|" + row.joinToString("|") { if (it) "X" else "_" } + "|"
             }
             val constraints = 0.until(max).map { i ->
                 " " + 0.until(width)
                     .map { columnConstraints[it] }
-                    .map { if (i < it.boxes.size) it.boxes[i].toString() else " " }.joinToString(" ").trim()
+                    .joinToString(" ") { if (i < it.boxes.size) it.boxes[i].toString() else " " }
+                    .trim()
             }
             return (rows.zip(rowConstrains).map { it.first + " " + it.second.boxes.joinToString(" ") } + constraints).joinToString("\n")
         }

@@ -207,11 +207,11 @@ class P96Test {
         val xMax = cells.map { it.x }.max()!!
         val yMax = cells.map { it.y }.max()!!
 
-        return 0.rangeTo(yMax).map { y ->
-            0.rangeTo(xMax).map { x ->
+        return 0.rangeTo(yMax).joinToString("\n") { y ->
+            0.rangeTo(xMax).joinToString("") { x ->
                 if (cells.any { it.x == x && it.y == y }) "*" else "-"
-            }.joinToString("")
-        }.joinToString("\n")
+            }
+        }
     }
 
 }

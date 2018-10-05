@@ -12,9 +12,11 @@ fun Int.toWords(): String {
     fun convertThousands(n: Int) = (n / 1000).toWords().postfix(" thousand")
     fun convertHundreds(n: Int) = (n / 100).toWords().postfix(" hundred")
     fun convertTensAndOnes(n: Int): String {
-        return if (n < 10) ones[n]
-        else if (n in 10..19) teens[n - 10]
-        else listOf(tens[n / 10], ones[n % 10]).joinNonEmpty()
+        return when {
+            n < 10      -> ones[n]
+            n in 10..19 -> teens[n - 10]
+            else        -> listOf(tens[n / 10], ones[n % 10]).joinNonEmpty()
+        }
     }
 
     if (this == 0) return "zero"

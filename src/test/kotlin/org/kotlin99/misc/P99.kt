@@ -43,8 +43,8 @@ data class Crossword(val sites: List<Site>) {
     private fun copy(): Crossword {
         val cells = sites.flatMap { it.cells }.distinct()
         val copyByCell = cells.associate { Pair(it, it.copy()) }
-        return Crossword(sites.map {
-            Site(it.cells.map { copyByCell[it]!! })
+        return Crossword(sites.map { site ->
+            Site(site.cells.map { copyByCell[it]!! })
         })
     }
 
@@ -53,11 +53,11 @@ data class Crossword(val sites: List<Site>) {
         val maxX = cells.map { it.x }.max()!!
         val maxY = cells.map { it.y }.max()!!
 
-        return (0..maxY).map { y ->
+        return (0..maxY).joinToString("\n") { y ->
             (0..maxX).map { x -> cells.find { it.x == x && it.y == y } }
                 .map { it?.c ?: Cell.none.c }
                 .joinToString("").trimEnd()
-        }.joinToString("\n")
+        }
     }
 
     companion object {
@@ -119,7 +119,7 @@ data class Crossword(val sites: List<Site>) {
 
         companion object {
             val none = Cell(-1, -1, ' ')
-            val vacant = '.'
+            const val vacant = '.'
         }
     }
 }

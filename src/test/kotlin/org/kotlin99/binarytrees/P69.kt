@@ -9,9 +9,11 @@ import org.kotlin99.binarytrees.Tree.Node
 
 
 fun <T> Tree<T>.toDotString(): String =
-    if (this == End) "."
-    else if (this is Node<T>) value.toString() + left.toDotString() + right.toDotString()
-    else this.throwUnknownImplementation()
+    when {
+        this == End     -> "."
+        this is Node<T> -> value.toString() + left.toDotString() + right.toDotString()
+        else            -> throwUnknownImplementation()
+    }
 
 /**
  * BNF grammar:

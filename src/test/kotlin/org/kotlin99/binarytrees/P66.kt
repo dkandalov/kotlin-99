@@ -35,7 +35,7 @@ fun <T> Tree<T>.layout3(parentX: Int? = null, shiftFromParent: Int = 0, y: Int =
         }
         throw IllegalStateException()
     } else {
-        this.throwUnknownImplementation()
+        throwUnknownImplementation()
     }
 }
 
