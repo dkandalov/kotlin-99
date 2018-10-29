@@ -815,7 +815,7 @@ afg^^c^bd^e^^^
 
 ### [P71][] (*) Determine the internal path length of a tree.
 We define the internal path length of a multiway tree as the total sum of the path lengths from the root to all nodes of the tree. 
-By this definition, the tree in the figure of problem [P70B](#p70b-tree-construction-from-a-node-string) 
+By this definition, the tree in the figure of problem [P70B](#p70b--tree-construction-from-a-node-string) 
 has an internal path length of 9. Write a method ``internalPathLength`` to return that sum.
 ``` kotlin
 > "afg^^c^bd^e^^^".convertToMTree().internalPathLength()
@@ -1409,21 +1409,21 @@ E.g. something like [Sentient Language](http://sentient-lang.org/) :smile:
 [P100]: https://github.com/dkandalov/kotlin-99/blob/master/src/test/kotlin/org/kotlin99/misc/P100.kt
 
 
-[binary-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif "Binary tree"
-[P64-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p64.gif
-[P65-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p65.gif
-[P66-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p66.gif
-[P67-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p67.gif
-[multiway-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p70.gif
-[P73-s-expr]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p73.png
-[undirected-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph1.gif
-[directed-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph2.gif
-[directed-labeled-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/graph3.gif
-[P83-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p83.gif
-[P84-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p84.gif
-[P92-tree1]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92a.gif
-[P92-tree2]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p92b.gif
-[P99-crossword]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/img/p99.gif
+[binary-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p67.gif "Binary tree"
+[P64-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p64.gif
+[P65-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p65.gif
+[P66-layout]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p66.gif
+[P67-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p67.gif
+[multiway-tree]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p70.gif
+[P73-s-expr]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p73.png
+[undirected-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/graph1.gif
+[directed-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/graph2.gif
+[directed-labeled-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/graph3.gif
+[P83-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p83.gif
+[P84-graph]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p84.gif
+[P92-tree1]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p92a.gif
+[P92-tree2]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p92b.gif
+[P99-crossword]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/images/p99.gif
 [P99a.dat]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/data/p99a.dat
 [P99b.dat]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/data/p99b.dat
 [P99c.dat]: https://raw.githubusercontent.com/dkandalov/kotlin-99/master/data/p99c.dat
