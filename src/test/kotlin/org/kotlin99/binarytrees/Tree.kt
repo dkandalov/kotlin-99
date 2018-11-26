@@ -6,7 +6,7 @@ import org.junit.Test
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
-@Suppress("unused") // IDE is wrong here
+@Suppress("unused") // suppress because IJ wrongly thinks type parameters is not necessary
 sealed class Tree<out T> {
     // This class declared inside Tree interface to use Tree as a "namespace".
     data class Node<out T>(val value: T, val left: Tree<T> = End, val right: Tree<T> = End): Tree<T>() {

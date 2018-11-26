@@ -3,9 +3,10 @@ package org.kotlin99.binarytrees
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.binarytrees.Tree.*
+import org.kotlin99.binarytrees.Tree.End
+import org.kotlin99.binarytrees.Tree.Node
 
-fun <T> Tree<T>.isSymmetric(): Boolean = this == End || (this is Node<*> && left.isMirrorOf(right))
+fun Tree<*>.isSymmetric(): Boolean = this == End || (this is Node<*> && left.isMirrorOf(right))
 
 fun Tree<*>.isMirrorOf(that: Tree<*>): Boolean = when {
     this is Node<*> && that is Node<*> ->

@@ -11,7 +11,7 @@ fun <T> Tree<T>.layout3(parentX: Int? = null, shiftFromParent: Int = 0, y: Int =
     return when (this) {
         End        -> End
         is Node<T> -> {
-            fun haveNoPositionOverlap(tree1: Tree<Positioned<T>>, tree2: Tree<Positioned<T>>): Boolean =
+            fun haveNoPositionOverlap(tree1: Tree<Positioned<*>>, tree2: Tree<Positioned<*>>): Boolean =
                 (tree1.nodes().map { it.value.point }.intersect(tree2.nodes().map { it.value.point })).isEmpty()
 
             var shift = 1

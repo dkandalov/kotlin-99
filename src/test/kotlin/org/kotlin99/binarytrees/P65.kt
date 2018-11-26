@@ -27,11 +27,11 @@ data class Spaces(val value: Int) {
     fun toInt() = 2.pow(value)
 }
 
-private fun <T> Tree<T>.leftmostBranchXShift(): Int {
-    fun leftmostBranchHeight(tree: Tree<T>): Int {
+private fun Tree<*>.leftmostBranchXShift(): Int {
+    fun leftmostBranchHeight(tree: Tree<*>): Int {
         return when (tree) {
-            End        -> 0
-            is Node<T> -> leftmostBranchHeight(tree.left) + 1
+            End     -> 0
+            is Node -> leftmostBranchHeight(tree.left) + 1
         }
     }
 

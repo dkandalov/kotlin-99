@@ -30,14 +30,13 @@ fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
                 listOf(Node(value, tree1, tree2), Node(value, tree2, tree1))
             }
         }
-
         nodes1 + nodes2
     }
 
-fun <T> Tree<T>.height(): Int =
+fun Tree<*>.height(): Int =
     when (this) {
-        End        -> 0
-        is Node<T> -> 1 + Math.max(left.height(), right.height())
+        End     -> 0
+        is Node -> 1 + Math.max(left.height(), right.height())
     }
 
 fun <T> Tree<T>.nodes(): List<Node<T>> =

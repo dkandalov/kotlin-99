@@ -8,10 +8,10 @@ import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
 
-fun <T> Tree<T>.toDotString(): String =
+fun Tree<*>.toDotString(): String =
     when (this) {
-        End        -> "."
-        is Node<T> -> value.toString() + left.toDotString() + right.toDotString()
+        End     -> "."
+        is Node -> value.toString() + left.toDotString() + right.toDotString()
     }
 
 /**

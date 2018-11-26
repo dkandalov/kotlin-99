@@ -7,10 +7,10 @@ import org.kotlin99.binarytrees.P57Test.Companion.equalToTree
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
-fun <T> Tree<T>.convertToString(): String =
+fun Tree<*>.convertToString(): String =
     when (this) {
-        End        -> ""
-        is Node<T> ->
+        End     -> ""
+        is Node ->
             value.toString() + if (left != End || right != End) {
                 "(" + left.convertToString() + "," + right.convertToString() + ")"
             } else {
