@@ -8,34 +8,33 @@ import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
 fun <T> Tree<T>.layout3(parentX: Int? = null, shiftFromParent: Int = 0, y: Int = 1): Tree<Positioned<T>> {
-    if (this == End) {
-        return End
-    } else if (this is Node<T>) {
-        fun haveNoPositionOverlap(tree1: Tree<Positioned<T>>, tree2: Tree<Positioned<T>>): Boolean =
-            (tree1.nodes().map { it.value.point }.intersect(tree2.nodes().map { it.value.point })).isEmpty()
+    return when (this) {
+        End        -> End
+        is Node<T> -> {
+            fun haveNoPositionOverlap(tree1: Tree<Positioned<T>>, tree2: Tree<Positioned<T>>): Boolean =
+                (tree1.nodes().map { it.value.point }.intersect(tree2.nodes().map { it.value.point })).isEmpty()
 
-        var shift = 1
-        while (shift < 100) {
-            var x = parentX?.plus(shiftFromParent)
-            val positionedLeft = left.layout3(x, -shift, y + 1)
+            var shift = 1
+            while (shift < 100) {
+                var x = parentX?.plus(shiftFromParent)
+                val positionedLeft = left.layout3(x, -shift, y + 1)
 
-            if (parentX == null && positionedLeft is Node<Positioned<T>>) {
-                x = positionedLeft.value.point.x + shift
-            } else if (parentX == null) {
-                x = 1
+                if (parentX == null && positionedLeft is Node<Positioned<T>>) {
+                    x = positionedLeft.value.point.x + shift
+                } else if (parentX == null) {
+                    x = 1
+                }
+
+                val positionedRight = right.layout3(x, shift, y + 1)
+
+                if (haveNoPositionOverlap(positionedLeft, positionedRight)) {
+                    return Node(Positioned(value, x!!, y), positionedLeft, positionedRight)
+                }
+
+                shift += 1
             }
-
-            val positionedRight = right.layout3(x, shift, y + 1)
-
-            if (haveNoPositionOverlap(positionedLeft, positionedRight)) {
-                return Node(Positioned(value, x!!, y), positionedLeft, positionedRight)
-            }
-
-            shift += 1
+            throw IllegalStateException()
         }
-        throw IllegalStateException()
-    } else {
-        throwUnknownImplementation()
     }
 }
 

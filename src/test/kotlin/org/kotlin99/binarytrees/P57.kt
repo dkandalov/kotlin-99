@@ -15,13 +15,11 @@ fun <T: Comparable<T>> List<T>.toTree(): Tree<T> =
     }
 
 fun <T: Comparable<T>> Tree<T>.add(value: T): Tree<T> =
-    if (this == End) {
-        Node(value)
-    } else if (this is Node<T>) {
-        if (this.value < value) copy(right = right.add(value))
-        else copy(left = left.add(value))
-    } else {
-        throwUnknownImplementation()
+    when (this) {
+        End        -> Node(value)
+        is Node<T> ->
+            if (this.value < value) copy(right = right.add(value))
+            else copy(left = left.add(value))
     }
 
 

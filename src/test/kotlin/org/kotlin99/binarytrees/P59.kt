@@ -35,16 +35,16 @@ fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
     }
 
 fun <T> Tree<T>.height(): Int =
-    when {
-        this == End     -> 0
-        this is Node<T> -> 1 + Math.max(left.height(), right.height())
-        else            -> throwUnknownImplementation()
+    when (this) {
+        End        -> 0
+        is Node<T> -> 1 + Math.max(left.height(), right.height())
     }
 
-fun <T> Tree<T>.nodes(): List<Node<T>> = when {
-    this is Node<T> -> left.nodes() + right.nodes() + this
-    else -> emptyList()
-}
+fun <T> Tree<T>.nodes(): List<Node<T>> =
+    when {
+        this is Node<T> -> left.nodes() + right.nodes() + this
+        else            -> emptyList()
+    }
 
 class P59Test {
     @Test fun `construct all height-balanced binary trees`() {

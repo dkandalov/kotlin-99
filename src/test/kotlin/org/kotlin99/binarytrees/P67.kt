@@ -8,16 +8,14 @@ import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 
 fun <T> Tree<T>.convertToString(): String =
-    if (this == End) {
-        ""
-    } else if (this is Node<T>) {
-        value.toString() + if (left != End || right != End) {
-            "(" + left.convertToString() + "," + right.convertToString() + ")"
-        } else {
-            ""
-        }
-    } else {
-        throwUnknownImplementation()
+    when (this) {
+        End        -> ""
+        is Node<T> ->
+            value.toString() + if (left != End || right != End) {
+                "(" + left.convertToString() + "," + right.convertToString() + ")"
+            } else {
+                ""
+            }
     }
 
 fun String.convertToTree(): Tree<String> {

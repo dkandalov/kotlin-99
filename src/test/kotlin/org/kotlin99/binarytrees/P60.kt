@@ -14,7 +14,7 @@ fun maxNodeAmountInHBTree(height: Int): Int =
 fun minNodeAmountInHBTree(height: Int): Int = when {
     height <= 0 -> 0
     height == 1 -> 1
-    else -> 1 + minNodeAmountInHBTree(height - 1) + minNodeAmountInHBTree(height - 2)
+    else        -> 1 + minNodeAmountInHBTree(height - 1) + minNodeAmountInHBTree(height - 2)
 }
 
 fun maxHeightOfHBTree(nodeAmount: Int): Int =
@@ -24,11 +24,11 @@ fun minHeightOfHBTree(nodeAmount: Int): Int =
     if (nodeAmount == 0) 0
     else minHeightOfHBTree(nodeAmount / 2) + 1
 
-fun <T> Tree<T>.nodeCount(): Int = when {
-    this == End -> 0
-    this is Node<T> -> 1 + left.nodeCount() + right.nodeCount()
-    else -> throwUnknownImplementation()
-}
+fun Tree<*>.nodeCount(): Int =
+    when (this) {
+        End     -> 0
+        is Node -> 1 + left.nodeCount() + right.nodeCount()
+    }
 
 fun <T> allHBTreesWithNodeAmount(nodeAmount: Int, value: T): List<Tree<T>> {
     val heightRange = minHeightOfHBTree(nodeAmount)..maxHeightOfHBTree(nodeAmount)

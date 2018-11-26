@@ -12,18 +12,17 @@ fun <T> Tree<T>.layout2(
     y: Int = 1,
     spaces: Spaces = Spaces(this)
 ): Tree<Positioned<T>> =
-    when {
-        this == End     -> End
-        this is Node<T> -> Node(
+    when (this) {
+        End        -> End
+        is Node<T> -> Node(
             value = Positioned(value, x, y),
             left = left.layout2(x - spaces.toInt(), y + 1, spaces.decrease()),
             right = right.layout2(x + spaces.toInt(), y + 1, spaces.decrease())
         )
-        else            -> throwUnknownImplementation()
     }
 
 data class Spaces(val value: Int) {
-    constructor(tree: Tree<*>) : this(tree.height() - 2)
+    constructor(tree: Tree<*>): this(tree.height() - 2)
     fun decrease() = Spaces(value - 1)
     fun toInt() = 2.pow(value)
 }
@@ -33,7 +32,6 @@ private fun <T> Tree<T>.leftmostBranchXShift(): Int {
         return when (tree) {
             End        -> 0
             is Node<T> -> leftmostBranchHeight(tree.left) + 1
-            else       -> throwUnknownImplementation()
         }
     }
 

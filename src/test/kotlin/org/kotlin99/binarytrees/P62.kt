@@ -8,12 +8,11 @@ import org.kotlin99.common.containsAll
 
 
 fun <T> Tree<T>.valuesAtLevel(n: Int): List<T> =
-    when {
-        this == End     -> emptyList()
-        this is Node<T> ->
+    when (this) {
+        End        -> emptyList()
+        is Node<T> ->
             if (n == 1) listOf(this.value)
             else left.valuesAtLevel(n - 1) + right.valuesAtLevel(n - 1)
-        else            -> throwUnknownImplementation()
     }
 
 

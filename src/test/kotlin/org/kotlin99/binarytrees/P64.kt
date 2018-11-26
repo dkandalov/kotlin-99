@@ -23,15 +23,14 @@ data class Positioned<out T>(val value: T, val point: Point) {
  * - Y is depth of current node (root node has depth 1)
  */
 fun <T> Tree<T>.layout(xShift: Int = 0, y: Int = 1): Tree<Positioned<T>> =
-    if (this == End) {
-        End
-    } else if (this is Node<T>) {
-        val x = xShift + left.nodeCount() + 1
-        Node(value = Positioned(value, Point(x, y)),
-             left = left.layout(xShift, y + 1),
-             right = right.layout(x, y + 1))
-    } else {
-        throwUnknownImplementation()
+    when (this) {
+        End        -> End
+        is Node<T> -> {
+            val x = xShift + left.nodeCount() + 1
+            Node(value = Positioned(value, Point(x, y)),
+                 left = left.layout(xShift, y + 1),
+                 right = right.layout(x, y + 1))
+        }
     }
 
 
@@ -141,25 +140,24 @@ class P64Test {
     }
 
     companion object {
-        fun <T> Tree<Positioned<T>>.toPrettyString(xPadding: Int = 1, yPadding: Int = 1): String {
-            if (this == End) {
-                return ""
-            } else if (this is Node) {
-                val nodes = nodes()
-                val xs = nodes.map { it.value.point.x }
-                val ys = nodes.map { it.value.point.y }
-                val xRange = (xs.min()!! - xPadding)..(xs.max()!! + xPadding)
-                val yRange = (ys.min()!! - yPadding)..(ys.max()!! + yPadding)
-                val nodeByPoint = nodes.groupBy { it.value.point }
+        fun Tree<Positioned<*>>.toPrettyString(xPadding: Int = 1, yPadding: Int = 1): String {
+            return when (this) {
+                End     -> ""
+                is Node -> {
+                    val nodes = nodes()
+                    val xs = nodes.map { it.value.point.x }
+                    val ys = nodes.map { it.value.point.y }
+                    val xRange = (xs.min()!! - xPadding)..(xs.max()!! + xPadding)
+                    val yRange = (ys.min()!! - yPadding)..(ys.max()!! + yPadding)
+                    val nodeByPoint = nodes.groupBy { it.value.point }
 
-                val xHeader = " " + xRange.map { it.toString().last() }.joinToString("") + "\n"
-                val body = yRange.map { y ->
-                    val line = xRange.map { x -> nodeByPoint[Point(x, y)]?.first()?.value?.value ?: "·" }
-                    y.toString().last() + line.joinToString("")
+                    val xHeader = " " + xRange.map { it.toString().last() }.joinToString("") + "\n"
+                    val body = yRange.map { y ->
+                        val line = xRange.map { x -> nodeByPoint[Point(x, y)]?.first()?.value?.value ?: "·" }
+                        y.toString().last() + line.joinToString("")
+                    }
+                    xHeader + body.joinToString("\n")
                 }
-                return xHeader + body.joinToString("\n")
-            } else {
-                throwUnknownImplementation()
             }
         }
     }

@@ -9,10 +9,9 @@ import org.kotlin99.binarytrees.Tree.Node
 
 
 fun <T> Tree<T>.toDotString(): String =
-    when {
-        this == End     -> "."
-        this is Node<T> -> value.toString() + left.toDotString() + right.toDotString()
-        else            -> throwUnknownImplementation()
+    when (this) {
+        End        -> "."
+        is Node<T> -> value.toString() + left.toDotString() + right.toDotString()
     }
 
 /**
