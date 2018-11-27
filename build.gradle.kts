@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.3.0"
+    kotlin("jvm") version "1.3.10"
 }
 
 dependencies {
@@ -11,3 +11,7 @@ dependencies {
 repositories {
     jcenter()
 }
+
+// New type inference fails in P93.kt
+//tasks.withType(KotlinCompile::class.java)
+//    .forEach { it.kotlinOptions { freeCompilerArgs = listOf("-Xnew-inference") } }
