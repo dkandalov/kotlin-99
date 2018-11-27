@@ -25,16 +25,17 @@ private object SExprParser: TokenParser {
 }
 
 private fun Token.toMTree(): MTree<String> {
-    fun Token.toList(): List<Token> = when {
-        this is Atom -> listOf(this)
-        this is Seq -> this.tokens
-        else -> throw IllegalStateException(this.toString())
-    }
+    fun Token.toList(): List<Token> =
+        when (this) {
+            is Atom -> listOf(this)
+            is Seq  -> this.tokens
+            else    -> throw IllegalStateException(this.toString())
+        }
 
-    return when {
-        this is Seq -> MTree((tokens[0] as Atom).value, tokens[1].toList().map { it.toMTree() })
-        this is Atom -> MTree(value)
-        else -> throw IllegalStateException(this.toString())
+    return when (this) {
+        is Seq  -> MTree((tokens[0] as Atom).value, tokens[1].toList().map { it.toMTree() })
+        is Atom -> MTree(value)
+        else    -> throw IllegalStateException(this.toString())
     }
 }
 
@@ -45,7 +46,7 @@ private interface Token {
 }
 
 private data class Text(val value: String): Token {
-    override fun trim() = null
+    override fun trim(): Token? = null
     override fun length() = value.length
     override fun toString() = value
 }

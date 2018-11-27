@@ -8,12 +8,12 @@ import org.kotlin99.binarytrees.Tree.Node
 
 fun Tree<*>.isSymmetric(): Boolean = this == End || (this is Node<*> && left.isMirrorOf(right))
 
-fun Tree<*>.isMirrorOf(that: Tree<*>): Boolean = when {
-    this is Node<*> && that is Node<*> ->
-        left.isMirrorOf(that.right) && right.isMirrorOf(that.left)
-    this == End -> that == End
-    else -> false
-}
+fun Tree<*>.isMirrorOf(that: Tree<*>): Boolean =
+    when {
+        this is Node<*> && that is Node<*> -> left.isMirrorOf(that.right) && right.isMirrorOf(that.left)
+        this == End                        -> that == End
+        else                               -> false
+    }
 
 class P56Test {
     @Test fun `tree is mirror of another tree`() {

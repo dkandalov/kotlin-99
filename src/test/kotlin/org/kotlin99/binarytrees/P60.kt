@@ -11,11 +11,12 @@ import org.kotlin99.common.containsAll
 fun maxNodeAmountInHBTree(height: Int): Int =
     Math.pow(2.0, height.toDouble()).toInt() - 1
 
-fun minNodeAmountInHBTree(height: Int): Int = when {
-    height <= 0 -> 0
-    height == 1 -> 1
-    else        -> 1 + minNodeAmountInHBTree(height - 1) + minNodeAmountInHBTree(height - 2)
-}
+fun minNodeAmountInHBTree(height: Int): Int =
+    when {
+        height <= 0 -> 0
+        height == 1 -> 1
+        else        -> 1 + minNodeAmountInHBTree(height - 1) + minNodeAmountInHBTree(height - 2)
+    }
 
 fun maxHeightOfHBTree(nodeAmount: Int): Int =
     (1..Int.MAX_VALUE).first { minNodeAmountInHBTree(it) > nodeAmount } - 1
