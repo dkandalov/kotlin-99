@@ -35,14 +35,14 @@ fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
 
 fun Tree<*>.height(): Int =
     when (this) {
-        End     -> 0
         is Node -> 1 + Math.max(left.height(), right.height())
+        is End  -> 0
     }
 
 fun <T> Tree<T>.nodes(): List<Node<T>> =
-    when {
-        this is Node<T> -> left.nodes() + right.nodes() + this
-        else            -> emptyList()
+    when (this) {
+        is Node<T> -> left.nodes() + right.nodes() + this
+        is End        -> emptyList()
     }
 
 class P59Test {
