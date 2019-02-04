@@ -1108,7 +1108,7 @@ of a given node in undirected graph.
 > "[a-b, b-c, a-c, a-d]".toGraph().nodes["a"].degree()
 3
 ```
-b) Use [Welsh-Powell's](http://graphstream-project.org/doc/Algorithms/Welsh-Powell_1.0/) algorithm 
+b) Use [Welsh-Powell's](http://graphstream-project.org/doc/Algorithms/Welsh-Powell/) algorithm 
 to paint the nodes of an undirected graph in such a way that adjacent nodes have different colors. 
 Write a method ``colorNodes`` that returns a list of tuples, each of which contains a node and an integer representing its color.
 ``` kotlin
