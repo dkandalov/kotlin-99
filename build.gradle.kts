@@ -3,9 +3,9 @@ plugins {
 }
 
 dependencies {
-    compile(kotlin("stdlib"))
-    testCompile("com.natpryce:hamkrest:1.4.2.2")
-    testCompile("junit:junit:4.12")
+    implementation(kotlin("stdlib"))
+    testImplementation("com.natpryce:hamkrest:1.4.2.2")
+    testImplementation("junit:junit:4.12")
 }
 
 repositories {
