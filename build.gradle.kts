@@ -6,8 +6,8 @@ plugins {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    testImplementation("com.natpryce:hamkrest:1.4.2.2")
-    testImplementation("junit:junit:4.12")
+    testImplementation("com.natpryce:hamkrest:1.7.0.2")
+    testImplementation("junit:junit:4.13")
 }
 
 repositories {
