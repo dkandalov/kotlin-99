@@ -140,7 +140,7 @@ Example:
 ```
 
 ### [P12][] (*) Decode a run-length encoded list.
-Given a run-length code list generated as specified in problem P10, construct its uncompressed version.
+Given a run-length code list generated as specified in the problem P10, construct its uncompressed version.
 Example:
 ``` kotlin
 > decode(List((4, 'a), (1, 'b), (2, 'c), (2, 'a), (1, 'd), (4, 'e)))
@@ -178,7 +178,7 @@ Example:
 ```
 
 ### [P17][] (*) Split a list into two parts.
-The length of the first part is given. Use a Tuple for your result.
+The length of the first part is given. Use a `Pair` for your result.
 Example:
 ``` kotlin
 > split(3, "abcdefghijk".toList())
@@ -292,7 +292,7 @@ Example:
 ```
 b) Again, we suppose that a list contains elements that are lists themselves. 
 But this time the objective is to sort elements according to their length frequency; 
-i.e. in the default, sorting is done ascendingly, lists with rare lengths are placed, others with a more frequent length come later.
+i.e. lists with rare lengths are placed first, others with more frequent lengths come later.
 Example:
 ``` kotlin
 > lengthFreqSort(listOf("abc".toList(), "de".toList(), "fgh".toList(), "de".toList(), "ijkl".toList(), "mn".toList(), "o".toList()))
@@ -422,7 +422,7 @@ false	false	false
 ```
 
 ### P47 (*) Truth tables for logical expressions (2).
-For scala the task was to use implicit conversion.
+For Scala the task was to use implicit conversion.
 This is much simpler in Kotlin so the task omitted assuming it was done in the previous problem.
 
 ### [P48][] (*) Truth tables for logical expressions (3).
@@ -766,8 +766,8 @@ A multiway tree is never empty. The set of successor trees is sometimes called a
 
 ![Multiway tree][multiway-tree]
 
-The code to represent these is somewhat simpler than the code for binary trees, partly because we don't separate classes 
-for nodes and terminators, and partly because we don't need the restriction that the value type be ordered.
+The code to represent multiway-trees is somewhat simpler than the code for binary trees, partly because we don't separate classes 
+for nodes and terminators, and partly because we don't need the restriction for the value type to be ordered.
 ``` kotlin
 data class MTree<out T>(val value: T, val children: List<MTree<T>> = emptyList()) {
 
@@ -870,7 +870,7 @@ but I think that would add too much of a barrier to the following questions.
 Our graphs use an incidence list internally. Each has a list of nodes and a list of edges. 
 Each node also has a list of edges that connect it to other nodes. 
 In a [directed graph](https://en.wikipedia.org/wiki/Directed_graph), 
-nodes that are the target of arcs do not have references to those arcs in their adjacency list.
+nodes, that are the target of arcs, do not have references to those arcs in their adjacency list.
 ``` kotlin
 class Graph<T, U> {
     val nodes: MutableMap<T, Node<T, U>> = HashMap()
