@@ -26,17 +26,17 @@ fun String.convertToTree(): Tree<String> {
     fun String.parse(): Pair<Tree<String>, Int> {
         val value = takeWhile { it != '(' && it != ',' && it != ')' }
         var rest = substring(value.length)
-        if (value.isEmpty()) {
-            return Pair(End, 0)
+        return if (value.isEmpty()) {
+            Pair(End, 0)
         } else if (!rest.startsWith("(")) {
-            return Pair(Node(value), value.length)
+            Pair(Node(value), value.length)
         } else {
             rest = rest.drop("(")
             val (left, leftLength) = rest.parse()
             rest = rest.drop(leftLength).drop(",")
             val (right, rightLength) = rest.parse()
             rest.drop(rightLength).drop(")")
-            return Pair(Node(value, left, right), value.length + leftLength + rightLength + 3)
+            Pair(Node(value, left, right), value.length + leftLength + rightLength + 3)
         }
     }
 
@@ -55,7 +55,7 @@ class P67Test {
     }
 
     @Test fun `conversion from string`() {
-        assertThat("".convertToTree(), equalToTree<String>(End))
+        assertThat("".convertToTree(), equalToTree(End))
         assertThat("a".convertToTree(), equalToTree(Node("a")))
         assertThat("a(b,c)".convertToTree(), equalToTree(Node("a", Node("b"), Node("c"))))
         assertThat("a(b(d,e),c(,f(g,)))".convertToTree(), equalToTree(

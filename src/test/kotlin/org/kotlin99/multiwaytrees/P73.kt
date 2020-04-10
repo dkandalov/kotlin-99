@@ -63,7 +63,7 @@ private data class Seq(val tokens: List<Token>): Token {
     override fun trim(): Token? =
         if (tokens.isEmpty()) null
         else {
-            val trimmed = tokens.map { it.trim() }.filter { it != null }.map { it!! }
+            val trimmed = tokens.mapNotNull { it.trim() }
             if (trimmed.size == 1) trimmed.first() else Seq(trimmed)
         }
 
@@ -139,13 +139,13 @@ class P73Test {
     }
 
     @Test fun `parse s-expression into tokens`() {
-        assertThat(SExprParser.parse("a")!!.trim()!!, equalTo<Token>(Atom("a")))
-        assertThat(SExprParser.parse("(a)")!!.trim()!!, equalTo<Token>(Atom("a")))
-        assertThat(SExprParser.parse("(a b c d)")!!.trim()!!, equalTo<Token>(
+        assertThat(SExprParser.parse("a")!!.trim()!!, equalTo(Atom("a")))
+        assertThat(SExprParser.parse("(a)")!!.trim()!!, equalTo(Atom("a")))
+        assertThat(SExprParser.parse("(a b c d)")!!.trim()!!, equalTo(
             Seq(Atom("a"),
                 Seq(Atom("b"), Atom("c"), Atom("d")))
         ))
-        assertThat(SExprParser.parse("(a b (c d))")!!.trim()!!, equalTo<Token>(
+        assertThat(SExprParser.parse("(a b (c d))")!!.trim()!!, equalTo(
             Seq(Atom("a"),
                 Seq(Atom("b"),
                     Seq(Atom("c"), Atom("d"))

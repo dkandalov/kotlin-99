@@ -5,9 +5,11 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
 tailrec fun <T> isPalindrome(list: List<T>): Boolean =
-    if (list.size <= 1) true
-    else if (list.first() != list.last()) false
-    else isPalindrome(list.drop(1).dropLast(1))
+    when {
+        list.size <= 1              -> true
+        list.first() != list.last() -> false
+        else                        -> isPalindrome(list.drop(1).dropLast(1))
+    }
 
 @Suppress("unused")
 fun <T> isPalindrome_(list: List<T>) = list == list.asReversed()

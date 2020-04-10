@@ -8,22 +8,54 @@ fun <T> lengthSort(listOfLists: List<List<T>>): List<List<T>> = listOfLists.sort
 
 fun <T> lengthFreqSort(listOfLists: List<List<T>>): List<List<T>> {
     val groupedLists = listOfLists.groupBy { it.size }
-    return listOfLists.sortedBy { groupedLists[it.size]!!.size }
+    return listOfLists.sortedBy { groupedLists.getValue(it.size).size }
 }
 
 
 class P28Test {
     @Test fun `a) sort elements of the list according to their length`() {
         assertThat(
-            lengthSort(listOf("abc".toList(), "de".toList(), "fgh".toList(), "de".toList(), "ijkl".toList(), "mn".toList(), "o".toList())),
-            equalTo(listOf("o".toList(), "de".toList(), "de".toList(), "mn".toList(), "abc".toList(), "fgh".toList(), "ijkl".toList()))
+            lengthSort(listOf(
+                "abc",
+                "de",
+                "fgh",
+                "de",
+                "ijkl",
+                "mn",
+                "o"
+            ).map { it.toList() }),
+            equalTo(listOf(
+                "o",
+                "de",
+                "de",
+                "mn",
+                "abc",
+                "fgh",
+                "ijkl"
+            ).map { it.toList() })
         )
     }
 
     @Test fun `b) sort elements according to their length frequency`() {
         assertThat(
-            lengthFreqSort(listOf("abc".toList(), "de".toList(), "fgh".toList(), "de".toList(), "ijkl".toList(), "mn".toList(), "o".toList())),
-            equalTo(listOf("ijkl".toList(), "o".toList(), "abc".toList(), "fgh".toList(), "de".toList(), "de".toList(), "mn".toList()))
+            lengthFreqSort(listOf(
+                "abc",
+                "de",
+                "fgh",
+                "de",
+                "ijkl",
+                "mn",
+                "o"
+            ).map { it.toList() }),
+            equalTo(listOf(
+                "ijkl",
+                "o",
+                "abc",
+                "fgh",
+                "de",
+                "de",
+                "mn"
+            ).map { it.toList() })
         )
     }
 }

@@ -51,8 +51,8 @@ fun <V> Graph<V, Int>.findShortestPath(from: V, to: V): List<V> {
 
 fun <V, L> Graph<V, L>.findShortestPath(from: V, to: V, labelToInt: (L?) -> Int): List<V> {
     fun Graph<V, L>.toIntGraph(): Graph<V, Int> {
-        return Graph.labeledAdjacent(AdjacencyList(this.toAdjacencyList().entries.map {
-            Entry(it.node, it.links.map { Link(it.node, labelToInt(it.label)) })
+        return Graph.labeledAdjacent(AdjacencyList(this.toAdjacencyList().entries.map { (node, links) ->
+            Entry(node, links.map { Link(it.node, labelToInt(it.label)) })
         }))
     }
     return toIntGraph().findShortestPath(from, to)
@@ -61,8 +61,8 @@ fun <V, L> Graph<V, L>.findShortestPath(from: V, to: V, labelToInt: (L?) -> Int)
 @JvmName("findShortestPathWithNothingLabels")
 fun <V> Graph<V, Nothing>.findShortestPath(from: V, to: V): List<V> {
     fun Graph<V, Nothing>.toIntGraph(): Graph<V, Int> {
-        return Graph.labeledAdjacent(AdjacencyList(this.toAdjacencyList().entries.map {
-            Entry(it.node, it.links.map { Link(it.node, 1) })
+        return Graph.labeledAdjacent(AdjacencyList(this.toAdjacencyList().entries.map { (node, links) ->
+            Entry(node, links.map { Link(it.node, 1) })
         }))
     }
     return toIntGraph().findShortestPath(from, to)

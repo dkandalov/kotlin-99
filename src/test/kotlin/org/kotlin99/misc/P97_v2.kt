@@ -3,7 +3,6 @@ package org.kotlin99.misc
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.common.fill
 import org.kotlin99.misc.SudokuDancingLinks.Board.Companion.toSudokuBoard
 import org.kotlin99.misc.SudokuDancingLinks.ExactCoverMatrix.Companion.toSudokuBoard
 import org.kotlin99.misc.dancinglinks.DLMatrix
@@ -59,7 +58,7 @@ class SudokuDancingLinks {
     class ExactCoverMatrix(val value: ArrayList<List<Int>> = ArrayList()) {
         fun addConstraintsForMove(row: Int, column: Int, number: Int) {
             val amountOfConstraints = 9 * 9 * 4
-            val constraints = ArrayList<Int>().fill(amountOfConstraints, 0)
+            val constraints = MutableList(amountOfConstraints) { 0 }
 
             val cellConstraintIndex = row * 9 + column
             val rowConstraintIndex = row * 9 + number
@@ -76,7 +75,7 @@ class SudokuDancingLinks {
 
         companion object {
             fun List<Node>.toSudokuBoard(): Board {
-                val boardCells = ArrayList<Int>().fill(81, 0)
+                val boardCells = MutableList(81) { 0 }
                 forEach { node ->
                     val indices = node.toListRight().map { it.header.toString().toInt() }.sorted()
                     val row = indices[0] / 9

@@ -11,18 +11,6 @@ fun <T> Array<out T>.tail(): List<T> = drop(1)
 
 fun <T> Iterable<T>.tail(): List<T> = drop(1)
 
-fun <T> Iterable<T>.toSeq(): Sequence<T> {
-    val iterator = this.iterator()
-    return object: Sequence<T> {
-        override fun iterator() = iterator
-    }
-}
-
-fun <T> ArrayList<T>.fill(n: Int, value: T): ArrayList<T> {
-    1.rangeTo(n).forEach { add(value) }
-    return this
-}
-
 fun <T> List<T>.permutations(): List<List<T>> {
     if (size <= 1) return listOf(this)
     val head = first()
@@ -43,15 +31,11 @@ fun <T> List<T>.permutationsSeq(): Sequence<List<T>> {
     }
 }
 
-
 fun <E> List<List<E>>.transpose(): List<List<E>> {
     if (isEmpty()) return this
 
     val width = first().size
-    if (any { it.size != width }) {
-        throw IllegalArgumentException("All nested lists must have the same size, but sizes were ${map { it.size }}")
-    }
-
+    require(all { it.size == width }) { "All nested lists must have the same size, but sizes were ${map { it.size }}" }
     return (0 until width).map { col ->
         (0 until size).map { row -> this[row][col] }
     }

@@ -5,9 +5,11 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
 fun gcd(a: Int, b: Int): Int =
-    if (a == 0) b
-    else if (a > b) gcd(b, a)
-    else gcd(b % a, a)
+    when {
+        a == 0 -> b
+        a > b  -> gcd(b, a)
+        else   -> gcd(b % a, a)
+    }
 
 class P32Test {
     @Test fun `greatest common divisor of two positive integer numbers`() {

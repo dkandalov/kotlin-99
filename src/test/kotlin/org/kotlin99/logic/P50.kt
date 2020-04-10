@@ -78,7 +78,7 @@ class P50Test {
             createEncoding(linkedMapOf(
                 Pair('a', 25), Pair('b', 21), Pair('c', 18), Pair('d', 14), Pair('e', 9), Pair('f', 7), Pair('g', 6)
             )).codeByChar,
-            equalTo<Map<Char, String>>(linkedMapOf(
+            equalTo(linkedMapOf(
                 Pair('a', "10"), Pair('b', "00"), Pair('c', "111"), Pair('d', "110"), Pair('e', "010"), Pair('f', "0111"), Pair('g', "0110")
             ))
         )

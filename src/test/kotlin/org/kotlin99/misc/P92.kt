@@ -12,6 +12,7 @@ import org.kotlin99.graphs.Graph.TermForm.Term
 import org.kotlin99.graphs.toGraph
 import org.kotlin99.graphs.toTermForm
 import java.util.*
+import kotlin.math.abs
 
 fun <V> Graph<V, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
     val edgeLabels = 1.rangeTo(edges.size).toHashSet()
@@ -20,15 +21,15 @@ fun <V> Graph<V, *>.gracefulLabeling(): Sequence<Graph<String, Nothing>> {
         .map { nodeLabels -> nodes.keys.zip(nodeLabels).toMap() }
         .filter { mapping ->
             val diffs = edges.mapTo(HashSet()) { edge ->
-                Math.abs(mapping[edge.n1.value]!! - mapping[edge.n2.value]!!)
+                abs(mapping.getValue(edge.n1.value) - mapping.getValue(edge.n2.value))
             }
             diffs == edgeLabels
         }
         .map { mapping ->
             toTermForm().run {
                 Graph.terms(TermForm(
-                    nodes.map { mapping[it]!!.toString() },
-                    edges.map { Term<String, Nothing>(mapping[it.n1]!!.toString(), mapping[it.n2]!!.toString()) }
+                    nodes.map { mapping.getValue(it).toString() },
+                    edges.map { Term(mapping.getValue(it.n1).toString(), mapping.getValue(it.n2).toString()) }
                 ))
             }
         }

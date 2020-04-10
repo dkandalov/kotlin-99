@@ -5,11 +5,10 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 import org.kotlin99.common.containsAll
-import org.kotlin99.common.toSeq
 
 fun knightsToursLazy(boardSize: Int, point: Point, tour: Tour = Tour(point)): Sequence<Tour> {
     if (tour.size == boardSize * boardSize) return sequenceOf(tour)
-    return point.knightMoves(boardSize).toSeq()
+    return point.knightMoves(boardSize).asSequence()
         .filterNot { tour.contains(it) }
         //.sortedBy { it.knightMoves(boardSize).filterNot{ tour.contains(it) }.size } // https://en.wikipedia.org/wiki/Knight%27s_tour#Warnsdorf.27s_rule
         .flatMap { knightsToursLazy(boardSize, it, tour + it) }
@@ -25,7 +24,7 @@ fun knightsTours(boardSize: Int, point: Point, tour: Tour = Tour(point)): List<T
 
 data class Point(private val x: Int, private val y: Int) {
     fun knightMoves(boardSize: Int): List<Point> =
-        allShifts.map { this + it }.filter { it.x.within(0, boardSize) && it.y.within(0, boardSize) }
+        allShifts.map { this + it }.filter { it.x in (0 until boardSize) && it.y in (0 until boardSize) }
 
     operator fun plus(other: Point): Point = Point(x + other.x, y + other.y)
     operator fun unaryMinus(): Point = Point(-x, -y)
@@ -55,8 +54,6 @@ fun Tour.isClosed(boardSize: Int): Boolean {
     else points.last().knightMoves(boardSize).contains(points.first())
 }
 
-private fun Int.within(from: Int, until: Int) = this >= from && this < until
-
 
 class P91Test {
     @Test fun `knight's tours`() {
@@ -66,7 +63,7 @@ class P91Test {
 
         knightsTours(5, Point(0, 0)).let {
             assertThat(it.size, equalTo(304))
-            assertThat(it.filter { it.isClosed(5) }.size, equalTo(0))
+            assertThat(it.filter { tour -> tour.isClosed(5) }.size, equalTo(0))
             assertThat(it, anyElement(equalTo(Tour(
                 Point(0, 0), Point(2, 1), Point(4, 0), Point(3, 2), Point(1, 1),
                 Point(3, 0), Point(4, 2), Point(3, 4), Point(1, 3), Point(0, 1),

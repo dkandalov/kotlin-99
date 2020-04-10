@@ -84,12 +84,12 @@ class Graph<V, L>(nodes: Collection<Node<V, L>> = emptyList(), edges: Collection
 
     data class UndirectedEdge<V, L>(override val n1: Node<V, L>, override val n2: Node<V, L>, override val label: L?): Edge<V, L> {
         override fun target(node: Node<V, L>) = if (n1 == node) n2 else if (n2 == node) n1 else null
-        override fun toString() = n1.toString() + "-" + n2 + (if (label == null) "" else "/" + label.toString())
+        override fun toString() = "$n1-$n2${if (label == null) "" else "/$label"}"
     }
 
     data class DirectedEdge<V, L>(override val n1: Node<V, L>, override val n2: Node<V, L>, override val label: L?): Edge<V, L> {
         override fun target(node: Node<V, L>) = if (n1 == node) n2 else null
-        override fun toString() = n1.toString() + ">" + n2 + (if (label == null) "" else "/" + label.toString())
+        override fun toString() = "$n1>$n2${if (label == null) "" else "/$label"}"
     }
 
 

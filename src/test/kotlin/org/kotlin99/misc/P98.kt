@@ -4,9 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Ignore
 import org.junit.Test
-import org.kotlin99.common.fill
 import org.kotlin99.common.tail
-import org.kotlin99.common.toSeq
 import org.kotlin99.misc.Nonogram.Box
 import org.kotlin99.misc.Nonogram.Companion.parse
 import org.kotlin99.misc.Nonogram.Constraint
@@ -20,7 +18,7 @@ class Nonogram {
         private val height: Int,
         private val rowConstrains: List<Constraint>,
         private val columnConstraints: List<Constraint>,
-        private val cells: List<ArrayList<Boolean>> = 1.rangeTo(height).map { ArrayList<Boolean>().fill(width, false) }
+        private val cells: List<MutableList<Boolean>> = 1.rangeTo(height).map { MutableList(width) {false} }
     ) {
 
         fun solve(rowIndex: Int = 0): Sequence<Board> {
@@ -106,7 +104,7 @@ class Nonogram {
             val endIndex = width - boxes.first() - boxes.tail().sumBy { it + 1 }
             if (startIndex > endIndex) return emptySequence()
 
-            return startIndex.rangeTo(endIndex).toSeq().flatMap { i ->
+            return startIndex.rangeTo(endIndex).asSequence().flatMap { i ->
                 Constraint(boxes.tail()).possibleBoxes(width, i + boxes.first() + 1).map {
                     listOf(Box(i, boxes.first())) + it
                 }
@@ -132,7 +130,7 @@ class Nonogram {
             val cells = lines
                 .takeWhile { it.startsWith("|") }
                 .map { it.replace(Regex("[|]"), "").replace(Regex(" .*"), "") }
-                .map { it.toCharArray().mapTo(ArrayList()) { it != '_' } }
+                .map { it.toCharArray().mapTo(ArrayList()) { char -> char != '_' } }
 
             val rowConstraints = lines
                 .takeWhile { it.startsWith("|") }
@@ -143,8 +141,8 @@ class Nonogram {
             val columnConstraints = lines
                 .dropWhile { it.startsWith("|") }
                 .map {
-                    it.mapIndexedNotNull { i, c -> if (i % 2 == 1) c else null }
-                        .map { if (it == ' ') 0 else it.toString().toInt() }
+                    it.mapIndexedNotNull { i, char -> if (i % 2 == 1) char else null }
+                        .map { char -> if (char == ' ') 0 else char.toString().toInt() }
                 }
                 .transpose()
                 .map { it.dropLastWhile { it == 0 } }

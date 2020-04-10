@@ -3,8 +3,6 @@ package org.kotlin99.misc
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
-import org.kotlin99.common.fill
-import org.kotlin99.common.toSeq
 import org.kotlin99.misc.Sudoku.*
 import org.kotlin99.misc.Sudoku.Board.Companion.size
 import org.kotlin99.misc.Sudoku.Board.Companion.squareSize
@@ -15,7 +13,7 @@ import java.util.*
 @Suppress("unused") // Because this class is a "namespace".
 class Sudoku {
 
-    data class Board(private val cells: ArrayList<Cell> = ArrayList<Cell>().fill(size * size, Cell())) {
+    data class Board(private val cells: MutableList<Cell> = MutableList(size * size){ Cell() }) {
         private val positionedCells: List<PositionedCell>
             get() = cells.mapIndexed { i, cell -> PositionedCell(Point(i % size, i / size), cell) }
 
@@ -26,7 +24,7 @@ class Sudoku {
             if (cells.all { it.isFilled() }) return sequenceOf(this)
 
             return positionedCells.find { it.cell.isNotFilled() }!!.let {
-                it.cell.guesses.toSeq().flatMap { guess ->
+                it.cell.guesses.asSequence().flatMap { guess ->
                     copy().set(it.point.x, it.point.y, Cell(guess)).solve()
                 }
             }
@@ -48,7 +46,7 @@ class Sudoku {
                 }
         }
 
-        fun copy(): Board = Board(ArrayList(cells))
+        private fun copy(): Board = Board(ArrayList(cells))
 
         operator fun get(x: Int, y: Int): Cell = cells[x + y * size]
 
@@ -62,8 +60,7 @@ class Sudoku {
                 if (size <= sliceSize) listOf(this)
                 else listOf(take(sliceSize)) + drop(sliceSize).slicedBy(sliceSize)
 
-            fun <T> List<T>.mapJoin(separator: String, f: (T) -> String) =
-                map { f(it) }.joinToString(separator)
+            fun <T> List<T>.mapJoin(separator: String, f: (T) -> String) = joinToString(separator) { f(it) }
 
             return positionedCells.slicedBy(size * squareSize).mapJoin("\n---+---+---\n") { section ->
                 section.slicedBy(size).mapJoin("\n") { row ->
@@ -77,8 +74,8 @@ class Sudoku {
         }
 
         companion object {
-            val size = 9
-            val squareSize = size / 3
+            const val size = 9
+            const val squareSize = size / 3
         }
     }
 

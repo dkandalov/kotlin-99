@@ -14,28 +14,30 @@ import org.kotlin99.common.containsAll
 import org.kotlin99.common.tail
 
 fun <T> heightBalancedTrees(height: Int, value: T): List<Tree<T>> =
-    if (height < 1) listOf(End)
-    else if (height == 1) listOf(Node(value))
-    else {
-        val fullHeightTrees = heightBalancedTrees(height - 1, value)
-        val shortHeightTrees = heightBalancedTrees(height - 2, value)
+    when {
+        height < 1  -> listOf(End)
+        height == 1 -> listOf(Node(value))
+        else        -> {
+            val fullHeightTrees = heightBalancedTrees(height - 1, value)
+            val shortHeightTrees = heightBalancedTrees(height - 2, value)
 
-        val nodes1 = fullHeightTrees.flatMap { tree1 ->
-            fullHeightTrees.map { tree2 ->
-                Node(value, tree1, tree2)
+            val nodes1 = fullHeightTrees.flatMap { tree1 ->
+                fullHeightTrees.map { tree2 ->
+                    Node(value, tree1, tree2)
+                }
             }
-        }
-        val nodes2 = fullHeightTrees.flatMap { tree1 ->
-            shortHeightTrees.flatMap { tree2 ->
-                listOf(Node(value, tree1, tree2), Node(value, tree2, tree1))
+            val nodes2 = fullHeightTrees.flatMap { tree1 ->
+                shortHeightTrees.flatMap { tree2 ->
+                    listOf(Node(value, tree1, tree2), Node(value, tree2, tree1))
+                }
             }
+            nodes1 + nodes2
         }
-        nodes1 + nodes2
     }
 
 fun Tree<*>.height(): Int =
     when (this) {
-        is Node -> 1 + Math.max(left.height(), right.height())
+        is Node -> 1 + left.height().coerceAtLeast(right.height())
         is End  -> 0
     }
 
@@ -54,7 +56,7 @@ class P59Test {
             Node("x", Node("x"), End)
         )))
 
-        assertThat(heightBalancedTrees(3, "x"), containsElements<Tree<String>>(
+        assertThat(heightBalancedTrees(3, "x"), containsElements(
             equalTo(
                 Node("x",
                      Node("x", End, Node("x")),

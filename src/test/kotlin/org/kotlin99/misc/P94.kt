@@ -86,7 +86,7 @@ class P94Test {
     }
 
     @Test fun `produced graphs are regular`() {
-        findAllRegularGraphs(degree = 3, nodeAmount = 6).forEach { it ->
+        findAllRegularGraphs(degree = 3, nodeAmount = 6).forEach {
             assertTrue(it.isRegular(degree = 3))
         }
     }
