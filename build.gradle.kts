@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.70"
+    kotlin("jvm") version "1.4-M1"
 }
 
 dependencies {
@@ -12,6 +12,7 @@ dependencies {
 
 repositories {
     jcenter()
+    maven ("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
 tasks.withType(KotlinCompile::class.java)
