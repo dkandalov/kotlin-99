@@ -145,7 +145,7 @@ class Nonogram {
                         .map { char -> if (char == ' ') 0 else char.toString().toInt() }
                 }
                 .transpose()
-                .map { it.dropLastWhile { it == 0 } }
+                .map { n -> n.dropLastWhile { it == 0 } }
                 .map(::Constraint)
 
             val width = columnConstraints.size

@@ -7,9 +7,10 @@ import org.kotlin99.binarytrees.P55Test.Companion.nodeList
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
 import org.kotlin99.common.containsAll
+import kotlin.math.pow
 
 fun maxNodeAmountInHBTree(height: Int): Int =
-    Math.pow(2.0, height.toDouble()).toInt() - 1
+    2.0.pow(height.toDouble()).toInt() - 1
 
 fun minNodeAmountInHBTree(height: Int): Int =
     when {

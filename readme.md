@@ -17,7 +17,7 @@
 
 ## Introduction
 
-This an adaptation of [Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/) by Phil Gold 
+This is an adaptation of [Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/) by Phil Gold 
 which itself is an adaptation of the [Ninety-Nine Prolog Problems](https://sites.google.com/site/prologsite/prolog-problems) 
 written by Werner Hett at the Berne University of Applied Sciences in Berne, Switzerland.
 Some problems have been altered to be more amenable to programming in [Kotlin][]. 

@@ -15,9 +15,9 @@ fun <V1, V2> Graph<V1, *>.isomorphicMappingTo(graph: Graph<V2, *>): List<Pair<V1
 
     val allMappings = nodes.values.toList().permutations().map { it zip graph.nodes.values }
     return allMappings.find { mapping ->
-        mapping.all {
-            val mappedNeighbors = it.first.neighbors().map { node -> mapping.find { it.first == node }!!.second }
-            mappedNeighbors.toSet() == it.second.neighbors().toSet()
+        mapping.all { (first, second) ->
+            val mappedNeighbors = first.neighbors().map { node -> mapping.find { it.first == node }!!.second }
+            mappedNeighbors.toSet() == second.neighbors().toSet()
         }
     }?.map {
         Pair(it.first.value, it.second.value)

@@ -13,7 +13,7 @@ fun Int.goldbach(): Pair<Int, Int> {
 
 class P40Test {
     @Test fun `Goldbach's conjecture`() {
-        assertThat(4.goldbach(), equalTo(Pair(2, 2)))
+        assertThat(4.goldbach(), equalTo(Pair(22, 2)))
         assertThat(28.goldbach(), equalTo(Pair(5, 23)))
     }
 }

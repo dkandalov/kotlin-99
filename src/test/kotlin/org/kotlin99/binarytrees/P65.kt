@@ -6,6 +6,7 @@ import org.junit.Test
 import org.kotlin99.binarytrees.P64Test.Companion.toPrettyString
 import org.kotlin99.binarytrees.Tree.End
 import org.kotlin99.binarytrees.Tree.Node
+import kotlin.math.pow
 
 fun <T> Tree<T>.layout2(
     x: Int = leftmostBranchXShift(),
@@ -39,7 +40,7 @@ private fun Tree<*>.leftmostBranchXShift(): Int {
     return (2..leftmostBranchHeight(this)).map { Spaces(height - it).toInt() }.sum() + 1
 }
 
-private fun Int.pow(n: Int): Int = Math.pow(this.toDouble(), n.toDouble()).toInt()
+private fun Int.pow(n: Int): Int = this.toDouble().pow(n.toDouble()).toInt()
 
 
 class P65Test {

@@ -50,9 +50,9 @@ class P83Test {
             "[b-c, c-a]".toGraph()
         )) { equivalentTo(it) })
 
-        "[a-b, b-c, b-d, b-e, a-f]".toGraph().let {
-            assertThat(it.spanningTrees(), containsAll(listOf(it)) { equivalentTo(it) })
-            assertThat(it.isTree(), equalTo(true))
+        "[a-b, b-c, b-d, b-e, a-f]".toGraph().let { graph ->
+            assertThat(graph.spanningTrees(), containsAll(listOf(graph)) { equivalentTo(it) })
+            assertThat(graph.isTree(), equalTo(true))
         }
     }
 
