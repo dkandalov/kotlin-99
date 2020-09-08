@@ -26,7 +26,7 @@ fun <V, L: Comparable<L>> Graph<V, L>.minSpanningTree(): Graph<V, L> {
         return if (graphNodes.isEmpty()) {
             Graph(nodes.values, edges - graphEdges)
         } else {
-            val edge = graphEdges.filter { it.connectsTo(graphNodes) }.minWith(comparator)!!
+            val edge = graphEdges.filter { it.connectsTo(graphNodes) }.minWithOrNull(comparator)!!
             minSpanningTree(
                 graphEdges.filterNot { it == edge },
                 graphNodes.filterNot { edge.contains(it) }

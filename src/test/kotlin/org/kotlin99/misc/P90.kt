@@ -27,7 +27,7 @@ class EightQueens {
             constructor(vararg queens: Queen): this(maxPosition(queens), queens.asList())
 
             fun nextMoves(): List<Board> {
-                val nextColumn = (queens.map { it.column }.max() ?: -1) + 1
+                val nextColumn = (queens.map { it.column }.maxOrNull() ?: -1) + 1
                 return 0.until(size)
                     .map { Queen(it, nextColumn) }
                     .filter { isValidMove(it) }
@@ -56,7 +56,7 @@ class EightQueens {
 
             companion object {
                 private fun maxPosition(queens: Array<out Queen>): Int {
-                    return (queens.flatMap { listOf(it.row, it.column) }.max() ?: -1) + 1
+                    return (queens.flatMap { listOf(it.row, it.column) }.maxOrNull() ?: -1) + 1
                 }
             }
         }

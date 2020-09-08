@@ -78,7 +78,7 @@ class Nonogram {
         private fun copy(): Board = Board(width, height, rowConstrains, columnConstraints, cells.map { ArrayList(it) })
 
         override fun toString(): String {
-            val max = columnConstraints.map { it.boxes.size }.max()!!
+            val max = columnConstraints.map { it.boxes.size }.maxOrNull()!!
 
             val rows = cells.mapIndexed { _, row ->
                 "|" + row.joinToString("|") { if (it) "X" else "_" } + "|"
@@ -115,7 +115,7 @@ class Nonogram {
     companion object {
         fun String.parse(): Board {
             fun List<List<Int>>.transpose(): List<List<Int>> {
-                val max = maxBy { it.size }!!.size
+                val max = maxByOrNull { it.size }!!.size
                 val result = ArrayList<List<Int>>()
                 0.until(max).forEach { i ->
                     result.add(mapNotNull { list ->

@@ -49,8 +49,8 @@ data class Crossword(val sites: List<Site>) {
 
     override fun toString(): String {
         val cells = sites.flatMap { it.cells }
-        val maxX = cells.map { it.x }.max()!!
-        val maxY = cells.map { it.y }.max()!!
+        val maxX = cells.map { it.x }.maxOrNull()!!
+        val maxY = cells.map { it.y }.maxOrNull()!!
 
         return (0..maxY).joinToString("\n") { y ->
             (0..maxX).map { x -> cells.find { it.x == x && it.y == y } }
@@ -61,7 +61,7 @@ data class Crossword(val sites: List<Site>) {
 
     companion object {
         fun parse(lines: List<String>): Crossword {
-            val maxWidth = lines.map { it.length }.max()!!
+            val maxWidth = lines.map { it.length }.maxOrNull()!!
             val paddedLines = lines.map { it.padEnd(maxWidth + 1, ' ') } + "".padEnd(maxWidth + 1, ' ')
             val cells = paddedLines.mapIndexed { row: Int, line: String ->
                 line.mapIndexed { col: Int, c: Char ->

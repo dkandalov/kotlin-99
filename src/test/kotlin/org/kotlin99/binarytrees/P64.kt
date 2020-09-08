@@ -147,8 +147,8 @@ class P64Test {
                     val nodes = nodes()
                     val xs = nodes.map { it.value.point.x }
                     val ys = nodes.map { it.value.point.y }
-                    val xRange = (xs.min()!! - xPadding)..(xs.max()!! + xPadding)
-                    val yRange = (ys.min()!! - yPadding)..(ys.max()!! + yPadding)
+                    val xRange = (xs.minOrNull()!! - xPadding)..(xs.maxOrNull()!! + xPadding)
+                    val yRange = (ys.minOrNull()!! - yPadding)..(ys.maxOrNull()!! + yPadding)
                     val nodeByPoint = nodes.groupBy { it.value.point }
 
                     val xHeader = " " + xRange.map { it.toString().last() }.joinToString("") + "\n"

@@ -101,7 +101,7 @@ class DLMatrix(matrix: List<List<Int>>) {
         while (!nodeStacks.all { it.isEmpty() }) {
             val node = nodeStacks
                 .filter { it.isNotEmpty() }
-                .minBy { it.first().toListRight().sumBy(Node::distanceToHeader) }!!.first()
+                .minByOrNull { it: List<Node> -> it.first().toListRight().sumBy(Node::distanceToHeader) }!!.first()
 
             val nodesInRow = node.toListRight()
             val line = nodeStacks.joinToString("") { stack ->
