@@ -101,7 +101,7 @@ class DLMatrix(matrix: List<List<Int>>) {
         while (!nodeStacks.all { it.isEmpty() }) {
             val node = nodeStacks
                 .filter { it.isNotEmpty() }
-                .minByOrNull { it: List<Node> -> it.first().toListRight().sumBy(Node::distanceToHeader) }!!.first()
+                .minByOrNull { it.first().toListRight().sumBy(Node::distanceToHeader) }!!.first()
 
             val nodesInRow = node.toListRight()
             val line = nodeStacks.joinToString("") { stack ->
@@ -195,11 +195,15 @@ class DLMatrixTest {
             listOf(0, 1, 0, 0, 0, 0, 1),
             listOf(0, 0, 0, 1, 1, 0, 1)
         ))
-        assertThat(matrix.search().map { it.toListRight().map { it.header.label }.joinToString() }, equalTo(listOf(
-            "0, 3",
-            "4, 5, 2",
-            "1, 6"
-        )))
+        assertThat(
+            matrix.search()
+                .map { node -> node.toListRight().map { it.header.label }.joinToString() },
+            equalTo(listOf(
+                "0, 3",
+                "4, 5, 2",
+                "1, 6"
+            ))
+        )
     }
 
     private fun assertLinkedInAllDirections(node: Node, visited: HashSet<Node> = HashSet()) {

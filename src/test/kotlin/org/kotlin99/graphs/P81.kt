@@ -30,7 +30,7 @@ fun <V> Graph<V, Int>.findShortestPath(from: V, to: V): List<V> {
     val scoreByNode = mutableMapOf(from to 0)
 
     while (queue.isNotEmpty()) {
-        val node = queue.minByOrNull { it: V -> scoreByNode[it]!! }!!
+        val node = queue.minByOrNull { scoreByNode[it]!! }!!
         if (node == to) {
             return pathAsList(path, node)
         }
