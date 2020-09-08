@@ -1,7 +1,6 @@
 # Ninety-Nine Kotlin Problems
 
 [![Build Status](https://travis-ci.org/dkandalov/kotlin-99.svg?branch=master)](https://travis-ci.org/dkandalov/kotlin-99)
-[![Gitter chat](https://badges.gitter.im/kotlin-99/chat.svg)](https://gitter.im/kotlin-99/Lobby)
 
 ## Table of Contents
 
@@ -26,7 +25,7 @@ You might want to do these problems if you want to learn [Kotlin][], are interes
 The main reason to prefer this to using websites like hackerrank.com and codewars.com
 is that there is no vendor lock-in and no hidden agenda pursued by the website owner.
 
-Suggested workflow is to solve a problem yourself and then compare solution to the one provided.  
+The suggested workflow is to solve a problem yourself and then compare solution to the one provided.  
 Solutions are available by clicking on the link at the beginning of the problem description.
 Your goal should be to find the most elegant solution to the given problems. 
 Efficiency is important, but clarity is even more crucial. 
@@ -472,7 +471,7 @@ A binary tree is either empty or it is composed of a root element and two succes
 ![binary tree][binary-tree]
 
 We will use the following classes to represent binary trees (see [Tree.kt](https://github.com/dkandalov/kotlin-99/blob/master/src/org/kotlin99/binarytrees/Tree.kt)). 
-An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two descendant trees. 
+An ``End`` is equivalent to an empty tree. A ``Node`` has a value, and two child trees. 
 The ``toString()`` functions are relatively arbitrary and were written to produce minimal readable output.
 Note the usage of [variance annotation](https://kotlinlang.org/docs/reference/generics.html#declaration-site-variance) 
 ``out T`` which makes classes covariant; it will be able to hold subtypes of whatever type it's created for. 
@@ -1103,7 +1102,7 @@ true
 
 ### [P86][] (**) Node degree and graph coloration.
 a) Write a method ``Node.degree`` that determines the [degree](https://en.wikipedia.org/wiki/Degree_(graph_theory)) 
-of a given node in undirected graph.
+of a given node in an undirected graph.
 ``` kotlin
 > "[a-b, b-c, a-c, a-d]".toGraph().nodes["a"].degree()
 3
