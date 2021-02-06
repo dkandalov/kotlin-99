@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.20"
+    kotlin("jvm") version "1.4.30"
 }
 
 dependencies {
-    testImplementation("com.natpryce:hamkrest:1.7.0.2")
+    testImplementation("com.natpryce:hamkrest:1.8.0.1")
     testImplementation("junit:junit:4.13")
 }
 
