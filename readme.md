@@ -1,6 +1,6 @@
 # Ninety-Nine Kotlin Problems
 
-[![Build Status](https://travis-ci.org/dkandalov/kotlin-99.svg?branch=master)](https://travis-ci.org/dkandalov/kotlin-99)
+![Build Status](https://github.com/dkandalov/kotlin-99/workflows/CI/badge.svg)
 
 ## Table of Contents
 
