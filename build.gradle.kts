@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.4.30"
+    kotlin("jvm") version "1.5.0-RC"
 }
 
 dependencies {
@@ -16,6 +16,5 @@ repositories {
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.jvmTarget = "15"
-    kotlinOptions.useIR = true // see https://kotlinlang.org/docs/reference/whatsnew14.html#new-jvm-ir-backend
     kotlinOptions.freeCompilerArgs = listOf("-Xstring-concat=indy-with-constants") // see https://kotlinlang.org/docs/reference/whatsnew1420.html
 }
