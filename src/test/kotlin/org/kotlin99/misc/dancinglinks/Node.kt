@@ -39,7 +39,7 @@ open class Node(val label: String? = null) {
     fun eachDown(f: (Node) -> Unit) = each(Node::down, f)
     fun eachLeft(f: (Node) -> Unit) = each(Node::left, f)
     fun eachRight(f: (Node) -> Unit) = each(Node::right, f)
-    fun each(direction: (Node) -> Node, f: (Node) -> Unit) {
+    private fun each(direction: (Node) -> Node, f: (Node) -> Unit) {
         var next = direction(this)
         while (next != this && next != none) {
             f(next)

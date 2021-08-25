@@ -1,4 +1,4 @@
-All contributions are welcome. E.g.:
+All contributions are welcome including:
  - fixes in `readme.md`
  - refactoring/cleaning up existing code
  - solutions for problems without solutions

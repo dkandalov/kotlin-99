@@ -78,7 +78,7 @@ class Nonogram {
         private fun copy(): Board = Board(width, height, rowConstrains, columnConstraints, cells.map { ArrayList(it) })
 
         override fun toString(): String {
-            val max = columnConstraints.map { it.boxes.size }.maxOrNull()!!
+            val max = columnConstraints.maxOf { it.boxes.size }
 
             val rows = cells.mapIndexed { _, row ->
                 "|" + row.joinToString("|") { if (it) "X" else "_" } + "|"
@@ -101,7 +101,7 @@ class Nonogram {
         fun possibleBoxes(width: Int, startIndex: Int = 0): Sequence<List<Box>> {
             if (boxes.isEmpty()) return sequenceOf(emptyList())
 
-            val endIndex = width - boxes.first() - boxes.tail().sumBy { it + 1 }
+            val endIndex = width - boxes.first() - boxes.tail().sumOf { it + 1 }
             if (startIndex > endIndex) return emptySequence()
 
             return startIndex.rangeTo(endIndex).asSequence().flatMap { i ->

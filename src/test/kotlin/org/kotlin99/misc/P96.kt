@@ -204,8 +204,8 @@ class P96Test {
     }
 
     private fun Board.toPrettyString(): String {
-        val xMax = cells.map { it.x }.maxOrNull()!!
-        val yMax = cells.map { it.y }.maxOrNull()!!
+        val xMax = cells.maxOf { it.x }
+        val yMax = cells.maxOf { it.y }
 
         return 0.rangeTo(yMax).joinToString("\n") { y ->
             0.rangeTo(xMax).joinToString("") { x ->

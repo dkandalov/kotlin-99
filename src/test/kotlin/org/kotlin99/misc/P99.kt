@@ -7,6 +7,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.kotlin99.common.transpose
 import org.kotlin99.misc.Crossword.Cell
+import org.kotlin99.misc.Crossword.Cell.Companion.none
 import org.kotlin99.misc.Crossword.Cell.Companion.vacant
 import org.kotlin99.misc.Crossword.Site
 import java.io.File
@@ -49,23 +50,23 @@ data class Crossword(val sites: List<Site>) {
 
     override fun toString(): String {
         val cells = sites.flatMap { it.cells }
-        val maxX = cells.map { it.x }.maxOrNull()!!
-        val maxY = cells.map { it.y }.maxOrNull()!!
+        val maxX = cells.maxOf { it.x }
+        val maxY = cells.maxOf { it.y }
 
         return (0..maxY).joinToString("\n") { y ->
             (0..maxX).map { x -> cells.find { it.x == x && it.y == y } }
-                .map { it?.c ?: Cell.none.c }
+                .map { it?.c ?: none.c }
                 .joinToString("").trimEnd()
         }
     }
 
     companion object {
         fun parse(lines: List<String>): Crossword {
-            val maxWidth = lines.map { it.length }.maxOrNull()!!
+            val maxWidth = lines.maxOf { it.length }
             val paddedLines = lines.map { it.padEnd(maxWidth + 1, ' ') } + "".padEnd(maxWidth + 1, ' ')
             val cells = paddedLines.mapIndexed { row: Int, line: String ->
                 line.mapIndexed { col: Int, c: Char ->
-                    if (c != ' ') Cell(col, row, c) else Cell.none
+                    if (c != ' ') Cell(col, row, c) else none
                 }
             }
             val horizontalSites = consumeSites(cells.flatten())
@@ -77,9 +78,9 @@ data class Crossword(val sites: List<Site>) {
 
         private fun consumeSites(cells: List<Cell>): List<Site> {
             if (cells.isEmpty()) return emptyList()
-            if (cells.first() == Cell.none) return consumeSites(cells.dropWhile { it == Cell.none })
-            val site = Site(cells.takeWhile { it != Cell.none })
-            return listOf(site) + consumeSites(cells.dropWhile { it != Cell.none })
+            if (cells.first() == none) return consumeSites(cells.dropWhile { it == none })
+            val site = Site(cells.takeWhile { it != none })
+            return listOf(site) + consumeSites(cells.dropWhile { it != none })
         }
     }
 

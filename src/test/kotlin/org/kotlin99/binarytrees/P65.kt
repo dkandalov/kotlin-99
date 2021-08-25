@@ -37,7 +37,7 @@ private fun Tree<*>.leftmostBranchXShift(): Int {
     }
 
     val height = height() // Need the whole tree height here because leftmost branch might not be the tallest branch.
-    return (2..leftmostBranchHeight(this)).map { Spaces(height - it).toInt() }.sum() + 1
+    return (2..leftmostBranchHeight(this)).sumOf { Spaces(height - it).toInt() } + 1
 }
 
 private fun Int.pow(n: Int): Int = this.toDouble().pow(n.toDouble()).toInt()

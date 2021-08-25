@@ -5,7 +5,9 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.kotlin99.common.tail
+import org.kotlin99.misc.dancinglinks.Node.Companion.none
 import java.util.*
+import kotlin.Int.Companion.MAX_VALUE
 
 /**
  * Based on [Dancing Links](https://arxiv.org/pdf/cs/0011047v1.pdf) paper by Donald E. Knuth.
@@ -76,8 +78,8 @@ class DLMatrix(matrix: List<List<Int>>) {
     }
 
     private fun chooseColumn(): Node {
-        var size = Int.MAX_VALUE
-        var column: Node = Node.none
+        var size = MAX_VALUE
+        var column: Node = none
         h.eachRight { node ->
             if (node.sizeDown() < size) {
                 column = node
@@ -101,7 +103,7 @@ class DLMatrix(matrix: List<List<Int>>) {
         while (!nodeStacks.all { it.isEmpty() }) {
             val node = nodeStacks
                 .filter { it.isNotEmpty() }
-                .minByOrNull { it.first().toListRight().sumBy(Node::distanceToHeader) }!!.first()
+                .minByOrNull { it.first().toListRight().sumOf(Node::distanceToHeader) }!!.first()
 
             val nodesInRow = node.toListRight()
             val line = nodeStacks.joinToString("") { stack ->
@@ -207,7 +209,7 @@ class DLMatrixTest {
     }
 
     private fun assertLinkedInAllDirections(node: Node, visited: HashSet<Node> = HashSet()) {
-        assertTrue(node != Node.none)
+        assertTrue(node != none)
 
         if (visited.contains(node)) return
         visited.add(node)

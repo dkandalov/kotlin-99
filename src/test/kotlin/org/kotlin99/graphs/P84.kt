@@ -53,6 +53,6 @@ class P84Test {
     @Test fun `minimum spanning tree for graph from illustration`() {
         val graph = "[a-b/5, a-d/3, b-c/2, b-e/4, c-e/6, d-e/7, d-f/4, d-g/3, e-h/5, f-g/4, g-h/1]".toLabeledGraph()
         assertThat(graph.minSpanningTree(), equivalentTo("[d-f/4, a-d/3, d-g/3, g-h/1, a-b/5, b-c/2, b-e/4]".toLabeledGraph()))
-        assertThat(graph.minSpanningTree().edges.sumBy { it.label!! }, equalTo(22))
+        assertThat(graph.minSpanningTree().edges.sumOf { it.label!! }, equalTo(22))
     }
 }

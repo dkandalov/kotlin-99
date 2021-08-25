@@ -1,6 +1,8 @@
 package org.kotlin99.common
 
 import com.natpryce.hamkrest.MatchResult
+import com.natpryce.hamkrest.MatchResult.Match
+import com.natpryce.hamkrest.MatchResult.Mismatch
 import com.natpryce.hamkrest.Matcher
 import com.natpryce.hamkrest.anyElement
 import com.natpryce.hamkrest.assertion.assertThat
@@ -38,7 +40,7 @@ class ContainsAll<in T>(private val matchers: Iterable<Matcher<T>>): Matcher<Ite
         val matching = Matching(matchers)
         return actual.asSequence()
             .map { matching.matches(it) }
-            .firstOrNull { it != MatchResult.Match }
+            .firstOrNull { it != Match }
             ?: matching.isFinished(actual)
     }
 
@@ -51,22 +53,22 @@ class ContainsAll<in T>(private val matchers: Iterable<Matcher<T>>): Matcher<Ite
 
         fun matches(item: S): MatchResult {
             if (matchers.isEmpty()) {
-                return MatchResult.Mismatch("no match for: $item")
+                return Mismatch("no match for: $item")
             }
             for (matcher in matchers) {
-                if (matcher.invoke(item) == MatchResult.Match) {
+                if (matcher.invoke(item) == Match) {
                     matchers.remove(matcher)
-                    return MatchResult.Match
+                    return Match
                 }
             }
-            return MatchResult.Mismatch("not matched: $item")
+            return Mismatch("not matched: $item")
         }
 
         fun isFinished(items: Iterable<S>): MatchResult {
             if (matchers.isEmpty()) {
-                return MatchResult.Match
+                return Match
             }
-            return MatchResult.Mismatch("no item matches: [${matchers.joinToString { it.description }}] in [${items.joinToString()}]")
+            return Mismatch("no item matches: [${matchers.joinToString { it.description }}] in [${items.joinToString()}]")
         }
     }
 }
@@ -152,15 +154,15 @@ class ContainsAllTest {
 
     private fun <T> assertMatches(message: String, matcher: Matcher<T>, arg: T) {
         val result = matcher.invoke(arg)
-        if (result is MatchResult.Mismatch) {
+        if (result is Mismatch) {
             Assert.fail("$message because: '${result.description}'")
         }
     }
 
     private fun <T> assertMismatchDescription(expected: String, matcher: Matcher<T>, arg: T) {
         val matchResult = matcher.invoke(arg)
-        assertTrue("Precondition: Matcher should not match item.", matchResult is MatchResult.Mismatch)
-        matchResult as MatchResult.Mismatch
+        assertTrue("Precondition: Matcher should not match item.", matchResult is Mismatch)
+        matchResult as Mismatch
         assertEquals("Expected mismatch description", expected, matchResult.description)
     }
 }

@@ -67,7 +67,7 @@ private data class Seq(val tokens: List<Token>): Token {
             if (trimmed.size == 1) trimmed.first() else Seq(trimmed)
         }
 
-    override fun length() = tokens.sumBy { it.length() }
+    override fun length() = tokens.sumOf { it.length() }
     override fun toString() = "Seq[" + tokens.joinToString(" ") + "]"
 }
 

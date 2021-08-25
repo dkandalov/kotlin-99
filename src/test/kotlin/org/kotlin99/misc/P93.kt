@@ -6,6 +6,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.kotlin99.common.containsAll
+import kotlin.Int.Companion.MAX_VALUE
 
 fun List<Int>.findValidEquations(): Sequence<Equal> {
     if (size <= 1) return emptySequence()
@@ -70,7 +71,7 @@ data class Multiply(val left: Expr<Int>, val right: Expr<Int>): Expr<Int> {
 data class Divide(val left: Expr<Int>, val right: Expr<Int>): Expr<Int> {
     override fun evaluate(): Int {
         val rightValue = right.evaluate()
-        return if (rightValue == 0) Int.MAX_VALUE else left.evaluate() / rightValue
+        return if (rightValue == 0) MAX_VALUE else left.evaluate() / rightValue
     }
 
     override fun toString() = "($left / $right)"

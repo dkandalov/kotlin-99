@@ -5,7 +5,7 @@ import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
 fun MTree<*>.internalPathLength(): Int =
-    children.sumBy { it.nodeCount() + it.internalPathLength() }
+    children.sumOf { it.nodeCount() + it.internalPathLength() }
 
 
 class P71Test {

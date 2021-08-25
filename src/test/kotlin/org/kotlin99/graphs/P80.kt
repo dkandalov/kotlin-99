@@ -1,6 +1,8 @@
 package org.kotlin99.graphs
 
 import com.natpryce.hamkrest.MatchResult
+import com.natpryce.hamkrest.MatchResult.Match
+import com.natpryce.hamkrest.MatchResult.Mismatch
 import com.natpryce.hamkrest.Matcher
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.describe
@@ -127,7 +129,7 @@ class P80Test {
         fun <V, L> equivalentTo(expected: Graph<V, L>): Matcher<Graph<V, L>> =
             object: Matcher<Graph<V, L>> {
                 override fun invoke(actual: Graph<V, L>): MatchResult =
-                    if (actual.equivalentTo(expected)) MatchResult.Match else MatchResult.Mismatch("was ${describe(actual)}")
+                    if (actual.equivalentTo(expected)) Match else Mismatch("was ${describe(actual)}")
 
                 override val description: String get() = "is equivalent to ${describe(expected)}"
                 override val negatedDescription: String get() = "is not equivalent to ${describe(expected)}"

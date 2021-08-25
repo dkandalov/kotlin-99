@@ -4,7 +4,7 @@ import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.junit.Test
 
-fun MTree<*>.nodeCount(): Int = 1 + children.sumBy { it.nodeCount() }
+fun MTree<*>.nodeCount(): Int = 1 + children.sumOf { it.nodeCount() }
 
 class P70ATest {
     @Test fun `count nodes`() {
