@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm") version "1.7.0"
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
     maven ("https://dl.bintray.com/kotlin/kotlin-eap")
 }
 
