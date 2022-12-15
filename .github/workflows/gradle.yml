@@ -13,6 +13,7 @@ jobs:
       name: Set up JDK 17
       with:
         java-version: 17
+        distribution: adopt-hotspot
     - name: Build with Gradle
       run: |
         chmod +x gradlew
