@@ -16,5 +16,8 @@ dependencies {
 
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.jvmTarget = "17"
-    kotlinOptions.freeCompilerArgs = listOf("-Xstring-concat=indy-with-constants") // see https://kotlinlang.org/docs/reference/whatsnew1420.html
+    kotlinOptions.freeCompilerArgs = listOf(
+        "-Xstring-concat=indy-with-constants", // see https://kotlinlang.org/docs/whatsnew1420.html#invokedynamic-string-concatenation
+        "-Xuse-k2" // see https://kotlinlang.org/docs/whatsnew17.html#new-kotlin-k2-compiler-for-the-jvm-in-alpha
+    )
 }
