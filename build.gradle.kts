@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "2.0.0"
 }
 
 repositories {
@@ -17,7 +17,6 @@ dependencies {
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.jvmTarget = "17"
     kotlinOptions.freeCompilerArgs = listOf(
-        "-Xstring-concat=indy-with-constants", // see https://kotlinlang.org/docs/whatsnew1420.html#invokedynamic-string-concatenation
-        "-Xuse-k2" // see https://kotlinlang.org/docs/whatsnew17.html#new-kotlin-k2-compiler-for-the-jvm-in-alpha
+        "-Xstring-concat=indy-with-constants", // See https://kotlinlang.org/docs/whatsnew1420.html#invokedynamic-string-concatenation
     )
 }
